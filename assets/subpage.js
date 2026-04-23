@@ -2,7 +2,7 @@
 (() => {
   const navInner = document.querySelector('.nav-inner');
   if(!navInner) return;
-  const baseHref = '../index.html';
+  const baseHref = '../';
 
   const burger = document.createElement('button');
   burger.className = 'nav-burger';
