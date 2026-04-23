@@ -23,7 +23,7 @@
       <button class="nav-drawer-close" data-close aria-label="Close menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
-      <a class="nav-drawer-logo" href="${baseHref}#top"><img src="../assets/wordmark-dark.png" alt="Vision Clipping"></a>
+      <a class="nav-drawer-logo" href="${baseHref}#Home"><img src="../assets/wordmark-dark.png" alt="Vision Clipping"></a>
       <nav class="nav-drawer-links">
         <a href="${baseHref}#cases">Cases</a>
         <a href="${baseHref}#process">Process</a>
