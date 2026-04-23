@@ -873,15 +873,15 @@
   .modal-body p{margin-top:20px;font-size:16px;line-height:1.65;color:rgba(7,7,7,0.78)}
 
   @media (max-width:960px){
-    /* Nav: bigger/wider pill on mobile (+30%). Grid keeps logo/CTA/burger positions unchanged. */
-    .nav{top:18px;padding:0 12px}
-    .nav-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:0;padding:10px;width:auto;max-width:min(546px,calc(100vw - 24px))}
-    .nav-logo{display:flex;align-items:center;justify-self:start;padding-left:16px}
+    /* Nav: side gap –25%, contents +20%. */
+    .nav{top:14px;padding:0 6px}
+    .nav-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:0;padding:8px 13px;width:100%;max-width:min(360px,calc(100vw - 36px))}
+    .nav-logo{display:flex;align-items:center;justify-self:start;padding-left:0}
     .nav-logo img{height:34px}
     .nav-links{display:none}
-    .nav-burger{display:flex;width:54px;height:54px;flex-shrink:0;justify-self:end}
-    .nav-burger span{width:20px;height:2px}
-    .nav-cta{padding:13px 22px;font-size:15px;white-space:nowrap;justify-self:center;margin:0 12px}
+    .nav-burger{display:flex;width:46px;height:46px;flex-shrink:0;justify-self:end}
+    .nav-burger span{width:18px;height:2px}
+    .nav-cta{padding:12px 20px;font-size:15.5px;white-space:nowrap;justify-self:center;margin:0}
     .results-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
     .shot:first-child{grid-column:1/-1}
     .cases-grid,.founders-grid,.why-grid{grid-template-columns:1fr 1fr}
@@ -913,13 +913,13 @@
   }
   @media (max-width:640px){
     .wrap{padding:0 20px}
-    .nav{top:16px;padding:0 10px}
-    .nav-inner{padding:9px;gap:0;max-width:min(494px,calc(100vw - 20px))}
-    .nav-logo{padding-left:13px}
+    .nav{top:12px;padding:0 6px}
+    .nav-inner{padding:7px 12px;gap:0;max-width:min(340px,calc(100vw - 40px))}
+    .nav-logo{padding-left:0}
     .nav-logo img{height:31px}
-    .nav-burger{width:50px;height:50px}
-    .nav-burger span{width:18px;height:1.8px}
-    .nav-cta{padding:12px 20px;font-size:14.5px;margin:0 10px}
+    .nav-burger{width:42px;height:42px}
+    .nav-burger span{width:17px;height:1.9px}
+    .nav-cta{padding:11px 17.5px;font-size:14.5px;margin:0}
     .results-grid,.cases-grid,.founders-grid,.why-grid,.foot-top{grid-template-columns:1fr}
     .cases-wrap{padding:0 44px}
     .cases-nav{width:40px;height:40px;top:38%}
