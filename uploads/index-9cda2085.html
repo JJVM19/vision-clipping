@@ -1,0 +1,1846 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vision Clipping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+  :root{
+    --ink:#070707;
+    --paper:#ffffff;
+    --soft:#f4f4f4;
+    --softer:#fafafa;
+    --ox:#4f0006;
+    --ox-bright:#7a0009;
+    --good:#0f9a4a;
+    --line:rgba(7,7,7,0.08);
+    --muted:rgba(7,7,7,0.56);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .lenis.lenis-smooth{scroll-behavior:auto!important}
+  body{font-size:16px;line-height:1.5;overflow-x:hidden;letter-spacing:-0.005em}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+
+  /* NAV */
+  .nav{position:fixed;top:20px;left:0;right:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
+  .nav-inner{pointer-events:auto;display:flex;align-items:center;gap:32px;padding:10px 10px 10px 24px;background:rgba(255,255,255,0.82);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 20px rgba(7,7,7,0.04)}
+  .nav-logo img{height:22px}
+  .nav-links{display:flex;gap:28px}
+  .nav-links a{font-size:14px;transition:opacity 0.2s}
+  .nav-links a:hover{opacity:0.55}
+  .nav-cta{position:relative;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:13px;font-weight:500;letter-spacing:-0.005em;transition:all 0.3s;overflow:hidden;isolation:isolate;z-index:2}
+  .nav-cta::before{content:"";position:absolute;inset:-6px;border-radius:999px;background:radial-gradient(ellipse at center,var(--ox) 0%,transparent 65%);opacity:0.65;filter:blur(14px);z-index:-2}
+  .nav-cta:hover{background:var(--ox-bright);transform:translateY(-1px);box-shadow:0 10px 26px rgba(79,0,6,0.4)}
+
+  /* HERO */
+  .hero{padding:150px 0 30px;text-align:center}
+  .hero h1{font-size:clamp(40px,6.2vw,92px);line-height:1.02;letter-spacing:-0.035em;font-weight:500;max-width:1100px;margin:0 auto}
+  .hero h1 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.02em;padding:0 0.02em;display:inline-block;line-height:1;vertical-align:baseline;font-size:1.02em}
+  .hero h1 .glow{position:relative;color:var(--ox);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.02em;text-shadow:0 0 32px rgba(79,0,6,0.35),0 0 60px rgba(79,0,6,0.25);display:inline-block;line-height:1;vertical-align:baseline;font-size:1.02em}
+  .hero h1 .u{position:relative;display:inline-block}
+  .hero h1 .u svg{position:absolute;left:-4%;right:-4%;bottom:-0.18em;width:108%;height:0.36em;overflow:visible;pointer-events:none}
+  .hero h1 .u svg path{stroke:var(--ox);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900;animation:drawU 1.2s 0.5s cubic-bezier(0.7,0,0.2,1) forwards}
+  @keyframes drawU{to{stroke-dashoffset:0}}
+  .hero h1 .ox{color:var(--ox);font-style:italic;font-weight:500}
+  .hero p{max-width:620px;margin:28px auto 0;font-size:18px;line-height:1.5;color:var(--muted)}
+
+  /* VSL (raised, CTA below) */
+  .vsl-wrap{padding:36px 0 24px}
+  .vsl{max-width:1120px;margin:0 auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0a0a0a;position:relative;box-shadow:0 30px 80px rgba(7,7,7,0.14)}
+  .vsl-inner{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f 0%,#1a0a0b 60%,#2a1013 100%);display:flex;align-items:center;justify-content:center}
+  .vsl-play{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.96);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s}
+  .vsl-play:hover{transform:scale(1.08);background:var(--ox)}
+  .vsl-play:hover svg{fill:#fff}
+  .vsl-play svg{width:26px;height:26px;fill:var(--ink);margin-left:4px;transition:fill 0.3s}
+  .vsl-caption{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,0.5)}
+
+  /* GLOWING CTA BUTTON — oxblood + shimmer */
+  .cta-block{display:flex;flex-direction:column;align-items:center;margin:48px 0 0;padding:0 32px}
+  .glow-cta{position:relative;display:inline-flex;align-items:center;gap:12px;padding:22px 44px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:hidden;isolation:isolate}
+  .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,var(--ox) 0%,transparent 65%);opacity:0.8;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
+  @keyframes glow{0%,100%{opacity:0.6;filter:blur(24px)}50%{opacity:1;filter:blur(40px)}}
+  .glow-cta::after{content:"";position:absolute;inset:0;border-radius:999px;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.55) 50%,transparent 70%);transform:translateX(-120%);z-index:0;pointer-events:none;transition:transform 0.9s cubic-bezier(0.2,0,0.2,1)}
+  .glow-cta:hover::after{transform:translateX(120%)}
+  .glow-cta > *{position:relative;z-index:1}
+  .glow-cta-rings{position:absolute;inset:0;pointer-events:none;z-index:-1}
+  .glow-cta-rings::before,.glow-cta-rings::after{content:"";position:absolute;inset:0;border:1.5px solid var(--ox);border-radius:999px;opacity:0;animation:ring 2.4s cubic-bezier(0.2,0,0.2,1) infinite}
+  .glow-cta-rings::after{animation-delay:1.2s}
+  @keyframes ring{0%{transform:scale(1);opacity:0.55}80%{transform:scale(1.45);opacity:0}100%{transform:scale(1.5);opacity:0}}
+  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(79,0,6,0.45)}
+  .glow-cta svg{width:16px;height:16px;transition:transform 0.3s}
+  .glow-cta:hover svg{transform:translateX(4px)}
+  .cta-sub{margin-top:14px;font-size:13px;color:var(--muted)}
+
+  /* LOGO CAROUSEL */
+  .logos{padding:90px 0 60px;overflow:hidden;position:relative}
+  .logos-head{text-align:center;font-size:13px;color:var(--muted);margin-bottom:36px}
+  .logos-mask{position:relative;overflow:hidden;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  .logos-track{display:flex;gap:80px;width:max-content;animation:slide 38s linear infinite;will-change:transform}
+  @keyframes slide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+  .logos-track .lg{flex-shrink:0;height:42px;display:flex;align-items:center;color:rgba(7,7,7,0.5);font-weight:700;font-size:28px;letter-spacing:-0.03em;white-space:nowrap}
+  .logos-track .lg.serif{font-family:'Times New Roman',serif;font-weight:400;font-style:italic}
+  .logos-track .lg.thin{font-weight:300;letter-spacing:0.15em;text-transform:uppercase;font-size:18px}
+  .logos-track .lg.bold{font-weight:800;letter-spacing:-0.04em}
+
+  /* SECTION BASE */
+  .sec{padding:120px 0;border-top:1px solid var(--line)}
+  .sec-head{text-align:center;max-width:880px;margin:0 auto 64px}
+  .sec-head h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
+  .sec-head h2 em{font-style:normal;color:var(--ox)}
+  .sec-head h2 .caser{color:var(--ink);transition:color 0.8s cubic-bezier(0.22,1,0.36,1)}
+  .sec-head h2.reveal .caser{color:var(--ox)}
+  .sec-head p{margin:20px auto 0;font-size:17px;line-height:1.5;color:var(--muted);max-width:620px}
+
+  /* RESULTS PARALLAX */
+  .results{background:var(--soft);padding-bottom:180px;overflow:hidden}
+  .res-parallax{max-width:none;width:100%;display:flex;flex-direction:column;gap:22px;padding:32px 0;position:relative}
+  .rp-row{display:flex;gap:22px;width:max-content;will-change:transform;padding:0 40px}
+  .rp-tile{flex-shrink:0;width:420px;aspect-ratio:16/10;border-radius:14px;border:1px solid var(--line);background:var(--paper);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(7,7,7,0.04)}
+  .rp-tile .rp-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(7,7,7,0.3);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.035) 14px 15px);text-align:center;padding:0 24px;font-weight:500}
+  .rp-tile.r1,.rp-tile.r7,.rp-tile.r11{width:520px;aspect-ratio:16/9}
+  .rp-tile.r3,.rp-tile.r10{width:300px;aspect-ratio:9/16}
+  .rp-tile.r5,.rp-tile.r12{width:360px;aspect-ratio:4/3;background:#0a0a0a;color:rgba(255,255,255,0.5)}
+  .rp-tile.r5 .rp-ph,.rp-tile.r12 .rp-ph{color:rgba(255,255,255,0.5);background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,0.04) 14px 15px)}
+
+  /* shot 1: analytics dashboard */
+  .shot-dash{padding:52px 28px 28px;display:flex;flex-direction:column;gap:16px;height:100%}
+  .shot-dash .hd{display:flex;justify-content:space-between;align-items:flex-start}
+  .shot-dash .hd .tt{font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+  .shot-dash .hd .big{font-size:52px;font-weight:500;letter-spacing:-0.03em;line-height:1;margin-top:8px}
+  .shot-dash .hd .big em{font-style:normal;color:var(--ox)}
+  .shot-dash .hd .pill{font-size:11px;padding:4px 10px;background:rgba(15,154,74,0.1);color:var(--good);border-radius:999px;font-weight:500}
+  .shot-dash .chart{flex:1;position:relative;margin-top:8px;min-height:200px}
+  .shot-dash .chart svg{width:100%;height:100%}
+  .shot-dash .chart .pt{position:absolute;width:10px;height:10px;background:var(--ox);border-radius:50%;box-shadow:0 0 0 4px rgba(79,0,6,0.18)}
+  .shot-dash .chart .lbl{position:absolute;background:var(--ink);color:var(--paper);padding:6px 10px;border-radius:8px;font-size:11px;white-space:nowrap;transform:translate(-50%,-130%)}
+  .shot-dash .xaxis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);padding-top:8px;border-top:1px solid var(--line)}
+
+  /* shot 2: iPhone mockup */
+  .shot-phone{padding:52px 20px 20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#f8f8f8 0%,#ececec 100%)}
+  .phone{width:220px;aspect-ratio:9/19.5;background:#0a0a0a;border-radius:34px;padding:8px;box-shadow:0 20px 50px rgba(7,7,7,0.22),0 0 0 1.5px #2a2a2a inset}
+  .phone-screen{width:100%;height:100%;background:#0f0f0f;border-radius:26px;overflow:hidden;position:relative;color:#fff}
+  .phone-notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:80px;height:22px;background:#000;border-radius:999px;z-index:3}
+  .phone-video{position:absolute;inset:0;background:linear-gradient(180deg,#1a0a0b 0%,#4f0006 50%,#2a1013 100%)}
+  .phone-video::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,0.15),transparent 50%)}
+  .phone-ui{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:48px 16px 20px;z-index:2}
+  .phone-ui .top{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,0.75);font-weight:600}
+  .phone-ui .bot{display:flex;gap:10px;align-items:flex-end;justify-content:space-between}
+  .phone-ui .caption{font-size:11px;line-height:1.3;font-weight:500;max-width:140px}
+  .phone-ui .right{display:flex;flex-direction:column;gap:16px;align-items:center;font-size:10px;color:#fff}
+  .phone-ui .right .ic{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;font-size:14px}
+
+  /* shot 3: views today / live card */
+  .shot-live{padding:52px 28px 28px;display:flex;flex-direction:column;gap:16px;background:#0a0a0a;color:#fff}
+  .shot-live .tt{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .shot-live .tt .dot{width:7px;height:7px;background:#4ade80;border-radius:50%;box-shadow:0 0 0 3px rgba(74,222,128,0.22);animation:pulse 2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+  .shot-live .big{font-size:76px;font-weight:500;letter-spacing:-0.04em;line-height:1;color:#fff}
+  .shot-live .big em{font-style:normal;color:#e88890}
+  .shot-live .sub{font-size:13px;color:rgba(255,255,255,0.55);margin-top:-6px}
+  .shot-live .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+  .shot-live .tm{aspect-ratio:9/16;border-radius:8px;position:relative;overflow:hidden;background:#1a0a0b}
+  .shot-live .tm.a{background:linear-gradient(135deg,#4f0006,#7a0009)}
+  .shot-live .tm.b{background:linear-gradient(135deg,#333,#555)}
+  .shot-live .tm.c{background:linear-gradient(135deg,#1a0a0b,#4f0006)}
+  .shot-live .tm .v{position:absolute;bottom:6px;left:6px;font-size:10px;font-weight:600}
+
+  /* CASES — carousel */
+  .cases-wrap{position:relative;max-width:1280px;margin:0 auto;padding:0 72px}
+  .cases-viewport{overflow:hidden}
+  .cases-track{display:flex;gap:24px;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1)}
+  .case{flex:0 0 calc((100% - 48px)/3);display:flex;flex-direction:column;gap:18px;cursor:pointer}
+  .case:hover .case-img{transform:translateY(-4px);box-shadow:0 20px 50px rgba(7,7,7,0.12)}
+  .case-img{aspect-ratio:4/5;border-radius:14px;overflow:hidden;position:relative;background:var(--soft);border:1px solid var(--line);transition:all 0.3s}
+  .case-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(7,7,7,0.25);font-size:13px;font-weight:500;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.035) 14px 15px)}
+  .case-img.dark .ph{background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,0.04) 14px 15px),linear-gradient(135deg,#1a0a0b,#2a1013);color:rgba(255,255,255,0.45)}
+  .case-img.mid .ph{background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.04) 14px 15px),#e8e8e8}
+  .case-img .views-block{position:absolute;bottom:16px;left:16px;right:16px;display:flex;align-items:flex-end;justify-content:space-between}
+  .case-img .vn{font-size:52px;font-weight:600;letter-spacing:-0.03em;color:var(--paper);line-height:1;text-shadow:0 2px 20px rgba(0,0,0,0.4)}
+  .case-img.light .vn{color:var(--ink);text-shadow:none}
+  .case-img .vl{font-size:12px;font-weight:500;color:var(--paper);text-transform:uppercase;letter-spacing:0.1em;padding-bottom:6px;opacity:0.8}
+  .case-img.light .vl{color:var(--ink)}
+  .case .case-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .case .case-title h3{font-size:22px;font-weight:500;letter-spacing:-0.015em}
+  .case .case-title .tag{font-size:12px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase}
+  .cases-nav{position:absolute;top:42%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:all 0.2s;box-shadow:0 4px 14px rgba(7,7,7,0.06)}
+  .cases-nav:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .cases-nav.prev{left:8px}
+  .cases-nav.next{right:8px}
+  .cases-nav svg{width:18px;height:18px}
+  .cases-nav[disabled]{opacity:0.3;cursor:not-allowed}
+
+  /* PROCESS — pinned scroll, centered title, boxed active state */
+  .process{position:relative}
+  .process-scroll{position:relative;height:380vh}
+  .process-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 32px 60px;overflow:hidden}
+  .process-title{text-align:center;margin-bottom:56px;max-width:820px}
+  .process-title h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
+  .process-title h2 em{font-style:normal;color:var(--ox)}
+  .process-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}
+  .steps-list{display:flex;flex-direction:column;gap:14px}
+  .step-row{display:flex;gap:16px;padding:22px 24px;border-radius:16px;opacity:0.32;transition:all 0.5s cubic-bezier(0.4,0,0.2,1);background:transparent;color:var(--ink);align-items:flex-start}
+  .step-row.active{opacity:1;background:var(--ox);color:var(--paper);box-shadow:0 24px 60px rgba(79,0,6,0.25);transform:translateX(4px)}
+  .step-row .num{width:48px;height:48px;border-radius:12px;background:transparent;border:1.5px solid currentColor;color:currentColor;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.5s;opacity:0.55}
+  .step-row.active .num{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.28);color:var(--paper);opacity:1}
+  .step-row .body h3{font-size:22px;font-weight:500;letter-spacing:-0.015em;line-height:1.2}
+  .step-row .body p{margin-top:8px;font-size:14px;line-height:1.55;opacity:0.78}
+  .step-row.active .body p{opacity:0.82}
+
+  .process-right{position:relative;aspect-ratio:4/3;background:var(--soft);border-radius:20px;border:1px solid var(--line);overflow:hidden}
+  .proc-vis{position:absolute;inset:0;opacity:0;transform:translateY(12px);transition:opacity 0.5s,transform 0.5s}
+  .proc-vis.active{opacity:1;transform:translateY(0)}
+
+  .pv-brief{padding:36px;font-size:14px}
+  .pv-brief h4{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:16px;letter-spacing:0.06em;text-transform:uppercase}
+  .pv-brief .row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .pv-brief .row:last-child{border:0}
+  .pv-brief .row span:first-child{color:var(--muted)}
+  .pv-brief .row.hl span:last-child{color:var(--ox);font-weight:600}
+
+  .pv-grid{padding:32px;height:100%;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);gap:6px}
+  .pv-grid .c{background:var(--paper);border-radius:4px;border:1px solid var(--line);transition:background 0.4s,border-color 0.4s}
+  .pv-grid .c.on{background:var(--ox);border-color:var(--ox)}
+  .pv-grid .c.oni{background:rgba(79,0,6,0.22);border-color:rgba(79,0,6,0.22)}
+
+  .pv-feed{padding:24px;display:flex;flex-direction:column;gap:8px;height:100%;overflow:hidden}
+  .pv-feed .it{display:flex;align-items:center;gap:14px;padding:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;font-size:13px}
+  .pv-feed .t{width:32px;height:44px;border-radius:5px;background:linear-gradient(135deg,#2a1013,#4f0006);flex-shrink:0}
+  .pv-feed .t.g{background:linear-gradient(135deg,#ddd,#999)}
+  .pv-feed .n{flex:1;color:var(--muted)}
+  .pv-feed .v{color:var(--ink);font-weight:600}
+
+  .pv-chart{padding:32px;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+  .pv-chart .top{display:flex;justify-content:space-between;align-items:baseline}
+  .pv-chart .top .lab{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+  .pv-chart .top .num{font-size:48px;font-weight:600;letter-spacing:-0.03em;color:var(--ox);line-height:1}
+  .pv-chart .bars{display:flex;align-items:flex-end;gap:4px;height:55%;margin-top:16px}
+  .pv-chart .bar{flex:1;background:linear-gradient(to top,rgba(79,0,6,0.12),var(--ox));border-radius:3px 3px 0 0}
+
+  /* WHY US — pinned reveal */
+  .why{position:relative;background:#0a0a0a;color:var(--paper);padding:0;border-top:0}
+  .why-scroll{position:relative;height:360vh}
+  .why-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 32px}
+  .why-header{text-align:center;margin-bottom:60px}
+  .why-header .tag{font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:20px}
+  .why-header h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
+  .why-header h2 em{font-style:normal;color:#e88890;font-family:'Instrument Serif',serif;font-weight:400}
+  .why-stage{position:relative;width:100%;max-width:1100px;height:360px;perspective:1600px}
+  .why-slide{position:absolute;inset:0;display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;opacity:0;transform:translateY(40px) scale(0.96);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1);pointer-events:none}
+  .why-slide.active{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  .why-slide .left{display:flex;flex-direction:column;gap:20px}
+  .why-slide .idx{font-family:'Instrument Serif',serif;font-style:italic;font-size:96px;line-height:0.9;letter-spacing:-0.03em;color:#e88890;opacity:0.85}
+  .why-slide .left h3{font-size:clamp(26px,3vw,40px);font-weight:500;letter-spacing:-0.02em;line-height:1.15}
+  .why-slide .left p{font-size:16px;line-height:1.55;color:rgba(255,255,255,0.65);max-width:480px}
+  .why-slide .right{position:relative;aspect-ratio:5/4;border-radius:18px;overflow:hidden;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08)}
+  .why-viz{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:28px}
+
+  /* viz 1 — clipper roster */
+  .wv-roster{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;width:100%;height:100%;align-content:center}
+  .wv-roster .av{aspect-ratio:1;border-radius:8px;background:linear-gradient(135deg,#2a1013,#4f0006);opacity:0.6;animation:fadeAv 3s ease-in-out infinite}
+  .wv-roster .av:nth-child(2n){background:linear-gradient(135deg,#3a3a3a,#555)}
+  .wv-roster .av:nth-child(5n){background:linear-gradient(135deg,#4f0006,#7a0009)}
+  .wv-roster .av:nth-child(3n){animation-delay:0.3s}
+  .wv-roster .av:nth-child(4n){animation-delay:0.6s}
+  .wv-roster .av:nth-child(7n){animation-delay:0.9s}
+  @keyframes fadeAv{0%,100%{opacity:0.4}50%{opacity:0.9}}
+
+  /* viz 2 — rank chart */
+  .wv-rank{display:flex;flex-direction:column;gap:10px;width:100%}
+  .wv-rank .rk{display:flex;align-items:center;gap:12px;font-size:12px;color:rgba(255,255,255,0.7)}
+  .wv-rank .rn{width:18px;color:rgba(255,255,255,0.4)}
+  .wv-rank .rb{flex:1;height:24px;background:rgba(255,255,255,0.06);border-radius:4px;position:relative;overflow:hidden}
+  .wv-rank .rbf{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#4f0006,#e88890);border-radius:4px}
+  .wv-rank .rv{width:48px;text-align:right;color:#e88890;font-weight:500}
+
+  /* viz 3 — real humans */
+  .wv-human{display:flex;flex-direction:column;align-items:center;gap:18px;width:100%}
+  .wv-human .row{display:flex;gap:6px}
+  .wv-human .dot{width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,0.5)}
+  .wv-human .dot.x{background:rgba(255,255,255,0.15);box-shadow:none}
+  .wv-human .cap{margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase}
+  .wv-human .cap .num{color:#4ade80;font-weight:500;font-size:22px;display:block;margin-bottom:4px;text-transform:none;letter-spacing:-0.02em}
+
+  /* viz 4 — pipeline */
+  .wv-pipe{display:flex;flex-direction:column;gap:14px;width:100%}
+  .wv-pipe .row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;font-size:13px;color:rgba(255,255,255,0.8)}
+  .wv-pipe .row .dt{width:8px;height:8px;border-radius:50%;background:#4ade80}
+  .wv-pipe .row.p{color:rgba(255,255,255,0.45)}
+  .wv-pipe .row.p .dt{background:rgba(255,255,255,0.25)}
+  .wv-pipe .row .ra{margin-left:auto;font-size:11px;color:rgba(255,255,255,0.4)}
+
+  .why-dots{display:flex;gap:10px;margin-top:56px}
+  .why-dots .dt{width:36px;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;transition:background 0.4s}
+  .why-dots .dt.active{background:#e88890}
+
+  /* FOUNDERS */
+  .founders{background:var(--softer)}
+  .fnd{cursor:pointer}
+  .fnd-img .face{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:40px}
+  .fnd-img .face svg{width:80%;height:auto;opacity:0.9}
+  .fnd-img .img-label{position:absolute;top:20px;left:20px;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.75);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;backdrop-filter:blur(8px)}
+  .fnd.fc .fnd-img .img-label{background:rgba(0,0,0,0.08);color:rgba(0,0,0,0.55)}
+  .founders-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto}
+  .fnd{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:all 0.3s}
+  .fnd:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(7,7,7,0.08)}
+  .fnd-img{aspect-ratio:4/5;position:relative;overflow:hidden;width:100%}
+  .fnd.fa .fnd-img{background:linear-gradient(135deg,#1a0a0b 0%,#4f0006 100%)}
+  .fnd.fb .fnd-img{background:linear-gradient(135deg,#2a1a1c 0%,#5a3a3f 50%,#7a5055 100%)}
+  .fnd.fc .fnd-img{background:linear-gradient(135deg,#f0f0f0 0%,#d4d4d4 100%)}
+  .fnd-img .portrait{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.25);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,0.04) 14px 15px)}
+  .fnd.fc .fnd-img .portrait{color:rgba(7,7,7,0.3);background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.04) 14px 15px)}
+  .fnd-img .overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,rgba(0,0,0,0.5))}
+  .fnd.fc .fnd-img .overlay{background:linear-gradient(to bottom,transparent 60%,rgba(0,0,0,0.15))}
+  .fnd-img .wordmark{position:absolute;bottom:24px;left:24px;right:24px;color:#fff;display:flex;align-items:center;gap:12px}
+  .fnd.fc .fnd-img .wordmark{color:var(--ink)}
+  .fnd-img .wordmark img{height:28px;filter:brightness(0) invert(1)}
+  .fnd.fc .fnd-img .wordmark img{filter:brightness(0) invert(1)}
+  .fnd.fc .fnd-img .wordmark{color:#fff}
+  .fnd-body{padding:28px}
+  .fnd-body .role{font-size:12px;color:var(--ox);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+  .fnd-body h3{font-size:28px;font-weight:500;letter-spacing:-0.02em;margin-top:8px;line-height:1.1}
+  .fnd-body p{font-size:14px;line-height:1.55;color:var(--muted);margin-top:14px}
+  .fnd-body .socials{display:flex;gap:8px;margin-top:20px}
+  .fnd-body .socials a{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);transition:all 0.2s}
+  .fnd-body .socials a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* PRICING */
+  .pricing{background:var(--softer)}
+  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto}
+  .pricing-grid:hover .pr:not(:hover){opacity:0.42;filter:saturate(0.7)}
+  .pr{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px 30px;display:flex;flex-direction:column;gap:16px;transition:opacity 0.45s ease,filter 0.45s ease,transform 0.45s cubic-bezier(0.22,1,0.36,1),box-shadow 0.45s ease,border-color 0.45s ease;position:relative;overflow:hidden;isolation:isolate}
+  .pr::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1.5px;background:linear-gradient(135deg,rgba(79,0,6,0.0) 0%,rgba(79,0,6,0.7) 40%,rgba(232,136,144,0.9) 50%,rgba(79,0,6,0.7) 60%,rgba(79,0,6,0.0) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.45s ease;pointer-events:none;z-index:2}
+  .pr:hover{transform:translateY(-6px);border-color:transparent;box-shadow:0 28px 70px rgba(79,0,6,0.18)}
+  .pr:hover::before{opacity:1}
+  .pr-glow{position:absolute;inset:-30%;background:radial-gradient(ellipse at center,rgba(79,0,6,0.28) 0%,transparent 60%);filter:blur(50px);opacity:0;transition:opacity 0.5s ease;pointer-events:none;z-index:0}
+  .pr:hover .pr-glow{opacity:1}
+  .pr > *{position:relative;z-index:1}
+  .pr .pr-ic{width:42px;height:42px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;color:var(--ox);font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;font-weight:400}
+  .pr h3{font-size:22px;font-weight:500;letter-spacing:-0.015em}
+  .pr .pr-sub{font-size:13.5px;color:var(--muted);line-height:1.55}
+  .pr .pr-divider{height:1px;background:var(--line);margin:4px 0}
+  .pr ul{list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13.5px;color:var(--muted);line-height:1.45}
+  .pr ul li{display:flex;gap:10px;align-items:flex-start}
+  .pr ul li::before{content:"—";color:var(--ox);flex-shrink:0}
+  .pr .pr-price{margin-top:auto;padding-top:8px;font-size:13px;color:var(--ink)}
+  .pr .pr-price .amt{font-size:24px;font-weight:500;letter-spacing:-0.02em;color:var(--ox)}
+  @media(max-width:960px){.pricing-grid{grid-template-columns:1fr}}
+
+  /* WHY US — 3D card-deck carousel */
+  .whyus{background:#fafafa}
+  .wu-deck{max-width:1100px;margin:0 auto;position:relative}
+  .wu-stage{position:relative;height:460px;perspective:1800px;transform-style:preserve-3d;display:flex;align-items:center;justify-content:center}
+  .wu-card{position:absolute;width:min(560px,82%);height:420px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:44px 44px 40px;display:flex;flex-direction:column;box-shadow:0 18px 48px rgba(7,7,7,0.08);transition:transform 0.7s cubic-bezier(0.22,1,0.36,1),opacity 0.7s cubic-bezier(0.22,1,0.36,1),filter 0.7s ease}
+  .wu-card .wu-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:56px;color:var(--ox);font-weight:400;line-height:1;letter-spacing:-0.02em}
+  .wu-card .wu-tag{margin-top:20px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .wu-card h3{margin-top:14px;font-size:30px;font-weight:500;letter-spacing:-0.02em;line-height:1.1}
+  .wu-card p{margin-top:14px;font-size:15px;line-height:1.55;color:var(--muted);max-width:440px}
+  .wu-card .wu-stat{margin-top:auto;padding-top:24px;border-top:1px solid var(--line);display:flex;align-items:baseline;gap:12px}
+  .wu-card .wu-stat strong{font-size:32px;font-weight:500;letter-spacing:-0.025em;color:var(--ox);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+  .wu-card .wu-stat span{font-size:12px;color:var(--muted);letter-spacing:0.03em}
+  .wu-controls{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:20px}
+  .wu-nav{width:48px;height:48px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;box-shadow:0 4px 14px rgba(7,7,7,0.06)}
+  .wu-nav:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .wu-nav svg{width:18px;height:18px}
+  .wu-dots{display:flex;gap:8px}
+  .wu-dot{width:8px;height:8px;border-radius:50%;background:rgba(7,7,7,0.15);cursor:pointer;transition:all 0.3s;border:0;padding:0}
+  .wu-dot.active{background:var(--ox);width:28px;border-radius:4px}
+
+  /* CALCULATOR */
+  .calc{background:var(--soft)}
+  /* CALC updates */
+  .calc-section{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .calc-section:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
+  .calc-section-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px}
+  .calc-section.sliders{padding-top:4px}
+  .calc-section.sliders .rng input{height:5px;background:var(--line);border-radius:3px;transition:background 0.3s ease}
+  .calc-section.sliders .rng input::-webkit-slider-thumb{width:22px;height:22px;box-shadow:0 2px 8px rgba(79,0,6,0.3),0 0 0 1px var(--ox);transition:transform 0.2s ease,box-shadow 0.25s ease}
+  .calc-section.sliders .rng input:hover::-webkit-slider-thumb{transform:scale(1.08);box-shadow:0 4px 14px rgba(79,0,6,0.4),0 0 0 1px var(--ox)}
+  .calc-section.sliders .rng input::-moz-range-thumb{width:22px;height:22px}
+  .rng-top .v{transition:color 0.25s ease,transform 0.25s ease;display:inline-block}
+  .rng-anim .v{color:var(--ox)}
+  .calc-body{max-width:1120px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;box-shadow:0 20px 60px rgba(7,7,7,0.05)}
+  .calc-inputs{padding:48px 44px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .help{display:inline-flex;width:14px;height:14px;border-radius:50%;background:var(--line);color:var(--muted);font-size:9px;align-items:center;justify-content:center;cursor:help;margin-left:6px;font-weight:700;position:relative;vertical-align:middle}
+  .help::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 12px;border-radius:8px;font-size:11px;font-weight:400;line-height:1.4;white-space:normal;width:200px;text-align:left;opacity:0;pointer-events:none;transition:opacity 0.2s;z-index:10;text-transform:none;letter-spacing:0}
+  .help:hover::after{opacity:1}
+  .calc-inputs h3{font-size:18px;font-weight:500;margin-bottom:24px;letter-spacing:-0.01em}
+  .field{margin-bottom:22px}
+  .field:last-child{margin-bottom:0}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px}
+  .input-wrap{position:relative;background:var(--soft);border:1px solid transparent;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;transition:all 0.2s}
+  .input-wrap:focus-within{border-color:var(--ink);background:var(--paper)}
+  .input-wrap .sym{font-size:18px;color:var(--muted)}
+  .input-wrap input{border:0;background:none;outline:none;font-size:20px;font-weight:500;letter-spacing:-0.01em;width:100%;color:var(--ink);font-family:inherit}
+  .input-wrap .suf{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .rng-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .rng-top .v{font-size:18px;font-weight:500;letter-spacing:-0.01em}
+  .rng input{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:var(--line);border-radius:2px;outline:none}
+  .rng input::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ox);cursor:pointer;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--ox)}
+  .rng input::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ox);cursor:pointer;border:2px solid var(--paper)}
+
+  /* Calc inverted CTA — white bg, oxblood shimmer */
+  .calc-cta{position:relative}
+  .calc-cta::after{content:"";position:absolute;inset:0;border-radius:999px;background:linear-gradient(120deg,transparent 30%,rgba(79,0,6,0.35) 50%,transparent 70%);transform:translateX(-120%);z-index:0;pointer-events:none;transition:transform 0.9s cubic-bezier(0.2,0,0.2,1)}
+  .calc-cta:hover::after{transform:translateX(120%)}
+  .calc-cta:hover{background:#fff;color:var(--ox);transform:translateY(-2px);box-shadow:0 14px 34px rgba(79,0,6,0.35)}
+  .calc-cta > *{position:relative;z-index:1}
+
+  /* View→click readout color states */
+  .ctr-below{color:#e88890 !important}
+  .ctr-avg{color:#facc15 !important}
+  .ctr-above{color:#4ade80 !important}
+
+  .calc-out{padding:40px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .calc-out::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 85% 0%,rgba(79,0,6,0.45),transparent 55%);pointer-events:none}
+  .calc-out > *{position:relative;z-index:1}
+  .calc-out h3{font-size:18px;font-weight:500;margin-bottom:4px;letter-spacing:-0.01em;display:flex;justify-content:space-between;align-items:center}
+  .calc-out h3 .live{font-size:11px;color:rgba(255,255,255,0.5);font-weight:400;display:flex;align-items:center;gap:8px}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,0.2);animation:pulse 2s infinite}
+
+  /* HERO KPI — expected views (compact, glowy) */
+  .kpi-hero{padding:22px 0 22px;border-bottom:1px solid rgba(255,255,255,0.1);position:relative}
+  .kpi-hero::before{content:"";position:absolute;top:-10%;left:-20%;right:-20%;bottom:-10%;background:radial-gradient(ellipse 60% 70% at 30% 50%,rgba(232,136,144,0.18),transparent 75%);filter:blur(56px);pointer-events:none}
+  .kpi-hero > *{position:relative}
+  .kpi-hero .l{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+  .kpi-hero .n{font-size:clamp(44px,5.6vw,68px);font-weight:500;letter-spacing:-0.035em;line-height:0.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kpi-hero .n span{background:linear-gradient(135deg,#fff 0%,#e88890 60%,#c96068 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(232,136,144,0.3))}
+  .kpi-hero .s{font-size:10px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.4;letter-spacing:0.02em}
+
+  .kpi{padding:22px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .kpi:last-of-type{border-bottom:0}
+  .kpi .l{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase}
+  .kpi .n{font-size:36px;font-weight:500;letter-spacing:-0.03em;line-height:1}
+  .kpi .s{font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px}
+
+  /* CPC card with green-good */
+  .cpc-card{padding:20px;background:rgba(15,154,74,0.1);border:1px solid rgba(15,154,74,0.3);border-radius:12px;margin-top:6px;transition:all 0.3s}
+  .cpc-card.par{background:rgba(250,204,21,0.1);border-color:rgba(250,204,21,0.3)}
+  .cpc-card.bad{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08)}
+  .cpc-card .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .cpc-card .l{font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase}
+  .cpc-card.good .l,.cpc-card.great .l{color:rgba(255,255,255,0.7)}
+  .cpc-card .badge{font-size:10px;padding:4px 10px;border-radius:999px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;background:#4ade80;color:#0a3d1e;transition:all 0.3s}
+  .cpc-card.par .badge{background:#facc15;color:#3d2f02}
+  .cpc-card.bad .badge{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)}
+  .cpc-card.great .badge{background:#22c55e;color:#fff;animation:glowgreen 2s infinite}
+  @keyframes glowgreen{50%{box-shadow:0 0 0 6px rgba(74,222,128,0.25)}}
+  .cpc-card .big{font-size:52px;font-weight:600;letter-spacing:-0.035em;line-height:0.95;color:#4ade80;transition:color 0.3s}
+  .cpc-card.par .big{color:#facc15}
+  .cpc-card.bad .big{color:#fff}
+  .cpc-card.great .big{color:#22c55e}
+  .benches{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+  .b{display:flex;align-items:center;gap:12px;font-size:12px}
+  .b .bn{width:70px;color:rgba(255,255,255,0.55)}
+  .b .bt{flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;position:relative}
+  .b .bt .bf{position:absolute;top:0;left:0;height:100%;border-radius:3px;background:rgba(255,255,255,0.28);transition:width 0.3s}
+  .b.you .bt .bf{background:#4ade80}
+  .b.you.par .bt .bf{background:#facc15}
+  .b.you.bad .bt .bf{background:#c96068}
+  .b.you.great .bt .bf{background:#22c55e}
+  .b .br{width:62px;text-align:right;color:rgba(255,255,255,0.65)}
+  .b.you .bn,.b.you .br{color:var(--paper);font-weight:500}
+
+  /* Pool card — simplified */
+  .pool-card{padding:22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .pool-card .l{font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  .pool-card .big{font-family:'Instrument Serif',serif;font-size:46px;line-height:1;font-weight:400;letter-spacing:-0.02em;font-style:italic;color:#fff;background:linear-gradient(135deg,#fff,#e88890);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .pool-card .s{font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px}
+
+  .calc-disclaimer{max-width:620px;margin:18px auto 0;text-align:center;font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* FAQ */
+  .faq-list{max-width:820px;margin:0 auto}
+  .faq-item{border-bottom:1px solid var(--line);overflow:hidden}
+  .faq-top{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:24px 0;cursor:pointer;transition:color 0.25s ease}
+  .faq-top:hover{color:var(--ox)}
+  .faq-q{font-size:19px;font-weight:500;letter-spacing:-0.01em}
+  .faq-ico{width:28px;height:28px;flex-shrink:0;position:relative;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+  .faq-ico::before,.faq-ico::after{content:"";position:absolute;background:currentColor;left:50%;top:50%;border-radius:1px}
+  .faq-ico::before{width:12px;height:1.5px;transform:translate(-50%,-50%)}
+  .faq-ico::after{width:1.5px;height:12px;transform:translate(-50%,-50%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+  .faq-item.open .faq-ico::after{transform:translate(-50%,-50%) rotate(90deg)}
+  .faq-a-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.55s cubic-bezier(0.4,0,0.2,1),opacity 0.4s ease}
+  .faq-a-wrap > .faq-a{overflow:hidden;opacity:0;transition:opacity 0.35s ease 0.05s}
+  .faq-item.open .faq-a-wrap{grid-template-rows:1fr}
+  .faq-item.open .faq-a-wrap > .faq-a{opacity:1}
+  .faq-a{padding:0 0 24px;font-size:15px;color:var(--muted);line-height:1.6;max-width:720px}
+
+  /* PARALLAX GALLERY — client can drop screenshots in */
+  .parallax{padding:140px 0;background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;position:relative}
+  .parallax-head{text-align:center;max-width:820px;margin:0 auto 64px;padding:0 32px}
+  .parallax-head h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
+  .parallax-head h2 em{font-style:italic;font-family:'Instrument Serif',serif;font-weight:400;color:var(--ox)}
+  .parallax-head p{margin:20px auto 0;font-size:17px;color:var(--muted);max-width:620px}
+  .parallax-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px;max-width:1280px;margin:0 auto;padding:0 32px;position:relative}
+  .pg-item{border-radius:14px;overflow:hidden;background:var(--paper);border:1px solid var(--line);position:relative;will-change:transform}
+  .pg-item .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(7,7,7,0.3);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.03) 14px 15px)}
+  .pg-item.p1{grid-column:1/span 5;aspect-ratio:4/5}
+  .pg-item.p2{grid-column:6/span 4;aspect-ratio:3/4;margin-top:40px}
+  .pg-item.p3{grid-column:10/span 3;aspect-ratio:9/16;margin-top:-20px}
+  .pg-item.p4{grid-column:1/span 4;aspect-ratio:4/5;margin-top:-60px}
+  .pg-item.p5{grid-column:5/span 4;aspect-ratio:1/1;margin-top:20px}
+  .pg-item.p6{grid-column:9/span 4;aspect-ratio:3/4;margin-top:-40px}
+  @media(max-width:960px){.parallax-grid{grid-template-columns:repeat(6,1fr)}.pg-item.p1,.pg-item.p4{grid-column:1/span 6}.pg-item.p2,.pg-item.p5{grid-column:1/span 3;margin:0}.pg-item.p3,.pg-item.p6{grid-column:4/span 3;margin:0}}
+
+  /* FINAL CTA — scroll color reveal (faster) */
+  .finalcta{padding:160px 0;text-align:center;border-top:1px solid var(--line)}
+  .finalcta-text{font-size:clamp(40px,5.6vw,84px);line-height:1.08;letter-spacing:-0.035em;font-weight:500;max-width:1100px;margin:0 auto}
+  .finalcta-text .w{color:rgba(7,7,7,0.15);transition:color 0.15s}
+  .finalcta-text .w.on{color:var(--ink)}
+  .finalcta-text .w.ox.on{color:var(--ox)}
+  .finalcta-sub{max-width:520px;margin:32px auto 0;color:var(--muted);font-size:17px;line-height:1.5}
+  .finalcta .cta-block{margin-top:40px}
+
+  /* FOOTER */
+  .foot{background:var(--ink);color:var(--paper);padding:64px 0 28px}
+  .foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .foot-brand img{height:26px;filter:brightness(0) invert(1);opacity:0.95}
+  .foot-brand p{margin-top:20px;color:rgba(255,255,255,0.5);font-size:14px;max-width:320px;line-height:1.55}
+  .foot-col h4{font-size:13px;font-weight:500;margin-bottom:16px}
+  .foot-col a{display:block;padding:6px 0;font-size:14px;color:rgba(255,255,255,0.55);transition:color 0.2s}
+  .foot-col a:hover{color:var(--paper)}
+  .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px;color:rgba(255,255,255,0.4)}
+
+  /* CASE STUDY MODAL */
+  .modal{position:fixed;inset:0;z-index:100;display:none;background:rgba(7,7,7,0.6);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;overflow-y:auto}
+  .modal.open{display:flex}
+  .modal-inner{background:var(--paper);max-width:920px;width:calc(100% - 48px);margin:48px 24px;border-radius:20px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.3)}
+  .modal-hero{position:relative;aspect-ratio:16/9;overflow:hidden}
+  .modal-hero.dark{background:linear-gradient(135deg,#1a0a0b,#4f0006)}
+  .modal-hero.mid{background:linear-gradient(135deg,#d4d4d4,#888)}
+  .modal-hero.red{background:linear-gradient(135deg,#4f0006,#7a0009)}
+  .modal-hero .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);font-size:14px;letter-spacing:0.08em;text-transform:uppercase;background:repeating-linear-gradient(135deg,transparent 0 16px,rgba(255,255,255,0.04) 16px 17px)}
+  .modal-hero .views-block{position:absolute;bottom:32px;left:32px;color:#fff}
+  .modal-hero .vn{font-size:96px;font-weight:600;letter-spacing:-0.04em;line-height:1}
+  .modal-hero .vl{font-size:14px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8}
+  .modal-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;z-index:5}
+  .modal-body{padding:48px 56px}
+  .modal-body .tag{font-size:12px;color:var(--ox);font-weight:600;letter-spacing:0.08em;text-transform:uppercase}
+  .modal-body h2{font-size:40px;font-weight:500;letter-spacing:-0.025em;line-height:1.1;margin-top:10px}
+  .modal-body .meta{display:flex;gap:40px;margin-top:28px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:14px}
+  .modal-body .meta div span{display:block;color:var(--muted);font-size:12px;margin-bottom:4px;letter-spacing:0.04em;text-transform:uppercase}
+  .modal-body .meta div strong{font-weight:500}
+  .modal-body p{margin-top:20px;font-size:16px;line-height:1.65;color:rgba(7,7,7,0.78)}
+
+  @media (max-width:960px){
+    .nav-links{display:none}
+    .results-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+    .shot:first-child{grid-column:1/-1}
+    .cases-grid,.founders-grid,.why-grid{grid-template-columns:1fr 1fr}
+    .calc-body{grid-template-columns:1fr}
+    .calc-inputs{border-right:0;border-bottom:1px solid var(--line)}
+    .process-inner{grid-template-columns:1fr;gap:32px}
+    .process-right{aspect-ratio:16/10}
+    .foot-top{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 20px}
+    .results-grid,.cases-grid,.founders-grid,.why-grid,.foot-top{grid-template-columns:1fr}
+    .hero{padding:130px 0 30px}
+    .sec{padding:80px 0}
+    .modal-body{padding:32px 24px}
+    .modal-hero .vn{font-size:56px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top"><img src="assets/wordmark-dark.png" alt="Vision Clipping"></a>
+    <div class="nav-links">
+      <a href="#cases">Cases</a>
+      <a href="#process">Process</a>
+      <a href="#founders">Founders</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#calc">Calculator</a>
+    </div>
+    <a class="nav-cta" href="#cta">Book a call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <div class="wrap">
+    <h1>Add <span class="u"><span class="glow">10M+ views</span></span> daily by turning <span class="u"><span class="serif">one video</span></span> into <span class="glow">30+ daily posts.</span></h1>
+    <p>With 40,000+ vetted clippers on standby, your content goes live across TikTok, Instagram, and YouTube before your competitors have briefed a single editor.</p>
+  </div>
+</section>
+
+<!-- VSL (raised close to hero, CTA below) -->
+<section class="vsl-wrap">
+  <div class="wrap">
+    <div class="vsl" id="vsl">
+      <div class="vsl-inner">
+        <button class="vsl-play" aria-label="Play video">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="vsl-caption">Watch — 2:41</div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-block">
+    <a href="#cta" class="glow-cta">
+      <span class="glow-cta-rings"></span>
+      Book your strategy call
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+    </a>
+    <div class="cta-sub">See if we are the right partner for you</div>
+  </div>
+</section>
+
+<!-- LOGO CAROUSEL -->
+<section class="logos">
+  <div class="wrap"><div class="logos-head">Trusted by leading brands &amp; creators</div></div>
+  <div class="logos-mask">
+    <div class="logos-track" id="logos-track">
+      <div class="lg bold">AERO</div>
+      <div class="lg serif">Verdant</div>
+      <div class="lg thin">HELIX</div>
+      <div class="lg bold">SOLVEX</div>
+      <div class="lg serif">Lith &amp; Co</div>
+      <div class="lg thin">NEXAFIN</div>
+      <div class="lg bold">MAGNUS C.</div>
+      <div class="lg serif">Parallax</div>
+      <div class="lg thin">OVERTONE</div>
+      <div class="lg bold">NORTH&amp;CO</div>
+      <!-- duplicate for infinite loop -->
+      <div class="lg bold">AERO</div>
+      <div class="lg serif">Verdant</div>
+      <div class="lg thin">HELIX</div>
+      <div class="lg bold">SOLVEX</div>
+      <div class="lg serif">Lith &amp; Co</div>
+      <div class="lg thin">NEXAFIN</div>
+      <div class="lg bold">MAGNUS C.</div>
+      <div class="lg serif">Parallax</div>
+      <div class="lg thin">OVERTONE</div>
+      <div class="lg bold">NORTH&amp;CO</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS — PARALLAX SCREENSHOTS -->
+<section class="sec results" data-screen-label="02 Results">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>We've delivered <em>3 billion</em> views and counting. Yours is next.</h2>
+      <p>Real results from real campaigns — analytics screenshots, clips, and dashboards from our client roster.</p>
+    </div>
+  </div>
+  <div class="res-parallax" id="res-parallax">
+    <div class="rp-row" data-speed="0.4">
+      <div class="rp-tile r1"><div class="rp-ph">Analytics dashboard · 67.6M views</div></div>
+      <div class="rp-tile r2"><div class="rp-ph">TikTok clip · 2.4M views</div></div>
+      <div class="rp-tile r3"><div class="rp-ph">Creator DM — "went viral"</div></div>
+      <div class="rp-tile r4"><div class="rp-ph">Reels insights · 892K</div></div>
+    </div>
+    <div class="rp-row" data-speed="-0.5">
+      <div class="rp-tile r5"><div class="rp-ph">YT Shorts · 4.1M views</div></div>
+      <div class="rp-tile r6"><div class="rp-ph">Revenue report · $340k</div></div>
+      <div class="rp-tile r7"><div class="rp-ph">Follower chart · +180k</div></div>
+      <div class="rp-tile r8"><div class="rp-ph">Clip library · 184 assets</div></div>
+    </div>
+    <div class="rp-row" data-speed="0.35">
+      <div class="rp-tile r9"><div class="rp-ph">IG Reels · 1.1M</div></div>
+      <div class="rp-tile r10"><div class="rp-ph">Client testimonial screenshot</div></div>
+      <div class="rp-tile r11"><div class="rp-ph">Views-today counter · live</div></div>
+      <div class="rp-tile r12"><div class="rp-ph">Top clip · 12.4M</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="sec" id="cases" data-screen-label="03 Cases">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="cases-h2">Take a look at some<br><span class="caser">case studies.</span></h2>
+    </div>
+  </div>
+  <div class="cases-wrap">
+    <button class="cases-nav prev" id="cases-prev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <div class="cases-viewport">
+      <div class="cases-track" id="cases-track">
+        <div class="case" data-case="magnus">
+          <div class="case-img dark"><div class="ph">Cover · Magnus C.</div><div class="views-block"><div class="vn">67.6M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Magnus Carlsen</h3><div class="tag">Creator</div></div>
+        </div>
+        <div class="case" data-case="helix">
+          <div class="case-img mid light"><div class="ph">Cover · Helix</div><div class="views-block"><div class="vn">44.1M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Helix</h3><div class="tag">SaaS</div></div>
+        </div>
+        <div class="case" data-case="lith">
+          <div class="case-img dark"><div class="ph">Cover · Lith &amp; Co</div><div class="views-block"><div class="vn">21.3M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Lith &amp; Co</h3><div class="tag">Apparel</div></div>
+        </div>
+        <div class="case" data-case="aero">
+          <div class="case-img mid light"><div class="ph">Cover · Aero</div><div class="views-block"><div class="vn">38.9M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Aero</h3><div class="tag">DTC</div></div>
+        </div>
+        <div class="case" data-case="verdant">
+          <div class="case-img dark"><div class="ph">Cover · Verdant</div><div class="views-block"><div class="vn">52.4M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Verdant</h3><div class="tag">Skincare</div></div>
+        </div>
+        <div class="case" data-case="solvex">
+          <div class="case-img mid light"><div class="ph">Cover · Solvex</div><div class="views-block"><div class="vn">29.7M</div><div class="vl">Views</div></div></div>
+          <div class="case-title"><h3>Solvex</h3><div class="tag">Fintech</div></div>
+        </div>
+      </div>
+    </div>
+    <button class="cases-nav next" id="cases-next" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- PROCESS — pinned scroll -->
+<section id="process" class="process" data-screen-label="04 Process">
+  <div class="process-scroll" id="process-scroll">
+    <div class="process-sticky">
+      <div class="process-title">
+        <h2>Our <em>process</em>, in four steps.</h2>
+      </div>
+      <div class="process-inner">
+        <div class="process-left">
+          <div class="steps-list" id="steps-list">
+            <div class="step-row" data-step="0">
+              <div class="num">01</div>
+              <div class="body">
+                <h3>Strategy call.</h3>
+                <p>A 30-minute kickoff to map your content library, audience, and what's already working.</p>
+              </div>
+            </div>
+            <div class="step-row" data-step="1">
+              <div class="num">02</div>
+              <div class="body">
+                <h3>Clippers get to work.</h3>
+                <p>We match a squad of editors from our 40k-strong roster, ranked on your vertical and language.</p>
+              </div>
+            </div>
+            <div class="step-row" data-step="2">
+              <div class="num">03</div>
+              <div class="body">
+                <h3>Clips ship daily.</h3>
+                <p>Each morning a new batch lands in your dashboard. Approve or tweak in one click.</p>
+              </div>
+            </div>
+            <div class="step-row" data-step="3">
+              <div class="num">04</div>
+              <div class="body">
+                <h3>Watch the views grow.</h3>
+                <p>Weekly reporting ties every clip back to landing-page visits and booked calls. Winners compound.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="process-right">
+          <div class="proc-vis active" data-vis="0">
+            <div class="pv-brief">
+              <h4>Campaign brief</h4>
+              <div class="row"><span>Client</span><span>Helix Commerce</span></div>
+              <div class="row"><span>Source</span><span>3× Podcast · 12h</span></div>
+              <div class="row"><span>Platforms</span><span>TT · IG · YT</span></div>
+              <div class="row"><span>Clips / month</span><span>120</span></div>
+              <div class="row hl"><span>Projected views</span><span>28–44M</span></div>
+            </div>
+          </div>
+          <div class="proc-vis" data-vis="1">
+            <div class="pv-grid" id="grid-anim"></div>
+          </div>
+          <div class="proc-vis" data-vis="2">
+            <div class="pv-feed">
+              <div class="it"><div class="t"></div><div class="n">clip_0482.mp4</div><div class="v">2.4M</div></div>
+              <div class="it"><div class="t g"></div><div class="n">clip_0481.mp4</div><div class="v">891K</div></div>
+              <div class="it"><div class="t"></div><div class="n">clip_0480.mp4</div><div class="v">1.1M</div></div>
+              <div class="it"><div class="t"></div><div class="n">clip_0479.mp4</div><div class="v">3.9M</div></div>
+              <div class="it"><div class="t g"></div><div class="n">clip_0478.mp4</div><div class="v">412K</div></div>
+              <div class="it"><div class="t"></div><div class="n">clip_0477.mp4</div><div class="v">2.1M</div></div>
+            </div>
+          </div>
+          <div class="proc-vis" data-vis="3">
+            <div class="pv-chart">
+              <div class="top">
+                <div class="lab">30-day views</div>
+                <div class="num">28.4M</div>
+              </div>
+              <div class="bars">
+                <div class="bar" style="height:12%"></div>
+                <div class="bar" style="height:18%"></div>
+                <div class="bar" style="height:15%"></div>
+                <div class="bar" style="height:24%"></div>
+                <div class="bar" style="height:20%"></div>
+                <div class="bar" style="height:32%"></div>
+                <div class="bar" style="height:28%"></div>
+                <div class="bar" style="height:40%"></div>
+                <div class="bar" style="height:44%"></div>
+                <div class="bar" style="height:38%"></div>
+                <div class="bar" style="height:55%"></div>
+                <div class="bar" style="height:62%"></div>
+                <div class="bar" style="height:70%"></div>
+                <div class="bar" style="height:84%"></div>
+                <div class="bar" style="height:95%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="sec founders" id="founders" data-screen-label="05 Founders">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Meet the <em>founders.</em></h2>
+      <p>A small team of operators that ships every day. Click any card to learn more.</p>
+    </div>
+    <div class="founders-grid">
+      <div class="fnd fa" data-person="jaden">
+        <div class="fnd-img">
+          <div class="portrait">Portrait — Jaden</div>
+          <div class="overlay"></div>
+          <div class="wordmark"><strong style="font-size:28px;font-weight:500;letter-spacing:-0.02em">Jaden</strong></div>
+        </div>
+        <div class="fnd-body">
+          <div class="role">Co-Founder</div>
+          <h3>Jaden Malcolm</h3>
+          <p>Has shipped 600M+ views in short-form before starting Vision Clipping. Runs the clipper network and the editorial standard across all client campaigns.</p>
+          <div class="socials"><a href="#" onclick="event.stopPropagation()">X</a><a href="#" onclick="event.stopPropagation()">In</a><a href="#" onclick="event.stopPropagation()">@</a></div>
+        </div>
+      </div>
+
+      <div class="fnd fb" data-person="amara">
+        <div class="fnd-img">
+          <div class="portrait">Portrait — Amara</div>
+          <div class="overlay"></div>
+          <div class="wordmark"><strong style="font-size:28px;font-weight:500;letter-spacing:-0.02em">Amara</strong></div>
+        </div>
+        <div class="fnd-body">
+          <div class="role">Co-Founder</div>
+          <h3>Emrah Bayraktar</h3>
+          <p>Ex-performance marketing lead who's scaled $40M+ in paid spend. Owns the client strategy and the attribution side — if it's measurable, she's measured it.</p>
+          <div class="socials"><a href="#" onclick="event.stopPropagation()">X</a><a href="#" onclick="event.stopPropagation()">In</a><a href="#" onclick="event.stopPropagation()">@</a></div>
+        </div>
+      </div>
+
+      <div class="fnd fc" data-person="agency">
+        <div class="fnd-img">
+          <div class="portrait">Vision Clipping</div>
+          <div class="overlay"></div>
+          <div class="wordmark"><img src="assets/wordmark-dark.png" alt="Vision Clipping"></div>
+        </div>
+        <div class="fnd-body">
+          <div class="role">The Agency</div>
+          <h3>Vision Clipping</h3>
+          <p>Founded 2023. London, Los Angeles, remote worldwide. 40k clippers, 3B+ views delivered, and a team obsessed with making distribution the quiet advantage.</p>
+          <div class="socials"><a href="#" onclick="event.stopPropagation()">X</a><a href="#" onclick="event.stopPropagation()">In</a><a href="#" onclick="event.stopPropagation()">@</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US (pinned reveal) -->
+<section class="why" id="whyus-pinned" data-screen-label="06 Why Us">
+  <div class="why-scroll" id="why-scroll">
+    <div class="why-sticky">
+      <div class="why-header">
+        <div class="tag">Why Us</div>
+        <h2>Four reasons we're <em>different</em>.</h2>
+      </div>
+      <div class="why-stage" id="why-stage">
+        <div class="why-slide active" data-slide="0">
+          <div class="left">
+            <div class="idx">01</div>
+            <h3>Handpicked editors who understand your voice.</h3>
+            <p>Launch campaigns with editors matched to your vertical — no generic content, no templates. Authentic storytelling that drives engagement.</p>
+          </div>
+          <div class="right">
+            <div class="why-viz">
+              <div class="wv-roster">
+                <div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div>
+                <div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div>
+                <div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div>
+                <div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div><div class="av"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-slide" data-slide="1">
+          <div class="left">
+            <div class="idx">02</div>
+            <h3>Performance-verified creators, proven in your space.</h3>
+            <p>Access top-performing editors with a track record in your industry. Every creator is ranked on their hit-rate so your investment delivers ROI.</p>
+          </div>
+          <div class="right">
+            <div class="why-viz">
+              <div class="wv-rank">
+                <div class="rk"><div class="rn">01</div><div class="rb"><div class="rbf" style="width:94%"></div></div><div class="rv">94%</div></div>
+                <div class="rk"><div class="rn">02</div><div class="rb"><div class="rbf" style="width:88%"></div></div><div class="rv">88%</div></div>
+                <div class="rk"><div class="rn">03</div><div class="rb"><div class="rbf" style="width:81%"></div></div><div class="rv">81%</div></div>
+                <div class="rk"><div class="rn">04</div><div class="rb"><div class="rbf" style="width:76%"></div></div><div class="rv">76%</div></div>
+                <div class="rk"><div class="rn">05</div><div class="rb"><div class="rbf" style="width:68%"></div></div><div class="rv">68%</div></div>
+                <div class="rk"><div class="rn">06</div><div class="rb"><div class="rbf" style="width:62%"></div></div><div class="rv">62%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-slide" data-slide="2">
+          <div class="left">
+            <div class="idx">03</div>
+            <h3>Real human engagement — no bots, no fake traffic.</h3>
+            <p>Every interaction is verified human engagement on real platforms. Real views from real people who convert into real customers.</p>
+          </div>
+          <div class="right">
+            <div class="why-viz">
+              <div class="wv-human">
+                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot x"></div></div>
+                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <div class="cap"><span class="num">100%</span>Verified human views · 0% bot traffic</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-slide" data-slide="3">
+          <div class="left">
+            <div class="idx">04</div>
+            <h3>End-to-end — strategy, posting, optimization.</h3>
+            <p>From strategy to posting to optimization — we handle everything. You get detailed reports and growing reach while you focus on your business.</p>
+          </div>
+          <div class="right">
+            <div class="why-viz">
+              <div class="wv-pipe">
+                <div class="row"><div class="dt"></div>Strategy locked<div class="ra">Day 0</div></div>
+                <div class="row"><div class="dt"></div>Editors matched<div class="ra">Day 1</div></div>
+                <div class="row"><div class="dt"></div>First clips live<div class="ra">Day 3</div></div>
+                <div class="row"><div class="dt"></div>Daily posting<div class="ra">Ongoing</div></div>
+                <div class="row p"><div class="dt"></div>Weekly reports<div class="ra">Friday</div></div>
+                <div class="row p"><div class="dt"></div>Optimize winners<div class="ra">Rolling</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-dots" id="why-dots">
+        <div class="dt active"></div><div class="dt"></div><div class="dt"></div><div class="dt"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE SCALE WITH YOU — pinned 5-card deck, scroll-driven + arrows -->
+<section class="whyus" id="scale" data-screen-label="07 How We Scale" style="background:#fafafa;border-top:1px solid var(--line)">
+  <div class="scale-scroll" id="scale-scroll" style="position:relative;height:500vh">
+    <div class="scale-sticky" style="position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+      <div class="wrap">
+        <div class="sec-head" style="margin-bottom:40px">
+          <h2>How we <em>scale</em> with you.</h2>
+          <p>Five levers we pull as you grow — from kickoff through compounding distribution.</p>
+        </div>
+        <div class="wu-deck" id="wu-deck">
+          <div class="wu-stage" id="wu-stage">
+            <article class="wu-card" data-i="0">
+              <div class="wu-num">01</div>
+              <div class="wu-tag">Speed</div>
+              <h3>Live in 72 hours, not 6 weeks.</h3>
+              <p>Strategy on day one, editors matched by day two, first clips shipping before most agencies have booked a kickoff.</p>
+              <div class="wu-stat"><strong>72h</strong><span>From sign-off to live</span></div>
+            </article>
+            <article class="wu-card" data-i="1">
+              <div class="wu-num">02</div>
+              <div class="wu-tag">Scale</div>
+              <h3>40,000 clippers on standby.</h3>
+              <p>We don't bottleneck on two in-house editors. Ramp volume up 10× in a week without touching your payroll.</p>
+              <div class="wu-stat"><strong>40k+</strong><span>Vetted creators</span></div>
+            </article>
+            <article class="wu-card" data-i="2">
+              <div class="wu-num">03</div>
+              <div class="wu-tag">Performance</div>
+              <h3>Editors ranked on hit-rate.</h3>
+              <p>Every clipper has a live score on your campaign. Underperformers get rotated out; winners get more volume.</p>
+              <div class="wu-stat"><strong>94%</strong><span>Top-decile hit-rate</span></div>
+            </article>
+            <article class="wu-card" data-i="3">
+              <div class="wu-num">04</div>
+              <div class="wu-tag">Attribution</div>
+              <h3>Numbers you can defend.</h3>
+              <p>Per-clip, per-platform, per-funnel-step dashboards. Every view tied back to a creative, a post, a cost.</p>
+              <div class="wu-stat"><strong>100%</strong><span>Platform-native views</span></div>
+            </article>
+            <article class="wu-card" data-i="4">
+              <div class="wu-num">05</div>
+              <div class="wu-tag">Ownership</div>
+              <h3>No lock-ins, no theatre.</h3>
+              <p>Month-to-month. You own the accounts, the content library, and every asset. We just run the operation.</p>
+              <div class="wu-stat"><strong>0</strong><span>Locked contracts</span></div>
+            </article>
+          </div>
+      <div class="wu-controls">
+        <button class="wu-nav prev" id="wu-prev" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <div class="wu-dots" id="wu-dots">
+          <button class="wu-dot active" data-i="0"></button>
+          <button class="wu-dot" data-i="1"></button>
+          <button class="wu-dot" data-i="2"></button>
+          <button class="wu-dot" data-i="3"></button>
+          <button class="wu-dot" data-i="4"></button>
+        </div>
+        <button class="wu-nav next" id="wu-next" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec pricing" id="pricing" data-screen-label="07 Pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Pricing <em>models.</em></h2>
+      <p>Three ways to work with us — pick the one that fits, or combine.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pr">
+        <span class="pr-glow"></span>
+        <div class="pr-ic">I</div>
+        <h3>Internal campaigns</h3>
+        <div class="pr-sub">Monthly retainer plus a performance pool of vetted in-house clippers — paid per view delivered.</div>
+        <div class="pr-divider"></div>
+        <ul>
+          <li>Dedicated editor squad & daily posting</li>
+          <li>Priced on CPM, paid per view</li>
+          <li>Our ranked in-house roster</li>
+          <li>Weekly analytics review</li>
+        </ul>
+        <div class="pr-price"><span class="amt">From $8k</span> / month<br>+ CPM</div>
+      </div>
+
+      <div class="pr">
+        <span class="pr-glow"></span>
+        <div class="pr-ic">P</div>
+        <h3>Public campaigns</h3>
+        <div class="pr-sub">Open pool across 40k+ creators. Highest reach, lowest CPM, winner-take-most payouts.</div>
+        <div class="pr-divider"></div>
+        <ul>
+          <li>40,000+ creator pool</li>
+          <li>Per-clip min/max caps</li>
+          <li>Winner-take-most payouts</li>
+          <li>Best for brand launches</li>
+        </ul>
+        <div class="pr-price"><span class="amt">From 30%</span> of budget spent</div>
+      </div>
+
+      <div class="pr">
+        <span class="pr-glow"></span>
+        <div class="pr-ic">M</div>
+        <h3>Meta Ads</h3>
+        <div class="pr-sub">Top-performing organic clips turned into paid creative across Meta.</div>
+        <div class="pr-divider"></div>
+        <ul>
+          <li>Paid amplification of winners</li>
+          <li>Full-funnel creative testing</li>
+          <li>Whitelisted from creator accounts</li>
+          <li>Ad account managed by us</li>
+        </ul>
+        <div class="pr-price"><span class="amt">From 10%</span> of ad spend</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="sec calc" id="calc" data-screen-label="07 Calculator">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Plug in your <em>numbers.</em></h2>
+      <p>Campaign math — views, clicks and CPC, recalculated live as you type.</p>
+    </div>
+    <div class="calc-body">
+      <div class="calc-inputs">
+        <h3>Your budget</h3>
+
+        <div class="calc-section">
+          <div class="calc-section-label">Campaign</div>
+          <div class="field">
+            <label>Campaign budget<span class="help" data-tip="Total dollars allocated to this clipping campaign — covers editor pay, incentives and performance pool.">?</span></label>
+            <div class="input-wrap">
+              <span class="sym">$</span>
+              <input type="text" id="in-budget" value="5,000" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>CPM rate<span class="help" data-tip="Cost per 1,000 views. $1 CPM means every 1,000 views of your clips costs $1.">?</span></label>
+            <div class="input-wrap">
+              <span class="sym">$</span>
+              <input type="text" id="in-cpm" value="1.00" inputmode="decimal">
+              <span class="suf">/ 1K views</span>
+            </div>
+          </div>
+
+          <div class="twocol">
+            <div class="field" style="margin-bottom:0">
+              <label>Min per clip</label>
+              <div class="input-wrap">
+                <span class="sym">$</span>
+                <input type="text" id="in-min" value="10" inputmode="numeric">
+              </div>
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label>Max per clip</label>
+              <div class="input-wrap">
+                <span class="sym">$</span>
+                <input type="text" id="in-max" value="500" inputmode="numeric">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-section sliders">
+          <div class="calc-section-label">Performance</div>
+          <div class="field">
+            <div class="rng-top">
+              <label style="margin:0">Overperformance multiplier</label>
+              <div class="v" id="h-op">1.0×</div>
+            </div>
+            <div class="rng"><input type="range" id="in-op" min="1" max="10" step="0.5" value="1"></div>
+          </div>
+
+          <div class="field" style="margin-bottom:0">
+            <div class="rng-top">
+              <label style="margin:0">View → click rate</label>
+              <div class="v" id="h-ctr">1.00%</div>
+            </div>
+            <div class="rng"><input type="range" id="in-ctr" min="0.1" max="10" step="0.1" value="1"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <h3>What your budget buys <span class="live"><span class="live-dot"></span>Live</span></h3>
+
+        <div class="kpi-hero">
+          <div class="l">Expected views</div>
+          <div class="n"><span id="out-views">5,000,000</span></div>
+          <div class="s">Views = Budget ÷ CPM × 1,000 × Overperformance</div>
+        </div>
+
+        <div class="kpi" style="display:grid;grid-template-columns:1fr auto;align-items:baseline;column-gap:20px">
+          <div class="l" style="grid-column:1/2">Expected clicks</div>
+          <div class="l" style="grid-column:2/3;text-align:right;opacity:0.7">View → click rate</div>
+          <div class="n" id="out-clicks" style="grid-column:1/2">50,000</div>
+          <div class="n" id="out-ctr-mini" style="grid-column:2/3;text-align:right;font-size:22px;color:#e88890">1.00%</div>
+          <div id="ctr-note" style="grid-column:1/-1;font-size:11.5px;color:rgba(255,255,255,0.55);margin-top:8px;line-height:1.5;max-width:100%">Average click-through — on par with paid ads, for a fraction of the cost.</div>
+        </div>
+
+        <div class="cpc-card good" id="cpc-card">
+          <div class="head">
+            <div class="l">Cost per click</div>
+            <div class="badge" id="cpc-badge">Beats paid ads</div>
+          </div>
+          <div class="big">$<span id="out-cpc">0.10</span></div>
+          <div class="benches">
+            <div class="b you" id="bench-you"><span class="bn">You</span><div class="bt"><div class="bf" id="bar-you" style="width:2%"></div></div><span class="br" id="bar-you-val">$0.10</span></div>
+            <div class="b"><span class="bn">Google</span><div class="bt"><div class="bf" style="width:40%"></div></div><span class="br">$1–3</span></div>
+            <div class="b"><span class="bn">Meta</span><div class="bt"><div class="bf" style="width:30%"></div></div><span class="br">$0.50–3</span></div>
+            <div class="b"><span class="bn">TikTok</span><div class="bt"><div class="bf" style="width:35%"></div></div><span class="br">$1–3</span></div>
+            <div class="b"><span class="bn">YouTube</span><div class="bt"><div class="bf" style="width:60%"></div></div><span class="br">$3–5</span></div>
+          </div>
+        </div>
+
+        <div class="pool-card">
+          <div>
+            <div class="l">Paid clips</div>
+            <div class="s">Funded from campaign budget</div>
+          </div>
+          <div class="big" style="font-weight:600;letter-spacing:-0.025em;white-space:nowrap;padding-left:8px"><span id="b-clips-min">10</span>–<span id="b-clips-max">500</span></div>
+        </div>
+
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+          <a href="#cta" class="calc-cta" style="position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 28px;background:#fff;color:var(--ox);border-radius:999px;font-size:14px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;overflow:hidden;isolation:isolate;box-shadow:0 4px 14px rgba(0,0,0,0.25)">
+            Book your strategy call
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+          </a>
+          <div style="font-size:12px;color:rgba(255,255,255,0.55)">Want those views &amp; clicks for your brand?</div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-disclaimer">Estimates based on your inputs. Actual performance depends on creative, audience fit and funnel quality.</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" data-screen-label="08 FAQ">
+  <div class="wrap">
+    <div class="sec-head"><h2>Frequently asked <em>questions.</em></h2></div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">How does this compare to running paid ads?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">Paid ads rent attention. Clipping builds a library that compounds. Most clients run both — we handle the organic leverage, your ads team handles bottom-funnel retargeting.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">What happens if I don't have a lot of content?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">Three hours of honest on-camera footage is enough for a first month. We'll run a recording-day playbook with you and walk away with 90–120 days of clippable material.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">Are the views authentic?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">100%. Every post is on-platform, on real accounts, surfaced by the algorithm to real humans. You can verify every number against platform-native analytics.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">What results can I expect?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">Clients on our core retainer average 8–30M views in month one, scaling to 30–120M by month three. Use the calculator above to project for your own inputs.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">What platforms do you cover?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">TikTok, Instagram Reels, YouTube Shorts and X by default. LinkedIn clips on request for B2B clients.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-top"><div class="faq-q">How does pricing work?</div><div class="faq-ico"></div></div>
+        <div class="faq-a-wrap"><div class="faq-a">Monthly retainer plus an optional CPM pool. Retainer covers strategy, editing, publishing and reporting. The CPM pool is performance-based on top — pay for views delivered.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA w/ scroll reveal -->
+<section class="finalcta" id="cta" data-screen-label="09 CTA">
+  <div class="wrap">
+    <h2 class="finalcta-text" id="finalcta-text">Use <span class="ox">Vision Clipping</span> to turn your content into your <span class="ox">biggest distribution channel.</span></h2>
+    <p class="finalcta-sub">Book a 30-minute strategy call. You'll leave with a 90-day plan — whether you hire us or not.</p>
+    <div class="cta-block">
+      <a href="#" class="glow-cta">
+        <span class="glow-cta-rings"></span>
+        Book your strategy call
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+      </a>
+      <div class="cta-sub">See if we are the right partner for you</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/wordmark-dark.png" alt="Vision Clipping" />
+        <p>A clipping agency for founders, creators and brands who need distribution at scale.</p>
+      </div>
+      <div class="foot-col"><h4>Navigate</h4>
+        <a href="#cases">Case Studies</a><a href="#process">Process</a><a href="#why">Why Us</a><a href="#faq">FAQ</a>
+      </div>
+      <div class="foot-col"><h4>Tools</h4>
+        <a href="#calc">Budget Calculator</a><a href="#cta">Book a call</a>
+      </div>
+      <div class="foot-col"><h4>Contact</h4>
+        <a href="mailto:hello@vision-clipping.com">hello@vision-clipping.com</a>
+        <a href="#">Instagram</a><a href="#">X / Twitter</a>
+      </div>
+    </div>
+    <div class="foot-bot"><div>© 2026 Vision Clipping</div><div>London · Los Angeles</div></div>
+  </div>
+</footer>
+
+<!-- CASE STUDY MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-inner">
+    <div class="modal-hero" id="modal-hero">
+      <div class="ph" id="modal-ph">Case cover</div>
+      <div class="views-block">
+        <div class="vn" id="modal-vn">67.6M</div>
+        <div class="vl">Total views</div>
+      </div>
+      <div class="modal-close" id="modal-close">×</div>
+    </div>
+    <div class="modal-body">
+      <div class="tag" id="modal-tag">Personal Brand · Q2</div>
+      <h2 id="modal-title">Magnus Carlsen — chess content, engineered for gen-Z's feed.</h2>
+      <div class="meta">
+        <div><span>Duration</span><strong id="modal-dur">6 weeks</strong></div>
+        <div><span>Platforms</span><strong id="modal-plats">TikTok · Reels · Shorts</strong></div>
+        <div><span>Clips shipped</span><strong id="modal-clips">184</strong></div>
+      </div>
+      <p id="modal-p1">Magnus came to us with a backlog of long-form interviews and streams — and an audience that skewed older than his category's growth edge. The brief was simple: put chess in front of a generation that doesn't open chess content.</p>
+      <p id="modal-p2">Over six weeks, a matched squad of 14 editors cut 184 platform-native clips — pattern-interrupt hooks, reaction cuts, and visualizations of the board state tuned for vertical. We posted from three managed accounts with platform-specific captions.</p>
+      <p id="modal-p3">The result: 67.6M views, 2.3M net-new followers and a top clip that did 12.4M on its own. The audience was 68% under-25 by the end of the campaign.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* LENIS */
+const lenis = new Lenis({
+  duration: 0.9,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  wheelMultiplier: 1.05,
+});
+(function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if(id.length > 1){
+      const el = document.querySelector(id);
+      if(el){ e.preventDefault(); lenis.scrollTo(el, {offset: -40}); }
+    }
+  });
+});
+
+/* Hero underline SVGs — inject wavy hand-drawn paths into .u spans */
+(() => {
+  document.querySelectorAll('.hero h1 .u').forEach((u, i) => {
+    if(u.querySelector('svg')) return;
+    const paths = [
+      'M2,14 Q260,6 518,14',
+      'M2,14 Q180,20 260,12 T518,14'
+    ];
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 520 24');
+    svg.setAttribute('preserveAspectRatio','none');
+    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d', paths[i % paths.length]);
+    svg.appendChild(p);
+    u.appendChild(svg);
+  });
+})();
+
+/* RESULTS parallax */
+(() => {
+  const rows = document.querySelectorAll('#res-parallax .rp-row');
+  if(!rows.length) return;
+  // duplicate each row's tiles so they flow off-screen
+  rows.forEach(row => {
+    const speed = parseFloat(row.dataset.speed) || 0.4;
+    // offset start so rows stagger
+    row.dataset.base = speed > 0 ? '-80' : '0';
+    row.style.transform = `translateX(${row.dataset.base}px)`;
+  });
+  lenis.on('scroll', () => {
+    const section = document.querySelector('.results');
+    if(!section) return;
+    const r = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // progress from when section enters viewport (bottom) to fully exits (top)
+    const p = (vh - r.top) / (vh + r.height);
+    rows.forEach(row => {
+      const speed = parseFloat(row.dataset.speed) || 0.4;
+      const base = parseFloat(row.dataset.base) || 0;
+      row.style.transform = `translateX(${base + (p - 0.5) * speed * 600}px)`;
+    });
+  });
+})();
+
+/* Clipper grid anim */
+(() => {
+  const g = document.getElementById('grid-anim');
+  if(!g) return;
+  for(let i=0;i<40;i++){ const c = document.createElement('div'); c.className='c'; g.appendChild(c); }
+  const cells = [...g.querySelectorAll('.c')];
+  const run = () => {
+    cells.forEach(c => c.className='c');
+    const s = [...cells].sort(() => Math.random() - 0.5);
+    s.slice(0,12).forEach(c => c.classList.add('on'));
+    s.slice(12,22).forEach(c => c.classList.add('oni'));
+  };
+  run(); setInterval(run, 2200);
+})();
+
+/* PROCESS pinned scroll + click-to-jump */
+(() => {
+  const sec = document.getElementById('process-scroll');
+  const rows = document.querySelectorAll('.step-row');
+  const vises = document.querySelectorAll('.proc-vis');
+  if(!sec) return;
+  const setActive = (idx) => {
+    rows.forEach((el,i) => el.classList.toggle('active', i === idx));
+    vises.forEach((el,i) => el.classList.toggle('active', i === idx));
+  };
+  lenis.on('scroll', () => {
+    const r = sec.getBoundingClientRect();
+    const total = sec.offsetHeight - window.innerHeight;
+    const raw = -r.top / total;
+    if(raw < 0){ setActive(0); return; }
+    const p = Math.min(0.999, Math.max(0, raw));
+    const idx = Math.min(3, Math.floor(p * 4));
+    setActive(idx);
+  });
+  // Click a step row → scroll to the section position matching that step (so pin + state align)
+  rows.forEach((row, i) => {
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+      const total = sec.offsetHeight - window.innerHeight;
+      const secTop = sec.getBoundingClientRect().top + window.scrollY;
+      // target a position that centers the step within its quarter
+      const target = secTop + (i + 0.5) * (total / 4);
+      lenis.scrollTo(target, { duration: 0.9 });
+      setActive(i);
+    });
+  });
+})();
+
+/* CASES CAROUSEL */
+(() => {
+  const track = document.getElementById('cases-track');
+  const prev = document.getElementById('cases-prev');
+  const next = document.getElementById('cases-next');
+  if(!track) return;
+  const cards = track.children;
+  const total = cards.length;
+  const visible = 3;
+  let index = 0;
+  const step = () => {
+    if(!cards.length) return 0;
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    const gap = 24;
+    return cardWidth + gap;
+  };
+  const update = () => {
+    track.style.transform = `translateX(${-index * step()}px)`;
+    prev.toggleAttribute('disabled', index === 0);
+    next.toggleAttribute('disabled', index >= total - visible);
+  };
+  prev.addEventListener('click', () => { index = Math.max(0, index - 1); update(); });
+  next.addEventListener('click', () => { index = Math.min(total - visible, index + 1); update(); });
+  window.addEventListener('resize', update);
+  update();
+  // subtle scroll reveal — slight translateY when entering viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.15 });
+  [...cards].forEach((c,i) => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(24px)';
+    c.style.transition = `opacity 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s, transform 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s, translateX 0s`;
+    observer.observe(c);
+  });
+})();
+
+/* WHY US — pinned scroll reveal */
+(() => {
+  const sec = document.getElementById('why-scroll');
+  const slides = document.querySelectorAll('.why-slide');
+  const dots = document.querySelectorAll('#why-dots .dt');
+  if(!sec || !slides.length) return;
+  const setActive = (idx) => {
+    slides.forEach((el,i) => el.classList.toggle('active', i === idx));
+    dots.forEach((el,i) => el.classList.toggle('active', i === idx));
+  };
+  lenis.on('scroll', () => {
+    const r = sec.getBoundingClientRect();
+    const total = sec.offsetHeight - window.innerHeight;
+    const p = Math.min(0.999, Math.max(0, -r.top / total));
+    const idx = Math.min(slides.length - 1, Math.floor(p * slides.length));
+    setActive(idx);
+  });
+  // Click dots → jump to matching scroll position
+  dots.forEach((d, i) => {
+    d.style.cursor = 'pointer';
+    d.addEventListener('click', () => {
+      const total = sec.offsetHeight - window.innerHeight;
+      const secTop = sec.getBoundingClientRect().top + window.scrollY;
+      const target = secTop + (i + 0.5) * (total / slides.length);
+      lenis.scrollTo(target, { duration: 0.9 });
+      setActive(i);
+    });
+  });
+})();
+
+/* FOUNDER MODAL — reuses #modal with founder content */
+(() => {
+  const modal = document.getElementById('modal');
+  if(!modal) return;
+  const heroEl = document.getElementById('modal-hero');
+  const founders = {
+    jaden:{tone:'red',views:'600M+',tag:'Co-Founder',title:'Jaden Malcolm',dur:'Vision Clipping',plats:'Network · Editorial',clips:'40k',
+      p1:"Jaden has shipped 600M+ views in short-form across personal brands, B2B founders and consumer launches before starting Vision Clipping in 2023.",
+      p2:"He runs the clipper network and the editorial standard across all client campaigns — every handoff brief, every QA pass, every winner-analysis session.",
+      p3:"Previously: head of content at a DTC brand that grew organic distribution from 0 to 80M monthly impressions in 14 months. Before that, an editor on four top-50 podcasts."},
+    amara:{tone:'mid',views:'$40M+',tag:'Co-Founder',title:'Emrah Bayraktar',dur:'Vision Clipping',plats:'Strategy · Attribution',clips:'8 yrs',
+      p1:"Amara is an ex-performance marketing lead who has scaled $40M+ in paid spend across Meta, TikTok, Google and programmatic.",
+      p2:"She owns client strategy and the attribution side — if it's measurable, she's measured it. Every campaign gets a bespoke reporting dashboard with per-clip, per-platform, and per-funnel-step attribution.",
+      p3:"Previously: head of growth at two VC-backed DTC brands. Ex-consultant, ex-engineer. Builds the tooling the agency runs on."},
+    agency:{tone:'red',views:'3B+',tag:'The Agency',title:'Vision Clipping',dur:'Since 2023',plats:'London · LA · Remote',clips:'40k',
+      p1:"Vision Clipping was founded in 2023 with a simple thesis: organic distribution is the highest-leverage lever a modern business has, and it's the one most teams don't have the headcount to pull.",
+      p2:"Today we run daily clipping operations for founders, brands and creators across London, LA and remote. We've delivered 3B+ views and counting.",
+      p3:"Our pitch is boring on purpose: a matched squad of editors, a reporting dashboard, and weekly reviews. No influencer theatre, no vanity vendor decks."}
+  };
+  const open = key => {
+    const c = founders[key];
+    if(!c) return;
+    heroEl.className = 'modal-hero ' + c.tone;
+    document.getElementById('modal-ph').textContent = c.title;
+    document.getElementById('modal-vn').textContent = c.views;
+    document.getElementById('modal-tag').textContent = c.tag;
+    document.getElementById('modal-title').textContent = c.title;
+    document.getElementById('modal-dur').textContent = c.dur;
+    document.getElementById('modal-plats').textContent = c.plats;
+    document.getElementById('modal-clips').textContent = c.clips;
+    document.getElementById('modal-p1').textContent = c.p1;
+    document.getElementById('modal-p2').textContent = c.p2;
+    document.getElementById('modal-p3').textContent = c.p3;
+    modal.classList.add('open'); lenis.stop(); modal.scrollTop = 0;
+  };
+  document.querySelectorAll('.fnd').forEach(f => f.addEventListener('click', () => open(f.dataset.person)));
+})();
+
+/* CASES H2 reveal on scroll */
+(() => {
+  const h = document.querySelector('.cases-h2');
+  if(!h) return;
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if(e.isIntersecting) h.classList.add('reveal'); });
+  }, { threshold: 0.55 });
+  io.observe(h);
+})();
+
+/* HOW WE SCALE — pinned scroll-driven card deck + arrows */
+(() => {
+  const stage = document.getElementById('wu-stage');
+  if(!stage) return;
+  const cards = [...stage.querySelectorAll('.wu-card')];
+  const dots = [...document.querySelectorAll('#wu-dots .wu-dot')];
+  const prev = document.getElementById('wu-prev');
+  const next = document.getElementById('wu-next');
+  const scrollSec = document.getElementById('scale-scroll');
+  let idx = 0;
+  let userLock = false; let unlockTimer = null;
+  const layout = () => {
+    cards.forEach((c, i) => {
+      const d = i - idx;
+      const abs = Math.abs(d);
+      const sign = Math.sign(d);
+      if(abs > 2){
+        c.style.opacity = '0';
+        c.style.pointerEvents = 'none';
+        c.style.transform = `translateX(${sign * 180}px) scale(0.7) rotateY(${-sign * 24}deg)`;
+        c.style.zIndex = '0';
+        c.style.filter = 'blur(4px)';
+        return;
+      }
+      c.style.pointerEvents = abs === 0 ? 'auto' : 'none';
+      const tx = d * 120;
+      const tz = -abs * 120;
+      const ry = -sign * (abs * 14);
+      const scale = 1 - abs * 0.08;
+      const opacity = abs === 0 ? 1 : (abs === 1 ? 0.55 : 0.22);
+      c.style.opacity = opacity;
+      c.style.transform = `translate3d(${tx}px,0,${tz}px) rotateY(${ry}deg) scale(${scale})`;
+      c.style.zIndex = String(10 - abs);
+      c.style.filter = abs === 0 ? 'none' : `blur(${abs * 1.5}px)`;
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  const go = (n) => {
+    const nn = Math.max(0, Math.min(cards.length - 1, n));
+    if(nn === idx) return;
+    idx = nn; layout();
+  };
+  const jumpTo = (i) => {
+    if(!scrollSec) return;
+    const total = scrollSec.offsetHeight - window.innerHeight;
+    const secTop = scrollSec.getBoundingClientRect().top + window.scrollY;
+    const target = secTop + (i + 0.5) * (total / cards.length);
+    lenis.scrollTo(target, { duration: 0.9 });
+  };
+  const manualGo = (n) => {
+    userLock = true;
+    clearTimeout(unlockTimer);
+    unlockTimer = setTimeout(() => userLock = false, 1100);
+    const nn = Math.max(0, Math.min(cards.length - 1, n));
+    go(nn);
+    jumpTo(nn);
+  };
+  prev.addEventListener('click', () => manualGo(idx - 1));
+  next.addEventListener('click', () => manualGo(idx + 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => manualGo(i)));
+  cards.forEach((c, i) => c.addEventListener('click', () => { if(i !== idx) manualGo(i); }));
+  layout();
+  // Scroll-drive: map pinned section progress → card index
+  lenis.on('scroll', () => {
+    if(userLock) return;
+    if(!scrollSec) return;
+    const r = scrollSec.getBoundingClientRect();
+    const total = scrollSec.offsetHeight - window.innerHeight;
+    const raw = -r.top / total;
+    if(raw < 0){ if(idx !== 0){ idx = 0; layout(); } return; }
+    const p = Math.min(0.999, Math.max(0, raw));
+    const target = Math.min(cards.length - 1, Math.floor(p * cards.length));
+    if(target !== idx){ idx = target; layout(); }
+  });
+})();
+
+/* SLIDER value animation - subtle pulse on change */
+(() => {
+  ['in-op','in-ctr'].forEach(id => {
+    const input = document.getElementById(id);
+    if(!input) return;
+    const valEl = input.closest('.field')?.querySelector('.rng-top .v');
+    if(!valEl) return;
+    input.addEventListener('input', () => {
+      valEl.parentElement.classList.add('rng-anim');
+      clearTimeout(valEl._t);
+      valEl._t = setTimeout(() => valEl.parentElement.classList.remove('rng-anim'), 280);
+    });
+  });
+})();
+
+/* FAQ — smooth grid-row height anim, CSS drives it */
+document.querySelectorAll('.faq-item').forEach(it => {
+  const top = it.querySelector('.faq-top');
+  top.addEventListener('click', () => {
+    const isOpen = it.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => { if(o !== it) o.classList.remove('open'); });
+    it.classList.toggle('open', !isOpen);
+  });
+});
+
+/* FINAL CTA — scroll word reveal */
+(() => {
+  const el = document.getElementById('finalcta-text');
+  if(!el) return;
+  // wrap each word (preserving .ox spans)
+  const wrapWords = (node) => {
+    const out = document.createDocumentFragment();
+    [...node.childNodes].forEach(n => {
+      if(n.nodeType === 3){
+        n.nodeValue.split(/(\s+)/).forEach(p => {
+          if(!p.length) return;
+          if(/^\s+$/.test(p)) out.appendChild(document.createTextNode(p));
+          else { const s = document.createElement('span'); s.className='w'; s.textContent = p; out.appendChild(s); }
+        });
+      } else if(n.nodeType === 1){
+        const cls = n.className;
+        n.childNodes.forEach(c => {
+          if(c.nodeType === 3){
+            c.nodeValue.split(/(\s+)/).forEach(p => {
+              if(!p.length) return;
+              if(/^\s+$/.test(p)) out.appendChild(document.createTextNode(p));
+              else { const s = document.createElement('span'); s.className = 'w ' + cls; s.textContent = p; out.appendChild(s); }
+            });
+          }
+        });
+      }
+    });
+    node.innerHTML = '';
+    node.appendChild(out);
+  };
+  wrapWords(el);
+  const words = [...el.querySelectorAll('.w')];
+  lenis.on('scroll', () => {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+    const progress = Math.min(1, Math.max(0, (p - 0.15) / 0.25));
+    const count = Math.floor(progress * words.length);
+    words.forEach((w,i) => w.classList.toggle('on', i < count));
+  });
+})();
+
+/* CASE STUDY MODAL */
+(() => {
+  const modal = document.getElementById('modal');
+  const heroEl = document.getElementById('modal-hero');
+  const cases = {
+    magnus: {tone:'red',views:'67.6M',tag:'Personal Brand · Q2',title:"Magnus Carlsen — chess content, engineered for gen-Z's feed.",dur:'6 weeks',plats:'TikTok · Reels · Shorts',clips:'184',
+      p1:"Magnus came to us with a backlog of long-form interviews and streams — and an audience that skewed older than his category's growth edge. The brief was simple: put chess in front of a generation that doesn't open chess content.",
+      p2:"Over six weeks, a matched squad of 14 editors cut 184 platform-native clips — pattern-interrupt hooks, reaction cuts, and board-state visualizations tuned for vertical. We posted from three managed accounts with platform-specific captions.",
+      p3:"The result: 67.6M views, 2.3M net-new followers and a top clip that did 12.4M on its own. The audience skewed 68% under-25 by the end of the campaign."
+    },
+    helix:{tone:'mid',views:'44.1M',tag:'B2B · SaaS',title:"Helix — a founder podcast became a daily traffic machine.",dur:'8 weeks',plats:'TikTok · Reels · LinkedIn',clips:'96',
+      p1:"Helix's founder had been recording a weekly podcast for 18 months with modest traction. The asset was rich; the distribution was flat. We took three hours of tape a week and turned it into 12 daily clips.",
+      p2:"The editing brief leaned hard on pattern-interrupt openers and clear value callouts. LinkedIn got the more studied cuts; TikTok got the punchier hooks; Reels sat in the middle. Everything drove to a single landing page.",
+      p3:"In eight weeks the account went from 12k monthly views to 44.1M — and the founder's calendar filled with qualified demo requests booked directly off short-form."
+    },
+    lith:{tone:'red',views:'21.3M',tag:'E-commerce · UGC',title:"Lith & Co — new apparel brand, sold out in 11 days.",dur:'4 weeks',plats:'TikTok · Reels',clips:'240',
+      p1:"Lith & Co launched with a $12k CPM pool and a capsule drop. No paid-ad spend, no email list. The whole brief ran on performance clipping — if clips didn't move product, nothing happened.",
+      p2:"We activated 400 clippers on the pool, open to any angle that didn't break brand guidelines. Winners were re-cut and re-posted. Top 8 clips ended up driving 80% of revenue.",
+      p3:"The drop sold out in 11 days. The brand walked away with 21.3M views, a pool that returned 4.8× on cost and a playbook they've run every month since."
+    }
+  };
+  const open = (key) => {
+    const c = cases[key];
+    heroEl.className = 'modal-hero ' + c.tone;
+    document.getElementById('modal-ph').textContent = 'Cover · ' + c.title.split('—')[0].trim();
+    document.getElementById('modal-vn').textContent = c.views;
+    document.getElementById('modal-tag').textContent = c.tag;
+    document.getElementById('modal-title').textContent = c.title;
+    document.getElementById('modal-dur').textContent = c.dur;
+    document.getElementById('modal-plats').textContent = c.plats;
+    document.getElementById('modal-clips').textContent = c.clips;
+    document.getElementById('modal-p1').textContent = c.p1;
+    document.getElementById('modal-p2').textContent = c.p2;
+    document.getElementById('modal-p3').textContent = c.p3;
+    modal.classList.add('open');
+    lenis.stop();
+    modal.scrollTop = 0;
+  };
+  const close = () => { modal.classList.remove('open'); lenis.start(); };
+  document.querySelectorAll('.case').forEach(c => c.addEventListener('click', () => open(c.dataset.case)));
+  document.getElementById('modal-close').addEventListener('click', close);
+  modal.addEventListener('click', e => { if(e.target === modal) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+})();
+
+/* CALCULATOR */
+(() => {
+  const el = id => document.getElementById(id);
+  const parseNum = s => { const n = parseFloat(String(s).replace(/[^\d.\-]/g,'')); return isNaN(n) ? 0 : n; };
+  const fmt = (n, d=0) => n.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+
+  const inputs = ['in-budget','in-cpm','in-min','in-max','in-op','in-ctr'].map(el);
+  const cpcCard = el('cpc-card');
+  const cpcBadge = el('cpc-badge');
+  const benchYou = el('bench-you');
+
+  const recalc = () => {
+    const budget = parseNum(el('in-budget').value);
+    const cpm = parseNum(el('in-cpm').value);
+    const min = parseNum(el('in-min').value);
+    const max = parseNum(el('in-max').value);
+    const op = parseFloat(el('in-op').value);
+    const ctr = parseFloat(el('in-ctr').value);
+
+    const views = cpm > 0 ? (budget / cpm) * 1000 * op : 0;
+    const clicks = views * (ctr / 100);
+    const cpc = clicks > 0 ? budget / clicks : 0;
+
+    el('out-views').textContent = fmt(views);
+    el('out-clicks').textContent = fmt(clicks);
+    const ctrMini = el('out-ctr-mini');
+    if(ctrMini){
+      ctrMini.textContent = ctr.toFixed(2) + '%';
+      ctrMini.classList.remove('ctr-below','ctr-avg','ctr-above');
+      if(ctr < 1) ctrMini.classList.add('ctr-below');
+      else if(ctr <= 3) ctrMini.classList.add('ctr-avg');
+      else ctrMini.classList.add('ctr-above');
+    }
+    const ctrNote = el('ctr-note');
+    if(ctrNote){
+      let note = '';
+      if(ctr < 1) note = "Below average — but even so your cost-per-click still beats most paid channels.";
+      else if(ctr <= 3) note = "Average click-through — on par with what paid Meta &amp; TikTok ads deliver, for a fraction of the cost.";
+      else note = "Above average — you're massively undercutting every paid channel on the chart below.";
+      ctrNote.innerHTML = note;
+    }
+    el('out-cpc').textContent = cpc.toFixed(cpc < 1 ? 2 : 2);
+
+    const clipsMin = max > 0 ? Math.floor(budget / max) : 0;
+    const clipsMax = min > 0 ? Math.floor(budget / min) : 0;
+    el('b-clips-min').textContent = fmt(clipsMin);
+    el('b-clips-max').textContent = fmt(clipsMax);
+
+    el('h-op').textContent = op.toFixed(1) + '×';
+    el('h-ctr').textContent = ctr.toFixed(2) + '%';
+
+    const pct = Math.min(100, Math.max(2, (cpc / 5) * 100));
+    el('bar-you').style.width = pct + '%';
+    el('bar-you-val').textContent = '$' + cpc.toFixed(2);
+
+    // state: yellow <$1.50 = on par; green <$1 = beats; great <$0.15 = excellent
+    cpcCard.classList.remove('par','good','great');
+    benchYou.classList.remove('par','good','great');
+    if(cpc > 0 && cpc <= 0.15){
+      cpcCard.classList.add('great'); benchYou.classList.add('great');
+      cpcBadge.textContent = 'Excellent';
+    } else if(cpc > 0 && cpc < 1){
+      cpcCard.classList.add('good'); benchYou.classList.add('good');
+      cpcBadge.textContent = 'Beats paid ads';
+    } else if(cpc > 0 && cpc < 1.5){
+      cpcCard.classList.add('par'); benchYou.classList.add('par');
+      cpcBadge.textContent = 'On par with paid ads';
+    } else {
+      cpcBadge.textContent = 'vs. paid ads';
+    }
+  };
+
+  inputs.forEach(i => {
+    i.addEventListener('input', recalc);
+    i.addEventListener('blur', () => {
+      if(i.type === 'text' && i.id !== 'in-cpm'){
+        const n = parseNum(i.value);
+        if(n > 0) i.value = fmt(n);
+      }
+      recalc();
+    });
+  });
+  recalc();
+})();
+
+/* WHY US drag scroll */
+(() => {
+  const track = document.getElementById('why-track'); if(!track) return;
+  let down=false, sx=0, sl=0;
+  track.addEventListener('pointerdown', e => { down=true; sx=e.pageX; sl=track.scrollLeft; track.setPointerCapture(e.pointerId); });
+  track.addEventListener('pointermove', e => { if(!down) return; track.scrollLeft = sl - (e.pageX - sx); });
+  track.addEventListener('pointerup', () => down=false);
+  const step = () => track.querySelector('.why-card').getBoundingClientRect().width + 20;
+  document.getElementById('why-next')?.addEventListener('click', () => track.scrollBy({left: step(), behavior:'smooth'}));
+  document.getElementById('why-prev')?.addEventListener('click', () => track.scrollBy({left: -step(), behavior:'smooth'}));
+})();
+
+/* PARALLAX gallery */
+(() => {
+  const items = document.querySelectorAll('.pg-item');
+  if(!items.length) return;
+  lenis.on('scroll', () => {
+    const vh = window.innerHeight;
+    items.forEach(it => {
+      const speed = parseFloat(it.dataset.speed) || 0;
+      const r = it.getBoundingClientRect();
+      const center = r.top + r.height/2 - vh/2;
+      it.style.transform = 'translateY(' + (center * speed * -1) + 'px)';
+    });
+  });
+})();
+
+/* TWEAKS */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{"accentColor": "#4f0006"}/*EDITMODE-END*/;
+(() => {
+  let panel = null;
+  const apply = t => document.documentElement.style.setProperty('--ox', t.accentColor);
+  apply(TWEAK_DEFAULTS);
+  const build = () => {
+    if(panel) return panel;
+    panel = document.createElement('div');
+    panel.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:1000;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;font-size:12px;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,0.1)';
+    panel.innerHTML = '<div style="font-size:11px;color:var(--muted);margin-bottom:12px">Tweaks</div><label style="display:flex;justify-content:space-between;align-items:center;gap:12px">Accent <input type="color" id="tw-ac" value="'+TWEAK_DEFAULTS.accentColor+'"></label>';
+    document.body.appendChild(panel);
+    panel.querySelector('#tw-ac').addEventListener('input', e => {
+      apply({accentColor: e.target.value});
+      window.parent.postMessage({type:'__edit_mode_set_keys', edits:{accentColor:e.target.value}}, '*');
+    });
+    return panel;
+  };
+  window.addEventListener('message', e => {
+    if(!e.data) return;
+    if(e.data.type === '__activate_edit_mode') build().style.display='block';
+    if(e.data.type === '__deactivate_edit_mode' && panel) panel.style.display='none';
+  });
+  window.parent.postMessage({type:'__edit_mode_available'}, '*');
+})();
+</script>
+</body>
+</html>
