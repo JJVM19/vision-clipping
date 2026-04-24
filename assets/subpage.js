@@ -1,4 +1,4 @@
-/* Vision Clipping — shared subpage nav drawer (mobile). Uses absolute /-rooted paths so it works from /book.html and /cases/*.html alike. */
+/* Vision Clipping — shared subpage nav drawer (mobile). Uses absolute /-rooted paths so it works from /book/ and /cases/*.html alike. */
 (() => {
   const navInner = document.querySelector('.nav-inner');
   if(!navInner) return;
@@ -33,7 +33,7 @@
         <a href="/#calc">Calculator</a>
         <a href="/#faq">FAQ</a>
       </nav>
-      <a class="nav-drawer-cta" href="/book.html">
+      <a class="nav-drawer-cta" href="/book/">
         Book your strategy call
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
       </a>
