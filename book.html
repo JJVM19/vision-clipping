@@ -38,14 +38,15 @@
   .typeform-shell{max-width:1080px;margin:0 auto;padding:0 32px}
   .typeform-frame{width:100%;height:calc(100vh - 260px);min-height:720px;border:0;border-radius:18px;background:#fff;box-shadow:0 18px 50px rgba(7,7,7,0.06);display:block}
   @media (max-width:760px){
-    /* Mobile: compact hero, taller Typeform */
-    .book-hero{padding:90px 0 12px}
+    /* Mobile: comfortable hero padding so nav + heading + form breathe */
+    .book-hero{padding:128px 0 20px}
     .book-hero .sub-hero-tag{display:none}
-    .book-hero h1{font-size:clamp(26px,7vw,34px);padding:0 20px;line-height:1.08}
+    .book-hero h1{font-size:clamp(22px,5.6vw,28px);padding:0 20px;line-height:1.1}
     .book-hero .lede{display:none}
-    .typeform-wrap{padding:14px 0 32px}
-    .typeform-shell{padding:0 12px}
-    .typeform-frame{height:auto;min-height:720px;border-radius:14px}
+    .typeform-wrap{padding:22px 0 32px}
+    .typeform-shell{padding:0 10px}
+    /* Fixed height that fits comfortably on most mobile viewports without overflow */
+    .typeform-frame{height:520px;min-height:0;max-height:none;border-radius:14px}
   }
 </style>
 <script src="assets/subpage.js" defer></script>
