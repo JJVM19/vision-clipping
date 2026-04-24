@@ -1,8 +1,7 @@
-/* Vision Clipping — shared subpage nav drawer (mobile) */
+/* Vision Clipping — shared subpage nav drawer (mobile). Uses absolute /-rooted paths so it works from /book.html and /cases/*.html alike. */
 (() => {
   const navInner = document.querySelector('.nav-inner');
   if(!navInner) return;
-  const baseHref = '../';
 
   const burger = document.createElement('button');
   burger.className = 'nav-burger';
@@ -23,18 +22,18 @@
       <button class="nav-drawer-close" data-close aria-label="Close menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
-      <a class="nav-drawer-logo" href="${baseHref}#Home"><img src="../assets/wordmark-dark.png" alt="Vision Clipping"></a>
+      <a class="nav-drawer-logo" href="/#Home"><img src="/assets/wordmark-dark.png" alt="Vision Clipping"></a>
       <nav class="nav-drawer-links">
-        <a href="${baseHref}#cases">Cases</a>
-        <a href="${baseHref}#process">Process</a>
-        <a href="${baseHref}#founders">Founders</a>
-        <a href="${baseHref}#why">Why Us</a>
-        <a href="${baseHref}#scale">How We Scale</a>
-        <a href="${baseHref}#pricing">Pricing</a>
-        <a href="${baseHref}#calc">Calculator</a>
-        <a href="${baseHref}#faq">FAQ</a>
+        <a href="/#cases">Cases</a>
+        <a href="/#process">Process</a>
+        <a href="/#founders">Founders</a>
+        <a href="/#why">Why Us</a>
+        <a href="/#scale">How We Scale</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/#calc">Calculator</a>
+        <a href="/#faq">FAQ</a>
       </nav>
-      <a class="nav-drawer-cta" href="${baseHref}#cta">
+      <a class="nav-drawer-cta" href="/book.html">
         Book your strategy call
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
       </a>
