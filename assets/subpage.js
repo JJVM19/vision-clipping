@@ -31,6 +31,7 @@
         <a href="/#scale">How We Scale</a>
         <a href="/#pricing">Pricing</a>
         <a href="/#calc">Calculator</a>
+        <a href="/clip/">Become a clipper</a>
         <a href="/#faq">FAQ</a>
       </nav>
       <a class="nav-drawer-cta" href="/book/">

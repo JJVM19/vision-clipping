@@ -84,7 +84,24 @@
   .nav-drawer-cta svg{width:14px;height:14px}
 
   /* HERO */
-  .hero{padding:150px 0 16px;text-align:center}
+  .hero{padding:150px 0 16px;text-align:center;position:relative;overflow:hidden}
+  /* Subtle oxblood side glows — slowly drift to feel alive */
+  .hero-glow{position:absolute;top:-20%;width:46%;height:160%;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 60% 70% at 50% 30%,rgba(79,0,6,0.18),transparent 65%);filter:blur(70px);will-change:transform}
+  .hero-glow-l{left:-22%;animation:heroGlowDriftL 18s ease-in-out infinite}
+  .hero-glow-r{right:-22%;animation:heroGlowDriftR 22s ease-in-out infinite}
+  @keyframes heroGlowDriftL{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    33%{transform:translate3d(18px,-22px,0) scale(1.05)}
+    66%{transform:translate3d(-12px,16px,0) scale(0.97)}
+  }
+  @keyframes heroGlowDriftR{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    33%{transform:translate3d(-16px,18px,0) scale(0.96)}
+    66%{transform:translate3d(14px,-20px,0) scale(1.06)}
+  }
+  /* Hero CTA row: buttons side-by-side, wraps to column on mobile */
+  .hero-cta-row{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:38px auto 0;max-width:680px;padding:0 20px}
+  .hero-cta-sub{margin-top:14px;text-align:center}
   .hero h1{font-size:clamp(42px,5.6vw,78px);line-height:1.06;letter-spacing:-0.035em;font-weight:500;max-width:960px;margin:0 auto}
   .hero h1 .h1-soft{display:block;font-size:clamp(18px,2.52vw,26px);margin-top:28px;color:var(--ink);font-weight:400;line-height:1.4;max-width:820px;margin-left:auto;margin-right:auto;letter-spacing:-0.003em}
   .hero h1 .h1-soft .serif{color:var(--ox);font-size:1.06em;-webkit-text-stroke:0}
@@ -116,8 +133,8 @@
 
   /* GLOWING CTA BUTTON — oxblood + shimmer */
   .cta-block{display:flex;flex-direction:column;align-items:center;margin:48px 0 0;padding:0 32px}
-  .glow-cta{position:relative;display:inline-flex;align-items:center;gap:12px;padding:22px 44px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:hidden;isolation:isolate}
-  .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,var(--ox) 0%,transparent 65%);opacity:0.8;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
+  .glow-cta{position:relative;display:inline-flex;align-items:center;gap:12px;padding:22px 44px;background:#8e000c;color:var(--paper);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:hidden;isolation:isolate}
+  .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,#a8000f 0%,transparent 65%);opacity:0.85;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
   @keyframes glow{0%,100%{opacity:0.6;filter:blur(24px)}50%{opacity:1;filter:blur(40px)}}
   .glow-cta::after{content:"";position:absolute;inset:0;border-radius:999px;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.55) 50%,transparent 70%);transform:translateX(-120%);z-index:0;pointer-events:none;transition:transform 0.9s cubic-bezier(0.2,0,0.2,1)}
   .glow-cta:hover::after{transform:translateX(120%)}
@@ -126,10 +143,25 @@
   .glow-cta-rings::before,.glow-cta-rings::after{content:"";position:absolute;inset:0;border:1.5px solid var(--ox);border-radius:999px;opacity:0;animation:ring 2.4s cubic-bezier(0.2,0,0.2,1) infinite}
   .glow-cta-rings::after{animation-delay:1.2s}
   @keyframes ring{0%{transform:scale(1);opacity:0.55}80%{transform:scale(1.45);opacity:0}100%{transform:scale(1.5);opacity:0}}
-  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(79,0,6,0.45)}
+  .glow-cta:hover{background:#a8000f;transform:translateY(-2px);box-shadow:0 18px 50px rgba(168,0,15,0.5)}
   .glow-cta svg{width:16px;height:16px;transition:transform 0.3s}
   .glow-cta:hover svg{transform:translateX(4px)}
   .cta-sub{margin-top:14px;font-size:13px;color:var(--muted)}
+
+  /* Ghost (secondary) CTA — clean white pill, black text, subtle grey outline + soft shadow */
+  .ghost-cta{position:relative;display:inline-flex;align-items:center;gap:12px;padding:22px 38px;background:#fff;color:var(--ink);border:1px solid rgba(7,7,7,0.12);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:transform 0.3s ease,box-shadow 0.4s ease,border-color 0.3s ease;z-index:2;box-shadow:
+    0 1px 2px rgba(7,7,7,0.04),
+    0 4px 10px rgba(7,7,7,0.05),
+    0 12px 28px rgba(79,0,6,0.10),
+    0 28px 60px rgba(79,0,6,0.06)}
+  .ghost-cta-glow{display:none}
+  .ghost-cta:hover{background:#fff;color:var(--ink);border-color:rgba(7,7,7,0.2);transform:translateY(-2px);box-shadow:
+    0 1px 3px rgba(7,7,7,0.04),
+    0 6px 14px rgba(7,7,7,0.06),
+    0 16px 36px rgba(79,0,6,0.16),
+    0 32px 72px rgba(79,0,6,0.10)}
+  .ghost-cta svg{width:16px;height:16px;transition:transform 0.3s}
+  .ghost-cta:hover svg{transform:translateX(4px)}
 
   /* LOGO CAROUSEL */
   .logos{padding:90px 0 60px;overflow:hidden;position:relative}
@@ -935,6 +967,8 @@
     .vsl-play svg{width:20px;height:20px}
     .cta-block{margin-top:32px;padding:0 20px}
     .glow-cta{padding:18px 30px;font-size:14px}
+    .ghost-cta{padding:18px 26px;font-size:14px}
+    .hero-cta-row{gap:12px;margin-top:30px}
     .logos{padding:64px 0 40px}
     .logos-track{gap:56px;animation-duration:48s}
     .logos-track .lg{height:34px}
@@ -1024,6 +1058,10 @@
     .hero h1{font-size:clamp(32px,8vw,46px);line-height:1.1;max-width:520px;padding:0 6px}
     .hero h1 .glow{-webkit-text-stroke:0.8px currentColor;font-size:1.34em}
     .hero h1 .h1-soft{font-size:clamp(15px,4vw,19px);margin-top:18px;max-width:none;line-height:1.4;white-space:normal}
+    /* Hero CTA row stacks on narrow phones */
+    .hero-cta-row{flex-direction:column;gap:12px;margin-top:26px;max-width:340px;padding:0 16px}
+    .hero-cta-row .glow-cta,.hero-cta-row .ghost-cta{width:100%;justify-content:center;padding:16px 24px;font-size:14px}
+    .hero-glow{filter:blur(54px)}
     .hero h1 .h1-mobile-break{display:block;height:0;font-size:0;line-height:0}
     /* Hero paragraph hidden on mobile — keep CTA/VSL closer to fold so logos peek through */
     .hero p{display:none}
@@ -1265,6 +1303,8 @@
   html.vc-reduced-motion *, html.vc-reduced-motion *::before, html.vc-reduced-motion *::after{
     animation-play-state: paused !important;
   }
+  /* Logos carousel always runs — pausing it makes the loop boundary visibly jump on resume */
+  .logos-track{animation-play-state: running !important}
   html.vc-reduced-motion *{
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
@@ -1315,6 +1355,7 @@
       <a href="#scale" data-close>How We Scale</a>
       <a href="#pricing" data-close>Pricing</a>
       <a href="#calc" data-close>Calculator</a>
+      <a href="/clip/" data-close>Become a clipper</a>
       <a href="#faq" data-close>FAQ</a>
     </nav>
     <a class="nav-drawer-cta" href="/book/" data-close>
@@ -1326,12 +1367,27 @@
 
 <!-- HERO -->
 <section class="hero" id="Home" data-screen-label="01 Hero">
+  <div class="hero-glow hero-glow-l" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow-r" aria-hidden="true"></div>
   <div class="wrap">
     <h1>Every video you've<span class="h1-mobile-break"> </span>ever filmed should be <span class="u"><span class="glow">making you money</span></span> <span class="glow">right now.</span><span class="h1-soft">Most of it's sitting untouched while your competitors turn theirs into <span class="serif">millions of views</span> and <span class="serif">paying customers.</span></span></h1>
+    <div class="hero-cta-row">
+      <a href="/book/" class="glow-cta">
+        <span class="glow-cta-rings"></span>
+        Book your strategy call
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+      </a>
+      <a href="/clip/" class="ghost-cta">
+        <span class="ghost-cta-glow" aria-hidden="true"></span>
+        Become a clipper
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+      </a>
+    </div>
+    <div class="cta-sub hero-cta-sub">Book a call. We'll tell you honestly if we're the right fit.</div>
   </div>
 </section>
 
-<!-- VSL (raised close to hero, CTA below) -->
+<!-- VSL (below CTAs) -->
 <section class="vsl-wrap">
   <div class="wrap">
     <div class="vsl" id="vsl">
@@ -1342,14 +1398,6 @@
         <div class="vsl-caption">Watch — 2:41</div>
       </div>
     </div>
-  </div>
-  <div class="cta-block">
-    <a href="/book/" class="glow-cta">
-      <span class="glow-cta-rings"></span>
-      Book your strategy call
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
-    </a>
-    <div class="cta-sub">Book a call. We'll tell you honestly if we're the right fit.</div>
   </div>
 </section>
 
@@ -1399,21 +1447,15 @@
   </div>
   <div class="res-parallax" id="res-parallax">
     <div class="rp-row" data-speed="0.4">
-      <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r11-ring-35m.jpeg" alt="Views · 35.9M"></div>
+      <div class="rp-tile r7 dark"><img loading="lazy" decoding="async" src="uploads/results/r07-chart-643m.jpeg" alt="Views chart · 643.8M views"></div>
+      <div class="rp-tile r6"><img loading="lazy" decoding="async" src="uploads/results/r08-breakdown-116m.png" alt="Views breakdown · 116M +94.4%"></div>
       <div class="rp-tile r2 dark"><img loading="lazy" decoding="async" src="uploads/results/r02-chart-64m.jpeg" alt="Views chart · 64.5M views"></div>
-      <div class="rp-tile r3 dark"><img loading="lazy" decoding="async" src="uploads/results/r03-reel-6m.jpeg" alt="Instagram Reel insights · 6M views"></div>
       <div class="rp-tile r4 dark"><img loading="lazy" decoding="async" src="uploads/results/r04-ring-42m.jpeg" alt="90-day Views · 42.2M"></div>
     </div>
     <div class="rp-row" data-speed="-0.5">
-      <div class="rp-tile r5"><img loading="lazy" decoding="async" src="uploads/results/r05-yt-3m.jpeg" alt="YouTube video · 3.4M views"></div>
-      <div class="rp-tile r6"><img loading="lazy" decoding="async" src="uploads/results/r08-breakdown-116m.png" alt="Views breakdown · 116M +94.4%"></div>
-      <div class="rp-tile r7 dark"><img loading="lazy" decoding="async" src="uploads/results/r07-chart-643m.jpeg" alt="Views chart · 643.8M views"></div>
-      <div class="rp-tile r8 dark"><img loading="lazy" decoding="async" src="uploads/results/r06-ring-7m.jpeg" alt="Views breakdown · 7.5M"></div>
-    </div>
-    <div class="rp-row" data-speed="0.35">
-      <div class="rp-tile r9"><img loading="lazy" decoding="async" src="uploads/results/r09-stats-19m.png" alt="Engagement · 19M views · 379.3K likes"></div>
-      <div class="rp-tile r10 dark"><img loading="lazy" decoding="async" src="uploads/results/r10-reel-7m.jpeg" alt="Instagram Reel insights · 7.6M views"></div>
       <div class="rp-tile r11"><img loading="lazy" decoding="async" src="uploads/results/r11-breakdown-48m.png" alt="Views breakdown · 48.9M views · +246.5%"></div>
+      <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r11-ring-35m.jpeg" alt="Views · 35.9M"></div>
+      <div class="rp-tile r9"><img loading="lazy" decoding="async" src="uploads/results/r09-stats-19m.png" alt="Engagement · 19M views · 379.3K likes"></div>
       <div class="rp-tile r12"><img loading="lazy" decoding="async" src="uploads/results/r12-yt-14m.jpeg" alt="YouTube video · 14.3M views"></div>
     </div>
   </div>

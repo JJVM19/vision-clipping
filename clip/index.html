@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Become a Clipper · Vision Clipping</title>
+<!-- vc-icons:start -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#4f0006">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Become a Clipper · Vision Clipping">
+<meta property="og:description" content="Get paid to make clips that move. Two pathways into Vision Clipping. Both real income.">
+<meta property="og:image" content="/assets/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Become a Clipper · Vision Clipping">
+<meta name="twitter:description" content="Get paid to make clips that move. Two pathways into Vision Clipping.">
+<meta name="twitter:image" content="/assets/icons/og-image.png">
+<!-- vc-icons:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/subpage.css">
+<style>
+  /* /clip/ Become a clipper page */
+  :root{--paper:#fff;--ink:#070707;--ox:#4f0006;--ox-bright:#7a0009;--soft:#f4f4f4;--softer:#fafafa;--line:rgba(7,7,7,0.08);--muted:rgba(7,7,7,0.56);--good:#0f9a4a}
+  body{background:#fff}
+
+  /* Reveal-on-scroll utility */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1),transform 0.8s cubic-bezier(0.22,1,0.36,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal-delay-1{transition-delay:0.1s}
+  .reveal-delay-2{transition-delay:0.22s}
+  .reveal-delay-3{transition-delay:0.34s}
+
+  /* HERO */
+  .clip-hero{padding:130px 0 64px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,#fafafa 0%,#fff 100%)}
+  .clip-hero-glow{position:absolute;top:-30%;width:60%;height:180%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 70% at 50% 30%,rgba(79,0,6,0.22),transparent 65%);filter:blur(80px);will-change:transform}
+  .clip-hero-glow.l{left:-30%;animation:cglowL 18s ease-in-out infinite}
+  .clip-hero-glow.r{right:-30%;animation:cglowR 22s ease-in-out infinite}
+  @keyframes cglowL{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(20px,-26px,0) scale(1.06)}66%{transform:translate3d(-14px,18px,0) scale(0.95)}}
+  @keyframes cglowR{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(-18px,22px,0) scale(0.95)}66%{transform:translate3d(16px,-22px,0) scale(1.07)}}
+  .clip-hero .wrap{position:relative;z-index:1}
+  .clip-hero-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid rgba(79,0,6,0.22);background:rgba(79,0,6,0.05);border-radius:999px;font-size:12px;color:var(--ox);letter-spacing:0.04em;font-weight:500;margin-bottom:26px}
+  .clip-hero-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 3px rgba(79,0,6,0.16);animation:cdot 2s ease-in-out infinite}
+  @keyframes cdot{0%,100%{box-shadow:0 0 0 3px rgba(79,0,6,0.16)}50%{box-shadow:0 0 0 7px rgba(79,0,6,0.04)}}
+  .clip-hero h1{font-size:clamp(46px,6.4vw,92px);line-height:0.98;letter-spacing:-0.04em;font-weight:500;max-width:1000px;margin:0 auto}
+  .clip-hero h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox);text-shadow:0 0 36px rgba(79,0,6,0.2)}
+  .clip-hero .lede{margin:26px auto 0;max-width:640px;font-size:17.5px;line-height:1.55;color:rgba(7,7,7,0.66)}
+  .clip-hero-cta-row{display:flex;justify-content:center;margin-top:40px;padding:0 20px}
+
+  /* Primary pill (oxblood) — used on hero + final CTA */
+  .clip-cta{position:relative;display:inline-flex;align-items:center;gap:12px;padding:20px 32px;border-radius:999px;font-size:15.5px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;isolation:isolate;overflow:hidden;cursor:pointer;background:#8e000c;color:#fff}
+  .clip-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,#a8000f 0%,transparent 65%);opacity:0.6;filter:blur(28px);z-index:-1;animation:cprim 2.6s ease-in-out infinite}
+  @keyframes cprim{0%,100%{opacity:0.5;filter:blur(22px)}50%{opacity:0.9;filter:blur(38px)}}
+  .clip-cta:hover{background:#a8000f;transform:translateY(-2px);box-shadow:0 18px 50px rgba(168,0,15,0.5)}
+  .clip-cta svg{width:14px;height:14px;transition:transform 0.3s}
+  .clip-cta:hover svg{transform:translateX(4px)}
+
+  .clip-ticker{margin-top:48px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;font-size:12px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;font-weight:500}
+  .clip-ticker .t{display:flex;align-items:center;gap:8px}
+  .clip-ticker .t .v{font-family:'Instrument Serif',serif;font-style:italic;font-size:24px;color:var(--ox);text-transform:none;letter-spacing:-0.01em}
+
+  /* WHAT IS — wrapped in a soft container */
+  .clip-what{padding:90px 0;background:#fff}
+  .clip-what-card{max-width:920px;margin:0 auto;padding:56px 64px;background:linear-gradient(180deg,#fafafa,#fff);border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 60px rgba(7,7,7,0.04)}
+  .clip-what-tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px}
+  .clip-what h2{font-size:clamp(30px,4vw,46px);line-height:1.05;letter-spacing:-0.025em;font-weight:500;margin-bottom:18px}
+  .clip-what h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .clip-what p{font-size:17px;line-height:1.6;color:rgba(7,7,7,0.72)}
+
+  /* TWO PATHWAYS */
+  .clip-paths{padding:100px 0;background:var(--softer);border-top:1px solid var(--line)}
+  .clip-paths-head{text-align:center;max-width:760px;margin:0 auto 48px;padding:0 24px}
+  .clip-paths-head .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .clip-paths-head h2{font-size:clamp(34px,4.4vw,54px);line-height:1.02;letter-spacing:-0.025em;font-weight:500}
+  .clip-paths-head h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .pathways{max-width:1180px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .pathways-dots{display:none}
+  .path-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:24px;padding:40px 36px 32px;display:flex;flex-direction:column;overflow:hidden;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease,opacity 0.35s ease,filter 0.35s ease}
+  .path-card.featured{background:linear-gradient(180deg,#1a0a0b 0%,#0f0a0b 100%);color:#fff;border-color:rgba(255,255,255,0.08)}
+  .path-card.featured::before{content:"";position:absolute;top:-30%;right:-10%;width:60%;height:130%;background:radial-gradient(ellipse,rgba(232,136,144,0.18),transparent 60%);filter:blur(60px);pointer-events:none;z-index:0}
+  .path-card > *{position:relative;z-index:1}
+  /* Hover behaviour: hovered card lifts + glows; sibling fades to grey */
+  .pathways:hover .path-card{opacity:0.55;filter:saturate(0.6)}
+  .pathways:hover .path-card:hover{opacity:1;filter:saturate(1);transform:translateY(-6px);box-shadow:0 30px 80px rgba(79,0,6,0.18)}
+  .path-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;width:fit-content;margin-bottom:18px}
+  .path-card.featured .path-badge{background:rgba(232,136,144,0.16);color:#e88890;border:1px solid rgba(232,136,144,0.32)}
+  .path-card:not(.featured) .path-badge{background:rgba(79,0,6,0.06);color:var(--ox);border:1px solid rgba(79,0,6,0.16)}
+  .path-card h3{font-size:clamp(28px,3.2vw,38px);font-weight:500;letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px}
+  .path-card .pt-tagline{font-family:'Instrument Serif',serif;font-style:italic;font-size:19px;color:var(--ox);margin-bottom:18px}
+  .path-card.featured .pt-tagline{color:#e88890}
+  .path-card .pt-body{font-size:14.5px;line-height:1.6;color:rgba(7,7,7,0.66);margin-bottom:24px}
+  .path-card.featured .pt-body{color:rgba(255,255,255,0.72)}
+  .path-feat{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+  .path-feat li{display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:1.5;color:rgba(7,7,7,0.78)}
+  .path-card.featured .path-feat li{color:rgba(255,255,255,0.85)}
+  .path-feat li svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--ox)}
+  .path-card.featured .path-feat li svg{color:#e88890}
+  .path-cta{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;align-self:stretch}
+  .path-card.featured .path-cta{background:#e88890;color:#1a0a0b}
+  .path-card.featured .path-cta:hover{background:#fff;transform:translateY(-2px)}
+  .path-card:not(.featured) .path-cta{background:#8e000c;color:#fff}
+  .path-card:not(.featured) .path-cta:hover{background:#a8000f;transform:translateY(-2px);box-shadow:0 18px 40px rgba(168,0,15,0.34)}
+  .path-cta svg{width:14px;height:14px;transition:transform 0.3s}
+  .path-cta:hover svg{transform:translateX(4px)}
+
+  /* DEEP DIVE — alternating image-text blocks */
+  .clip-deep{padding:110px 0;border-top:1px solid var(--line);background:#fff}
+  .clip-deep.alt{background:var(--softer)}
+  .deep-inner{max-width:1180px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .deep-inner.flip{grid-template-columns:1fr 1fr}
+  .deep-text .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .deep-text h2{font-size:clamp(38px,4.8vw,58px);line-height:1.02;letter-spacing:-0.03em;font-weight:500;margin-bottom:20px}
+  .deep-text h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .deep-text > p{font-size:16px;line-height:1.6;color:rgba(7,7,7,0.7);margin-bottom:14px;max-width:540px}
+  .deep-text h4{margin-top:24px;margin-bottom:8px;font-size:14px;font-weight:600;color:var(--ink);letter-spacing:-0.005em}
+  .deep-cta{margin-top:30px;display:inline-flex;align-items:center;gap:10px;padding:18px 30px;background:#8e000c;color:#fff;border-radius:999px;font-size:15px;font-weight:600;transition:all 0.3s;position:relative;isolation:isolate;overflow:hidden}
+  .deep-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,#a8000f 0%,transparent 65%);opacity:0.55;filter:blur(28px);z-index:-1;animation:cprim 2.6s ease-in-out infinite}
+  .deep-cta:hover{background:#a8000f;transform:translateY(-2px);box-shadow:0 18px 44px rgba(168,0,15,0.42)}
+  .deep-cta svg{width:14px;height:14px;transition:transform 0.3s}
+  .deep-cta:hover svg{transform:translateX(4px)}
+  .deep-cta-under{align-self:center;margin-top:0}
+
+  /* DEEP visual mockup — flexible height, fits content. Wrapped in a column so a CTA can sit underneath. */
+  .deep-vis-col{display:flex;flex-direction:column;align-items:center;gap:18px}
+  .deep-vis-col .deep-vis{width:100%}
+  .deep-vis{position:relative;border-radius:22px;background:linear-gradient(135deg,#0f0a0b 0%,#1a0a0b 60%,#2a1013 100%);overflow:hidden;box-shadow:0 30px 80px rgba(7,7,7,0.18);padding:26px;color:#fff;display:flex;flex-direction:column;gap:14px;min-height:380px}
+  .deep-vis::before{content:"";position:absolute;top:-30%;right:-20%;width:80%;height:130%;background:radial-gradient(ellipse,rgba(232,136,144,0.22),transparent 60%);filter:blur(60px);z-index:0}
+  .deep-vis > *{position:relative;z-index:1}
+  .vis-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:0.06em;color:rgba(255,255,255,0.55);text-transform:uppercase}
+  .vis-head .live{display:inline-flex;align-items:center;gap:6px;color:#4ade80;font-weight:600}
+  .vis-head .live::before{content:"";width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,0.6);animation:livedot 1.4s ease-in-out infinite}
+  @keyframes livedot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:0.7}}
+  .vis-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(8px)}
+  .vis-card .vt{display:flex;justify-content:space-between;align-items:baseline}
+  .vis-card .vt strong{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:#fff;font-weight:400;letter-spacing:-0.01em}
+  .vis-card .vt .pay{font-size:14px;color:#e88890;font-weight:600}
+  .vis-card .meta{font-size:12px;color:rgba(255,255,255,0.5);display:flex;gap:14px}
+  .vis-bar{height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;position:relative}
+  /* Single smooth oscillation per cycle: build, hold, retreat. All bars share same timing for sync. */
+  .vis-bar::after{content:"";position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,var(--ox),#e88890);border-radius:99px;animation:visbar 6s cubic-bezier(0.22,1,0.36,1) infinite}
+  @keyframes visbar{
+    0%{width:0%}
+    35%{width:82%}
+    65%{width:82%}
+    100%{width:0%}
+  }
+
+  /* PIPELINE — 5 numbered steps */
+  .clip-pipe{padding:110px 0;border-top:1px solid var(--line)}
+  .pipe-head{text-align:center;max-width:760px;margin:0 auto 56px;padding:0 24px}
+  .pipe-head .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .pipe-head h2{font-size:clamp(34px,4.4vw,54px);line-height:1.02;letter-spacing:-0.025em;font-weight:500}
+  .pipe-head h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .pipe-list{max-width:920px;margin:0 auto;padding:0 32px;position:relative}
+  .pipe-list::before{content:"";position:absolute;left:50px;top:40px;bottom:40px;width:2px;background:linear-gradient(180deg,rgba(79,0,6,0.32) 0%,rgba(79,0,6,0.08) 100%);z-index:0}
+  .pipe-step{position:relative;padding:18px 0 18px 96px;display:flex;align-items:flex-start;flex-direction:column;justify-content:center;min-height:88px}
+  .pipe-step .pn{position:absolute;left:0;top:18px;width:64px;height:64px;border-radius:18px;background:#fff;border:1.5px solid var(--ox);color:var(--ox);font-family:'Instrument Serif',serif;font-style:italic;font-size:30px;line-height:1;display:flex;align-items:center;justify-content:center;font-weight:400;z-index:1;box-shadow:0 8px 22px rgba(79,0,6,0.16)}
+  .pipe-step h3{font-size:21px;font-weight:500;letter-spacing:-0.015em;line-height:1.2;margin-bottom:6px}
+  .pipe-step p{font-size:14.5px;line-height:1.55;color:var(--muted)}
+
+  /* REQUIREMENTS */
+  .clip-req{padding:100px 0;background:var(--softer);border-top:1px solid var(--line)}
+  .req-head{text-align:center;max-width:760px;margin:0 auto 48px;padding:0 24px}
+  .req-head .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .req-head h2{font-size:clamp(34px,4.4vw,52px);line-height:1.02;letter-spacing:-0.025em;font-weight:500}
+  .req-head h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .req-grid{max-width:1100px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .req-dots{display:none}
+  .req-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px}
+  .req-card h3{font-size:20px;font-weight:500;letter-spacing:-0.01em;margin-bottom:18px}
+  .req-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+  .req-list li{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;line-height:1.5;color:rgba(7,7,7,0.72)}
+  .req-list li svg{width:18px;height:18px;flex-shrink:0;color:var(--good);margin-top:1px}
+  .req-tools{margin-top:18px;padding:14px 18px;background:rgba(79,0,6,0.04);border-radius:12px;font-size:13px;color:var(--muted);line-height:1.5}
+  .req-tools strong{color:var(--ink);font-weight:600}
+
+  /* PAYMENT */
+  .clip-pay{padding:110px 0;border-top:1px solid var(--line)}
+  .pay-row{max-width:1100px;margin:0 auto;padding:0 32px}
+  .pay-card{background:linear-gradient(135deg,#0f0a0b 0%,#1a0a0b 60%,#2a1013 100%);color:#fff;border-radius:28px;padding:56px;position:relative;overflow:hidden}
+  .pay-card::before{content:"";position:absolute;top:-30%;right:-10%;width:60%;height:130%;background:radial-gradient(ellipse,rgba(232,136,144,0.2),transparent 60%);filter:blur(60px);pointer-events:none;z-index:0}
+  .pay-card-inner{position:relative;z-index:1}
+  .pay-card .tag{font-size:11px;color:#e88890;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  .pay-card h2{font-size:clamp(28px,3.6vw,42px);font-weight:500;letter-spacing:-0.02em;line-height:1.1;max-width:600px}
+  .pay-card h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#e88890}
+  .pay-sub{margin-top:8px;font-size:14px;color:rgba(255,255,255,0.6);font-weight:500;letter-spacing:-0.005em;max-width:480px}
+  .pay-grid{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pay-grid-dots{display:none}
+  .pay-tile{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px}
+  .pay-tile .views{font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+  .pay-tile .pay-n{font-family:'Instrument Serif',serif;font-style:italic;font-size:42px;line-height:1;color:#fff;margin-top:10px;letter-spacing:-0.02em}
+  .pay-tile .rate{font-size:11.5px;color:rgba(255,255,255,0.48);margin-top:8px}
+  .pay-note{margin-top:30px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+  .pay-note .pn{font-size:13.5px;color:rgba(255,255,255,0.62);max-width:520px;line-height:1.55}
+  .pay-note .pn strong{color:#fff;font-weight:600}
+
+  /* RULES */
+  .clip-rules{padding:100px 0;background:var(--softer);border-top:1px solid var(--line)}
+  .rules-inner{max-width:880px;margin:0 auto;padding:0 32px}
+  .rules-inner .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .rules-inner h2{font-size:clamp(30px,4vw,46px);line-height:1.05;letter-spacing:-0.025em;font-weight:500;margin-bottom:24px}
+  .rules-inner h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .rules-inner > p{font-size:15.5px;line-height:1.6;color:rgba(7,7,7,0.66);margin-bottom:18px}
+  .rules-list{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+  .rules-list .ri{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;background:#fff;border:1px solid var(--line);border-radius:14px}
+  .rules-list .ri svg{width:18px;height:18px;color:var(--ox);flex-shrink:0;margin-top:2px}
+  .rules-list .ri p{font-size:14px;line-height:1.55;color:rgba(7,7,7,0.74)}
+
+  /* FAQ — animated accordion via grid trick */
+  .clip-faq{padding:110px 0;border-top:1px solid var(--line);background:#fff}
+  .faq-head{text-align:center;max-width:760px;margin:0 auto 48px;padding:0 24px}
+  .faq-head .tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:14px}
+  .faq-head h2{font-size:clamp(34px,4.4vw,54px);line-height:1.02;letter-spacing:-0.025em;font-weight:500}
+  .faq-head h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .faq-list{max-width:760px;margin:0 auto;padding:0 32px}
+  .faq-i{border-bottom:1px solid var(--line)}
+  .faq-i:first-child{border-top:1px solid var(--line)}
+  .faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 0;cursor:pointer;font-size:17px;font-weight:500;letter-spacing:-0.005em;transition:color 0.2s;user-select:none}
+  .faq-q:hover{color:var(--ox)}
+  .faq-q .pm{font-size:24px;color:var(--ox);font-weight:300;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1);line-height:1}
+  .faq-i.open .faq-q .pm{transform:rotate(45deg)}
+  .faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.45s cubic-bezier(0.22,1,0.36,1)}
+  .faq-a > div{overflow:hidden}
+  .faq-a > div > p{padding:0 0 22px;font-size:15px;line-height:1.65;color:var(--muted);max-width:680px;opacity:0;transform:translateY(-4px);transition:opacity 0.3s 0.05s,transform 0.3s 0.05s}
+  .faq-i.open .faq-a{grid-template-rows:1fr}
+  .faq-i.open .faq-a > div > p{opacity:1;transform:translateY(0)}
+
+  /* FINAL CTA */
+  .clip-final{padding:120px 32px;text-align:center;background:#0a0a0a;color:#fff;position:relative;overflow:hidden}
+  .clip-final::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:120%;height:160%;background:radial-gradient(ellipse 50% 50% at 50% 30%,rgba(232,136,144,0.22),transparent 65%);filter:blur(60px);pointer-events:none}
+  .clip-final-inner{position:relative;z-index:1;max-width:780px;margin:0 auto}
+  .clip-final h2{font-size:clamp(40px,5.4vw,72px);line-height:1.0;letter-spacing:-0.035em;font-weight:500}
+  .clip-final h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#e88890}
+  .clip-final p{margin:20px auto 0;max-width:560px;font-size:16.5px;color:rgba(255,255,255,0.7);line-height:1.55}
+  .clip-final-cta{margin-top:38px;display:flex;justify-content:center;padding:0 20px}
+
+  /* Trusted-by — uses logos.css from base subpage.css if present, else local copy */
+  .logos{padding:60px 0;overflow:hidden;position:relative;background:#fff}
+  .logos-head{text-align:center;font-size:13px;color:var(--muted);margin-bottom:28px}
+  .logos-mask{position:relative;overflow:hidden;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  .logos-track{display:flex;gap:36px;width:max-content;animation:logos-slide 35s linear infinite;will-change:transform;align-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translate3d(0,0,0)}
+  @keyframes logos-slide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+  .logos-track .lg img{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .logos-track .lg{flex-shrink:0;display:flex;align-items:center;justify-content:center;height:44px}
+  .logos-track .lg img{max-height:100%;width:auto;max-width:180px;object-fit:contain;filter:grayscale(1) brightness(0) invert(0.7);opacity:0.78;transition:opacity 0.3s,filter 0.3s,transform 0.3s;-webkit-user-drag:none;user-select:none;pointer-events:none;transform-origin:center}
+  .logos-track .lg:hover img{opacity:1;filter:grayscale(1) brightness(0) invert(0.5)}
+  .logos-track .lg.tall img{max-height:56px}
+  .logos-track .lg.wide img{max-width:220px}
+  .logos-track .lg.sz-160 img{transform:scale(1.60)}
+  .logos-track .lg.sz-120 img{transform:scale(1.20)}
+  .logos-track .lg.sz-115 img{transform:scale(1.15)}
+  .logos-track .lg.sz-110 img{transform:scale(1.10)}
+  .logos-track .lg.sz-075 img{transform:scale(0.75)}
+  .logos-track .lg.sz-070 img{transform:scale(0.70)}
+  .logos-track .lg.cap-narrow img{max-width:110px}
+  .logos-track .lg.keep-tone img{filter:grayscale(1) opacity(0.55)}
+
+  /* MOBILE */
+  @media (max-width:760px){
+    /* safety: never let content force horizontal scroll on the page itself */
+    html,body{overflow-x:hidden}
+
+    /* HERO */
+    .clip-hero{padding:140px 0 50px}
+    .clip-hero h1{font-size:clamp(36px,9vw,56px);padding:0 16px}
+    .clip-hero .lede{font-size:14.5px;padding:0 24px;margin-top:22px}
+    .clip-hero-cta-row{margin-top:32px;padding:0 16px}
+    .clip-cta{padding:15px 24px;font-size:14px}
+    .clip-cta svg{width:13px;height:13px}
+
+    /* WHAT IS */
+    .clip-what{padding:56px 0}
+    .clip-what-card{padding:32px 24px;border-radius:20px;margin:0 16px}
+    .clip-what h2{font-size:clamp(26px,7vw,34px)}
+    .clip-what p{font-size:15px}
+
+    /* PATHWAYS — horizontal scroll-snap carousel with dots below */
+    .clip-paths{padding:64px 0;overflow:hidden}
+    .clip-paths-head{margin-bottom:34px;padding:0 24px}
+    .clip-paths-head h2{font-size:clamp(28px,7.4vw,38px)}
+    .pathways{display:flex !important;flex-direction:row;grid-template-columns:unset;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:6px 16px 4px;margin:0;gap:14px;scrollbar-width:none}
+    .pathways::-webkit-scrollbar{display:none}
+    .path-card{flex:0 0 88%;scroll-snap-align:center;scroll-snap-stop:always;padding:28px 22px}
+    .path-card h3{font-size:24px}
+    /* Disable the desktop "fade non-hovered" behavior on touch */
+    .pathways:hover .path-card{opacity:1;filter:none}
+    .pathways-dots{display:flex !important;gap:8px;justify-content:center;margin-top:18px}
+    .pathways-dots .pd{width:8px;height:8px;border-radius:50%;background:rgba(7,7,7,0.18);border:0;padding:0;cursor:pointer;transition:all 0.3s}
+    .pathways-dots .pd.active{width:24px;border-radius:6px;background:#8e000c}
+
+    /* DEEP DIVES — stack, contain horizontal. Both flip + non-flip show: text → image (top to bottom). */
+    .clip-deep{padding:64px 0;overflow:hidden}
+    .deep-inner,.deep-inner.flip{grid-template-columns:1fr;gap:28px;padding:0 20px}
+    .deep-inner.flip > .deep-text{order:0}
+    .deep-inner.flip > .deep-vis-col{order:1}
+    .deep-text h2{font-size:clamp(28px,7.4vw,38px)}
+    .deep-text > p{font-size:15px}
+    .deep-vis-col{gap:14px}
+    .deep-vis{padding:20px;min-height:0;border-radius:18px}
+    .vis-card{padding:13px}
+    .vis-card .vt strong{font-size:18px}
+    .deep-cta{padding:14px 24px;font-size:13.5px}
+
+    /* PIPELINE */
+    .clip-pipe{padding:64px 0}
+    .pipe-head{margin-bottom:34px;padding:0 24px}
+    .pipe-head h2{font-size:clamp(28px,7.4vw,38px)}
+    .pipe-list{padding:0 20px}
+    .pipe-list::before{left:32px;top:30px;bottom:30px}
+    .pipe-step{padding:14px 0 14px 70px;min-height:0}
+    .pipe-step .pn{width:50px;height:50px;font-size:24px;border-radius:14px;top:14px;box-shadow:0 6px 16px rgba(79,0,6,0.14)}
+    .pipe-step h3{font-size:18px}
+    .pipe-step p{font-size:13.5px}
+
+    /* REQUIREMENTS — horizontal scroll-snap carousel with dots */
+    .clip-req{padding:64px 0;overflow:hidden}
+    .req-head{margin-bottom:34px;padding:0 24px}
+    .req-head h2{font-size:clamp(28px,7.4vw,38px)}
+    .req-grid{display:flex !important;flex-direction:row;grid-template-columns:unset;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:6px 16px 4px;margin:0;gap:14px;scrollbar-width:none;max-width:none}
+    .req-grid::-webkit-scrollbar{display:none}
+    .req-card{flex:0 0 88%;scroll-snap-align:center;scroll-snap-stop:always;padding:26px 22px}
+    .req-card h3{font-size:18px}
+    .req-dots{display:flex !important;gap:8px;justify-content:center;margin-top:18px}
+    .req-dots .rd{width:8px;height:8px;border-radius:50%;background:rgba(7,7,7,0.18);border:0;padding:0;cursor:pointer;transition:all 0.3s}
+    .req-dots .rd.active{width:24px;border-radius:6px;background:#8e000c}
+
+    /* PAYMENT */
+    .clip-pay{padding:64px 0}
+    .pay-row{padding:0 16px}
+    .pay-card{padding:30px 22px;border-radius:22px;overflow:hidden}
+    .pay-card h2{font-size:clamp(24px,6.8vw,32px)}
+    .pay-sub{font-size:13.5px}
+    /* Pay tiles become a horizontal scroll-snap carousel with dots */
+    .pay-grid{display:flex !important;flex-direction:row;grid-template-columns:unset;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:6px 0 4px;margin:24px -22px 0;gap:10px;scrollbar-width:none}
+    .pay-grid::-webkit-scrollbar{display:none}
+    .pay-grid::before,.pay-grid::after{content:"";flex:0 0 12px}
+    .pay-grid .pay-tile{flex:0 0 78%;scroll-snap-align:center;scroll-snap-stop:always;padding:24px}
+    .pay-tile .pay-n{font-size:38px}
+    .pay-grid-dots{display:flex !important;gap:8px;justify-content:center;margin-top:14px}
+    .pay-grid-dots .pgd{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.18);border:0;padding:0;cursor:pointer;transition:all 0.3s}
+    .pay-grid-dots .pgd.active{width:24px;border-radius:6px;background:#e88890}
+    .pay-note{flex-direction:column;align-items:stretch;gap:14px;justify-content:center !important;margin-top:24px}
+    .pay-note .path-cta{align-self:center;width:100%;justify-content:center;max-width:280px}
+
+    /* RULES */
+    .clip-rules{padding:64px 0}
+    .rules-inner{padding:0 22px}
+    .rules-inner h2{font-size:clamp(26px,7vw,34px)}
+    .rules-list .ri{padding:16px 18px;border-radius:12px}
+    .rules-list .ri p{font-size:13.5px}
+
+    /* FAQ */
+    .clip-faq{padding:64px 0}
+    .faq-head{margin-bottom:32px;padding:0 24px}
+    .faq-head h2{font-size:clamp(28px,7.4vw,38px)}
+    .faq-list{padding:0 22px}
+    .faq-q{font-size:15.5px;padding:18px 0}
+    .faq-i p{font-size:14.5px}
+
+    /* FINAL CTA */
+    .clip-final{padding:72px 22px}
+    .clip-final h2{font-size:clamp(32px,8vw,46px)}
+    .clip-final p{font-size:15px}
+    .clip-final-cta{margin-top:32px}
+
+    /* LOGOS */
+    .logos-track{gap:22px}
+    .logos-track .lg{height:26px}
+    .logos-track .lg img{max-width:110px;max-height:26px}
+  }
+</style>
+<script src="/assets/subpage.js" defer></script>
+</head>
+<body>
+
+<a class="sub-back" href="/">
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 7H3M6 4L3 7l3 3"/></svg>
+  Back
+</a>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/"><img src="/assets/wordmark-dark.png" alt="Vision Clipping"></a>
+    <div class="nav-links">
+      <a href="#paths">Pathways</a>
+      <a href="#internal">Internal</a>
+      <a href="#public">Public</a>
+      <a href="#payment">Payment</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener">Join</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="clip-hero">
+    <div class="clip-hero-glow l" aria-hidden="true"></div>
+    <div class="clip-hero-glow r" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="clip-hero-tag reveal in"><span class="dot"></span>Open · Now recruiting clippers</div>
+      <h1 class="reveal in">Get paid to <em>make clips.</em></h1>
+      <p class="lede reveal reveal-delay-1">Create short-form clips for top brands, creators, and artists. Pick your campaigns, post your edits, and choose from 2 ways to earn real money per view.</p>
+      <div class="clip-hero-cta-row reveal reveal-delay-2">
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="clip-cta" id="join-discord-hero">
+          Join the community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY (carousel copied from main page) -->
+  <section class="logos">
+    <div class="wrap"><div class="logos-head">Trusted by leading brands &amp; creators</div></div>
+    <div class="logos-mask">
+      <div class="logos-track">
+        <div class="lg"><img decoding="async" src="/uploads/logos/logo-01.png" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img decoding="async" src="/uploads/logos/logo-02.png" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="/uploads/logos/logo-03.png" alt="" loading="lazy"></div>
+        <div class="lg sz-070"><img decoding="async" src="/uploads/logos/logo-04.png" alt="" loading="lazy"></div>
+        <div class="lg wide"><img decoding="async" src="/uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="/uploads/logos/logo-06.png" alt="" loading="lazy"></div>
+        <div class="lg"><img decoding="async" src="/uploads/logos/logo-07.png" alt="" loading="lazy"></div>
+        <div class="lg sz-160"><img decoding="async" src="/uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg cap-narrow sz-110"><img decoding="async" src="/uploads/logos/logo-09.png" alt="" loading="lazy"></div>
+        <div class="lg sz-120"><img decoding="async" src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img decoding="async" src="/uploads/logos/logo-forbes.png" alt="Forbes" loading="lazy"></div>
+        <div class="lg tall wide"><img decoding="async" src="/uploads/logos/logo-nyt.png" alt="The New York Times" loading="lazy"></div>
+        <div class="lg wide keep-tone"><img decoding="async" src="/uploads/logos/logo-npr.png" alt="NPR" loading="lazy"></div>
+        <div class="lg" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-01.png" alt="" loading="lazy"></div>
+        <div class="lg sz-110" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-02.png" alt="" loading="lazy"></div>
+        <div class="lg sz-115" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-03.png" alt="" loading="lazy"></div>
+        <div class="lg sz-070" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-04.png" alt="" loading="lazy"></div>
+        <div class="lg wide" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-06.png" alt="" loading="lazy"></div>
+        <div class="lg" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-07.png" alt="" loading="lazy"></div>
+        <div class="lg sz-160" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg cap-narrow sz-110" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-09.png" alt="" loading="lazy"></div>
+        <div class="lg sz-120" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-forbes.png" alt="" loading="lazy"></div>
+        <div class="lg tall wide" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-nyt.png" alt="" loading="lazy"></div>
+        <div class="lg wide keep-tone" aria-hidden="true"><img decoding="async" src="/uploads/logos/logo-npr.png" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO PATHWAYS -->
+  <section class="clip-paths" id="paths">
+    <div class="clip-paths-head reveal">
+      <div class="tag">Two pathways</div>
+      <h2>Earn in <em>2 ways.</em></h2>
+    </div>
+    <div class="pathways">
+      <div class="path-card featured reveal">
+        <div class="path-badge"><span style="width:6px;height:6px;border-radius:50%;background:#e88890"></span>Invite only</div>
+        <h3>Internal Campaigns</h3>
+        <div class="pt-tagline">Hand-picked. Paid weekly. Premium campaigns.</div>
+        <div class="pt-body">Invite-based. We hand-pick a small team and assign them to higher-tier campaigns. Internal clippers earn a weekly base salary on top of their CPM, so you're paid for showing up before the views come in.</div>
+        <ul class="path-feat">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong style="color:#fff">Weekly base salary</strong></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><strong style="color:#fff">$0.50–$5</strong> CPM on top of base</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority access to top-tier campaigns</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Direct line to production for footage and feedback</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Performance-based progression and bonuses</li>
+        </ul>
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="path-cta join-discord">
+          Join community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+      <div class="path-card reveal reveal-delay-1">
+        <div class="path-badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--ox)"></span>Open to all</div>
+        <h3>Public Campaigns</h3>
+        <div class="pt-tagline">Open access. Paid per view. No application.</div>
+        <div class="pt-body">The standard pipeline. Sign up, browse the campaigns, pick a campaign, grab the footage, post it, get paid based on the views you generate. No ceiling on how many campaigns you can run.</div>
+        <ul class="path-feat">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Open access. No application required</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>CPM of <strong>$0.10 to $5</strong> across active campaigns</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Run multiple campaigns at once</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Self-serve from start to finish</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Payment depends on the campaign (usually Content Rewards, PayPal, Whop, or Wise)</li>
+        </ul>
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="path-cta join-discord">
+          Join community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="pathways-dots" id="pathways-dots" aria-hidden="true">
+      <button class="pd active" data-i="0" aria-label="Internal campaigns"></button>
+      <button class="pd" data-i="1" aria-label="Public campaigns"></button>
+    </div>
+  </section>
+
+  <!-- INTERNAL DEEP DIVE -->
+  <section class="clip-deep" id="internal">
+    <div class="deep-inner">
+      <div class="deep-text reveal">
+        <div class="tag">Internal · Deep dive</div>
+        <h2>This is your <em>main income.</em> Not a side hustle.</h2>
+        <p>The base salary covers what we expect from you each week. CPM kicks in on top. Strong internal clippers earn well into multiple thousands per month.</p>
+        <h4>How selection works</h4>
+        <p>Send your portfolio. We look at the clips, the accounts, the view history, and how seriously you treat the craft. Followers don't matter. Output does.</p>
+        <h4>What we expect</h4>
+        <p>Weekly clip output, on time, on campaign, at the quality bar of the brand. Stay in regular contact with the team, share what's working, adapt fast. Not a passive role.</p>
+        <h4>Application</h4>
+        <p>Submit through the form. We respond within five working days. If we move forward, you get a short trial on a live campaign before being onboarded.</p>
+      </div>
+      <div class="deep-vis-col reveal reveal-delay-1">
+        <div class="deep-vis">
+          <div class="vis-head"><span>Internal · Live campaign</span><span class="live">Active</span></div>
+          <div class="vis-card">
+            <div class="vt"><strong>iman_gadzhi_03</strong><span class="pay">$2.40 / 1K</span></div>
+            <div class="meta"><span>Instagram, TikTok</span><span>168 clips this week</span></div>
+            <div class="vis-bar"></div>
+          </div>
+          <div class="vis-card">
+            <div class="vt"><strong>tate_vault</strong><span class="pay">$3.10 / 1K</span></div>
+            <div class="meta"><span>TikTok, Reels</span><span>92 clips this week</span></div>
+            <div class="vis-bar"></div>
+          </div>
+          <div class="vis-card">
+            <div class="vt"><strong>brunson_funnels</strong><span class="pay">$1.80 / 1K</span></div>
+            <div class="meta"><span>YouTube Shorts</span><span>54 clips this week</span></div>
+            <div class="vis-bar"></div>
+          </div>
+        </div>
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="clip-cta join-discord deep-cta-under">
+          Join community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLIC DEEP DIVE -->
+  <section class="clip-deep alt" id="public">
+    <div class="deep-inner flip">
+      <div class="deep-vis-col reveal">
+        <div class="deep-vis">
+          <div class="vis-head"><span>Public · Active campaigns</span><span class="live">Live</span></div>
+          <div class="vis-card">
+            <div class="vt"><strong>creator_vol_07</strong><span class="pay">$1.20 / 1K</span></div>
+            <div class="meta"><span>Open · 3 platforms</span><span>240 clippers</span></div>
+            <div class="vis-bar"></div>
+          </div>
+          <div class="vis-card">
+            <div class="vt"><strong>podcast_camp_19</strong><span class="pay">$0.80 / 1K</span></div>
+            <div class="meta"><span>Open · Reels, TikTok</span><span>180 clippers</span></div>
+            <div class="vis-bar"></div>
+          </div>
+          <div class="vis-card">
+            <div class="vt"><strong>sports_montage</strong><span class="pay">$2.10 / 1K</span></div>
+            <div class="meta"><span>Open · 4 platforms</span><span>96 clippers</span></div>
+            <div class="vis-bar"></div>
+          </div>
+        </div>
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="clip-cta join-discord deep-cta-under">
+          Join community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+      <div class="deep-text reveal reveal-delay-1">
+        <div class="tag">Public · Deep dive</div>
+        <h2>Open to anyone. Paid for what your <em>clips actually do.</em></h2>
+        <p>Join the Discord community, view campaign rules, pick a campaign, grab the footage, edit it, post it, get paid based on the views you generate. No ceiling on how many campaigns you can run.</p>
+        <p>No quota either. Some clippers run one campaign at a time, others stack five. The system rewards output. The more you understand what hooks land on each platform, the more you make.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="clip-pipe">
+    <div class="pipe-head reveal">
+      <div class="tag">The public pipeline</div>
+      <h2>Five steps. <em>That's the whole loop.</em></h2>
+    </div>
+    <div class="pipe-list">
+      <div class="pipe-step reveal">
+        <div class="pn">01</div>
+        <h3>Join the community.</h3>
+        <p>Hop into the Discord. New campaigns drop there, support lives there, announcements go out there.</p>
+      </div>
+      <div class="pipe-step reveal reveal-delay-1">
+        <div class="pn">02</div>
+        <h3>Pick a campaign.</h3>
+        <p>Read the info and rules, then look at active campaigns. Pick one that fits your editing style and the accounts you post from.</p>
+      </div>
+      <div class="pipe-step reveal reveal-delay-2">
+        <div class="pn">03</div>
+        <h3>Download the footage.</h3>
+        <p>Each campaign includes raw footage, b-roll, hooks, and any creative direction. Pull what you need and start cutting.</p>
+      </div>
+      <div class="pipe-step reveal reveal-delay-3">
+        <div class="pn">04</div>
+        <h3>Clip and post.</h3>
+        <p>Edit your clips and post them to the supported platforms listed on the campaign. Stay within the brand and content guidelines.</p>
+      </div>
+      <div class="pipe-step reveal reveal-delay-3">
+        <div class="pn">05</div>
+        <h3>Submit and get paid.</h3>
+        <p>Submit your post links through the dashboard. Views are tracked automatically. Payouts go through Whop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUIREMENTS -->
+  <section class="clip-req">
+    <div class="req-head reveal">
+      <div class="tag">Requirements</div>
+      <h2>What you need <em>to start.</em></h2>
+    </div>
+    <div class="req-grid" id="req-grid">
+      <div class="req-card reveal">
+        <h3>For all clippers</h3>
+        <ul class="req-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Working editing software (CapCut, Premiere, After Effects, your call).</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>At least one active social account on a supported platform.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Able to receive payment via Wise, PayPal, or bank transfer.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Global, except countries we can't legally send funds to.</li>
+        </ul>
+        <div class="req-tools"><strong>Software:</strong> we don't require a specific tool. We do require the final output meets the technical and quality standards of each campaign.</div>
+      </div>
+      <div class="req-card reveal reveal-delay-1">
+        <h3>For internal applicants only</h3>
+        <ul class="req-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>An existing portfolio of clips you can show us.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Accounts with a track record of consistent posting.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Able to commit to a weekly output.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Treat clipping like a craft, not a side hustle.</li>
+        </ul>
+        <div class="req-tools"><strong>Note:</strong> we're not looking for follower counts. We're looking for evidence that you can produce.</div>
+      </div>
+    </div>
+    <div class="req-dots" id="req-dots" aria-hidden="true">
+      <button class="rd active" data-i="0" aria-label="For all clippers"></button>
+      <button class="rd" data-i="1" aria-label="For internal applicants"></button>
+    </div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section class="clip-pay" id="payment">
+    <div class="pay-row">
+      <div class="pay-card reveal">
+        <div class="pay-card-inner">
+          <h2>Example <em>Payouts.</em></h2>
+          <p class="pay-sub">Based on a $2.00 payout per 1K views.</p>
+          <div class="pay-grid" id="pay-grid">
+            <div class="pay-tile">
+              <div class="views">50K views</div>
+              <div class="pay-n">$100</div>
+              <div class="rate">at $2 / 1K</div>
+            </div>
+            <div class="pay-tile">
+              <div class="views">500K views</div>
+              <div class="pay-n">$1,000</div>
+              <div class="rate">at $2 / 1K</div>
+            </div>
+            <div class="pay-tile">
+              <div class="views">1M views</div>
+              <div class="pay-n">$2,000</div>
+              <div class="rate">at $2 / 1K</div>
+            </div>
+          </div>
+          <div class="pay-grid-dots" id="pay-grid-dots" aria-hidden="true">
+            <button class="pgd active" data-i="0" aria-label="50K"></button>
+            <button class="pgd" data-i="1" aria-label="500K"></button>
+            <button class="pgd" data-i="2" aria-label="1M"></button>
+          </div>
+          <div class="pay-note" style="justify-content:center">
+            <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="path-cta join-discord" style="background:#e88890;color:#1a0a0b">
+              Join community
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section class="clip-rules">
+    <div class="rules-inner">
+      <div class="reveal">
+        <div class="tag">Rules and brand safety</div>
+        <h2>What's <em>not</em> okay.</h2>
+        <p>Each campaign has specific brand and content guidelines, and you're expected to read them before clipping. The general rules below apply across every campaign on the platform.</p>
+      </div>
+      <div class="rules-list">
+        <div class="ri reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><p>No editing footage in a way that misrepresents the original content or the brand.</p></div>
+        <div class="ri reveal reveal-delay-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><p>No view manipulation, bot traffic, or inauthentic engagement.</p></div>
+        <div class="ri reveal reveal-delay-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><p>No content that's hateful, discriminatory, sexually explicit, or violates the platforms' terms.</p></div>
+        <div class="ri reveal reveal-delay-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg><p>Breaking these rules results in earnings withheld, account removed from the platform, and in serious cases a permanent ban from Vision Clipping campaigns. We monitor actively and move fast.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="clip-faq" id="faq">
+    <div class="faq-head reveal">
+      <div class="tag">FAQ</div>
+      <h2>Things people ask <em>before applying.</em></h2>
+    </div>
+    <div class="faq-list" id="faq-list">
+      <div class="faq-i"><div class="faq-q">Do I need a big following to clip with Vision Clipping?<span class="pm">+</span></div><div class="faq-a"><div><p>No. We pay for views generated by your clips, not for follower count. The algorithm rewards content quality more than profile size.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">Can I clip from multiple accounts?<span class="pm">+</span></div><div class="faq-a"><div><p>Yes. Link every account you want to post from to your clipper profile, and views across all of them count toward your earnings. Just make sure each account meets the platform requirements of the campaign you're working on.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">Can I work on multiple campaigns at once?<span class="pm">+</span></div><div class="faq-a"><div><p>Yes, on the public side. No cap on how many campaigns you can take. Internal clippers usually focus on one or two campaigns at a time because the base salary covers a defined output.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">How fast do I get paid?<span class="pm">+</span></div><div class="faq-a"><div><p>Payouts depend on each campaign's Content Rewards system, but typically within 3 days of the cycle closing. Everything is processed through Whop.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">Can I apply for the internal team after starting on public?<span class="pm">+</span></div><div class="faq-a"><div><p>Yes. A lot of internal clippers come from the public pipeline. If you're clipping consistently and your accounts are performing, that's exactly the track record we look for in applications.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">What if my clips don't get views?<span class="pm">+</span></div><div class="faq-a"><div><p>You earn nothing on those clips, and that's the honest answer. Public clippers are paid purely on performance. The upside is unlimited but so is the downside if the work doesn't land. The fastest way to improve is to study the campaigns that pay, watch what's working on each platform, and iterate.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">Do you work with clippers outside tier 1 countries (USA, UK, etc)?<span class="pm">+</span></div><div class="faq-a"><div><p>Yes. We work with clippers globally as long as we can legally send payment to your country.</p></div></div></div>
+      <div class="faq-i"><div class="faq-q">Who owns the clips I make?<span class="pm">+</span></div><div class="faq-a"><div><p>The clips are made for the campaign and remain associated with the brand or creator who funded the campaign. You're paid for the views your posts generate, not for licensing or ownership of the clip itself.</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="clip-final" id="final">
+    <div class="clip-final-inner">
+      <h2>Stop scrolling. <em>Start clipping.</em></h2>
+      <p>Live campaigns are sitting on six-figures of unclaimed payout right now. The longer you wait, the less is left.</p>
+      <div class="clip-final-cta">
+        <a href="https://discord.gg/gz8VJxZpCG" target="_blank" rel="noopener" class="clip-cta" id="join-discord-final">
+          Join the community
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="/assets/wordmark-dark.png" alt="Vision Clipping" />
+        <p>A clipping agency for founders, creators and brands who need distribution at scale.</p>
+      </div>
+      <div class="foot-col"><h4>Navigate</h4>
+        <a href="/#cases">Case Studies</a><a href="/#process">Process</a><a href="/#why">Why Us</a><a href="/#faq">FAQ</a>
+      </div>
+      <div class="foot-col"><h4>Tools</h4>
+        <a href="/#calc">Budget Calculator</a><a href="/book/">Book a call</a><a href="/clip/">Become a clipper</a>
+      </div>
+      <div class="foot-col"><h4>Contact</h4>
+        <a href="mailto:contact@J-visionmedia.com">contact@J-visionmedia.com</a>
+      </div>
+    </div>
+    <div class="foot-bot"><div>&copy; 2026 Vision Clipping</div></div>
+  </div>
+</footer>
+
+<script>
+/* Reveal-on-scroll */
+(() => {
+  const els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* FAQ accordion (animated via grid-template-rows trick) */
+(() => {
+  const list = document.getElementById('faq-list');
+  if(!list) return;
+  list.querySelectorAll('.faq-i').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    q.setAttribute('role','button');
+    q.setAttribute('tabindex','0');
+    q.setAttribute('aria-expanded','false');
+    const toggle = () => {
+      const open = item.classList.toggle('open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    q.addEventListener('click', toggle);
+    q.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
+  });
+})();
+
+/* Generic horizontal scroll-snap carousel + dot sync (mobile) */
+function vcWireCarousel(trackSel, dotsSel, cardSel){
+  const track = document.querySelector(trackSel);
+  const dots = document.querySelectorAll(dotsSel);
+  if(!track || !dots.length) return;
+  const cards = track.querySelectorAll(cardSel);
+  const setActive = i => dots.forEach((d, n) => d.classList.toggle('active', n === i));
+  let ticking = false;
+  track.addEventListener('scroll', () => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, bestDx = Infinity;
+      cards.forEach((c, i) => {
+        const cx = c.offsetLeft + c.offsetWidth / 2;
+        const dx = Math.abs(cx - mid);
+        if(dx < bestDx){ bestDx = dx; best = i; }
+      });
+      setActive(best);
+      ticking = false;
+    });
+  }, { passive: true });
+  dots.forEach((d, i) => {
+    d.addEventListener('click', () => {
+      const c = cards[i];
+      if(!c) return;
+      track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+      setActive(i);
+    });
+  });
+}
+vcWireCarousel('.pathways', '#pathways-dots .pd', '.path-card');
+vcWireCarousel('#pay-grid', '#pay-grid-dots .pgd', '.pay-tile');
+vcWireCarousel('#req-grid', '#req-dots .rd', '.req-card');
+</script>
+
+</body>
+</html>
