@@ -2769,30 +2769,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   let raf = 0;
   /* Clear any leftover opacity from the previous hide-card-while-climbing approach. */
   for(let i = 0; i < cards.length; i++) cards[i].style.opacity = '';
-  const section = document.querySelector('.process');
-  let inView = true;
-  let lastTop = '__init__';
-  if(section && 'IntersectionObserver' in window){
-    /* Only run the layout work while the process section is anywhere near the viewport. After we've scrolled well past slide 04, this short-circuits and avoids forcing a synchronous layout on every scroll event — which was the cause of the post-section lag on mobile. */
-    new IntersectionObserver(es => es.forEach(e => inView = e.isIntersecting), { rootMargin: '300px' }).observe(section);
-  }
   const update = () => {
     raf = 0;
-    if(!inView){
-      if(lastTop !== ''){ title.style.top = ''; lastTop = ''; }
-      return;
-    }
     const sTop = stickyTopForCards();
     const lastR = last.getBoundingClientRect();
-    const next = lastR.top < sTop ? (titleTop() - (sTop - lastR.top)) + 'px' : '';
-    if(next !== lastTop){
-      title.style.top = next;
-      lastTop = next;
+    if(lastR.top < sTop){
+      title.style.top = (titleTop() - (sTop - lastR.top)) + 'px';
+    } else {
+      title.style.top = '';
     }
   };
   const schedule = () => { if(!raf) raf = requestAnimationFrame(update); };
   if(window.lenis) lenis.on('scroll', schedule);
-  /* Single scroll source — drop the duplicate document scroll listener so we don't pay the layout cost twice per scroll frame on Lenis-driven pages. */
+  document.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
   update();
 })();
