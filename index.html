@@ -1248,7 +1248,7 @@
     .ghost-cta{padding:18px 26px;font-size:14px}
     .hero-cta-row{gap:12px;margin-top:30px}
     .logos{padding:64px 0 40px}
-    .logos-track{gap:56px;animation-duration:48s}
+    .logos-track{gap:28px;animation-duration:48s}
     .logos-track .lg{height:34px}
     .logos-track .lg img{max-width:140px}
     .logos-track .lg.tall img{max-height:44px}
@@ -1390,7 +1390,7 @@
     .logos-head{margin-bottom:22px;font-size:clamp(12px,3.6vw,15px);white-space:nowrap;letter-spacing:-0.01em;padding:0 8px;overflow:hidden;text-overflow:ellipsis}
     /* VSL bottom padding tightened so CTA + logos pack closer to hero */
     .vsl-wrap .cta-block{margin-top:18px}
-    .logos-track{gap:44px;animation-duration:44s}
+    .logos-track{gap:22px;animation-duration:44s}
     .logos-track .lg{height:26px}
     .logos-track .lg img{max-width:110px;max-height:26px}
     .logos-track .lg.tall img{max-height:36px}
@@ -1414,7 +1414,7 @@
     .cases{padding:56px 0 36px;position:relative;z-index:1}
     .cases-wrap{padding:0;touch-action:pan-y pinch-zoom}
     .cases-nav{display:none}
-    .cases-viewport{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 20px 10px;margin:0}
+    .cases-viewport{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 20px 10px;margin:0;touch-action:pan-x pan-y pinch-zoom;overscroll-behavior-y:contain}
     .cases-viewport::-webkit-scrollbar{display:none}
     .cases-track{gap:14px;transform:none !important;transition:none !important}
     .case{flex:0 0 82%;scroll-snap-align:center;scroll-snap-stop:always}
@@ -2766,19 +2766,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   let raf = 0;
   /* Clear any leftover opacity from the previous hide-card-while-climbing approach. */
   for(let i = 0; i < cards.length; i++) cards[i].style.opacity = '';
+  const section = document.querySelector('.process');
+  let inView = true;
+  let lastTop = '__init__';
+  if(section && 'IntersectionObserver' in window){
+    /* Only run the layout work while the process section is anywhere near the viewport. After we've scrolled well past slide 04, this short-circuits and avoids forcing a synchronous layout on every scroll event — which was the cause of the post-section lag on mobile. */
+    new IntersectionObserver(es => es.forEach(e => inView = e.isIntersecting), { rootMargin: '300px' }).observe(section);
+  }
   const update = () => {
     raf = 0;
+    if(!inView){
+      if(lastTop !== ''){ title.style.top = ''; lastTop = ''; }
+      return;
+    }
     const sTop = stickyTopForCards();
     const lastR = last.getBoundingClientRect();
-    if(lastR.top < sTop){
-      title.style.top = (titleTop() - (sTop - lastR.top)) + 'px';
-    } else {
-      title.style.top = '';
+    const next = lastR.top < sTop ? (titleTop() - (sTop - lastR.top)) + 'px' : '';
+    if(next !== lastTop){
+      title.style.top = next;
+      lastTop = next;
     }
   };
   const schedule = () => { if(!raf) raf = requestAnimationFrame(update); };
   if(window.lenis) lenis.on('scroll', schedule);
-  document.addEventListener('scroll', schedule, { passive: true });
+  /* Single scroll source — drop the duplicate document scroll listener so we don't pay the layout cost twice per scroll frame on Lenis-driven pages. */
   window.addEventListener('resize', schedule);
   update();
 })();
