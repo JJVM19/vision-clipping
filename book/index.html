@@ -84,7 +84,27 @@
 
   <section class="typeform-wrap">
     <div class="typeform-shell">
-      <iframe class="typeform-frame" src="https://form.typeform.com/to/i2Schw6K" title="Book a call · Vision Clipping" allow="camera; microphone; autoplay; encrypted-media; fullscreen; geolocation"></iframe>
+      <div style="position:relative;width:100%">
+        <iframe
+          id="vc-form-booking"
+          class="typeform-frame"
+          src="https://forms.visionclipping.com/booking"
+          title="Vision Clipping | Booking"
+          allow="camera; microphone; fullscreen"
+        ></iframe>
+        <script>
+          (function () {
+            var f = document.getElementById("vc-form-booking");
+            if (!f) return;
+            window.addEventListener("message", function (e) {
+              if (!e.data || e.origin !== "https://forms.visionclipping.com") return;
+              if (e.data.type === "vision-form-height" && typeof e.data.height === "number") {
+                f.style.height = Math.max(400, e.data.height) + "px";
+              }
+            });
+          })();
+        </script>
+      </div>
     </div>
   </section>
 </main>

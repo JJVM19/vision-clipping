@@ -32,8 +32,8 @@
     --paper:#ffffff;
     --soft:#f4f4f4;
     --softer:#fafafa;
-    --ox:#4f0006;
-    --ox-bright:#7a0009;
+    --ox:#97000e;
+    --ox-bright:#b40118;
     --good:#0f9a4a;
     --line:rgba(7,7,7,0.08);
     --muted:rgba(7,7,7,0.56);
@@ -84,40 +84,117 @@
   .nav-drawer-cta svg{width:14px;height:14px}
 
   /* HERO */
-  .hero{padding:150px 0 16px;text-align:center;position:relative;overflow:hidden}
-  /* Subtle oxblood side glows — slowly drift to feel alive */
-  .hero-glow{position:absolute;top:-20%;width:46%;height:160%;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 60% 70% at 50% 30%,rgba(79,0,6,0.18),transparent 65%);filter:blur(70px);will-change:transform}
-  .hero-glow-l{left:-22%;animation:heroGlowDriftL 18s ease-in-out infinite}
-  .hero-glow-r{right:-22%;animation:heroGlowDriftR 22s ease-in-out infinite}
-  @keyframes heroGlowDriftL{
-    0%,100%{transform:translate3d(0,0,0) scale(1)}
-    33%{transform:translate3d(18px,-22px,0) scale(1.05)}
-    66%{transform:translate3d(-12px,16px,0) scale(0.97)}
+  .hero{padding:150px 0 16px;text-align:center;position:relative;overflow:hidden;isolation:isolate;
+    background-image:
+      linear-gradient(to right, rgba(7,7,7,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(7,7,7,0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: -1px -1px;
   }
-  @keyframes heroGlowDriftR{
+  /* Aurora layer — sits BEHIND content (z:0) but on top of the grid bg. .wrap is at z:2 */
+  .hero-aurora{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .hero .wrap{position:relative;z-index:2}
+  /* Soft fade at top + bottom so grid + glow ease into the page */
+  .hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,0.55) 0%,transparent 18%,transparent 82%,rgba(255,255,255,0.85) 100%)}
+  .hero-orb{position:absolute;border-radius:50%;pointer-events:none;will-change:transform;filter:blur(70px)}
+  .hero-orb-l{width:42vw;height:60vh;max-width:520px;max-height:580px;left:-22vw;top:8vh;background:radial-gradient(circle at 50% 50%,rgba(151,0,14,0.24),rgba(151,0,14,0.11) 40%,transparent 72%);animation:auroraDriftL 14s ease-in-out infinite}
+  .hero-orb-r{width:42vw;height:60vh;max-width:520px;max-height:580px;right:-22vw;top:12vh;background:radial-gradient(circle at 50% 50%,rgba(232,136,144,0.20),rgba(151,0,14,0.10) 42%,transparent 72%);animation:auroraDriftR 17s ease-in-out infinite}
+  .hero-orb-c{display:none}
+  @keyframes auroraDriftL{
     0%,100%{transform:translate3d(0,0,0) scale(1)}
-    33%{transform:translate3d(-16px,18px,0) scale(0.96)}
-    66%{transform:translate3d(14px,-20px,0) scale(1.06)}
+    25%{transform:translate3d(40px,-22px,0) scale(1.1)}
+    50%{transform:translate3d(60px,32px,0) scale(0.95)}
+    75%{transform:translate3d(20px,-10px,0) scale(1.08)}
   }
+  @keyframes auroraDriftR{
+    0%,100%{transform:translate3d(0,0,0) scale(1)}
+    25%{transform:translate3d(-44px,28px,0) scale(0.94)}
+    50%{transform:translate3d(-58px,-18px,0) scale(1.12)}
+    75%{transform:translate3d(-20px,22px,0) scale(0.98)}
+  }
+  @keyframes auroraDriftC{
+    0%,100%{transform:translate(-50%,0) scale(1)}
+    33%{transform:translate(calc(-50% + 36px),24px) scale(1.08)}
+    66%{transform:translate(calc(-50% - 36px),-24px) scale(0.94)}
+  }
+
+  /* Social proof badge above headline — overlapping avatar trio + count (~35% bigger) */
+  .hero-proof{display:inline-flex;align-items:center;gap:16px;padding:10px 24px 10px 10px;background:rgba(255,255,255,0.78);border:1px solid rgba(7,7,7,0.08);border-radius:999px;font-size:19px;color:rgba(7,7,7,0.74);font-weight:500;letter-spacing:-0.005em;margin-bottom:32px;backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);box-shadow:0 5px 22px rgba(7,7,7,0.06)}
+  .hero-avatars{display:inline-flex;align-items:center}
+  .hero-avatars img{width:40px;height:40px;border-radius:50%;border:3px solid #fff;object-fit:cover;margin-left:-13px;box-shadow:0 3px 8px rgba(7,7,7,0.13);background:#f4f4f4}
+  .hero-avatars img:first-child{margin-left:0}
+  .hero-proof-num{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:24px;color:var(--ox);letter-spacing:-0.01em}
+
+  /* As-featured-in press strip */
+  .hero-press{margin:32px auto 0;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .hero-press-lbl{font-size:11.5px;color:rgba(7,7,7,0.46);letter-spacing:0.18em;text-transform:uppercase;font-weight:600}
+  .hero-press-logos{display:flex;align-items:center;justify-content:center;gap:54px;flex-wrap:wrap}
+  .hero-press-logos img{height:30px;width:auto;max-width:200px;object-fit:contain;filter:grayscale(1);opacity:0.55;transition:opacity 0.25s,filter 0.25s}
+  .hero-press-logos img:hover{opacity:0.92}
+  .hero-press-logos img[alt="The New York Times"]{height:24px}
+  .hero-press-logos img[alt="NPR"]{height:22px;max-width:140px}
+  .hero-press-logos img[alt="Forbes"]{height:24px;filter:grayscale(1) brightness(0);opacity:0.51}
   /* Hero CTA row: buttons side-by-side, wraps to column on mobile */
-  .hero-cta-row{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:38px auto 0;max-width:680px;padding:0 20px}
+  .hero-cta-row{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:24px auto 0;max-width:680px;padding:0 20px}
   .hero-cta-sub{margin-top:14px;text-align:center}
-  .hero h1{font-size:clamp(42px,5.6vw,78px);line-height:1.06;letter-spacing:-0.035em;font-weight:500;max-width:960px;margin:0 auto}
-  .hero h1 .h1-soft{display:block;font-size:clamp(18px,2.52vw,26px);margin-top:28px;color:var(--ink);font-weight:400;line-height:1.4;max-width:820px;margin-left:auto;margin-right:auto;letter-spacing:-0.003em}
-  .hero h1 .h1-soft .serif{color:var(--ox);font-size:1.06em;-webkit-text-stroke:0}
+  .hero h1{font-size:clamp(46px,5.4vw,80px);line-height:1.04;letter-spacing:-0.04em;font-weight:500;max-width:1180px;margin:0 auto}
+  .hero h1 .h1-soft{display:block;font-size:clamp(15px,1.78vw,19.5px);margin-top:22px;color:var(--ink);font-weight:400;line-height:1.45;max-width:820px;margin-left:auto;margin-right:auto;letter-spacing:-0.003em}
+  .hero h1 .h1-soft .serif{color:var(--ox);font-size:1.12em;font-weight:500;-webkit-text-stroke:0.6px currentColor;text-shadow:0 0 12px rgba(168,0,15,0.19),0 0 24px rgba(168,0,15,0.10)}
   .hero h1 .serif{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.02em;padding:0 0.02em;display:inline-block;line-height:1;vertical-align:baseline;font-size:1.04em}
-  .hero h1 .glow{position:relative;z-index:2;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.025em;color:var(--ox);-webkit-text-stroke:1.1px currentColor;display:inline-block;line-height:1.3;vertical-align:baseline;font-size:1.14em;padding:0 0.08em 0.12em 0;margin-bottom:-0.12em;clip-path:inset(0 101% 0 0);background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 44%,#e88890 48%,#ffe4e6 50%,#e88890 52%,var(--ox) 56%,var(--ox) 100%);background-size:250% 100%;background-position:100% 0;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:writeIn 0.7s cubic-bezier(0.55,0.05,0.25,1) forwards,glowShimmer 8s 3.5s linear infinite}
-  .hero h1 .u .glow{animation-delay:0.2s,3.5s}
-  .hero h1 .u + .glow,.hero h1 .u ~ .glow{animation-delay:1s,4s}
-  @keyframes writeIn{to{clip-path:inset(0 0 0 0)}}
-  @keyframes glowShimmer{
-    0%,82%{background-position:100% 0}
-    98%,100%{background-position:0% 0}
+  /* .glow is now a plain container — no bg-clip:text, no text-stroke. Text is solid oxblood with text-shadow for fake-bold. Shimmer is delegated to ::before pseudos on .cyc-word and .cyc-tail. */
+  .hero h1 .glow{
+    position:relative;z-index:2;
+    font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+    letter-spacing:-0.025em;
+    color:var(--ox);
+    /* Multi-direction text-shadow fakes a half-step-bolder weight WITHOUT outlining the inner counters of letters (which is what -webkit-text-stroke does and is what was causing the white-counter look on d/e/o). */
+    text-shadow:
+      0.4px 0 0 currentColor,-0.4px 0 0 currentColor,
+      0 0.4px 0 currentColor,0 -0.4px 0 currentColor;
+    display:inline-block;line-height:1.3;vertical-align:baseline;
+    font-size:1.36em;padding:0 0.08em 0.12em 0;margin-bottom:-0.12em;
+    clip-path:inset(0 0 0 0);
+    animation:writeIn 0.7s 0.55s cubic-bezier(0.55,0.05,0.25,1) backwards
   }
-  .hero h1 .u{position:relative;display:inline-block;z-index:1}
-  .hero h1 .u svg{position:absolute;left:-4%;right:-4%;bottom:-0.32em;width:108%;height:0.36em;overflow:visible;pointer-events:none;filter:drop-shadow(0 0 10px rgba(79,0,6,0.45)) drop-shadow(0 0 22px rgba(79,0,6,0.22));z-index:0}
+  @keyframes writeIn{from{clip-path:inset(0 101% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  .hero h1 .u{position:relative;display:inline-block;z-index:1;--ox:#7a000a}
+  .hero h1 .u svg{position:absolute;left:-4%;right:-4%;bottom:-0.06em;width:108%;height:0.32em;overflow:visible;pointer-events:none;filter:drop-shadow(0 0 10px rgba(79,0,6,0.45)) drop-shadow(0 0 22px rgba(79,0,6,0.22));z-index:0}
   .hero h1 .u svg path{stroke:var(--ox);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;animation:drawU 1.2s 1.1s cubic-bezier(0.55,0.05,0.25,1) forwards}
   @keyframes drawU{to{stroke-dashoffset:0}}
+  /* WORD CYCLER — swaps "Built" / "Managed" / "Optimised" with blur fade; cycler width animates so " For You" shifts and the underline grows/shrinks. */
+  .hero h1 .cycler{position:relative;display:inline-block;vertical-align:baseline;text-align:left;white-space:nowrap;transition:width 0.55s cubic-bezier(0.22,1,0.36,1);will-change:width;line-height:inherit;overflow:visible}
+  /* Invisible spacer ensures the cycler has natural inline-block height (line-height of font) regardless of which word is active. Absolute words sit on top. */
+  .hero h1 .cycler::before{content:"\00a0";display:inline-block;visibility:hidden;width:0}
+  /* cyc-word: solid red text (color:var(--ox)). NO bg-clip:text, NO -webkit-text-stroke — guaranteed fully-filled glyphs with no white in counters. */
+  .hero h1 .cyc-word{
+    position:absolute;left:0;top:0;right:auto;
+    display:inline-block;white-space:nowrap;
+    color:var(--ox);
+    opacity:0;filter:blur(12px);transform:scale(0.94);
+    transform-origin:left center;
+    transition:opacity 0.55s ease,filter 0.55s ease,transform 0.55s cubic-bezier(0.22,1,0.36,1)
+  }
+  .hero h1 .cyc-word.active{opacity:1;filter:blur(0);transform:scale(1)}
+  /* Shimmer overlay: ::before duplicates the cyc-word's text via attr(data-text) and renders a transparent gradient with one bright stripe via bg-clip:text. Animates to sweep the stripe across the word. The base text underneath stays solid red. NOTE: shimmer ONLY on cyc-word, NOT on .cyc-tail. */
+  .hero h1 .cyc-word::before{
+    content:attr(data-text);
+    position:absolute;left:0;top:0;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent 0%,transparent 46%,rgba(255,210,214,0.95) 49%,#fff 50%,rgba(255,210,214,0.95) 51%,transparent 54%,transparent 100%);
+    background-size:400% 100%;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    pointer-events:none;
+    mix-blend-mode:screen
+  }
+  .hero h1 .cyc-tail{position:relative;display:inline-block;vertical-align:baseline;margin-left:0.28em}
+  .hero h1 .cyc-word.shimmer::before{
+    animation:cycShimmer 1.4s linear 1 forwards
+  }
+  @keyframes cycShimmer{from{background-position:100% 0}to{background-position:0% 0}}
   .hero h1 .ox{color:var(--ox);font-style:italic;font-weight:500}
   .hero p{max-width:620px;margin:28px auto 0;font-size:18px;line-height:1.5;color:var(--muted)}
 
@@ -165,9 +242,11 @@
 
   /* LOGO CAROUSEL */
   .logos{padding:90px 0 60px;overflow:hidden;position:relative}
-  .logos-head{text-align:center;font-size:13px;color:var(--muted);margin-bottom:44px}
+  .logos-head{text-align:center;font-size:24px;color:var(--ink);margin-bottom:44px;font-weight:500;letter-spacing:-0.015em}
   .logos-mask{position:relative;overflow:hidden;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%)}
-  .logos-track{display:flex;gap:90px;width:max-content;animation:slide 60s linear infinite;will-change:transform;align-items:center;transform:translate3d(0,0,0)}
+  /* Track holds two equal-width .logos-cycle blocks; -50% lands exactly at the start of cycle 2, so the loop is seamless. The trailing padding-right on each cycle reproduces the inter-item gap between cycles. */
+  .logos-track{display:flex;width:max-content;animation:slide 60s linear infinite;will-change:transform;align-items:center;transform:translate3d(0,0,0)}
+  .logos-cycle{display:flex;gap:90px;align-items:center;flex-shrink:0;padding-right:90px}
   @keyframes slide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
   .logos-track .lg{flex-shrink:0;display:flex;align-items:center;justify-content:center;height:44px}
   .logos-track .lg img{max-height:100%;width:auto;max-width:180px;object-fit:contain;filter:grayscale(1) brightness(0) invert(0.7);opacity:0.78;transition:opacity 0.3s, filter 0.3s, transform 0.3s;-webkit-user-drag:none;user-select:none;pointer-events:none;transform-origin:center}
@@ -197,7 +276,25 @@
   .sec{padding:120px 0;border-top:1px solid var(--line)}
   .sec-head{text-align:center;max-width:880px;margin:0 auto 64px}
   .sec-head h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
-  .sec-head h2 em{font-style:normal;color:var(--ox)}
+  /* Global red highlight + soft shimmer sweep — used by every h2 em (process, scale, founders, work with, models, numbers, FAQ). */
+  .sec-head h2 em{
+    font-style:normal;
+    color:var(--ox);
+    display:inline-block;
+    background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 42%,#ff9aa6 46%,#ffffff 50%,#ff9aa6 54%,var(--ox) 58%,var(--ox) 100%);
+    background-size:250% 100%;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 24px rgba(151,0,14,0.16);
+    animation:emShimmer 8s 1s linear infinite
+  }
+  @keyframes emShimmer{
+    0%,82%{background-position:100% 0}
+    98%,100%{background-position:0% 0}
+  }
   /* 3 billion — scroll-driven oxblood fill + feathered glow + shimmer sweep */
   .sec-head h2 .tb-fill{position:relative;color:rgba(7,7,7,0.18);font-style:normal;display:inline-block;background-clip:text;-webkit-background-clip:text;transition:color 0.4s ease;isolation:isolate}
   /* feathered radial glow BEHIND the filled text */
@@ -207,11 +304,46 @@
   .sec-head h2 .tb-fill.shimmering .tb-fill-ink{background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 40%,#e88890 50%,#fff 52%,#e88890 54%,var(--ox) 64%,var(--ox) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:tb-sheen 2.6s cubic-bezier(0.4,0,0.2,1) infinite}
   @keyframes tb-sheen{0%{background-position:160% 0}100%{background-position:-60% 0}}
   .sec-head h2 .caser{color:var(--ink);transition:color 0.8s cubic-bezier(0.22,1,0.36,1)}
-  .sec-head h2.reveal .caser{color:var(--ox)}
+  .sec-head h2.reveal .caser{
+    color:var(--ox);
+    display:inline-block;
+    background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 42%,#ff9aa6 46%,#ffffff 50%,#ff9aa6 54%,var(--ox) 58%,var(--ox) 100%);
+    background-size:250% 100%;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 24px rgba(151,0,14,0.16);
+    animation:emShimmer 8s linear infinite
+  }
   .sec-head p{margin:20px auto 0;font-size:17px;line-height:1.5;color:var(--muted);max-width:620px}
 
   /* RESULTS PARALLAX */
   .results{background:var(--soft);padding-bottom:180px;overflow:hidden}
+  /* "3 billion" — bold sans red with shimmer write-in (matches hero glow); h2 sized so line wraps to 2 */
+  .results-h2{font-size:clamp(34px,4vw,52px) !important;line-height:1.1 !important;max-width:980px;margin:0 auto}
+  .results .sec-head h2 em{
+    display:inline-block;
+    color:var(--ox);
+    font-family:inherit;
+    font-style:normal;
+    font-weight:500;
+    letter-spacing:-0.025em;
+    background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 42%,#ff9aa6 46%,#ffffff 50%,#ff9aa6 54%,var(--ox) 58%,var(--ox) 100%);
+    background-size:250% 100%;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 24px rgba(151,0,14,0.18),0 0 48px rgba(151,0,14,0.10);
+    animation:tbShimmer 7s 1.2s linear infinite
+  }
+  @keyframes tbShimmer{
+    0%,80%{background-position:100% 0}
+    97%,100%{background-position:0% 0}
+  }
   .res-parallax{max-width:none;width:100%;display:flex;flex-direction:column;gap:22px;padding:32px 0;position:relative}
   .rp-row{display:flex;gap:22px;width:max-content;will-change:transform;padding:0 40px}
   .rp-tile{flex-shrink:0;width:420px;aspect-ratio:16/10;border-radius:14px;border:1px solid var(--line);background:var(--paper);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(7,7,7,0.04)}
@@ -271,9 +403,10 @@
 
   /* CASES — 3-up infinite loop carousel */
   .cases-wrap{position:relative;max-width:1280px;margin:0 auto;padding:0 72px}
-  .cases-viewport{overflow:hidden}
+  .cases-viewport{overflow-x:clip;overflow-y:visible;padding:8px 0 60px;margin:-8px 0 -60px}
   .cases-track{display:flex;gap:24px;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);will-change:transform}
   .case{flex:0 0 calc((100% - 48px)/3);display:flex;flex-direction:column;gap:18px;cursor:pointer}
+  .case .case-img{transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease}
   .case:hover .case-img{transform:translateY(-4px);box-shadow:0 20px 50px rgba(7,7,7,0.12)}
   .case-img{aspect-ratio:4/5;border-radius:14px;overflow:hidden;position:relative;background:var(--soft);border:1px solid var(--line);transition:all 0.3s}
   .case-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
@@ -298,28 +431,28 @@
   .cases-nav svg{width:18px;height:18px}
   .cases-nav[disabled]{opacity:0.3;cursor:not-allowed}
 
-  /* PROCESS — pinned scroll, centered title, boxed active state */
-  .process{position:relative}
-  .process-scroll{position:relative;height:380vh}
-  .process-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 32px 60px;overflow:hidden}
-  .process-title{text-align:center;margin-bottom:56px;max-width:820px}
-  .process-title h2{font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-0.03em;font-weight:500}
-  .process-title h2 em{font-style:normal;color:var(--ox)}
-  .process-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}
-  .steps-list{display:flex;flex-direction:column;gap:14px}
-  .step-row{display:flex;gap:16px;padding:22px 24px;border-radius:16px;opacity:0.32;transition:all 0.5s cubic-bezier(0.4,0,0.2,1);background:transparent;color:var(--ink);align-items:flex-start}
-  .step-row.active{opacity:1;background:var(--ox);color:var(--paper);box-shadow:0 24px 60px rgba(79,0,6,0.25);transform:translateX(4px)}
-  .step-row .num{width:48px;height:48px;border-radius:12px;background:var(--paper);border:1.5px solid var(--ink);color:var(--ink);font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.5s;opacity:0.7}
-  .step-row.active .num{background:var(--paper);border-color:var(--paper);color:var(--ox);opacity:1}
-  .step-row .body h3{font-size:22px;font-weight:500;letter-spacing:-0.015em;line-height:1.2}
-  .step-row .body p{margin-top:8px;font-size:14px;line-height:1.55;opacity:0.78}
-  .step-row.active .body p{opacity:0.82}
+  /* PROCESS — sticky-stacking cards. The title pins at the top of the viewport while the user scrolls through the cards, and unsticks naturally when .proc-cards scrolls out (i.e. after step 04 has stacked). Cards pin near the vertical centre of the viewport — original card shape and natural spacing preserved. */
+  .process{position:relative;padding:120px 0 160px;background:#fafafa;border-top:1px solid var(--line)}
+  .process .sec-head{position:sticky;top:96px;z-index:10;max-width:none;margin:0 auto 56px;padding:14px 24px 22px;background:#fafafa;text-align:center}
+  .process .sec-head h2{margin:0}
+  .proc-cards{max-width:1240px;margin:0 auto;padding:0 32px;display:flex;flex-direction:column;gap:32px}
+  .proc-card{position:sticky;top:max(200px,calc(50vh - 230px));display:grid;grid-template-columns:1fr 1.1fr;column-gap:56px;align-items:center;padding:44px 48px;background:var(--paper);border:1px solid var(--line);border-radius:28px;box-shadow:0 30px 80px rgba(7,7,7,0.10),0 6px 16px rgba(7,7,7,0.04);will-change:transform}
+  /* All cards share the same sticky top so each one fully covers the previous (deck-of-cards stacking). Use :nth-of-type because the .sec-head sibling shifts the :nth-child indexing — z-index ascends with step number so step 04 always sits on top. */
+  .proc-card:nth-of-type(1){z-index:1}
+  .proc-card:nth-of-type(2){z-index:2}
+  .proc-card:nth-of-type(3){z-index:3}
+  .proc-card:nth-of-type(4){z-index:4}
+  .proc-card:nth-child(even) .proc-text{order:2}
+  .proc-card:nth-child(even) .proc-visual{order:1}
+  .proc-text{display:flex;flex-direction:column}
+  .proc-step-num{font-family:'Instrument Serif',serif;font-style:italic;color:var(--ox);font-size:clamp(56px,6vw,84px);font-weight:400;line-height:1;letter-spacing:-0.02em;margin-bottom:18px}
+  .proc-text h3{font-size:clamp(28px,3.4vw,42px);font-weight:500;letter-spacing:-0.025em;line-height:1.08;margin-bottom:18px;color:var(--ink)}
+  .proc-text p{font-size:16px;line-height:1.55;color:var(--muted);max-width:480px;margin:0}
+  /* Light beige container — matches the original. pv-meet has its own dark bg (Zoom mockup); pv-grid/feed/chart inherit the light bg. */
+  .proc-visual{position:relative;aspect-ratio:4/3;border-radius:22px;overflow:hidden;background:var(--soft);border:1px solid var(--line);box-shadow:0 24px 60px rgba(7,7,7,0.10),0 6px 14px rgba(7,7,7,0.04)}
+  .proc-visual .proc-vis{position:absolute;inset:0;opacity:1;transform:none}
 
-  .process-right{position:relative;aspect-ratio:4/3;background:var(--soft);border-radius:20px;border:1px solid var(--line);overflow:hidden}
-  .proc-vis{position:absolute;inset:0;opacity:0;transform:translateY(12px);transition:opacity 0.5s,transform 0.5s}
-  .proc-vis.active{opacity:1;transform:translateY(0)}
-
-  /* === STEP 01 — Google Meets style meeting === */
+  /* === STEP 01 — Google Meets style call, dark theme === */
   .pv-meet{height:100%;padding:18px;display:flex;flex-direction:column;gap:12px;background:#141414;color:#fff}
   .pv-meet-head{display:flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:0.02em;color:rgba(255,255,255,0.7)}
   .pv-meet-head .pv-dot{width:8px;height:8px;border-radius:50%;background:#e74c3c;box-shadow:0 0 8px rgba(231,76,60,0.6);animation:pv-dot-pulse 1.2s ease-in-out infinite}
@@ -339,7 +472,6 @@
   .pv-tile .pv-mic{position:absolute;right:8px;bottom:8px;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75)}
   .pv-tile .pv-mic svg{width:10px;height:10px}
   .pv-tile .pv-mic.muted{background:rgba(231,76,60,0.8);color:#fff}
-  /* Speaking indicator — each tile rings when "speaking" in rotation */
   .pv-tile::after{content:"";position:absolute;inset:0;border-radius:12px;border:2px solid rgba(74,222,128,0.8);box-shadow:0 0 12px rgba(74,222,128,0.4);opacity:0;pointer-events:none;animation:pv-speak 4.5s linear infinite}
   .pv-tile:nth-child(1)::after{animation-delay:0s}
   .pv-tile:nth-child(2)::after{animation-delay:1.5s}
@@ -359,8 +491,21 @@
   .pv-grid-count .sub{font-family:'Inter',sans-serif;font-style:normal;font-weight:500;font-size:12px;color:var(--muted);letter-spacing:-0.005em;padding-bottom:4px;white-space:nowrap}
   .pv-grid-cells{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(5,1fr);gap:4px;flex:1;min-height:0;overflow:hidden}
   .pv-grid-cells .c{background:var(--paper);border-radius:3px;border:1px solid var(--line);transition:background 0.45s,border-color 0.45s,transform 0.45s}
-  .pv-grid-cells .c.on{background:var(--ox);border-color:var(--ox)}
-  .pv-grid-cells .c.oni{background:rgba(79,0,6,0.22);border-color:rgba(79,0,6,0.22)}
+  .pv-grid-cells .c.on{background:var(--ox);border-color:var(--ox);animation:cellPulse 2.4s ease-in-out infinite}
+  .pv-grid-cells .c.oni{background:rgba(79,0,6,0.22);border-color:rgba(79,0,6,0.22);animation:cellSubPulse 3.2s ease-in-out infinite}
+  .pv-grid-cells .c.on:nth-child(7n){animation-delay:0.6s}
+  .pv-grid-cells .c.on:nth-child(11n){animation-delay:1.2s}
+  .pv-grid-cells .c.on:nth-child(13n){animation-delay:1.8s}
+  .pv-grid-cells .c.oni:nth-child(5n){animation-delay:0.4s}
+  .pv-grid-cells .c.oni:nth-child(9n){animation-delay:1.4s}
+  @keyframes cellPulse{
+    0%,100%{background:var(--ox);box-shadow:0 0 0 rgba(151,0,14,0)}
+    50%{background:#b8000f;box-shadow:0 0 6px rgba(151,0,14,0.55)}
+  }
+  @keyframes cellSubPulse{
+    0%,100%{background:rgba(79,0,6,0.16)}
+    50%{background:rgba(151,0,14,0.40)}
+  }
 
   /* === STEP 02 (alt match layout — unused, kept for reference) === */
   .pv-match{position:relative;padding:24px;height:100%;display:flex;flex-direction:column;gap:14px;overflow:hidden}
@@ -406,30 +551,33 @@
   .pv-feed .v .s{font-size:15px;font-weight:600;color:var(--ox);letter-spacing:-0.01em}
 
   /* === STEP 04 — animated line chart: views → clicks with gradient fill === */
-  .pv-chart{padding:28px;height:100%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-  .pv-chart .top{display:flex;justify-content:space-between;align-items:baseline;position:relative;z-index:2}
-  .pv-chart .top .lab{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.08em;text-transform:uppercase}
-  .pv-chart .top .delta{font-size:11px;color:var(--good);font-weight:600;letter-spacing:0.04em}
-  .pv-chart .top .delta::before{content:"▲ ";font-size:9px}
-  .pv-chart .num{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(40px,6.6vw,60px);line-height:0.9;color:var(--ox);letter-spacing:-0.03em;margin-top:2px;font-variant-numeric:tabular-nums}
-  .pv-chart .num-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:-0.005em}
+  .pv-chart{padding:30px 32px;height:100%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+  .pv-chart .top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:2;gap:16px}
+  .pv-chart .top .lab{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.12em;text-transform:uppercase}
+  .pv-chart .top .delta{font-size:11.5px;color:var(--good);font-weight:600;letter-spacing:0.02em;display:inline-flex;align-items:center;gap:5px;background:rgba(15,154,74,0.08);padding:4px 10px;border-radius:999px;border:1px solid rgba(15,154,74,0.18);white-space:nowrap}
+  .pv-chart .top .delta::before{content:"";display:inline-block;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:5px solid var(--good)}
+  .pv-chart .num{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(40px,6.6vw,62px);line-height:0.95;color:var(--ox);letter-spacing:-0.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+  .pv-chart .num-sub{font-size:11.5px;color:var(--muted);margin-top:4px;letter-spacing:0.005em}
   /* Click-rate pill */
-  .pv-chart-ratio{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:6px 12px;background:rgba(79,0,6,0.06);border:1px solid rgba(79,0,6,0.12);border-radius:999px;font-size:11px;color:var(--ox);font-weight:500;letter-spacing:-0.005em;align-self:flex-start}
-  .pv-chart-ratio .arrow{color:var(--muted);font-size:10px}
+  .pv-chart-ratio{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:7px 14px;background:rgba(79,0,6,0.05);border:1px solid rgba(79,0,6,0.14);border-radius:999px;font-size:11.5px;color:var(--ox);font-weight:500;letter-spacing:-0.005em;align-self:flex-start}
+  .pv-chart-ratio .arrow{color:rgba(79,0,6,0.35);font-size:10px}
   .pv-chart-ratio strong{color:var(--ox);font-weight:600}
-  /* SVG chart takes bottom 52% of the tile */
-  .pv-chart .pv-chart-svg{position:relative;height:52%;width:100%;margin-top:18px}
+  /* SVG chart takes bottom 50% of the tile. Animations are paused by default and play exactly once when the chart enters the viewport (handled by JS adding .played). */
+  .pv-chart .pv-chart-svg{position:relative;height:50%;width:100%;margin-top:16px}
   .pv-chart .pv-chart-svg svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-  .pv-chart .pv-chart-svg .fill{fill:url(#pv-fill-grad);opacity:0;transition:opacity 0.9s 0.7s}
-  .pv-chart.anim .pv-chart-svg .fill{opacity:1}
-  .pv-chart .pv-chart-svg .line{fill:none;stroke:var(--ox);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 2.4s cubic-bezier(0.22,1,0.36,1) 0.5s;filter:drop-shadow(0 0 4px rgba(79,0,6,0.3))}
-  .pv-chart.anim .pv-chart-svg .line{stroke-dashoffset:0}
-  /* animated click dots walking along the curve */
-  .pv-chart .pv-chart-svg .click-dot{fill:var(--ox);r:4;opacity:0;filter:drop-shadow(0 0 6px rgba(79,0,6,0.5));transition:opacity 0.4s}
-  .pv-chart.anim .pv-chart-svg .click-dot{opacity:1}
-  .pv-chart.anim .pv-chart-svg .click-dot.d1{transition-delay:1.4s}
-  .pv-chart.anim .pv-chart-svg .click-dot.d2{transition-delay:1.8s}
-  .pv-chart.anim .pv-chart-svg .click-dot.d3{transition-delay:2.2s}
+  .pv-chart .pv-chart-svg .fill{fill:url(#pv-fill-grad);opacity:0;animation:chartFillIn 1.6s 0.6s ease-out forwards;animation-play-state:paused}
+  .pv-chart .pv-chart-svg .line{fill:none;stroke:var(--ox);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;filter:drop-shadow(0 1px 2px rgba(79,0,6,0.18));animation:drawLine 2.2s ease-out forwards;animation-play-state:paused}
+  /* Click dots: solid centre over a soft halo via stroke ring — sharper than the previous pure drop-shadow look. */
+  .pv-chart .pv-chart-svg .click-dot{fill:var(--ox);stroke:#fff;stroke-width:2.4;r:4.5;opacity:0;transform-origin:center;animation:dotPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;animation-play-state:paused;filter:drop-shadow(0 1px 3px rgba(79,0,6,0.3))}
+  .pv-chart .pv-chart-svg .click-dot.d1{animation-delay:1.4s}
+  .pv-chart .pv-chart-svg .click-dot.d2{animation-delay:1.7s}
+  .pv-chart .pv-chart-svg .click-dot.d3{animation-delay:2.0s}
+  .pv-chart.played .pv-chart-svg .fill,
+  .pv-chart.played .pv-chart-svg .line,
+  .pv-chart.played .pv-chart-svg .click-dot{animation-play-state:running}
+  @keyframes drawLine{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+  @keyframes chartFillIn{from{opacity:0}to{opacity:1}}
+  @keyframes dotPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
 
   /* WHY US — pinned reveal */
   .why{position:relative;background:#0a0a0a;color:var(--paper);padding:0;border-top:0}
@@ -684,14 +832,134 @@
   .wu-dot.active{background:var(--ox);width:28px;border-radius:4px}
   /* short-viewport overrides for pinned scale section */
   .whyus .sec-head{margin-bottom:0}
-  .whyus .sec-head h2{font-size:clamp(28px,4.2vh,56px);line-height:1.02}
-  .whyus .sec-head p{font-size:clamp(13px,1.8vh,17px);margin-top:clamp(8px,1.4vh,20px)}
+  /* Same h2 size as the global .sec-head (matches "Who we work with.") */
+  .whyus .sec-head p{font-size:17px;margin-top:20px}
   .whyus .wu-controls{margin-top:clamp(16px,2.5vh,28px)}
+
+  /* Scroll-driven blur-fade reveal — applied via .fade-in class + .in toggle */
+  .fade-in{opacity:0;filter:blur(8px);transform:translateY(18px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),filter 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1);will-change:opacity,filter,transform}
+  .fade-in.in{opacity:1;filter:blur(0);transform:translateY(0)}
+  /* Stagger children when on a parent with .fade-in-group */
+  .fade-in-group .fade-in:nth-child(1){transition-delay:0s}
+  .fade-in-group .fade-in:nth-child(2){transition-delay:0.08s}
+  .fade-in-group .fade-in:nth-child(3){transition-delay:0.16s}
+  .fade-in-group .fade-in:nth-child(4){transition-delay:0.24s}
+  .fade-in-group .fade-in:nth-child(5){transition-delay:0.32s}
+  .fade-in-group .fade-in:nth-child(6){transition-delay:0.4s}
+  @media (prefers-reduced-motion: reduce){
+    .fade-in{opacity:1;filter:none;transform:none;transition:none}
+  }
+
+  /* (Process CSS lives at top of stylesheet near line 413 — no duplicate here.) */
+
+  /* WHO — two scroll-tied parallax rows of category cards. Container is full-section-width (not wrapped), matching the 3-Billion-views layout, so rows can overflow naturally without bunching to one side. */
+  .who{padding:120px 0;background:#fff;border-top:1px solid var(--line);position:relative;overflow:hidden}
+  .who-wrap{position:relative;margin-top:32px;padding:8px 0;width:100%}
+  .who-parallax{display:flex;flex-direction:column;gap:14px;width:100%;position:relative}
+  .who-row{display:flex;gap:14px;width:max-content;will-change:transform;padding:0 8px;align-items:stretch}
+  .who-card{flex:0 0 240px;display:flex;flex-direction:column;gap:0;background:none;border:0;padding:0}
+  /* Each thumbnail wears a vivid category-specific gradient (set by .who-th-N), with a glassy radial highlight up top and a subtle bottom darken so the title reads cleanly. */
+  .who-thumb{aspect-ratio:4/5;border-radius:18px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.10);transition:transform 0.45s cubic-bezier(0.22,1,0.36,1),box-shadow 0.45s ease,border-color 0.3s ease;color:#fff}
+  .who-thumb::before{content:"";position:absolute;top:-25%;right:-25%;width:90%;height:90%;background:radial-gradient(circle,rgba(255,255,255,0.32),transparent 65%);filter:blur(28px);pointer-events:none;transition:transform 0.6s,opacity 0.4s;mix-blend-mode:overlay}
+  .who-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,0.55) 100%);pointer-events:none}
+  .who-card:hover .who-thumb{transform:translateY(-4px);box-shadow:0 26px 60px rgba(7,7,7,0.30);border-color:rgba(255,255,255,0.30)}
+  .who-card:hover .who-thumb::before{transform:translate(-12%,12%) scale(1.25)}
+  /* Centred glassy icon panel inside each thumb. */
+  .who-icon-badge{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:14px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.22);color:#fff;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),background 0.4s,border-color 0.4s;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,0.18)}
+  .who-card:hover .who-icon-badge{background:rgba(255,255,255,0.24);border-color:rgba(255,255,255,0.42);transform:translate(-50%,-54%) scale(1.04)}
+  .who-icon-badge svg{width:24px;height:24px}
+  .who-thumb-title{position:absolute;left:18px;right:18px;bottom:18px;color:#fff;font-size:22px;font-weight:600;letter-spacing:-0.018em;line-height:1.1;margin:0;text-shadow:0 2px 14px rgba(0,0,0,0.55);z-index:2}
+  /* Distinct vivid gradient per category. */
+  .who-th-1{background:linear-gradient(135deg,#a8000f 0%,#5a000a 100%)}      /* Brands — oxblood */
+  .who-th-2{background:linear-gradient(135deg,#e4528d 0%,#9a2960 100%)}      /* Creators — rose */
+  .who-th-3{background:linear-gradient(135deg,#f0a020 0%,#a05a0a 100%)}      /* Products — amber */
+  .who-th-4{background:linear-gradient(135deg,#9344ec 0%,#4d1f9a 100%)}      /* Music — violet */
+  .who-th-5{background:linear-gradient(135deg,#4860e8 0%,#1f278a 100%)}      /* Films & shows — indigo */
+  .who-th-6{background:linear-gradient(135deg,#16b3a3 0%,#0a6b62 100%)}      /* Podcasts — teal */
+  .who-th-7{background:linear-gradient(135deg,#22c55e 0%,#0e7a3a 100%)}      /* Sports — emerald */
+  .who-th-8{background:linear-gradient(135deg,#d8c920 0%,#7a6d10 100%)}      /* Fitness — citron */
+  .who-th-9{background:linear-gradient(135deg,#1f4ec8 0%,#0a2570 100%)}      /* Finance — deep blue */
+  .who-th-10{background:linear-gradient(135deg,#e244c5 0%,#7a1f6a 100%)}     /* Ecommerce — magenta */
+  .who-th-11{background:linear-gradient(135deg,#1abad4 0%,#0a6a7a 100%)}     /* Apps & tech — cyan */
+
+  /* GLOBE — white theme, 2-column: left = copy, right = stylised rotating globe with pings */
+  .globe{padding:120px 0 140px;background:#fff;color:var(--ink);position:relative;overflow:hidden;border-top:1px solid var(--line)}
+  .globe::before{content:"";position:absolute;top:50%;right:-10%;width:60%;height:80%;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(151,0,14,0.10),transparent 70%);transform:translateY(-50%);filter:blur(80px);pointer-events:none;z-index:0}
+  .globe .wrap{position:relative;z-index:1}
+  .globe-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:1240px;margin:0 auto;padding:0 32px;align-items:center}
+  /* LEFT — copy */
+  .globe-eyebrow{font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:18px}
+  .globe-h2{font-size:clamp(36px,4.4vw,56px);line-height:1.04;letter-spacing:-0.03em;font-weight:500;max-width:520px}
+  .globe-h2 em{
+    font-style:normal;
+    color:var(--ox);
+    display:inline-block;
+    background:linear-gradient(110deg,var(--ox) 0%,var(--ox) 42%,#ff9aa6 46%,#ffffff 50%,#ff9aa6 54%,var(--ox) 58%,var(--ox) 100%);
+    background-size:250% 100%;
+    background-position:100% 0;
+    background-repeat:no-repeat;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 24px rgba(151,0,14,0.16);
+    animation:emShimmer 8s 1s linear infinite
+  }
+  .globe-lead{font-size:17px;line-height:1.55;color:var(--muted);margin-top:18px;max-width:480px}
+  .globe-feats{margin:36px 0 0;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+  /* Hover red wash uses a pseudo-element with opacity transition — gradient backgrounds can't cross-fade via `transition: background`, so the previous attempt looked snappy. The pseudo holds the gradient at all times and we only animate its opacity, plus the border highlight. */
+  .gf{position:relative;display:grid;grid-template-columns:64px 1fr;gap:20px;padding:22px 18px;border-bottom:1px solid var(--line);align-items:flex-start;border-radius:14px;margin:0 -18px;transition:box-shadow 0.5s ease;isolation:isolate}
+  .gf::before{content:"";position:absolute;inset:0;border-radius:14px;background:radial-gradient(ellipse 60% 100% at 30% 50%,rgba(151,0,14,0.10),rgba(151,0,14,0.03) 60%,transparent 100%);opacity:0;transition:opacity 0.55s cubic-bezier(0.22,1,0.36,1);pointer-events:none;z-index:-1}
+  .gf:hover::before{opacity:1}
+  .gf:hover{box-shadow:0 0 0 1px rgba(151,0,14,0.10) inset}
+  .gf-num{font-family:'Instrument Serif',serif;font-style:italic;color:var(--ox);font-size:34px;line-height:1;letter-spacing:-0.02em;font-weight:400;padding-top:2px;text-align:left}
+  .gf-body h4{font-size:16px;font-weight:500;letter-spacing:-0.01em;margin:0 0 4px;color:var(--ink)}
+  .gf-body p{font-size:14px;line-height:1.6;color:var(--muted);margin:0;max-width:420px}
+  /* RIGHT — real 3D globe (JS-projected dots; rotation around Y axis; pings at city coords) */
+  .globe-vis{display:flex;align-items:center;justify-content:center}
+  .globe-3d{position:relative;width:100%;aspect-ratio:1/1;max-width:480px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0%,#fef5f6 35%,#fde0e3 72%,#fbc6cc 100%);box-shadow:inset -24px -36px 80px rgba(151,0,14,0.16),inset 26px 32px 64px rgba(255,255,255,0.75),0 30px 80px rgba(151,0,14,0.22);overflow:hidden}
+  .globe-shine{position:absolute;top:6%;left:14%;width:46%;height:38%;border-radius:50%;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,0.82) 0%,rgba(255,255,255,0.18) 50%,transparent 75%);pointer-events:none;z-index:5}
+  .globe-dot{position:absolute;top:0;left:0;width:2px;height:2px;border-radius:50%;background:rgba(151,0,14,0.65);will-change:transform,opacity;pointer-events:none;z-index:2}
+  /* Outer .globe-city = continuous translate tracking rotation. JS sets the city's opacity per-frame so labels fade smoothly in/out as their longitude rotates across the front band. Label always sits to the right of the dot — no flipping, no collision dance. */
+  .globe-city{position:absolute;top:0;left:0;width:14px;height:14px;will-change:transform,opacity;pointer-events:none;z-index:6;opacity:0}
+  .gc-inner{position:absolute;inset:0;transform-origin:center}
+  .gc-pulse{position:absolute;inset:0;border-radius:50%;background:rgba(151,0,14,0.5);animation:gcPulse 2.6s ease-out var(--d,0s) infinite}
+  .gc-dot{position:absolute;inset:3px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 3px rgba(151,0,14,0.20),0 0 14px rgba(151,0,14,0.6)}
+  .gc-label{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:10.5px;letter-spacing:-0.005em;color:var(--ink);background:rgba(255,255,255,0.94);border:1px solid rgba(151,0,14,0.18);padding:3px 9px;border-radius:999px;white-space:nowrap;font-weight:500;box-shadow:0 4px 12px rgba(151,0,14,0.10);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  @keyframes gcPulse{0%{transform:scale(0.6);opacity:0.85}80%,100%{transform:scale(2.6);opacity:0}}
+
+  /* Scale timeline — 3 rows, each with a card on one side and a stat on the other, sharing a single numbered node down the center rail */
+  .whyus#scale{padding:120px 0}
+  .scale-timeline{position:relative;max-width:1180px;margin:64px auto 0;padding:0 24px}
+  .scale-timeline::before{content:"";position:absolute;left:50%;top:36px;bottom:0;width:2px;background:linear-gradient(180deg,rgba(151,0,14,0.18) 0%,rgba(151,0,14,0.42) 25%,rgba(151,0,14,0.42) 60%,rgba(151,0,14,0.20) 88%,transparent 100%);transform:translateX(-50%);z-index:0}
+  .st-item{display:grid;grid-template-columns:1fr 88px 1fr;align-items:center;column-gap:32px;margin-bottom:102px;position:relative;z-index:1}
+  .st-item:last-child{margin-bottom:0}
+  .st-node{grid-column:2;justify-self:center;position:relative;z-index:2;width:68px;height:68px;border-radius:18px;background:#fff;border:1.5px solid var(--ox);color:var(--ox);font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:30px;line-height:1;display:flex;align-items:center;justify-content:center;letter-spacing:-0.01em;box-shadow:0 12px 32px rgba(151,0,14,0.22)}
+  /* Side placement: card-right places the card in col 3, stat in col 1 (and vice-versa) */
+  .st-card-right .st-stat{grid-column:1;align-items:flex-end;text-align:right}
+  .st-card-right .st-card{grid-column:3;text-align:left}
+  .st-card-left  .st-card{grid-column:1;text-align:right}
+  .st-card-left  .st-stat{grid-column:3;align-items:flex-start;text-align:left}
+  /* Step card */
+  .st-card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px 30px;box-shadow:0 8px 28px rgba(7,7,7,0.04);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease}
+  .st-card:hover{transform:translateY(-4px);box-shadow:0 22px 60px rgba(7,7,7,0.08)}
+  .st-tag{font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px}
+  .st-card h3{font-size:clamp(22px,2.6vw,30px);font-weight:500;letter-spacing:-0.02em;line-height:1.15;margin-bottom:10px}
+  .st-card > p{font-size:14.5px;line-height:1.55;color:var(--muted);margin-bottom:14px}
+  .st-card > p strong{color:var(--ox);font-weight:600}
+  .st-meta{display:flex;align-items:baseline;gap:12px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;justify-content:flex-start}
+  .st-meta strong{color:var(--ink);font-weight:600;letter-spacing:-0.005em}
+  .st-meta span{color:var(--muted)}
+  .st-card-left .st-meta{justify-content:flex-end}
+  /* Stat block (no card) */
+  .st-stat{padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+  .st-stat-num{font-size:clamp(44px,5.6vw,72px);font-weight:600;letter-spacing:-0.04em;line-height:1;color:var(--ox);background:linear-gradient(110deg,#7a000a 0%,var(--ox) 35%,#c8121f 55%,var(--ox) 75%,#7a000a 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .st-stat-lbl{font-size:11px;color:var(--ox);letter-spacing:0.16em;text-transform:uppercase;font-weight:600;margin-top:2px}
+  .st-stat-desc{font-size:13.5px;color:var(--muted);line-height:1.5;max-width:300px;margin-top:4px}
 
   /* CALCULATOR */
   .calc{background:var(--soft)}
   /* CALC updates */
-  .calc-section{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .calc-section{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
   .calc-section:last-child{border-bottom:0;padding-bottom:0;margin-bottom:0}
   .calc-section-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px}
   .calc-section.sliders{padding-top:4px}
@@ -701,16 +969,16 @@
   .calc-section.sliders .rng input::-moz-range-thumb{width:22px;height:22px}
   .rng-top .v{transition:color 0.25s ease,transform 0.25s ease;display:inline-block}
   .rng-anim .v{color:var(--ox)}
-  .calc-body{max-width:1120px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;box-shadow:0 20px 60px rgba(7,7,7,0.05)}
-  .calc-inputs{padding:48px 44px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+  .calc-body{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;box-shadow:0 20px 60px rgba(7,7,7,0.05)}
+  .calc-inputs{padding:20px 26px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
   .help{display:inline-flex;width:14px;height:14px;border-radius:50%;background:var(--line);color:var(--muted);font-size:9px;align-items:center;justify-content:center;cursor:help;margin-left:6px;font-weight:700;position:relative;vertical-align:middle}
   .help::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 12px;border-radius:8px;font-size:11px;font-weight:400;line-height:1.4;white-space:normal;width:200px;text-align:left;opacity:0;pointer-events:none;transition:opacity 0.2s;z-index:10;text-transform:none;letter-spacing:0}
   .help:hover::after{opacity:1}
-  .calc-inputs h3{font-size:18px;font-weight:500;margin-bottom:24px;letter-spacing:-0.01em}
-  .field{margin-bottom:22px}
+  .calc-inputs h3{font-size:18px;font-weight:500;margin-bottom:14px;letter-spacing:-0.01em}
+  .field{margin-bottom:14px}
   .field:last-child{margin-bottom:0}
-  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px}
-  .input-wrap{position:relative;background:var(--soft);border:1px solid transparent;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;transition:all 0.2s}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+  .input-wrap{position:relative;background:var(--soft);border:1px solid transparent;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;transition:all 0.2s}
   .input-wrap:focus-within{border-color:var(--ink);background:var(--paper)}
   .input-wrap .sym{font-size:18px;color:var(--muted)}
   .input-wrap input{border:0;background:none;outline:none;font-size:20px;font-weight:500;letter-spacing:-0.01em;width:100%;color:var(--ink);font-family:inherit}
@@ -747,7 +1015,7 @@
   .ctr-avg{color:#facc15 !important}
   .ctr-above{color:#4ade80 !important}
 
-  .calc-out{padding:40px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .calc-out{padding:18px 26px;background:var(--ink);color:var(--paper);display:flex;flex-direction:column;position:relative;overflow:hidden}
   .calc-out::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 85% 0%,rgba(79,0,6,0.45),transparent 55%);pointer-events:none}
   .calc-out > *{position:relative;z-index:1}
   .calc-out h3{font-size:18px;font-weight:500;margin-bottom:4px;letter-spacing:-0.01em;display:flex;justify-content:space-between;align-items:center}
@@ -755,25 +1023,25 @@
   .live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,0.2);animation:pulse 2s infinite}
 
   /* HERO KPI — expected views (compact, glowy) */
-  .kpi-hero{padding:22px 0 22px;border-bottom:1px solid rgba(255,255,255,0.1);position:relative}
+  .kpi-hero{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.1);position:relative}
   .kpi-hero::before{content:"";position:absolute;top:-10%;left:-20%;right:-20%;bottom:-10%;background:radial-gradient(ellipse 60% 70% at 30% 50%,rgba(232,136,144,0.18),transparent 75%);filter:blur(56px);pointer-events:none}
   .kpi-hero > *{position:relative}
-  .kpi-hero .l{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
-  .kpi-hero .n{font-size:clamp(44px,5.6vw,68px);font-weight:500;letter-spacing:-0.035em;line-height:0.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kpi-hero .l{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  .kpi-hero .n{font-size:clamp(38px,4.8vw,58px);font-weight:500;letter-spacing:-0.035em;line-height:0.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .kpi-hero .n span{background:linear-gradient(135deg,#fff 0%,#e88890 60%,#c96068 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px rgba(232,136,144,0.3))}
-  .kpi-hero .s{font-size:10px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.4;letter-spacing:0.02em}
+  .kpi-hero .s{font-size:10px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4;letter-spacing:0.02em}
 
-  .kpi{padding:22px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .kpi{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
   .kpi:last-of-type{border-bottom:0}
-  .kpi .l{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase}
-  .kpi .n{font-size:36px;font-weight:500;letter-spacing:-0.03em;line-height:1}
-  .kpi .s{font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px}
+  .kpi .l{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
+  .kpi .n{font-size:32px;font-weight:500;letter-spacing:-0.03em;line-height:1}
+  .kpi .s{font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px}
 
   /* CPC card with green-good */
-  .cpc-card{padding:20px;background:rgba(15,154,74,0.1);border:1px solid rgba(15,154,74,0.3);border-radius:12px;margin-top:6px;transition:all 0.3s}
+  .cpc-card{padding:14px 16px;background:rgba(15,154,74,0.1);border:1px solid rgba(15,154,74,0.3);border-radius:12px;margin-top:6px;transition:all 0.3s}
   .cpc-card.par{background:rgba(250,204,21,0.1);border-color:rgba(250,204,21,0.3)}
   .cpc-card.bad{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08)}
-  .cpc-card .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+  .cpc-card .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
   .cpc-card .l{font-size:12px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;text-transform:uppercase}
   .cpc-card.good .l,.cpc-card.great .l{color:rgba(255,255,255,0.7)}
   .cpc-card .badge{font-size:10px;padding:4px 10px;border-radius:999px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;background:#4ade80;color:#0a3d1e;transition:all 0.3s}
@@ -781,11 +1049,11 @@
   .cpc-card.bad .badge{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)}
   .cpc-card.great .badge{background:#22c55e;color:#fff;animation:glowgreen 2s infinite}
   @keyframes glowgreen{50%{box-shadow:0 0 0 6px rgba(74,222,128,0.25)}}
-  .cpc-card .big{font-size:52px;font-weight:600;letter-spacing:-0.035em;line-height:0.95;color:#4ade80;transition:color 0.3s}
+  .cpc-card .big{font-size:42px;font-weight:600;letter-spacing:-0.035em;line-height:0.95;color:#4ade80;transition:color 0.3s}
   .cpc-card.par .big{color:#facc15}
   .cpc-card.bad .big{color:#fff}
   .cpc-card.great .big{color:#22c55e}
-  .benches{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+  .benches{display:flex;flex-direction:column;gap:6px;margin-top:12px}
   .b{display:flex;align-items:center;gap:12px;font-size:12px}
   .b .bn{width:70px;color:rgba(255,255,255,0.55)}
   .b .bt{flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;position:relative}
@@ -798,7 +1066,7 @@
   .b.you .bn,.b.you .br{color:var(--paper);font-weight:500}
 
   /* Pool card — simplified */
-  .pool-card{padding:22px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .pool-card{padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:20px}
   .pool-card .l{font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
   .pool-card .big{font-family:'Instrument Serif',serif;font-size:46px;line-height:1;font-weight:400;letter-spacing:-0.02em;font-style:italic;color:#fff;background:linear-gradient(135deg,#fff,#e88890);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .pool-card .s{font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px}
@@ -920,11 +1188,21 @@
     .calc-body{grid-template-columns:1fr}
     .calc-inputs{border-right:0;border-bottom:1px solid var(--line);padding:36px 28px}
     .calc-out{padding:32px 28px}
-    .process-inner{grid-template-columns:1fr;gap:24px;padding:0 8px}
-    .process-right{aspect-ratio:16/10;max-width:560px;margin:0 auto;width:100%}
-    .process-scroll{height:300vh}
-    .process-sticky{padding:64px 20px 40px}
-    .process-title{margin-bottom:32px}
+    /* Mobile: keep the sticky-stack deck-of-cards scroll effect from desktop, just smaller offsets and single-column cards */
+    .process{padding:80px 0 120px}
+    .process .sec-head{position:sticky;top:126px;padding:14px 16px 18px;background:#fafafa;margin:0 auto 32px;z-index:10}
+    .process .sec-head h2{font-size:clamp(26px,7vw,38px);line-height:1.05}
+    .proc-cards{padding:0 16px;gap:18px;margin:0 auto}
+    .proc-card{position:sticky;top:max(210px,calc(50vh - 240px));padding:28px 22px;grid-template-columns:1fr;column-gap:0;row-gap:24px;border-radius:22px;align-items:start}
+    .proc-card:nth-of-type(1){z-index:1}
+    .proc-card:nth-of-type(2){z-index:2}
+    .proc-card:nth-of-type(3){z-index:3}
+    .proc-card:nth-of-type(4){z-index:4}
+    .proc-card:nth-child(even) .proc-text{order:1}
+    .proc-card:nth-child(even) .proc-visual{order:2}
+    .proc-step-num{font-size:48px;margin-bottom:12px}
+    .proc-text h3{font-size:24px;margin-bottom:14px}
+    .proc-text p{font-size:15px}
     .why-slide{grid-template-columns:1fr;gap:28px}
     .why-slide .right{max-width:480px;margin:0 auto;width:100%;aspect-ratio:16/10}
     .why-stage{height:auto;min-height:420px}
@@ -989,13 +1267,8 @@
     .rp-row{gap:16px;padding:0 20px}
     .results{padding-bottom:90px}
     .res-parallax{gap:16px;padding:20px 0}
-    .step-row{padding:16px 18px;gap:12px}
-    .step-row .num{width:40px;height:40px;border-radius:10px;font-size:13px}
-    .step-row .body h3{font-size:18px}
-    .step-row .body p{font-size:13px}
-    .process-title h2{font-size:clamp(28px,6.8vw,38px)}
-    .process-scroll{height:260vh}
-    .process-sticky{padding:48px 16px 32px}
+    .proc-cards{padding:0 12px;gap:24px}
+    .proc-card{padding:28px 22px;border-radius:20px}
     .why-stage{min-height:380px}
     .why-slide .idx{font-size:72px}
     .why-slide .left p{font-size:14.5px}
@@ -1013,6 +1286,42 @@
     .pr-progression{padding:10px 16px;gap:10px}
     .pr-step{padding:8px 12px;font-size:12px}
     .whyus{padding:70px 0}
+    .whyus#scale{padding:80px 0}
+    .who{padding:80px 0}
+    /* Mobile = same layout as web, just smaller scale: same 14px gaps, half the card size, identical proportions. */
+    .who-wrap{margin-top:24px;padding:8px 0}
+    .who-parallax{gap:14px}
+    .who-row{gap:14px;padding:0 8px}
+    .who-card{flex:0 0 140px}
+    .who-thumb{border-radius:14px}
+    .who-icon-badge{width:36px;height:36px;border-radius:10px}
+    .who-icon-badge svg{width:16px;height:16px}
+    .who-thumb-title{font-size:18px;left:14px;right:14px;bottom:14px}
+    .globe{padding:80px 0 90px}
+    .globe-grid{grid-template-columns:1fr;gap:48px;padding:0 20px}
+    .globe-h2{font-size:clamp(30px,8vw,42px);max-width:none}
+    .globe-lead{font-size:15px}
+    .globe-points li > div{font-size:14px}
+    .globe-3d{max-width:340px;margin:0 auto}
+    .proc-step{font-size:34px}
+    .proc-icon{width:46px;height:46px}
+    .proc-icon svg{width:22px;height:22px}
+    /* (Old who-card padding removed — was leaving huge whitespace inside each card on mobile.) */
+    /* Mobile: collapse alternating to single column — node on left, card+stat stacked on the right */
+    .scale-timeline{padding:0 20px;margin-top:40px;max-width:none}
+    .scale-timeline::before{left:43px;top:24px;bottom:24px;transform:none}
+    .st-item{grid-template-columns:46px 1fr;column-gap:18px;margin-bottom:36px;align-items:start;row-gap:14px}
+    .st-node{grid-column:1;grid-row:1;justify-self:center;align-self:center;width:46px;height:46px;font-size:22px;border-radius:14px;box-shadow:0 6px 18px rgba(151,0,14,0.18)}
+    .st-card-right .st-card,.st-card-left .st-card{grid-column:2;grid-row:1;text-align:left}
+    .st-card-right .st-stat,.st-card-left .st-stat{grid-column:2;grid-row:2;align-items:flex-start;text-align:left;padding:0 4px}
+    .st-card-left .st-meta,.st-card-right .st-meta{justify-content:flex-start}
+    .st-stat-num{font-size:clamp(40px,11vw,60px)}
+    .st-stat-desc{max-width:none}
+    .st-card{padding:22px;border-radius:16px}
+    .st-card h3{font-size:20px}
+    .st-card > p{font-size:14px;line-height:1.5}
+    .st-tag{font-size:10.5px;letter-spacing:0.1em}
+    .st-meta{font-size:12.5px;flex-wrap:wrap;gap:6px}
     .wu-card{padding:24px 22px;width:min(520px,92%)}
     .wu-stage{height:clamp(280px,52vh,380px)}
     .wu-card h3{font-size:22px}
@@ -1055,20 +1364,30 @@
   @media (max-width:760px){
     /* Hero */
     .hero{padding:100px 0 20px}
-    .hero h1{font-size:clamp(32px,8vw,46px);line-height:1.1;max-width:520px;padding:0 6px}
+    .hero h1{font-size:clamp(37px,9.2vw,53px);line-height:1.1;max-width:520px;padding:0 6px}
     .hero h1 .glow{-webkit-text-stroke:0.8px currentColor;font-size:1.34em}
-    .hero h1 .h1-soft{font-size:clamp(15px,4vw,19px);margin-top:18px;max-width:none;line-height:1.4;white-space:normal}
+    .hero h1 .h1-soft{font-size:clamp(14px,3.7vw,18px);margin-top:20px;max-width:none;line-height:1.4;white-space:normal}
     /* Hero CTA row stacks on narrow phones */
     .hero-cta-row{flex-direction:column;gap:12px;margin-top:26px;max-width:340px;padding:0 16px}
     .hero-cta-row .glow-cta,.hero-cta-row .ghost-cta{width:100%;justify-content:center;padding:16px 24px;font-size:14px}
-    .hero-glow{filter:blur(54px)}
+    /* Tighter side-glows on mobile — orbs pulled further off-screen and smaller blur so the wash hugs the edges instead of leaking into the centre */
+    .hero-orb{filter:blur(42px)}
+    .hero-orb-l{width:55vw;height:42vh;left:-38vw;top:6vh}
+    .hero-orb-r{width:55vw;height:42vh;right:-38vw;top:10vh}
+    /* Social-proof badge + as-featured strip tighten on mobile */
+    .hero-proof{font-size:12px;padding:7px 14px;margin-bottom:22px}
+    .hero-proof-num{font-size:15px}
+    .hero-press{margin-top:24px;gap:10px}
+    .hero-press-lbl{font-size:10px;letter-spacing:0.16em}
+    .hero-press-logos{gap:28px}
+    .hero-press-logos img{height:20px;max-width:120px}
     .hero h1 .h1-mobile-break{display:block;height:0;font-size:0;line-height:0}
     /* Hero paragraph hidden on mobile — keep CTA/VSL closer to fold so logos peek through */
     .hero p{display:none}
 
     /* Logos rail — slow the drift, shrink logos, wider gaps */
     .logos{padding:22px 0 32px;overflow:hidden}
-    .logos-head{margin-bottom:22px}
+    .logos-head{margin-bottom:22px;font-size:clamp(12px,3.6vw,15px);white-space:nowrap;letter-spacing:-0.01em;padding:0 8px;overflow:hidden;text-overflow:ellipsis}
     /* VSL bottom padding tightened so CTA + logos pack closer to hero */
     .vsl-wrap .cta-block{margin-top:18px}
     .logos-track{gap:44px;animation-duration:44s}
@@ -1095,7 +1414,7 @@
     .cases{padding:56px 0 36px;position:relative;z-index:1}
     .cases-wrap{padding:0;touch-action:pan-y pinch-zoom}
     .cases-nav{display:none}
-    .cases-viewport{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 20px 10px}
+    .cases-viewport{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 20px 10px;margin:0}
     .cases-viewport::-webkit-scrollbar{display:none}
     .cases-track{gap:14px;transform:none !important;transition:none !important}
     .case{flex:0 0 82%;scroll-snap-align:center;scroll-snap-stop:always}
@@ -1103,35 +1422,9 @@
     .case-body{padding:16px 20px}
     .case-body h3{font-size:19px}
     .case-img .vn{font-size:38px}
-    .cases-dots{display:flex;justify-content:center;gap:8px;margin-top:18px}
+    .cases-dots{display:flex;justify-content:center;gap:8px;margin-top:24px;padding-bottom:8px;position:relative;z-index:2}
     .cases-dots .cs-dot{width:8px;height:8px;border-radius:50%;background:rgba(7,7,7,0.18);border:0;padding:0;cursor:pointer;transition:all 0.3s}
     .cases-dots .cs-dot.active{width:22px;border-radius:6px;background:var(--ox)}
-    /* Process — unpinned on mobile: each step is a full card (text + graphic) in a native scroll-snap carousel with dots */
-    /* Process — mobile: pinned scroll like Why Us. ~18% bigger container + fonts for readability. */
-    .process-scroll{height:360vh;position:relative}
-    .process-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding:44px 12px 28px;overflow:hidden;text-align:center}
-    .process-title{margin-bottom:2px;padding:0;text-align:center;max-width:100%}
-    .process-title h2{font-size:clamp(26px,7vw,36px);line-height:1.06}
-    .process-inner{display:flex;flex-direction:column;gap:18px;width:100%;max-width:min(380px,calc(100vw - 24px));margin:0 auto;grid-template-columns:none;align-items:center}
-    .process-left{width:100%;order:2;display:flex;flex-direction:column;align-items:center;gap:16px}
-    /* Graphic — 4:3, same width as card below */
-    .process-right{order:1;display:block;position:relative;width:100%;max-width:min(380px,calc(100vw - 24px));margin:0 auto;aspect-ratio:4/3;background:var(--soft);border-radius:18px;border:1px solid var(--line);overflow:hidden}
-    .process-right .proc-vis{position:absolute;inset:0;opacity:0;transform:translateY(12px);transition:opacity 0.5s,transform 0.5s}
-    .process-right .proc-vis.active{opacity:1;transform:translateY(0)}
-    /* Steps list viewer — matches graphic width, taller for bigger text */
-    .steps-list{position:relative;display:block;padding:0;overflow:visible;width:100%;max-width:min(380px,calc(100vw - 24px));min-height:300px;margin:0 auto}
-    .step-row{position:absolute !important;inset:0;opacity:0;transform:translateY(10px) !important;transition:opacity 0.5s cubic-bezier(0.22,1,0.36,1),transform 0.5s cubic-bezier(0.22,1,0.36,1),box-shadow 0.5s ease;pointer-events:none;padding:24px 22px 26px;border-radius:20px;background:#fff !important;color:var(--ink) !important;box-shadow:0 0 0 1px var(--line),0 8px 20px rgba(79,0,6,0.06) !important;border:0;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
-    .step-row.active{opacity:1;transform:translateY(0) !important;pointer-events:auto;background:#fff !important;color:var(--ink) !important;box-shadow:0 0 0 1px var(--line),0 14px 36px rgba(79,0,6,0.08),0 0 80px 10px rgba(79,0,6,0.11),0 0 40px 4px rgba(79,0,6,0.09) !important}
-    /* 01/02/03/04 badge — white with oxblood italic numeral, ~20% bigger */
-    .step-row .num{background:#fff;color:var(--ox);border:1.5px solid var(--ox);width:52px;height:52px;border-radius:14px;margin:0 auto;opacity:1;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:24px;letter-spacing:-0.01em}
-    .step-row.active .num{background:#fff;color:var(--ox);border-color:var(--ox)}
-    .step-row .body{padding:0;flex:1;text-align:center;width:100%}
-    .step-row .body h3{color:var(--ink);font-size:20px;line-height:1.22;margin-top:4px}
-    .step-row .body p{color:rgba(7,7,7,0.68);font-size:15.5px;line-height:1.5;margin-top:10px;max-width:100%;margin-left:auto;margin-right:auto}
-    /* Dots — flush below the card */
-    .process-dots{display:flex !important;gap:7px;justify-content:center;margin:4px auto 0;order:3;width:100%}
-    .process-dots .pc-dot{width:26px;height:3px;background:rgba(7,7,7,0.15);border-radius:2px;border:0;padding:0;cursor:pointer;transition:background 0.3s}
-    .process-dots .pc-dot.active{background:var(--ox)}
     /* Strategy call: single row of 3 portrait tiles, properly sized for the 320×240 container */
     .pv-meet{padding:10px;gap:8px}
     .pv-meet-head{font-size:10px}
@@ -1352,7 +1645,7 @@
       <a href="#cases" data-close>Cases</a>
       <a href="#process" data-close>Process</a>
       <a href="#founders" data-close>Founders</a>
-      <a href="#why" data-close>Why Us</a>
+      <a href="#who" data-close>Who it's for</a>
       <a href="#scale" data-close>How We Scale</a>
       <a href="#pricing" data-close>Pricing</a>
       <a href="#calc" data-close>Calculator</a>
@@ -1368,10 +1661,21 @@
 
 <!-- HERO -->
 <section class="hero" id="Home" data-screen-label="01 Hero">
-  <div class="hero-glow hero-glow-l" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow-r" aria-hidden="true"></div>
+  <div class="hero-aurora" aria-hidden="true">
+    <div class="hero-orb hero-orb-l"></div>
+    <div class="hero-orb hero-orb-r"></div>
+    <div class="hero-orb hero-orb-c"></div>
+  </div>
   <div class="wrap">
-    <h1>Every video you've<span class="h1-mobile-break"> </span>ever filmed should be <span class="u"><span class="glow">making you money</span></span> <span class="glow">right now.</span><span class="h1-soft">Most of it's sitting untouched while your competitors turn theirs into <span class="serif">millions of views</span> and <span class="serif">paying customers.</span></span></h1>
+    <div class="hero-proof">
+      <div class="hero-avatars" aria-hidden="true">
+        <img src="uploads/avatars/nonstop.png" alt="" loading="eager" decoding="async">
+        <img src="uploads/avatars/luke-belmar.png" alt="" loading="eager" decoding="async">
+        <img src="uploads/avatars/iman-gadzhi.png" alt="" loading="eager" decoding="async">
+      </div>
+      <span><span class="hero-proof-num">3B+</span> Views delivered for brands</span>
+    </div>
+    <h1>Your clipping team<br><span class="u"><span class="glow"><span class="cycler"><span class="cyc-word active" data-text="Built">Built</span><span class="cyc-word" data-text="Managed">Managed</span><span class="cyc-word" data-text="Optimised">Optimised</span></span><span class="cyc-tail" data-text="For You">For You</span></span></span><span class="h1-soft">A team handpicked, trained, and managed around your brand, so it operates like your own team <span class="serif">without</span> the chaos of building one yourself.</span></h1>
     <div class="hero-cta-row">
       <a href="/book/" class="glow-cta">
         <span class="glow-cta-rings"></span>
@@ -1380,6 +1684,14 @@
       </a>
     </div>
     <div class="cta-sub hero-cta-sub">Book a call. We'll tell you honestly if we're the right fit.</div>
+    <div class="hero-press" aria-label="As featured in">
+      <span class="hero-press-lbl">As featured in</span>
+      <div class="hero-press-logos">
+        <img decoding="async" src="uploads/logos/logo-forbes.png" alt="Forbes" loading="lazy">
+        <img decoding="async" src="uploads/logos/logo-nyt.png" alt="The New York Times" loading="lazy">
+        <img decoding="async" src="uploads/logos/logo-npr.png" alt="NPR" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1402,33 +1714,37 @@
   <div class="wrap"><div class="logos-head">Trusted by leading brands &amp; creators</div></div>
   <div class="logos-mask">
     <div class="logos-track" id="logos-track">
-      <div class="lg"><img decoding="async" src="uploads/logos/logo-01.png" alt="" loading="lazy"></div>
-      <div class="lg sz-110"><img decoding="async" src="uploads/logos/logo-02.png" alt="" loading="lazy"></div>
-      <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-03.png" alt="" loading="lazy"></div>
-      <div class="lg sz-070"><img decoding="async" src="uploads/logos/logo-04.png" alt="" loading="lazy"></div>
-      <div class="lg wide"><img decoding="async" src="uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
-      <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-06.png" alt="" loading="lazy"></div>
-      <div class="lg"><img decoding="async" src="uploads/logos/logo-07.png" alt="" loading="lazy"></div>
-      <div class="lg sz-160"><img decoding="async" src="uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
-      <div class="lg cap-narrow sz-110"><img decoding="async" src="uploads/logos/logo-09.png" alt="" loading="lazy"></div>
-      <div class="lg sz-120"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
-      <div class="lg wide sz-075"><img decoding="async" src="uploads/logos/logo-forbes.png" alt="Forbes" loading="lazy"></div>
-      <div class="lg tall wide"><img decoding="async" src="uploads/logos/logo-nyt.png" alt="The New York Times" loading="lazy"></div>
-      <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr.png" alt="NPR" loading="lazy"></div>
-      <!-- duplicate for infinite loop -->
-      <div class="lg" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-01.png" alt="" loading="lazy"></div>
-      <div class="lg sz-110" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-02.png" alt="" loading="lazy"></div>
-      <div class="lg sz-115" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-03.png" alt="" loading="lazy"></div>
-      <div class="lg sz-070" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-04.png" alt="" loading="lazy"></div>
-      <div class="lg wide" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
-      <div class="lg sz-115" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-06.png" alt="" loading="lazy"></div>
-      <div class="lg" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-07.png" alt="" loading="lazy"></div>
-      <div class="lg sz-160" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
-      <div class="lg cap-narrow sz-110" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-09.png" alt="" loading="lazy"></div>
-      <div class="lg sz-120" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
-      <div class="lg wide sz-075" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-forbes.png" alt="" loading="lazy"></div>
-      <div class="lg tall wide" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-nyt.png" alt="" loading="lazy"></div>
-      <div class="lg wide keep-tone" aria-hidden="true"><img decoding="async" src="uploads/logos/logo-npr.png" alt="" loading="lazy"></div>
+      <div class="logos-cycle">
+        <div class="lg"><img decoding="async" src="uploads/logos/logo-01.png" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img decoding="async" src="uploads/logos/logo-02.png" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-03.png" alt="" loading="lazy"></div>
+        <div class="lg sz-070"><img decoding="async" src="uploads/logos/logo-04.png" alt="" loading="lazy"></div>
+        <div class="lg wide"><img decoding="async" src="uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-06.png" alt="" loading="lazy"></div>
+        <div class="lg"><img decoding="async" src="uploads/logos/logo-07.png" alt="" loading="lazy"></div>
+        <div class="lg sz-160"><img decoding="async" src="uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg cap-narrow sz-110"><img decoding="async" src="uploads/logos/logo-09.png" alt="" loading="lazy"></div>
+        <div class="lg sz-120"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img decoding="async" src="uploads/logos/logo-forbes.png" alt="Forbes" loading="lazy"></div>
+        <div class="lg tall wide"><img decoding="async" src="uploads/logos/logo-nyt.png" alt="The New York Times" loading="lazy"></div>
+        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr.png" alt="NPR" loading="lazy"></div>
+      </div>
+      <!-- duplicate for seamless infinite loop -->
+      <div class="logos-cycle" aria-hidden="true">
+        <div class="lg"><img decoding="async" src="uploads/logos/logo-01.png" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img decoding="async" src="uploads/logos/logo-02.png" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-03.png" alt="" loading="lazy"></div>
+        <div class="lg sz-070"><img decoding="async" src="uploads/logos/logo-04.png" alt="" loading="lazy"></div>
+        <div class="lg wide"><img decoding="async" src="uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img decoding="async" src="uploads/logos/logo-06.png" alt="" loading="lazy"></div>
+        <div class="lg"><img decoding="async" src="uploads/logos/logo-07.png" alt="" loading="lazy"></div>
+        <div class="lg sz-160"><img decoding="async" src="uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg cap-narrow sz-110"><img decoding="async" src="uploads/logos/logo-09.png" alt="" loading="lazy"></div>
+        <div class="lg sz-120"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img decoding="async" src="uploads/logos/logo-forbes.png" alt="" loading="lazy"></div>
+        <div class="lg tall wide"><img decoding="async" src="uploads/logos/logo-nyt.png" alt="" loading="lazy"></div>
+        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr.png" alt="" loading="lazy"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1436,8 +1752,8 @@
 <!-- RESULTS — PARALLAX SCREENSHOTS -->
 <section class="sec results" data-screen-label="02 Results">
   <div class="wrap">
-    <div class="sec-head">
-      <h2 id="three-billion-h2">We've delivered <em class="tb-fill">3 billion<span class="tb-fill-ink" aria-hidden="true">3 billion</span></em> views and counting. Your brand is next.</h2>
+    <div class="sec-head fade-in">
+      <h2 id="three-billion-h2" class="results-h2">We've delivered <em>3 billion</em> views and counting. Your brand is next.</h2>
       <p>A single clipper can generate tens of millions of views on a single video. Imagine that at scale.</p>
     </div>
   </div>
@@ -1460,7 +1776,7 @@
 <!-- CASE STUDIES -->
 <section class="sec" id="cases" data-screen-label="03 Cases">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head fade-in">
       <h2 class="cases-h2">Take a look at some<br><span class="caser">case studies.</span></h2>
     </div>
   </div>
@@ -1470,79 +1786,79 @@
     </button>
     <div class="cases-viewport">
       <div class="cases-track" id="cases-track">
-        <div class="case" data-case="magnus">
-          <div class="case-img"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="magnus">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="helix">
-          <div class="case-img"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="helix">
+          <div class="case-img fade-in"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="lith">
-          <div class="case-img"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="lith">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="aero">
-          <div class="case-img"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
-          <div class="case-title"><h3>Arab</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="aero">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+          <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="verdant">
-          <div class="case-img"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Nonstop</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="verdant">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="solvex">
-          <div class="case-img"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="solvex">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
         </div>
         <!-- duplicate set for seamless infinite loop -->
-        <div class="case" data-case="magnus" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="magnus" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="helix" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="helix" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="lith" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="lith" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="aero" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
-          <div class="case-title"><h3>Arab</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="aero" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+          <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="verdant" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Nonstop</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="verdant" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="solvex" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="solvex" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
         </div>
         <!-- third set for seamless infinite wrap -->
-        <div class="case" data-case="magnus" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="magnus" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.png" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="helix" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="helix" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/andrew-tate.png" alt="Andrew Tate" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Andrew Tate</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="lith" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="lith" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.png" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="aero" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
-          <div class="case-title"><h3>Arab</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="aero" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.png" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+          <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="verdant" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title"><h3>Nonstop</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="verdant" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.png" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+          <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </div>
-        <div class="case" data-case="solvex" aria-hidden="true">
-          <div class="case-img"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <div class="case fade-in" data-case="solvex" aria-hidden="true">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.png" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
         </div>
       </div>
     </div>
@@ -1560,75 +1876,27 @@
   </div>
 </section>
 
-<!-- PROCESS — pinned scroll -->
+<!-- PROCESS — vertically stacked cards, alternating sides, large + spacious -->
 <section id="process" class="process" data-screen-label="04 Process">
-  <div class="process-scroll" id="process-scroll">
-    <div class="process-sticky">
-      <div class="process-title">
+  <div class="wrap">
+    <div class="proc-cards">
+      <div class="sec-head fade-in">
         <h2>Our <em>process</em>, in four steps.</h2>
       </div>
-      <div class="process-inner">
-        <div class="process-left">
-          <div class="steps-list" id="steps-list">
-            <div class="step-row active" data-step="0">
-              <div class="num">01</div>
-              <div class="body">
-                <h3>Strategy call.</h3>
-                <p>A 30 minute kickoff to understand your brand, align on goals, and map out your existing content library and audience. We leave the call knowing exactly how to build your campaign.</p>
-              </div>
-            </div>
-            <div class="step-row" data-step="1">
-              <div class="num">02</div>
-              <div class="body">
-                <h3>Clippers get to work.</h3>
-                <p>We assemble a team of Clippers best fitted to your brand, backed by a dedicated operations manager who trains and optimises them around your content specifically.</p>
-              </div>
-            </div>
-            <div class="step-row" data-step="2">
-              <div class="num">03</div>
-              <div class="body">
-                <h3>Clips ship, test, optimise.</h3>
-                <p>We upload daily across platforms, test content formats, and double down on what's working. Want to weigh in? Approve, tweak, or send feedback on any clip at any time.</p>
-              </div>
-            </div>
-            <div class="step-row" data-step="3">
-              <div class="num">04</div>
-              <div class="body">
-                <h3>Watch the views grow.</h3>
-                <p>We track view to click ratio alongside cost per click, so you see exactly how every dollar translates into real traffic. Top performing clippers stay, underperformers get rotated out, and you get a clear picture of what's actually driving growth.</p>
-              </div>
-            </div>
-          </div>
-          <div class="process-dots" id="process-dots" aria-hidden="true">
-            <button class="pc-dot active" data-i="0" aria-label="Strategy call"></button>
-            <button class="pc-dot" data-i="1" aria-label="Clippers get to work"></button>
-            <button class="pc-dot" data-i="2" aria-label="Clips ship"></button>
-            <button class="pc-dot" data-i="3" aria-label="Watch the views grow"></button>
-          </div>
+      <article class="proc-card fade-in">
+        <div class="proc-text">
+          <div class="proc-step-num">01</div>
+          <h3>Strategy call.</h3>
+          <p>A 30 minute kickoff to understand your brand, align on goals, and map out your existing content library and audience. We leave the call knowing exactly how to build your campaign.</p>
         </div>
-        <div class="process-right">
-          <div class="proc-vis active" data-vis="0">
+        <div class="proc-visual">
+          <div class="proc-vis active">
             <div class="pv-meet">
-              <div class="pv-meet-head">
-                <span class="pv-dot"></span>
-                <span class="pv-title">Strategy call</span>
-              </div>
+              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Strategy call</span></div>
               <div class="pv-meet-grid">
-                <div class="pv-tile">
-                  <div class="pv-avatar">J</div>
-                  <div class="pv-name">Jaden</div>
-                  <div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div>
-                </div>
-                <div class="pv-tile">
-                  <div class="pv-avatar">E</div>
-                  <div class="pv-name">Emrah</div>
-                  <div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div>
-                </div>
-                <div class="pv-tile focus span-2">
-                  <div class="pv-avatar">YOU</div>
-                  <div class="pv-name">You</div>
-                  <div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div>
-                </div>
+                <div class="pv-tile"><div class="pv-avatar">J</div><div class="pv-name">Jaden</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
+                <div class="pv-tile"><div class="pv-avatar">E</div><div class="pv-name">Emrah</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
+                <div class="pv-tile focus span-2"><div class="pv-avatar">YOU</div><div class="pv-name">You</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
               </div>
               <div class="pv-meet-bar">
                 <button class="pvb" aria-label="Mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></button>
@@ -1638,17 +1906,40 @@
               </div>
             </div>
           </div>
-          <div class="proc-vis" data-vis="1">
-            <div class="pv-grid">
-              <div class="pv-grid-head">
-                <div class="lab">Clippers Matched</div>
-                <div class="tag">Live</div>
+        </div>
+      </article>
+
+      <article class="proc-card fade-in">
+        <div class="proc-text">
+          <div class="proc-step-num">02</div>
+          <h3>Clippers get to work.</h3>
+          <p>We assemble a team of Clippers best fitted to your brand, backed by a dedicated operations manager who trains and optimises them around your content specifically.</p>
+        </div>
+        <div class="proc-visual">
+          <div class="proc-vis active">
+            <div class="pv-match">
+              <div class="pv-match-head"><span>Matching live</span><span class="tag">Hand-picked</span></div>
+              <div class="pv-match-list">
+                <div class="pv-match-card"><div class="pv-av">JR</div><div class="pv-info"><div class="nm">Jordan Reyes</div><div class="niche">Fitness · 92K avg</div></div><div class="pv-badge">Matched</div></div>
+                <div class="pv-match-card"><div class="pv-av">SK</div><div class="pv-info"><div class="nm">Sienna Kim</div><div class="niche">Lifestyle · 138K avg</div></div><div class="pv-badge">Matched</div></div>
+                <div class="pv-match-card"><div class="pv-av">AM</div><div class="pv-info"><div class="nm">Alex Moretti</div><div class="niche">Finance · 76K avg</div></div><div class="pv-badge">Matched</div></div>
+                <div class="pv-match-card"><div class="pv-av">DV</div><div class="pv-info"><div class="nm">Devon Vargas</div><div class="niche">Gaming · 211K avg</div></div><div class="pv-badge">Matched</div></div>
+                <div class="pv-match-card"><div class="pv-av">MT</div><div class="pv-info"><div class="nm">Maya Tanaka</div><div class="niche">Beauty · 184K avg</div></div><div class="pv-badge">Matched</div></div>
               </div>
-              <div class="pv-grid-count">40,000<span class="sub">+ available</span></div>
-              <div class="pv-grid-cells" id="grid-anim"></div>
+              <div class="pv-match-foot"><span class="num">24</span><span class="sub">picked from 40,000+ pool</span></div>
             </div>
           </div>
-          <div class="proc-vis" data-vis="2">
+        </div>
+      </article>
+
+      <article class="proc-card fade-in">
+        <div class="proc-text">
+          <div class="proc-step-num">03</div>
+          <h3>Clips ship, test, optimise.</h3>
+          <p>We upload daily across platforms, test content formats, and double down on what's working. Want to weigh in? Approve, tweak, or send feedback on any clip at any time.</p>
+        </div>
+        <div class="proc-visual">
+          <div class="proc-vis active">
             <div class="pv-feed">
               <div class="pv-feed-head"><span>Daily clips</span><span class="live">Live</span></div>
               <div class="it"><div class="t"></div><div class="n">clip_0482.mp4</div><div class="v">2.4<span class="s">M</span></div></div>
@@ -1658,17 +1949,27 @@
               <div class="it"><div class="t g"></div><div class="n">clip_0478.mp4</div><div class="v">412<span class="s">K</span></div></div>
             </div>
           </div>
-          <div class="proc-vis" data-vis="3">
+        </div>
+      </article>
+
+      <article class="proc-card fade-in">
+        <div class="proc-text">
+          <div class="proc-step-num">04</div>
+          <h3>Watch the views grow.</h3>
+          <p>We track view to click ratio alongside cost per click, so you see exactly how every dollar translates into real traffic. Top performing clippers stay, underperformers get rotated out, and you get a clear picture of what's actually driving growth.</p>
+        </div>
+        <div class="proc-visual">
+          <div class="proc-vis active">
             <div class="pv-chart" id="pv-chart">
               <div class="top">
                 <div>
                   <div class="lab">30-day views</div>
-                  <div class="num" id="pv-chart-num" data-target="28400000">0</div>
+                  <div class="num" id="pv-chart-num" data-target="28400000">28.40M</div>
                   <div class="num-sub">Compounding daily</div>
                 </div>
                 <div class="delta">+214% WoW</div>
               </div>
-              <div class="pv-chart-ratio"><span>View &rarr; Click</span><span class="arrow">&middot;</span><strong>1.00%</strong><span class="arrow">&middot;</span><strong>284K clicks</strong></div>
+              <div class="pv-chart-ratio"><span>View → Click</span><span class="arrow">·</span><strong>1.00%</strong><span class="arrow">·</span><strong>284K clicks</strong></div>
               <div class="pv-chart-svg">
                 <svg viewBox="0 0 300 100" preserveAspectRatio="none">
                   <defs>
@@ -1687,6 +1988,136 @@
             </div>
           </div>
         </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE SCALE WITH YOU — pinned 5-card deck, scroll-driven + arrows -->
+<section class="whyus" id="scale" data-screen-label="07 How We Scale" style="background:#fafafa;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <h2 id="how-we-scale-h2">How we <em>scale</em> with you.</h2>
+      <p>Three phases that stack. Each one makes the next sharper.</p>
+    </div>
+    <div class="scale-timeline">
+      <div class="st-item st-card-right fade-in">
+        <div class="st-stat">
+          <div class="st-stat-num"><span id="scale-acct-num">3</span><span id="scale-acct-plus" style="opacity:0;transition:opacity 0.3s">+</span></div>
+          <div class="st-stat-lbl">Internally run accounts</div>
+          <div class="st-stat-desc">Daily clips on accounts you own — building the audience data, hooks, and pacing your scale phase will run on.</div>
+        </div>
+        <div class="st-node">01</div>
+        <div class="st-card">
+          <div class="st-tag">Phase 01 · Internal</div>
+          <h3>Internal campaigns.</h3>
+          <p>A handpicked team running daily clips on accounts you own. Builds the playbook your brand will scale on.</p>
+          <div class="st-meta"><strong>Accounts you own</strong><span>Data you keep</span></div>
+        </div>
+      </div>
+      <div class="st-item st-card-left fade-in">
+        <div class="st-card">
+          <div class="st-tag">Phase 02 · Public</div>
+          <h3>Public campaigns.</h3>
+          <p>Open the playbook to our network of <strong>40,000+ clippers</strong>. Reach compounds across thousands of audiences.</p>
+          <div class="st-meta"><strong>40,000+ clippers</strong><span>Exponential reach</span></div>
+        </div>
+        <div class="st-node">02</div>
+        <div class="st-stat">
+          <div class="st-stat-num">40,000+</div>
+          <div class="st-stat-lbl">Active creator network</div>
+          <div class="st-stat-desc">Reach compounds across thousands of accounts — every clipper opens a new audience your in-house team would never reach alone.</div>
+        </div>
+      </div>
+      <div class="st-item st-card-right fade-in">
+        <div class="st-stat">
+          <div class="st-stat-num">5×</div>
+          <div class="st-stat-lbl">Amplified winners</div>
+          <div class="st-stat-desc">Winning clips reborn as paid ads — same proven creative, more spend behind it, optimised on real conversion data.</div>
+        </div>
+        <div class="st-node">03</div>
+        <div class="st-card">
+          <div class="st-tag">Phase 03 · Paid</div>
+          <h3>Meta Ads scaling.</h3>
+          <p>Top organic clips become high-converting paid ads. Precision targeting on the buyers most likely to convert.</p>
+          <div class="st-meta"><strong>Winning clips</strong><span>Precision targeting</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section class="who" id="who" data-screen-label="06 Who">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <h2>Who we <em>work with.</em></h2>
+      <p>Brands, creators, and most companies need short-form distribution at scale.</p>
+    </div>
+  </div>
+  <div class="who-wrap">
+    <div class="who-parallax" id="who-parallax">
+        <div class="who-row" data-speed="0.4">
+          <div class="who-card"><div class="who-thumb who-th-1"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg></div><h3 class="who-thumb-title">Brands</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-3"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h3 class="who-thumb-title">Products</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-5"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="19" height="18" rx="2.4"/><path d="M7 3v18M17 3v18M2.5 7.5h4.5M2.5 12h19M2.5 16.5h4.5M17 7.5h4.5M17 16.5h4.5"/></svg></div><h3 class="who-thumb-title">Films &amp; shows</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-7"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg></div><h3 class="who-thumb-title">Sports</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-9"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.2a2.4 2.4 0 0 0-2.4-1.7H11.4a2.4 2.4 0 0 0 0 4.8h1.2a2.4 2.4 0 0 1 0 4.8h-1.2A2.4 2.4 0 0 1 9 15.4"/><path d="M12 6v1.5M12 16.5V18"/></svg></div><h3 class="who-thumb-title">Finance &amp; education</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-11"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l8-8 11 11-8 8z"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/></svg></div><h3 class="who-thumb-title">Apps &amp; tech</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-1"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg></div><h3 class="who-thumb-title">Brands</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-3"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h3 class="who-thumb-title">Products</h3></div></div>
+        </div>
+        <div class="who-row" data-speed="-0.5">
+          <div class="who-card"><div class="who-thumb who-th-2"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div><h3 class="who-thumb-title">Creators</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-4"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3 class="who-thumb-title">Music</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-6"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="13" rx="3"/><path d="M5 11a7 7 0 0014 0M12 19v3"/></svg></div><h3 class="who-thumb-title">Podcasts</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-8"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4M21 10v4M6.5 6.5v11M17.5 6.5v11M6.5 12h11"/></svg></div><h3 class="who-thumb-title">Fitness &amp; coaches</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-10"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/><path d="M3 3h2l3 13h11l3-9H6"/></svg></div><h3 class="who-thumb-title">Ecommerce &amp; DTC</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-2"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div><h3 class="who-thumb-title">Creators</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-4"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3 class="who-thumb-title">Music</h3></div></div>
+          <div class="who-card"><div class="who-thumb who-th-6"><div class="who-icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="13" rx="3"/><path d="M5 11a7 7 0 0014 0M12 19v3"/></svg></div><h3 class="who-thumb-title">Podcasts</h3></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL REACH — white theme, 2-column: left = copy, right = rotating 3D-feel globe with pings -->
+<section class="globe" id="globe" data-screen-label="07 Global">
+  <div class="wrap">
+    <div class="globe-grid">
+      <div class="globe-text fade-in">
+        <div class="globe-eyebrow">Targeted Distribution</div>
+        <h2 class="globe-h2">Reach the <em>audience</em> you actually need.</h2>
+        <p class="globe-lead">Local clippers, local accounts, local creative.</p>
+        <div class="globe-feats">
+          <div class="gf">
+            <div class="gf-num">01</div>
+            <div class="gf-body">
+              <h4>In-market accounts.</h4>
+              <p>Accounts created and grown inside your target region, so the algorithm treats them as native because they are.</p>
+            </div>
+          </div>
+          <div class="gf">
+            <div class="gf-num">02</div>
+            <div class="gf-body">
+              <h4>Made for the audience.</h4>
+              <p>Hooks, captions, and pacing created to capture that specific audience.</p>
+            </div>
+          </div>
+          <div class="gf">
+            <div class="gf-num">03</div>
+            <div class="gf-body">
+              <h4>Top clippers, every region.</h4>
+              <p>We source the best clippers in each market, people who already live the culture and know what makes content land there.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="globe-vis fade-in">
+        <div class="globe-3d" id="globe-3d" aria-hidden="true">
+          <div class="globe-shine"></div>
+          <!-- JS injects .globe-dot and .globe-city elements here -->
+        </div>
       </div>
     </div>
   </div>
@@ -1695,20 +2126,20 @@
 <!-- FOUNDERS -->
 <section class="sec founders" id="founders" data-screen-label="05 Founders">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head fade-in">
       <h2>Meet the <em>founders.</em></h2>
       <p>Over 6+ years each working with the biggest names in content. Billions of views generated, millions in revenue driven.</p>
     </div>
     <div class="founders-grid">
-      <div class="fnd fa" data-person="jaden">
-        <div class="fnd-img">
+      <div class="fnd fa fade-in" data-person="jaden">
+        <div class="fnd-img fade-in">
           <img decoding="async" loading="lazy" src="uploads/jaden.png" alt="Jaden Malcolm" />
         </div>
-        <div class="fnd-body">
+        <div class="fnd-body fade-in">
           <div class="role">Co-Founder</div>
           <h3>Jaden Malcolm</h3>
           <p>Started as an editor for some of YouTube's top channels, then moved into creative direction for the biggest creators and brands in the world. Generated over half a billion long-form views, including scaling Nonstop past a million subscribers. Produced videos for Red Bull, Faze, Lego, and Shein. My focus is what actually captivates an audience, the narrative instincts and strategy that turn a scroll into a watch and a watch into a hold. Now every Vision Clipping campaign is built on that foundation.</p>
-          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
+          <button class="fnd-more fade-in" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
           <div class="socials">
             <a href="https://www.instagram.com/jadenvfx_/" target="_blank" rel="noopener" aria-label="Instagram" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg></a>
             <a href="https://x.com/Jadenvfx_" target="_blank" rel="noopener" aria-label="X" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -1716,15 +2147,15 @@
         </div>
       </div>
 
-      <div class="fnd fb" data-person="amara">
-        <div class="fnd-img">
+      <div class="fnd fb fade-in" data-person="amara">
+        <div class="fnd-img fade-in">
           <img decoding="async" loading="lazy" src="uploads/emrah.png" alt="Emrah Bayraktar" />
         </div>
-        <div class="fnd-body">
+        <div class="fnd-body fade-in">
           <div class="role">Co-Founder</div>
           <h3>Emrah Bayraktar</h3>
           <p>Pioneered content clipping as a distribution channel before the industry had a name for it. Generated over 400 million views across his own pages. Took that same playbook to campaigns for Iman Gadzhi, Luke Belmar, and Andrew Tate, driving 6-7 figures each in course sales through distribution alone. Built Russell Brunson's clipping infrastructure at ClickFunnels. Quoted in Forbes. At Vision Clipping, Emrah sets the strategy behind every campaign.</p>
-          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
+          <button class="fnd-more fade-in" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
           <div class="socials">
             <a href="https://www.instagram.com/mrahbayraktar/" target="_blank" rel="noopener" aria-label="Instagram" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg></a>
             <a href="https://x.com/mrahbayraktar" target="_blank" rel="noopener" aria-label="X" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
@@ -1733,211 +2164,15 @@
         </div>
       </div>
 
-      <div class="fnd fc" data-person="agency">
-        <div class="fnd-img">
+      <div class="fnd fc fade-in" data-person="agency">
+        <div class="fnd-img fade-in">
           <img decoding="async" loading="lazy" src="uploads/agency.png" alt="Vision Clipping" />
         </div>
-        <div class="fnd-body">
+        <div class="fnd-body fade-in">
           <div class="role">The Agency</div>
           <h3>Vision Clipping</h3>
           <p>Vision Clipping came out of merging Emrah's years of distribution and clipping expertise with Jaden's existing company running the production systems behind 9-figure view counts. Two founders brought one team of operators and content specialists already built for scale, obsessed with turning distribution into the quiet advantage most brands still haven't figured out.</p>
-          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY US (pinned reveal) -->
-<section class="why" id="whyus-pinned" data-screen-label="06 Why Us">
-  <div class="why-scroll" id="why-scroll">
-    <div class="why-sticky">
-      <div class="why-header">
-        <div class="tag">Why Us</div>
-        <h2>Four reasons we're <em>different</em>.</h2>
-      </div>
-      <div class="why-stage" id="why-stage">
-        <div class="why-slide active" data-slide="0">
-          <div class="left">
-            <div class="idx">01</div>
-            <h3>Handpicked editors who understand your voice.</h3>
-            <p>We pair you with editors who get your brand, your audience, and what actually resonates in your space. Deep understanding of who you're talking to, built into every clip.</p>
-          </div>
-          <div class="right">
-            <div class="why-viz">
-              <div class="wv-radar" aria-hidden="true">
-                <div class="radar-grid"></div>
-                <div class="radar-ring r1"></div>
-                <div class="radar-ring r2"></div>
-                <div class="radar-ring r3"></div>
-                <div class="radar-sweep"></div>
-                <div class="radar-dot" style="top:22%;left:30%;animation-delay:0.2s"></div>
-                <div class="radar-dot" style="top:18%;left:72%;animation-delay:1.1s"></div>
-                <div class="radar-dot" style="top:58%;left:82%;animation-delay:1.9s"></div>
-                <div class="radar-dot" style="top:78%;left:64%;animation-delay:2.5s"></div>
-                <div class="radar-dot" style="top:72%;left:26%;animation-delay:3.0s"></div>
-                <div class="radar-dot" style="top:40%;left:18%;animation-delay:0.6s"></div>
-                <div class="radar-dot" style="top:35%;left:55%;animation-delay:1.5s"></div>
-                <div class="radar-dot" style="top:62%;left:45%;animation-delay:2.2s"></div>
-                <div class="radar-core"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="why-slide" data-slide="1">
-          <div class="left">
-            <div class="idx">02</div>
-            <h3>Strategy, posting, and optimization. All handled.</h3>
-            <p>We run strategy, posting, and optimization in-house, so you get detailed reports and growing reach while staying focused on your business. You don't manage editors, schedules, or platforms. We do.</p>
-          </div>
-          <div class="right">
-            <div class="why-viz">
-              <div class="wv-ops" aria-hidden="true">
-                <div class="wo-row">
-                  <div class="wo-icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84L20 8l-4 3.9.94 5.49L12 14.77 7.06 17.39 8 11.9 4 8l5.61-1.16L12 2z"/></svg></div>
-                  <div class="wo-label">Strategy</div>
-                  <div class="wo-tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
-                </div>
-                <div class="wo-row">
-                  <div class="wo-icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"/><circle cx="17" cy="7" r="2.5"/><path d="M21 16c0-2-1.5-3.5-4-3.5"/></svg></div>
-                  <div class="wo-label">Editor match</div>
-                  <div class="wo-tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
-                </div>
-                <div class="wo-row">
-                  <div class="wo-icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M3 14h18M8 5l4-3 4 3M8 19l4 3 4-3"/></svg></div>
-                  <div class="wo-label">Posting</div>
-                  <div class="wo-tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
-                </div>
-                <div class="wo-row">
-                  <div class="wo-icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 4 4 5-6"/></svg></div>
-                  <div class="wo-label">Reporting</div>
-                  <div class="wo-tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
-                </div>
-                <div class="wo-row">
-                  <div class="wo-icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg></div>
-                  <div class="wo-label">Optimization</div>
-                  <div class="wo-tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="why-slide" data-slide="2">
-          <div class="left">
-            <div class="idx">03</div>
-            <h3>A direct route to <span style="color:#e88890;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;text-shadow:0 0 24px rgba(232,136,144,0.45)">scale</span>, built in from day one.</h3>
-            <p>Most agencies run one play. We run three. Start internal with a handpicked team on accounts you own, scale to public campaigns across our wider editor pool, then compound with highly targeted Meta Ads built from your best performing content. Each layer stacks on the last, so every campaign you run makes the next one sharper.</p>
-          </div>
-          <div class="right">
-            <div class="why-viz">
-              <div class="wv-path" aria-hidden="true">
-                <div class="wp-node" data-step="1">
-                  <div class="wp-dot">1</div>
-                  <div class="wp-body">
-                    <div class="wp-lbl">Internal</div>
-                    <div class="wp-sub">Accounts you own</div>
-                  </div>
-                </div>
-                <div class="wp-line"></div>
-                <div class="wp-node" data-step="2">
-                  <div class="wp-dot">2</div>
-                  <div class="wp-body">
-                    <div class="wp-lbl">Public</div>
-                    <div class="wp-sub">Wider editor pool</div>
-                  </div>
-                </div>
-                <div class="wp-line"></div>
-                <div class="wp-node" data-step="3">
-                  <div class="wp-dot">3</div>
-                  <div class="wp-body">
-                    <div class="wp-lbl">Meta Ads</div>
-                    <div class="wp-sub">Paid amplification</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="why-slide" data-slide="3">
-          <div class="left">
-            <div class="idx">04</div>
-            <h3>Real human engagement, verified at the source.</h3>
-            <p>Our detection infrastructure catches botted views and non-organic traffic before they hit your dashboard. Every view you see is a real person on a real platform, watching real content.</p>
-          </div>
-          <div class="right">
-            <div class="why-viz">
-              <div class="wv-human">
-                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                <div class="row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                <div class="cap"><span class="num">100%</span>Verified human views · 0% bot traffic</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="why-dots" id="why-dots">
-        <div class="dt active"></div><div class="dt"></div><div class="dt"></div><div class="dt"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW WE SCALE WITH YOU — pinned 5-card deck, scroll-driven + arrows -->
-<section class="whyus" id="scale" data-screen-label="07 How We Scale" style="background:#fafafa;border-top:1px solid var(--line)">
-  <div class="scale-scroll" id="scale-scroll" style="position:relative;height:320vh">
-    <div class="scale-sticky" style="position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,3vh,32px);padding:clamp(40px,7vh,80px) 0 clamp(32px,5vh,60px);overflow:hidden">
-      <!-- Background layer: big number + gradient wash per active card -->
-      <div class="wu-bg" id="wu-bg" aria-hidden="true">
-        <div class="wu-bg-num">01</div>
-        <div class="wu-bg-wash"></div>
-      </div>
-      <div class="wrap" style="position:relative;z-index:2">
-        <div class="sec-head" style="margin-bottom:28px">
-          <h2 id="how-we-scale-h2">How we <em class="tb-fill">scale<span class="tb-fill-ink" aria-hidden="true">scale</span></em> with you.</h2>
-          <p>Three tiers that compound — start internal, open to public, then amplify with paid.</p>
-        </div>
-        <div class="wu-deck" id="wu-deck">
-          <div class="wu-stage" id="wu-stage">
-            <article class="wu-card" data-i="0">
-              <div class="wu-num">01</div>
-              <div class="wu-tag">Start with a handpicked team</div>
-              <h3>Internal Campaigns</h3>
-              <p>Launch with a dedicated team of editors on accounts you own and keep. We dial in what hooks, what formats, and what angles actually move the needle for your brand, building the playbook your campaigns run on from here.</p>
-              <div class="wu-stat"><strong>Accounts you own</strong><span>Data you keep</span></div>
-            </article>
-            <article class="wu-card" data-i="1">
-              <div class="wu-num">02</div>
-              <div class="wu-tag">Open the floodgates</div>
-              <h3>Public Campaigns</h3>
-              <p>Once the playbook is proven, scale reach across a far wider network of accounts while maintaining your ideal demographics. If your content is performing fast enough, this is often where we push early, turning traction into compounding distribution across thousands of audiences.</p>
-              <div class="wu-stat"><strong>Thousands of editors</strong><span>Exponential reach</span></div>
-            </article>
-            <article class="wu-card" data-i="2">
-              <div class="wu-num">03</div>
-              <div class="wu-tag">Engineer your winners into paid</div>
-              <h3>Meta Ads Scaling</h3>
-              <p>We take the top performing organic clips and rebuild them as highly targeted Meta Ads aimed at your ideal customer. Organic proves what works. Paid puts it in front of the exact buyers most likely to convert.</p>
-              <div class="wu-stat"><strong>Winning clips</strong><span>Precision targeting</span></div>
-            </article>
-          </div>
-      <div class="wu-controls">
-        <button class="wu-nav prev" id="wu-prev" aria-label="Previous">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 6l-6 6 6 6"/></svg>
-        </button>
-        <div class="wu-dots" id="wu-dots">
-          <button class="wu-dot active" data-i="0"></button>
-          <button class="wu-dot" data-i="1"></button>
-          <button class="wu-dot" data-i="2"></button>
-        </div>
-        <button class="wu-nav next" id="wu-next" aria-label="Next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
-      </div>
+          <button class="fnd-more fade-in" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
         </div>
       </div>
     </div>
@@ -1947,67 +2182,67 @@
 <!-- PRICING -->
 <section class="sec pricing" id="pricing" data-screen-label="07 Pricing">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head fade-in">
       <h2>Pricing <em>models.</em></h2>
       <p>Three ways to work with us — a pipeline that builds on itself. Start internal, open to the public, then amplify with paid.</p>
     </div>
-    <div class="pr-progression" aria-hidden="true">
-      <div class="pr-step active" data-step="01"><span class="pr-step-n">01</span><span class="pr-step-l">Internal</span></div>
-      <div class="pr-step-line"><span></span></div>
-      <div class="pr-step" data-step="02"><span class="pr-step-n">02</span><span class="pr-step-l">Public</span></div>
-      <div class="pr-step-line"><span></span></div>
-      <div class="pr-step" data-step="03"><span class="pr-step-n">03</span><span class="pr-step-l">Meta Ads</span></div>
+    <div class="pr-progression fade-in" aria-hidden="true">
+      <div class="pr-step active fade-in" data-step="01"><span class="pr-step-n fade-in">01</span><span class="pr-step-l fade-in">Internal</span></div>
+      <div class="pr-step-line fade-in"><span></span></div>
+      <div class="pr-step fade-in" data-step="02"><span class="pr-step-n fade-in">02</span><span class="pr-step-l fade-in">Public</span></div>
+      <div class="pr-step-line fade-in"><span></span></div>
+      <div class="pr-step fade-in" data-step="03"><span class="pr-step-n fade-in">03</span><span class="pr-step-l fade-in">Meta Ads</span></div>
     </div>
     <div class="pricing-grid">
-      <div class="pr">
-        <span class="pr-glow"></span>
-        <div class="pr-ic">I</div>
+      <div class="pr fade-in">
+        <span class="pr-glow fade-in"></span>
+        <div class="pr-ic fade-in">I</div>
         <h3>Internal campaigns</h3>
-        <div class="pr-sub">A dedicated in-house team running daily distribution on accounts you own and keep. Trained on your brand, optimised weekly, paid only for the views they deliver.</div>
-        <div class="pr-divider"></div>
+        <div class="pr-sub fade-in">A dedicated in-house team running daily distribution on accounts you own and keep. Trained on your brand, optimised weekly, paid only for the views they deliver.</div>
+        <div class="pr-divider fade-in"></div>
         <ul>
           <li>Handpicked editor team built for your brand</li>
           <li>Accounts you own, data you keep</li>
           <li>Performance-tracked, pay per view delivered</li>
           <li>Dedicated operations manager on your account</li>
         </ul>
-        <div class="pr-price"><span class="pr-line"><span class="amt">Monthly Retainer</span> + CPM Budget</span></div>
+        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">Monthly Retainer</span> + CPM Budget</span></div>
       </div>
 
-      <div class="pr">
-        <span class="pr-glow"></span>
-        <div class="pr-ic">P</div>
+      <div class="pr fade-in">
+        <span class="pr-glow fade-in"></span>
+        <div class="pr-ic fade-in">P</div>
         <h3>Public campaigns</h3>
-        <div class="pr-sub">Your brand opened to our full network of creators, each posting to their own audiences. Maximum reach, pay only for the views that actually land.</div>
-        <div class="pr-divider"></div>
+        <div class="pr-sub fade-in">Your brand opened to our full network of creators, each posting to their own audiences. Maximum reach, pay only for the views that actually land.</div>
+        <div class="pr-divider fade-in"></div>
         <ul>
           <li>Access to 40,000+ creators and their audiences</li>
           <li>Filtered by your ideal demographics</li>
           <li>Pay only for views delivered, no flat fees</li>
           <li>Best for brand awareness and launches</li>
         </ul>
-        <div class="pr-price"><span class="amt">From 30%</span> of budget spent</div>
+        <div class="pr-price fade-in"><span class="amt">From 30%</span> of budget spent</div>
       </div>
 
-      <div class="pr">
-        <span class="pr-glow"></span>
-        <div class="pr-ic">M</div>
+      <div class="pr fade-in">
+        <span class="pr-glow fade-in"></span>
+        <div class="pr-ic fade-in">M</div>
         <h3>Meta Ads</h3>
-        <div class="pr-sub">Top performing organic clips re-engineered into highly targeted paid creative, posted from creator accounts for maximum trust and performance.</div>
-        <div class="pr-divider"></div>
+        <div class="pr-sub fade-in">Top performing organic clips re-engineered into highly targeted paid creative, posted from creator accounts for maximum trust and performance.</div>
+        <div class="pr-divider fade-in"></div>
         <ul>
           <li>Paid creative built from proven winners</li>
           <li>Whitelisted from creator accounts for authenticity</li>
           <li>Precision targeted to your ideal customer</li>
           <li>Full creative and media buying handled</li>
         </ul>
-        <div class="pr-price"><span class="amt">From 10%</span> of ad spend</div>
+        <div class="pr-price fade-in"><span class="amt">From 10%</span> of ad spend</div>
       </div>
     </div>
     <div class="pricing-dots" id="pricing-dots" aria-hidden="true">
-      <button class="pr-dot active" data-i="0" aria-label="Show Internal"></button>
-      <button class="pr-dot" data-i="1" aria-label="Show Public"></button>
-      <button class="pr-dot" data-i="2" aria-label="Show Meta Ads"></button>
+      <button class="pr-dot active fade-in" data-i="0" aria-label="Show Internal"></button>
+      <button class="pr-dot fade-in" data-i="1" aria-label="Show Public"></button>
+      <button class="pr-dot fade-in" data-i="2" aria-label="Show Meta Ads"></button>
     </div>
   </div>
 </section>
@@ -2015,7 +2250,7 @@
 <!-- CALCULATOR -->
 <section class="sec calc" id="calc" data-screen-label="07 Calculator">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head fade-in">
       <h2>Plug in your <em>numbers.</em></h2>
       <p>Campaign math — views, clicks and CPC, recalculated live as you type.</p>
     </div>
@@ -2081,7 +2316,7 @@
       </div>
 
       <div class="calc-out">
-        <h3>What your budget buys <span class="live"><span class="live-dot"></span>Live</span></h3>
+        <h3>What your budget buys</h3>
 
         <div class="kpi-hero">
           <div class="l">Expected views</div>
@@ -2112,13 +2347,13 @@
           </div>
         </div>
 
-        <div class="pool-card" style="flex-direction:column;align-items:center;text-align:center;gap:8px;padding:22px 16px">
+        <div class="pool-card" style="flex-direction:column;align-items:center;text-align:center;gap:6px;padding:14px 16px">
           <div class="big" style="font-weight:600;letter-spacing:-0.025em;font-size:clamp(28px,3.6vw,40px);color:#fff;line-height:1;display:inline-flex;align-items:baseline;gap:0.28em;flex-wrap:nowrap;max-width:100%;white-space:nowrap"><span><span id="b-clips-min">10</span>–<span id="b-clips-max">500</span></span><span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#e88890;font-size:0.82em;letter-spacing:-0.01em">Clips</span></div>
           <div class="s" style="font-size:10.5px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase">Funded from campaign budget</div>
         </div>
 
-        <div class="calc-book-cta" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:flex-start;gap:12px">
-          <a href="/book/" class="calc-cta-white">
+        <div class="calc-book-cta" style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+          <a href="/book/" class="calc-cta-white" style="padding:12px 22px">
             <span class="calc-cta-ring"></span>
             Book your strategy call
             <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
@@ -2172,7 +2407,7 @@
 <!-- FAQ -->
 <section class="sec" id="faq" data-screen-label="08 FAQ">
   <div class="wrap">
-    <div class="sec-head"><h2>Frequently asked <em>questions.</em></h2></div>
+    <div class="sec-head fade-in"><h2>Frequently asked <em>questions.</em></h2></div>
     <div class="faq-list">
       <div class="faq-item">
         <div class="faq-top"><div class="faq-q">How is this different from just hiring an editor?</div><div class="faq-ico"></div></div>
@@ -2187,36 +2422,20 @@
         <div class="faq-a-wrap"><div class="faq-a">Every single view comes from a real person on a real platform. No bots, no fake traffic, no paid engagement. Our detection infrastructure catches botted views and non-organic traffic at the source, so everything on your dashboard is real engagement from real people.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-top"><div class="faq-q">How fast can you start?</div><div class="faq-ico"></div></div>
-        <div class="faq-a-wrap"><div class="faq-a">Strategy locked within 3 days. We analyse your existing content and flag any additional assets that would sharpen the campaign. Editors matched by day 5, with first posts typically live within 7 to 10 days.</div></div>
-      </div>
-      <div class="faq-item">
         <div class="faq-top"><div class="faq-q">What if my content doesn't perform?</div><div class="faq-ico"></div></div>
         <div class="faq-a-wrap"><div class="faq-a">That's why we test at volume. We don't put one post up and pray. We test dozens of angles, hooks, and formats simultaneously across accounts. We find what works fast and kill what doesn't. If something's underperforming, we adjust the approach within the same week.</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-top"><div class="faq-q">I already have a team doing this.</div><div class="faq-ico"></div></div>
-        <div class="faq-a-wrap"><div class="faq-a">Good. How many posts are they putting out a month? If the answer is less than 30, you're leaving reach on the table. We also analyse what your team has already produced that worked, pull out what your audience actually responds to, and use that to optimise the rollout faster. Your team keeps their lane. We handle scale.</div></div>
       </div>
       <div class="faq-item">
         <div class="faq-top"><div class="faq-q">What do I actually need to provide?</div><div class="faq-ico"></div></div>
         <div class="faq-a-wrap"><div class="faq-a">Your existing content. That's it. YouTube videos, podcast recordings, webinar footage, whatever you already have. We handle the editing, the accounts, the posting, and the reporting. If you've got creative direction you want us to follow, send it over. Otherwise you don't do anything except check the numbers.</div></div>
       </div>
       <div class="faq-item">
-        <div class="faq-top"><div class="faq-q">How does pricing work?</div><div class="faq-ico"></div></div>
-        <div class="faq-a-wrap"><div class="faq-a">Three ways to work with us. Internal teams start at $5K/month plus a CPM budget (CPM is cost per thousand views, which funds the clippers producing your content). Public campaigns run at 30% of your total budget, so a $10K deposit means $7K to the campaign and $3K fee. Meta Ads amplification runs at 10% of ad spend. Once your organic campaigns have data, we re-engineer the best performing clips into highly targeted Meta Ads aimed at your ideal customer profile. Most clients start internal, prove what works, scale to public, then double down with Meta Ads. We walk you through what makes sense on the call.</div></div>
-      </div>
-      <div class="faq-item">
         <div class="faq-top"><div class="faq-q">Can I start with a smaller budget to test?</div><div class="faq-ico"></div></div>
-        <div class="faq-a-wrap"><div class="faq-a">Yes. Most clients start with a 90-day pilot. Enough time and data to show real results. If it works, we scale. If it doesn't, you tested the channel at minimal risk. Most pilot clients end up scaling within the first 60 days.</div></div>
+        <div class="faq-a-wrap"><div class="faq-a">Yes. Most clients start with a 90-day pilot. Enough time and data to show real results. If it works, we scale. If it doesn't, you tested the channel at minimal risk. Most pilot clients end up scaling within the first 30 days.</div></div>
       </div>
       <div class="faq-item">
         <div class="faq-top"><div class="faq-q">Who's actually doing the work?</div><div class="faq-ico"></div></div>
         <div class="faq-a-wrap"><div class="faq-a">Not interns. Not AI. Emrah and Jaden direct every campaign personally, backed by a team trained over 3+ years on content creation and operations. Your content is handled by editors ranked on their performance in your specific niche. Underperformers get rotated out. Top performers get more volume. You get the best people on it at all times.</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-top"><div class="faq-q">What happens when the campaign ends?</div><div class="faq-ico"></div></div>
-        <div class="faq-a-wrap"><div class="faq-a">Everything we built is yours. The accounts, the followers, the content library, the data on what formats work for your brand. You can walk away with all of it. Or we keep the momentum going, scaling to public campaigns, layering on Meta Ads, or doubling down on your internal accounts. Either way, you own everything.</div></div>
       </div>
     </div>
   </div>
@@ -2253,7 +2472,7 @@
         <p>A clipping agency for founders, creators and brands who need distribution at scale.</p>
       </div>
       <div class="foot-col"><h4>Navigate</h4>
-        <a href="#cases">Case Studies</a><a href="#process">Process</a><a href="#why">Why Us</a><a href="#faq">FAQ</a>
+        <a href="#cases">Case Studies</a><a href="#process">Process</a><a href="#who">Who it's for</a><a href="#faq">FAQ</a>
       </div>
       <div class="foot-col"><h4>Tools</h4>
         <a href="#calc">Budget Calculator</a><a href="/book/">Book a call</a><a href="/clip/">Become a clipper</a>
@@ -2329,75 +2548,108 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 })();
 
-/* RESULTS parallax — rAF coalesced, cached speeds, short-circuit offscreen */
+/* HERO WORD CYCLER — Built / Managed / Optimised. Shimmer fires only on the cycling word (NOT on " For You"). JS toggles a .shimmer class on the active word; the ::before pseudo on .cyc-word handles the sweep animation. */
 (() => {
-  const rows = [...document.querySelectorAll('#res-parallax .rp-row')];
-  const section = document.querySelector('.results');
-  if(!rows.length || !section) return;
-  // cache speeds/bases (never change)
-  const cfg = rows.map(row => {
-    const speed = parseFloat(row.dataset.speed) || 0.4;
-    const base = speed > 0 ? -80 : 0;
-    row.dataset.base = String(base);
-    row.style.transform = `translate3d(${base}px,0,0)`;
-    return { el: row, speed, base };
-  });
-  let ticking = false;
-  let visible = true;
-  const io = new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { rootMargin: '200px' });
-  io.observe(section);
-  const run = () => {
-    ticking = false;
-    if(!visible || window.__navJumping) return;
-    const r = section.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const p = (vh - r.top) / (vh + r.height);
-    for(let i=0;i<cfg.length;i++){
-      const c = cfg[i];
-      c.el.style.transform = `translate3d(${c.base + (p - 0.5) * c.speed * 600}px,0,0)`;
-    }
+  const cycler = document.querySelector('.hero h1 .cycler');
+  if(!cycler) return;
+  const words = [...cycler.querySelectorAll('.cyc-word')];
+  if(words.length < 2) return;
+
+  const measure = () => words.map(w => w.offsetWidth);
+
+  let widths = measure();
+  let idx = 0;
+  cycler.style.width = widths[0] + 'px';
+
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(() => {
+      widths = measure();
+      cycler.style.width = widths[idx] + 'px';
+    });
+  }
+
+  const shimmer = () => {
+    const el = words[idx];
+    el.classList.remove('shimmer');
+    void el.offsetWidth;
+    el.classList.add('shimmer');
   };
-  lenis.on('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(run); });
-  window.addEventListener('__navJumpEnd', () => requestAnimationFrame(run));
+
+  const cycle = () => {
+    words[idx].classList.remove('active');
+    words[idx].classList.remove('shimmer');
+    idx = (idx + 1) % words.length;
+    cycler.style.width = widths[idx] + 'px';
+    words[idx].classList.add('active');
+    shimmer();
+  };
+
+  /* Shimmer "Built" right after the writeIn entrance (~1.25s), then first swap at 3.6s total, then 3.5s cadence. */
+  setTimeout(() => {
+    shimmer();
+    setTimeout(() => {
+      cycle();
+      setInterval(cycle, 3500);
+    }, 2300);
+  }, 1300);
+
+  let resizeT;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(() => {
+      widths = measure();
+      cycler.style.width = widths[idx] + 'px';
+    }, 120);
+  });
 })();
 
-/* TB-FILL — scroll-driven oxblood fill + shimmer sweep (rAF coalesced, IO short-circuit) */
+/* Scroll-tied parallax rows — used by 3-Billion-views (#res-parallax .rp-row) and the Who-we-work-with section (#who-parallax .who-row). Same cached-speed/base/rAF pattern, just registered for each section independently so they parallax against their own section's scroll progress. */
 (() => {
-  const targets = [
-    { el: document.querySelector('.results .tb-fill'), section: document.querySelector('.results') },
-    { el: document.querySelector('#scale .tb-fill'),   section: document.querySelector('#scale') },
-  ].filter(t => t.el && t.section);
-  if(!targets.length) return;
-  targets.forEach(t => { t.wasVisible = false; t.nearViewport = false; });
-  let ticking = false;
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    const t = targets.find(x => x.section === e.target);
-    if(t) t.nearViewport = e.isIntersecting;
-  }), { rootMargin: '300px' });
-  targets.forEach(t => io.observe(t.section));
-  const update = () => {
-    ticking = false;
-    if(window.__navJumping) return;
-    const vh = window.innerHeight;
-    targets.forEach(t => {
-      if(!t.nearViewport) return;
-      const r = t.section.getBoundingClientRect();
-      const start = vh * 0.95;
-      const end = vh * 0.60;
-      const raw = (start - r.top) / (start - end);
-      const p = Math.max(0, Math.min(1, raw));
-      t.el.style.setProperty('--tb-p', (p * 100).toFixed(1) + '%');
-      t.el.style.setProperty('--tb-p-num', p.toFixed(3));
-      const shouldShimmer = p > 0.88 && r.top < vh && r.bottom > 0;
-      if(shouldShimmer && !t.wasVisible){ t.el.classList.add('shimmering'); t.wasVisible = true; }
-      else if(!shouldShimmer && t.wasVisible && p < 0.5){ t.el.classList.remove('shimmering'); t.wasVisible = false; }
+  const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+  const setups = [
+    { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600,
+      mobileBasePos: -80, mobileBaseNeg: 0, mobileMult: 600 },
+    /* Who-rows need aggressive negative bases so the row's left edge stays off-screen at every parallax position; otherwise the negative-speed row reveals empty white space on the left at the top of the section. Mobile cranks the multiplier so the rows traverse far enough across the smaller viewport to expose every card during the section scroll, with bases adjusted to match. */
+    { sel: '#who-parallax .who-row', section: '.who', basePos: -200, baseNeg: -260, mult: 600,
+      mobileBasePos: -320, mobileBaseNeg: -440, mobileMult: 1300 }
+  ];
+  setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult, mobileBasePos, mobileBaseNeg, mobileMult }) => {
+    const rows = [...document.querySelectorAll(sel)];
+    const section = document.querySelector(secSel);
+    if(!rows.length || !section) return;
+    const cfg = rows.map(row => {
+      const speed = parseFloat(row.dataset.speed) || 0.4;
+      return { el: row, speed };
     });
-  };
-  update();
-  lenis.on('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(update); });
-  window.addEventListener('resize', update);
-  window.addEventListener('__navJumpEnd', () => requestAnimationFrame(update));
+    let ticking = false;
+    let visible = true;
+    const io = new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { rootMargin: '200px' });
+    io.observe(section);
+    const run = () => {
+      ticking = false;
+      if(!visible || window.__navJumping) return;
+      const r = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = (vh - r.top) / (vh + r.height);
+      const mob = isMobile();
+      const m = mob ? mobileMult : mult;
+      const bP = mob ? mobileBasePos : basePos;
+      const bN = mob ? mobileBaseNeg : baseNeg;
+      for(let i = 0; i < cfg.length; i++){
+        const c = cfg[i];
+        const base = c.speed > 0 ? bP : bN;
+        c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
+      }
+    };
+    lenis.on('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(run); });
+    window.addEventListener('__navJumpEnd', () => requestAnimationFrame(run));
+    /* Prime the rows with an initial transform so they don't render at x=0 before the first scroll event. */
+    requestAnimationFrame(run);
+    /* Recompute on resize/orientation change so we cleanly switch between mobile/desktop bases & multipliers. */
+    window.addEventListener('resize', () => requestAnimationFrame(run));
+  });
 })();
+
 
 /* Clipper grid anim — random cells activate/fade to suggest a live matching pool */
 (() => {
@@ -2414,22 +2666,68 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   run(); setInterval(run, 2200);
 })();
 
-/* Process step 04 — animate bars + count up the views number when slide becomes active */
+/* Scale phase 01 — looping count-up tally "3 → 30+ internally run accounts". Runs while the stat is on screen, pauses when scrolled away to save cycles. The "+" only shows during the held high-end pause. */
+(() => {
+  const num = document.getElementById('scale-acct-num');
+  const plus = document.getElementById('scale-acct-plus');
+  if(!num) return;
+  const FROM = 3, TO = 30;
+  const COUNT_DUR = 1800;     /* climb from 3 → 30 */
+  const HOLD_DUR = 1400;      /* hold at 30+ before resetting */
+  let visible = false;
+  let rafId = 0;
+  let cycleStart = 0;
+  const tick = (now) => {
+    const t = (now - cycleStart) / (COUNT_DUR + HOLD_DUR);
+    if(t >= 1){
+      cycleStart = now;
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
+    if(t < COUNT_DUR / (COUNT_DUR + HOLD_DUR)){
+      const p = (now - cycleStart) / COUNT_DUR;
+      const eased = 1 - Math.pow(1 - p, 3);
+      num.textContent = String(Math.round(FROM + (TO - FROM) * eased));
+      if(plus) plus.style.opacity = '0';
+    } else {
+      num.textContent = String(TO);
+      if(plus) plus.style.opacity = '1';
+    }
+    rafId = requestAnimationFrame(tick);
+  };
+  const start = () => {
+    if(rafId) return;
+    cycleStart = performance.now();
+    rafId = requestAnimationFrame(tick);
+  };
+  const stop = () => {
+    if(rafId){ cancelAnimationFrame(rafId); rafId = 0; }
+  };
+  if(!('IntersectionObserver' in window)){ start(); return; }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      visible = e.isIntersecting;
+      if(visible) start(); else stop();
+    });
+  }, { threshold: 0.4 });
+  io.observe(num);
+})();
+
+/* Process step 04 — fire the chart animation + the count-up exactly once, when the chart first scrolls into view. CSS animations are paused until `.played` is added; the count-up rAF runs in lockstep. */
 (() => {
   const chart = document.getElementById('pv-chart');
   const numEl = document.getElementById('pv-chart-num');
   if(!chart || !numEl) return;
   const target = parseInt(numEl.dataset.target || '0', 10);
-  let running = false;
-  let lastRun = 0;
   const fmt = n => {
     if(n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
     if(n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
     return String(n);
   };
+  numEl.textContent = '0';
   const animateCount = () => {
     const start = performance.now();
-    const dur = 2400;
+    const dur = 2200;
     const step = now => {
       const t = Math.min(1, (now - start) / dur);
       const eased = 1 - Math.pow(1 - t, 3);
@@ -2439,67 +2737,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     requestAnimationFrame(step);
   };
   const play = () => {
-    if(running) return;
-    // Debounce — don't re-run within 6s of last start
-    if(performance.now() - lastRun < 6000) return;
-    running = true;
-    lastRun = performance.now();
-    chart.classList.add('anim');
+    chart.classList.add('played');
     animateCount();
-    setTimeout(() => { running = false; }, 3200);
   };
-  const reset = () => {
-    chart.classList.remove('anim');
-    numEl.textContent = '0';
-  };
-  // Watch for .active on this proc-vis (parent)
-  const vis = chart.closest('.proc-vis');
-  if(!vis) return;
-  const obs = new MutationObserver(() => {
-    if(vis.classList.contains('active')) play();
-    else reset();
-  });
-  obs.observe(vis, { attributes: true, attributeFilter: ['class'] });
-  // Also play on load if already active
-  if(vis.classList.contains('active')) play();
+  if(!('IntersectionObserver' in window)){ play(); return; }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){
+        io.disconnect();
+        play();
+      }
+    });
+  }, { threshold: 0.4 });
+  io.observe(chart);
 })();
 
-/* PROCESS pinned scroll + click-to-jump (all viewports) */
+/* PROCESS — release the pinned title in lockstep with card 04. The container has scroll slack past card 04's stick point, so without this the title hangs over later content while card 04 is moving up. The cards themselves use the native sticky-stack: each one climbs from below and z-index keeps the next card on top of the previous, so the deck-of-cards slide stays intact. */
 (() => {
-  const sec = document.getElementById('process-scroll');
-  const rows = document.querySelectorAll('.step-row');
-  const vises = document.querySelectorAll('.proc-vis');
-  if(!sec) return;
-  const setActive = (idx) => {
-    rows.forEach((el,i) => el.classList.toggle('active', i === idx));
-    vises.forEach((el,i) => el.classList.toggle('active', i === idx));
+  const title = document.querySelector('.process .sec-head');
+  const cards = document.querySelectorAll('.proc-card');
+  if(!title || !cards.length) return;
+  const last = cards[cards.length - 1];
+  const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+  const titleTop = () => isMobile() ? 126 : 96;
+  const stickyTopForCards = () => isMobile()
+    ? Math.max(210, Math.round(window.innerHeight * 0.5 - 240))
+    : Math.max(200, Math.round(window.innerHeight * 0.5 - 230));
+  let raf = 0;
+  /* Clear any leftover opacity from the previous hide-card-while-climbing approach. */
+  for(let i = 0; i < cards.length; i++) cards[i].style.opacity = '';
+  const update = () => {
+    raf = 0;
+    const sTop = stickyTopForCards();
+    const lastR = last.getBoundingClientRect();
+    if(lastR.top < sTop){
+      title.style.top = (titleTop() - (sTop - lastR.top)) + 'px';
+    } else {
+      title.style.top = '';
+    }
   };
-  let procTicking = false;
-  const procRun = () => {
-    procTicking = false;
-    if(window.__navJumping) return;
-    const r = sec.getBoundingClientRect();
-    const total = sec.offsetHeight - window.innerHeight;
-    const raw = -r.top / total;
-    if(raw < 0){ setActive(0); return; }
-    const p = Math.min(0.999, Math.max(0, raw));
-    const idx = Math.min(3, Math.floor(p * 4));
-    setActive(idx);
-  };
-  lenis.on('scroll', () => { if(procTicking) return; procTicking = true; requestAnimationFrame(procRun); });
-  window.addEventListener('__navJumpEnd', () => requestAnimationFrame(procRun));
-  // Click a step row → scroll to the section position matching that step (so pin + state align)
-  rows.forEach((row, i) => {
-    row.style.cursor = 'pointer';
-    row.addEventListener('click', () => {
-      const total = sec.offsetHeight - window.innerHeight;
-      const secTop = sec.getBoundingClientRect().top + window.scrollY;
-      // target a position that centers the step within its quarter
-      const target = secTop + (i + 0.5) * (total / 4);
-      lenis.scrollTo(target, { duration: 0.9 });
-      setActive(i);
-    });
-  });
+  const schedule = () => { if(!raf) raf = requestAnimationFrame(update); };
+  if(window.lenis) lenis.on('scroll', schedule);
+  document.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  update();
 })();
 
 /* CASES CAROUSEL — 3-up infinite arrow navigation + 7s autoplay (desktop only; mobile uses native scroll-snap) */
@@ -2512,7 +2793,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const cards = track.children;
   const ORIGINAL = cards.length / 3; // 3 sets of the same list
   const GAP = 24;
-  const AUTOPLAY_MS = 7000;
+  const AUTOPLAY_MS = 3000;
   let index = ORIGINAL; // start at middle set
   let animating = false;
   let autoplayTimer = null;
@@ -2987,39 +3268,7 @@ document.querySelectorAll('.faq-item').forEach(it => {
   window.addEventListener('__navJumpEnd', () => requestAnimationFrame(run));
 })();
 
-/* PROCESS — mobile: wire dots to active step index (same logic as desktop, but shows progress indicator) */
-(() => {
-  const dots = document.querySelectorAll('#process-dots .pc-dot');
-  const sec = document.getElementById('process-scroll');
-  if(!dots.length || !sec) return;
-  const setDots = idx => dots.forEach((d, n) => d.classList.toggle('active', n === idx));
-  let ticking = false;
-  const run = () => {
-    ticking = false;
-    if(window.__navJumping) return;
-    const r = sec.getBoundingClientRect();
-    const total = sec.offsetHeight - window.innerHeight;
-    const raw = -r.top / total;
-    const p = Math.min(0.999, Math.max(0, raw));
-    const idx = Math.min(3, Math.max(0, Math.floor(p * 4)));
-    setDots(idx);
-  };
-  if(typeof lenis !== 'undefined'){
-    lenis.on('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(run); });
-  } else {
-    window.addEventListener('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(run); }, { passive: true });
-  }
-  dots.forEach((d, i) => {
-    d.addEventListener('click', () => {
-      const total = sec.offsetHeight - window.innerHeight;
-      const secTop = sec.getBoundingClientRect().top + window.scrollY;
-      const target = secTop + (i + 0.5) * (total / 4);
-      if(typeof lenis !== 'undefined') lenis.scrollTo(target, { duration: 0.9 });
-      else window.scrollTo({ top: target, behavior: 'smooth' });
-      setDots(i);
-    });
-  });
-})();
+/* PROCESS dots — also no-op now; the dots themselves were removed in the redesign. */
 
 /* CASES — dot indicator sync on mobile (native scroll-snap) */
 (() => {
@@ -3114,6 +3363,206 @@ document.querySelectorAll('.faq-item').forEach(it => {
   drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && drawer.classList.contains('open')) close(); });
 })();
+
+/* WHO section uses the same scroll-tied parallax as #res-parallax (handled in the parallax block above). */
+
+/* GLOBE — JS-projected 3D globe. Generates a grid of dots, projects them onto a sphere with continuous Y-axis rotation, and reveals city pings as their region rotates into view. */
+(() => {
+  const globe = document.getElementById('globe-3d');
+  if(!globe) return;
+
+  /* Continent bounding-box approximations — stack of sub-rectangles per continent for a recognisable shape. */
+  const isLand = (lat, lng) => {
+    /* === NORTH AMERICA === */
+    if(lat>=58&&lat<=72&&lng>=-168&&lng<=-140) return true;       /* Alaska */
+    if(lat>=58&&lat<=82&&lng>=-145&&lng<=-60)  return true;       /* Canada arctic */
+    if(lat>=49&&lat<=70&&lng>=-130&&lng<=-55)  return true;       /* Canada main */
+    if(lat>=24&&lat<=49&&lng>=-126&&lng<=-66)  return true;       /* US main */
+    if(lat>=14&&lat<=32&&lng>=-117&&lng<=-86)  return true;       /* Mexico */
+    if(lat>= 8&&lat<=18&&lng>=-92&&lng<=-77)   return true;       /* Central Am */
+    /* === GREENLAND === */
+    if(lat>=60&&lat<=78&&lng>=-55&&lng<=-22)   return true;
+    if(lat>=70&&lat<=83&&lng>=-65&&lng<=-22)   return true;
+    /* === SOUTH AMERICA === */
+    if(lat>= 8&&lat<=12&&lng>=-78&&lng<=-58)   return true;
+    if(lat>= 0&&lat<= 8&&lng>=-78&&lng<=-50)   return true;
+    if(lat>=-15&&lat<= 0&&lng>=-77&&lng<=-36)  return true;
+    if(lat>=-30&&lat<=-15&&lng>=-72&&lng<=-38) return true;
+    if(lat>=-55&&lat<=-30&&lng>=-75&&lng<=-55) return true;
+    /* === EUROPE === */
+    if(lat>=36&&lat<=58&&lng>=-10&&lng<=30)    return true;       /* Western */
+    if(lat>=58&&lat<=72&&lng>=  5&&lng<=42)    return true;       /* Scandinavia */
+    if(lat>=42&&lat<=60&&lng>=  20&&lng<=40)   return true;       /* Eastern */
+    /* === RUSSIA / SIBERIA === */
+    if(lat>=50&&lat<=78&&lng>= 40&&lng<=180)   return true;
+    /* === AFRICA === */
+    if(lat>=15&&lat<=35&&lng>=-18&&lng<=37)    return true;       /* North */
+    if(lat>= 0&&lat<=15&&lng>=-18&&lng<=42)    return true;       /* Central */
+    if(lat>=-12&&lat<= 0&&lng>= 10&&lng<=42)   return true;       /* Equatorial S */
+    if(lat>=-35&&lat<=-12&&lng>= 12&&lng<=40)  return true;       /* Southern */
+    if(lat>=-26&&lat<=-12&&lng>= 43&&lng<=51)  return true;       /* Madagascar */
+    /* === MIDDLE EAST & ARABIA === */
+    if(lat>=12&&lat<=42&&lng>= 30&&lng<=65)    return true;
+    /* === SOUTH ASIA === */
+    if(lat>= 5&&lat<=37&&lng>= 65&&lng<= 90)   return true;       /* India + Pakistan */
+    if(lat>=20&&lat<=40&&lng>= 75&&lng<=100)   return true;       /* Tibetan plateau */
+    /* === SE ASIA & INDONESIA === */
+    if(lat>=-10&&lat<=25&&lng>= 92&&lng<=145)  return true;
+    /* === EAST ASIA === */
+    if(lat>=20&&lat<=50&&lng>=100&&lng<=140)   return true;       /* China+Korea */
+    if(lat>=30&&lat<=46&&lng>=128&&lng<=146)   return true;       /* Japan */
+    /* === AUSTRALIA & NZ === */
+    if(lat>=-44&&lat<=-10&&lng>=113&&lng<=154) return true;
+    if(lat>=-47&&lat<=-34&&lng>=165&&lng<=179) return true;
+    return false;
+  };
+
+  /* Build land dots — 6° grid keeps the continent shapes readable while cutting DOM count roughly in half vs the previous 4° grid (saves render+composite cost on every frame). */
+  const dots = [];
+  for(let lat = -78; lat <= 82; lat += 6){
+    for(let lng = -180; lng < 180; lng += 6){
+      if(isLand(lat, lng)){
+        const el = document.createElement('span');
+        el.className = 'globe-dot';
+        globe.appendChild(el);
+        dots.push({ lat, lng, el, _opBucket: -1 });
+      }
+    }
+  }
+
+  /* Regional anchors plus a few capitals the user explicitly requested. The smooth angular fade lets nearby cities (e.g. NY/Ottawa, London/Madrid/Lagos) co-exist without flicker — they just visually layer at the same rotation moment. */
+  const cities = [
+    { name: 'Los Angeles',  lat: 34.0,  lng:-118.2 },
+    { name: 'Ottawa',       lat: 45.4,  lng: -75.7 },
+    { name: 'New York',     lat: 40.7,  lng: -74.0 },
+    { name: 'São Paulo',    lat:-23.5,  lng: -46.6 },
+    { name: 'Madrid',       lat: 40.4,  lng:  -3.7 },
+    { name: 'London',       lat: 51.5,  lng:   0.0 },
+    { name: 'Lagos',        lat:  6.5,  lng:   3.4 },
+    { name: 'Cape Town',    lat:-33.9,  lng:  18.4 },
+    { name: 'Cairo',        lat: 30.0,  lng:  31.2 },
+    { name: 'Mumbai',       lat: 19.1,  lng:  72.9 },
+    { name: 'Singapore',    lat:  1.3,  lng: 103.8 },
+    { name: 'Tokyo',        lat: 35.7,  lng: 139.7 },
+    { name: 'Sydney',       lat:-33.8,  lng: 151.2 }
+  ];
+  cities.forEach((c, i) => {
+    const el = document.createElement('span');
+    el.className = 'globe-city';
+    el.style.setProperty('--d', (i * 0.18) + 's');
+    el.innerHTML = '<span class="gc-inner"><span class="gc-pulse"></span><span class="gc-dot"></span><span class="gc-label">' + c.name + '</span></span>';
+    globe.appendChild(el);
+    c.el = el;
+  });
+  /* Reveal half-width in radians (~26°). With cities spaced 30°+ apart longitudinally, typically 1–2 labels are visible at once. */
+  const REVEAL_HALF = 0.45;
+
+  /* Project lat/lng onto a sphere of radius r centred at (cx, cy). Returns x, y, z (z>0 = front-facing hemisphere). */
+  const project = (lat, lng, rotation, r) => {
+    const phi   = lat * Math.PI / 180;
+    const theta = (lng * Math.PI / 180) + rotation;
+    const cp = Math.cos(phi);
+    return {
+      x: cp * Math.sin(theta) * r,
+      y: -Math.sin(phi) * r,
+      z: cp * Math.cos(theta) * r
+    };
+  };
+
+  let rotation = -1.2; /* start with the Americas roughly facing the viewer */
+  let lastT = performance.now();
+  let visible = true;
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { rootMargin: '200px' }).observe(globe);
+  }
+
+  const frame = (t) => {
+    const dt = Math.min(0.05, (t - lastT) / 1000);
+    lastT = t;
+    /* Skip all per-dot work while the section is offscreen — the rAF tick still runs (cheap) so we resume instantly when it scrolls back into view. */
+    if(!visible){
+      requestAnimationFrame(frame);
+      return;
+    }
+    rotation += dt * 0.22; /* ~28s per full rotation */
+
+    const w = globe.clientWidth;
+    const r = w / 2 - 8;
+    const cxd = w / 2;
+
+    for(let i = 0; i < dots.length; i++){
+      const d = dots[i];
+      const p = project(d.lat, d.lng, rotation, r);
+      const zN = p.z / r;
+      /* Anything well behind the rim is fully invisible. */
+      if(zN < -0.30){
+        if(d._opBucket !== 0){ d._opBucket = 0; d.el.style.opacity = '0'; }
+        continue;
+      }
+      const px = cxd + p.x - 1;
+      const py = cxd + p.y - 1;
+      d.el.style.transform = 'translate(' + px + 'px,' + py + 'px)';
+      /* Smooth opacity ramp: peak 0.85 at front centre, ~0.45 at the rim (zN=0), and a soft linear fade to 0 across the back hemisphere instead of cutting off. */
+      let op;
+      if(zN >= 0){
+        op = 0.45 + zN * 0.40;
+      } else {
+        op = 0.45 * (1 + zN / 0.30);
+      }
+      if(op < 0) op = 0;
+      else if(op > 0.85) op = 0.85;
+      /* Quantize opacity into 16 buckets — cuts redundant style writes since adjacent frames usually map to the same bucket. */
+      const bucket = (op * 16) | 0;
+      if(bucket !== d._opBucket){
+        d._opBucket = bucket;
+        d.el.style.opacity = (bucket / 16).toFixed(2);
+      }
+    }
+    /* Cities: each label fades in/out based purely on angular distance from the front-centre meridian. No flipping, no collision — labels are spaced apart in the cities list, so this stays visually clean. */
+    const cx = w / 2;
+    for(let i = 0; i < cities.length; i++){
+      const c = cities[i];
+      const p = project(c.lat, c.lng, rotation, r);
+      const zN = p.z / r;
+      const sx = cx + p.x;
+      const sy = cx + p.y;
+      let ang = (c.lng * Math.PI / 180) + rotation;
+      ang = ((ang % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
+      const aAbs = Math.abs(ang);
+      /* Quadratic ease: 1 at front-centre, 0 at the rim of the reveal band, 0 anywhere outside it or behind the globe. */
+      let op = 0;
+      if(zN > 0.05 && aAbs < REVEAL_HALF){
+        const ratio = aAbs / REVEAL_HALF;
+        op = 1 - ratio * ratio;
+      }
+      const opStr = op < 0.01 ? '0' : op.toFixed(2);
+      if(c._opLast !== opStr){
+        c._opLast = opStr;
+        c.el.style.opacity = opStr;
+      }
+      if(zN < -0.20){
+        c.el.style.transform = 'translate(-300px,-300px)';
+        continue;
+      }
+      c.el.style.transform = 'translate(' + (sx - 7) + 'px,' + (sy - 7) + 'px)';
+    }
+
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+})();
+
+/* SCROLL-FADE-IN — adds .in to .fade-in elements when they enter the viewport (blur+translate fade) */
+(() => {
+  const els = document.querySelectorAll('.fade-in');
+  if(!els.length) return;
+  if(!('IntersectionObserver' in window)){ els.forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -10% 0px', threshold: 0 });
+  els.forEach(el => io.observe(el));
+})();
+
 
 /* PERF — pause infinite animations inside offscreen sections (saves GPU on slower devices) */
 (() => {
