@@ -1293,6 +1293,9 @@
     .who-parallax{gap:14px}
     .who-row{gap:14px;padding:0 8px}
     .who-card{flex:0 0 140px}
+    /* Strip the expensive composited filters on mobile — blur(28px) and mix-blend-mode are the most expensive paint operations on phones, and with two parallax-scrolled rows of cards the GPU can't keep up. The thumbs already read clean without them. */
+    .who-thumb::before{display:none}
+    .who-icon-badge{backdrop-filter:none;-webkit-backdrop-filter:none}
     .who-thumb{border-radius:14px}
     .who-icon-badge{width:36px;height:36px;border-radius:10px}
     .who-icon-badge svg{width:16px;height:16px}
@@ -3428,10 +3431,12 @@ document.querySelectorAll('.faq-item').forEach(it => {
     return false;
   };
 
-  /* Build land dots — 6° grid keeps the continent shapes readable while cutting DOM count roughly in half vs the previous 4° grid (saves render+composite cost on every frame). */
+  /* Build land dots — 6° grid on desktop, 10° on mobile so the per-frame project+transform+opacity loop processes ~3× fewer dots on phones (the biggest single source of render cost in this section). */
+  const isMobileViewport = window.matchMedia('(max-width: 760px)').matches;
+  const STEP = isMobileViewport ? 10 : 6;
   const dots = [];
-  for(let lat = -78; lat <= 82; lat += 6){
-    for(let lng = -180; lng < 180; lng += 6){
+  for(let lat = -78; lat <= 82; lat += STEP){
+    for(let lng = -180; lng < 180; lng += STEP){
       if(isLand(lat, lng)){
         const el = document.createElement('span');
         el.className = 'globe-dot';
@@ -3482,6 +3487,9 @@ document.querySelectorAll('.faq-item').forEach(it => {
 
   let rotation = -1.2; /* start with the Americas roughly facing the viewer */
   let lastT = performance.now();
+  let lastRender = 0;
+  /* Throttle the per-frame work to ~30fps on mobile — we still rAF every tick (cheap) but only do the project + write loop every other frame, halving render cost without any visible difference at 28s rotation. */
+  const FRAME_MS = isMobileViewport ? 33 : 0;
   let visible = true;
   if('IntersectionObserver' in window){
     new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { rootMargin: '200px' }).observe(globe);
@@ -3495,6 +3503,11 @@ document.querySelectorAll('.faq-item').forEach(it => {
       requestAnimationFrame(frame);
       return;
     }
+    if(FRAME_MS && (t - lastRender) < FRAME_MS){
+      requestAnimationFrame(frame);
+      return;
+    }
+    lastRender = t;
     rotation += dt * 0.22; /* ~28s per full rotation */
 
     const w = globe.clientWidth;
