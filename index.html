@@ -210,12 +210,22 @@
   .vsl{max-width:1120px;margin:0 auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0a0a0a;position:relative;box-shadow:0 30px 80px rgba(7,7,7,0.14)}
   .vsl-inner{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f 0%,#1a0a0b 60%,#2a1013 100%);display:flex;align-items:center;justify-content:center;cursor:pointer}
   .vsl-inner.playing{background:none}
-  .vsl-inner iframe{position:absolute;top:-60px;left:0;width:100%;height:calc(100% + 120px);border:0}
+  .vsl-inner iframe,.vsl-inner #vsl-yt{position:absolute;inset:0;width:100%;height:100%;border:0}
   .vsl-play{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.96);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;border:0;z-index:2}
   .vsl-play:hover{transform:scale(1.08);background:var(--ox)}
   .vsl-play:hover svg{fill:#fff}
   .vsl-play svg{width:26px;height:26px;fill:var(--ink);margin-left:4px;transition:fill 0.3s}
   .vsl-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .vsl-overlay{position:absolute;inset:0;z-index:3;cursor:pointer}
+  .vsl-controls{position:absolute;bottom:0;left:0;right:0;z-index:4;padding:14px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,0.65));display:flex;align-items:center;gap:12px;opacity:0;transition:opacity 0.25s;pointer-events:none}
+  .vsl.show-ctrl .vsl-controls{opacity:1;pointer-events:auto}
+  .vsl-ctrl-btn{width:30px;height:30px;background:none;border:0;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;opacity:0.9;transition:opacity 0.2s}
+  .vsl-ctrl-btn:hover{opacity:1}
+  .vsl-ctrl-btn svg{width:18px;height:18px;fill:#fff}
+  .vsl-prog-wrap{flex:1;height:4px;background:rgba(255,255,255,0.25);border-radius:2px;cursor:pointer;position:relative;transition:height 0.15s}
+  .vsl-prog-wrap:hover{height:6px}
+  .vsl-prog-bar{height:100%;background:#fff;border-radius:2px;width:0;pointer-events:none;transition:width 0.15s linear}
+  .vsl-time{font-size:12px;color:rgba(255,255,255,0.75);font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;letter-spacing:0.01em}
 
   /* GLOWING CTA BUTTON — oxblood + shimmer */
   .cta-block{display:flex;flex-direction:column;align-items:center;margin:48px 0 0;padding:0 32px}
@@ -2498,12 +2508,84 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* VSL — click to load YouTube (no branding, controls only) */
-document.getElementById('vsl-trigger').addEventListener('click', function() {
-  if(this.classList.contains('playing')) return;
-  this.classList.add('playing');
-  this.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/ttbDM_7eFS4?autoplay=1&modestbranding=1&rel=0&showinfo=0&controls=1&iv_load_policy=3&disablekb=0&fs=0&color=white&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-});
+/* VSL — YouTube IFrame API + custom controls (fast auto-hide) */
+(function(){
+  var apiReady = false, pendingInit = null;
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = function(){ apiReady = true; if(pendingInit) pendingInit(); };
+
+  document.getElementById('vsl-trigger').addEventListener('click', function(){
+    var trigger = this;
+    if(trigger.classList.contains('playing')) return;
+    trigger.classList.add('playing');
+    trigger.innerHTML = '<div id="vsl-yt"></div>';
+
+    var vsl = document.getElementById('vsl');
+    var overlay = document.createElement('div');
+    overlay.className = 'vsl-overlay';
+    vsl.appendChild(overlay);
+
+    var ctrl = document.createElement('div');
+    ctrl.className = 'vsl-controls';
+    ctrl.innerHTML = '<button class="vsl-ctrl-btn vsl-pp" aria-label="Play/Pause"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>'
+      +'<div class="vsl-prog-wrap"><div class="vsl-prog-bar"></div></div>'
+      +'<span class="vsl-time">0:00 / 0:00</span>';
+    vsl.appendChild(ctrl);
+
+    var player, hideTimer;
+    function show(){ vsl.classList.add('show-ctrl'); clearTimeout(hideTimer); hideTimer = setTimeout(hide, 1500); }
+    function hide(){ if(player && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING) vsl.classList.remove('show-ctrl'); }
+    function togglePlay(){
+      if(!player) return;
+      var s = player.getPlayerState();
+      if(s === YT.PlayerState.PLAYING){ player.pauseVideo(); show(); clearTimeout(hideTimer); }
+      else{ player.playVideo(); show(); }
+      updateIcon();
+    }
+    function updateIcon(){
+      if(!player||!player.getPlayerState) return;
+      var playing = player.getPlayerState() === YT.PlayerState.PLAYING;
+      ctrl.querySelector('.vsl-pp svg path').setAttribute('d', playing ? 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' : 'M8 5v14l11-7z');
+    }
+    function fmt(s){ var m=Math.floor(s/60),sec=Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+    function tick(){
+      if(player && player.getDuration){
+        var d=player.getDuration(), c=player.getCurrentTime();
+        if(d>0){
+          ctrl.querySelector('.vsl-prog-bar').style.width=(c/d*100)+'%';
+          ctrl.querySelector('.vsl-time').textContent=fmt(c)+' / '+fmt(d);
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    overlay.addEventListener('mousemove', show);
+    overlay.addEventListener('click', togglePlay);
+    ctrl.querySelector('.vsl-pp').addEventListener('click', function(e){ e.stopPropagation(); togglePlay(); });
+    ctrl.querySelector('.vsl-prog-wrap').addEventListener('click', function(e){
+      if(!player) return;
+      var r=this.getBoundingClientRect();
+      player.seekTo((e.clientX-r.left)/r.width*player.getDuration(), true);
+      show();
+    });
+    ctrl.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    ctrl.addEventListener('mouseleave', function(){ if(player && player.getPlayerState() === YT.PlayerState.PLAYING) hideTimer = setTimeout(hide, 1500); });
+
+    function boot(){
+      player = new YT.Player('vsl-yt', {
+        videoId: 'ttbDM_7eFS4',
+        playerVars: { autoplay:1, controls:0, modestbranding:1, rel:0, showinfo:0, iv_load_policy:3, fs:0, playsinline:1, disablekb:1 },
+        events: {
+          onReady: function(e){ e.target.playVideo(); tick(); show(); },
+          onStateChange: function(){ updateIcon(); if(player.getPlayerState()===YT.PlayerState.PAUSED){ show(); clearTimeout(hideTimer); } }
+        }
+      });
+    }
+    if(apiReady) boot(); else pendingInit = boot;
+  });
+})();
 
 /* Hero underline SVGs — inject wavy hand-drawn paths into .u spans */
 (() => {
