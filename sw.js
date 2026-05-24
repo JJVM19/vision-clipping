@@ -1,11 +1,11 @@
 /* Vision Clipping service worker — aggressive image cache + stale-while-revalidate for everything else */
-const VERSION = 'vc-v4';
+const VERSION = 'vc-v6';
 const STATIC_CACHE = `${VERSION}-static`;
 const IMAGE_CACHE = `${VERSION}-images`;
 
 /* Pre-cache only the most universal assets so first-load isn't slowed. Everything else is cached on first request. */
 const PRECACHE = [
-  '/assets/wordmark-dark.png',
+  '/assets/wordmark-dark.webp',
   '/assets/icons/favicon.ico',
   '/assets/icons/og-image.png',
 ];
