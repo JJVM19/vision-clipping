@@ -210,12 +210,11 @@
   .vsl{max-width:1120px;margin:0 auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0a0a0a;position:relative;box-shadow:0 30px 80px rgba(7,7,7,0.14)}
   .vsl-inner{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f 0%,#1a0a0b 60%,#2a1013 100%);display:flex;align-items:center;justify-content:center;cursor:pointer}
   .vsl-inner.playing{background:none}
-  .vsl-inner iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vsl-inner iframe{position:absolute;top:-60px;left:0;width:100%;height:calc(100% + 120px);border:0}
   .vsl-play{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.96);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;border:0;z-index:2}
   .vsl-play:hover{transform:scale(1.08);background:var(--ox)}
   .vsl-play:hover svg{fill:#fff}
   .vsl-play svg{width:26px;height:26px;fill:var(--ink);margin-left:4px;transition:fill 0.3s}
-  .vsl-caption{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(255,255,255,0.5);z-index:2}
   .vsl-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
   /* GLOWING CTA BUTTON — oxblood + shimmer */
@@ -1705,7 +1704,6 @@
         <button class="vsl-play" aria-label="Play video">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
-        <div class="vsl-caption">Watch — 2:41</div>
       </div>
     </div>
   </div>
