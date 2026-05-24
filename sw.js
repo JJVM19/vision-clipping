@@ -1,5 +1,5 @@
 /* Vision Clipping service worker — aggressive image cache + stale-while-revalidate for everything else */
-const VERSION = 'vc-v6';
+const VERSION = 'vc-v7';
 const STATIC_CACHE = `${VERSION}-static`;
 const IMAGE_CACHE = `${VERSION}-images`;
 
