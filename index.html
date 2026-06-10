@@ -930,6 +930,42 @@
   .gc-label{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:10.5px;letter-spacing:-0.005em;color:var(--ink);background:rgba(255,255,255,0.97);border:1px solid rgba(151,0,14,0.18);padding:3px 9px;border-radius:999px;white-space:nowrap;font-weight:500;box-shadow:0 4px 12px rgba(151,0,14,0.10)}
   @keyframes gcPulse{0%{transform:scale(0.6);opacity:0.85}80%,100%{transform:scale(2.6);opacity:0}}
 
+  /* IN-HOUSE — white theme, mirror of globe: left = device farm visual, right = copy. Reuses globe copy classes. */
+  .ihouse{padding:120px 0 140px;background:#fff;color:var(--ink);position:relative;overflow:hidden;border-top:1px solid var(--line)}
+  .ihouse::before{content:"";position:absolute;top:50%;left:-10%;width:60%;height:80%;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(151,0,14,0.06),transparent 65%);transform:translateY(-50%);pointer-events:none;z-index:0}
+  .ihouse .wrap{position:relative;z-index:1}
+  .ih-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:1240px;margin:0 auto;padding:0 32px;align-items:center}
+  .ih-vis{order:-1;display:flex;align-items:center;justify-content:center}
+  /* Device farm — three CSS phone shells, staggered like a rack. Float uses the standalone `translate` property so it composes with the rotate transforms; everything stays on the compositor. */
+  .ih-stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:460px;width:100%}
+  .ih-phone{position:relative;width:168px;height:348px;border-radius:30px;background:#0d0d0f;padding:7px;box-shadow:0 24px 60px rgba(7,7,7,0.20),inset 0 0 0 1px rgba(255,255,255,0.07);flex-shrink:0}
+  .ih-p1{transform:rotate(-7deg);margin:48px -26px 0 0;z-index:1;animation:ihFloat 7s ease-in-out 0.6s infinite}
+  .ih-p2{width:184px;height:380px;z-index:3;box-shadow:0 32px 80px rgba(151,0,14,0.18),0 24px 60px rgba(7,7,7,0.22),inset 0 0 0 1px rgba(255,255,255,0.07);animation:ihFloat 7s ease-in-out infinite}
+  .ih-p3{transform:rotate(7deg);margin:48px 0 0 -26px;z-index:2;animation:ihFloat 7s ease-in-out 1.2s infinite}
+  @keyframes ihFloat{0%,100%{translate:0 0}50%{translate:0 -9px}}
+  .ih-screen{position:relative;width:100%;height:100%;border-radius:24px;background:linear-gradient(180deg,#ffffff 0%,#fbf7f7 100%);overflow:hidden}
+  .ih-cam{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:44px;height:13px;border-radius:999px;background:#0d0d0f;z-index:2}
+  .ih-ui{display:flex;flex-direction:column;gap:9px;padding:32px 12px 12px;height:100%}
+  .ih-row{display:flex;align-items:center;gap:7px}
+  .ih-av{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--ox),#c8121f);flex-shrink:0}
+  .ih-ln{height:6px;border-radius:3px;background:rgba(7,7,7,0.08)}
+  .ih-ln.w60{width:60%}.ih-ln.w90{width:90%}.ih-ln.w50{width:50%}
+  .ih-clip{position:relative;width:100%;flex:1;min-height:0;border-radius:12px;background:radial-gradient(120% 90% at 30% 20%,rgba(151,0,14,0.14),rgba(151,0,14,0.05) 55%,rgba(7,7,7,0.04) 100%);display:flex;align-items:center;justify-content:center}
+  .ih-play{width:0;height:0;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent var(--ox);margin-left:3px;filter:drop-shadow(0 4px 10px rgba(151,0,14,0.35))}
+  .ih-bar{width:100%;height:4px;border-radius:2px;background:rgba(7,7,7,0.08);overflow:hidden;flex-shrink:0}
+  .ih-bar span{display:block;width:var(--w,60%);height:100%;border-radius:2px;background:var(--ox)}
+  .ih-status{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:500;letter-spacing:-0.005em;color:var(--ink);background:rgba(255,255,255,0.97);border:1px solid rgba(151,0,14,0.18);padding:4px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 12px rgba(151,0,14,0.10);z-index:4}
+  .ih-dot{position:relative;width:7px;height:7px;border-radius:50%;background:var(--ox);flex-shrink:0}
+  .ih-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(151,0,14,0.5);animation:gcPulse 2.6s ease-out infinite}
+  .ih-chip{position:absolute;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:500;color:var(--ink);background:rgba(255,255,255,0.97);border:1px solid rgba(151,0,14,0.18);padding:8px 14px;border-radius:999px;white-space:nowrap;box-shadow:0 10px 28px rgba(151,0,14,0.14);z-index:5}
+  .ih-chip svg{width:13px;height:13px;color:var(--ox);flex-shrink:0}
+  .ih-chip-top{top:8%;right:2%}
+  .ih-chip-btm{bottom:3%;left:4%}
+  @media (prefers-reduced-motion: reduce){
+    .ih-p1,.ih-p2,.ih-p3{animation:none}
+    .ih-dot::after{animation:none}
+  }
+
   /* Scale timeline — 3 rows, each with a card on one side and a stat on the other, sharing a single numbered node down the center rail */
   .whyus#scale{padding:120px 0}
   .scale-timeline{position:relative;max-width:1180px;margin:64px auto 0;padding:0 24px}
@@ -1307,6 +1343,22 @@
     .globe-lead{font-size:15px}
     .globe-points li > div{font-size:14px}
     .globe-3d{max-width:340px;margin:0 auto}
+    .ihouse{padding:80px 0 90px}
+    .ih-grid{grid-template-columns:1fr;gap:48px;padding:0 20px}
+    .ih-vis{order:0}
+    .ih-stage{min-height:380px}
+    .ih-phone{width:124px;height:258px;border-radius:24px;padding:6px}
+    .ih-p2{width:138px;height:286px}
+    .ih-p1{margin:36px -18px 0 0}
+    .ih-p3{margin:36px 0 0 -18px}
+    .ih-screen{border-radius:19px}
+    .ih-cam{width:34px;height:10px;top:7px}
+    .ih-ui{padding:24px 9px 9px;gap:7px}
+    .ih-av{width:16px;height:16px}
+    .ih-status{font-size:9.5px;padding:3px 8px}
+    .ih-chip{font-size:10.5px;padding:6px 11px}
+    .ih-chip-top{right:0;top:5%}
+    .ih-chip-btm{left:0}
     .proc-step{font-size:34px}
     .proc-icon{width:46px;height:46px}
     .proc-icon svg{width:22px;height:22px}
@@ -2089,6 +2141,87 @@
           <canvas class="globe-canvas" id="globe-canvas"></canvas>
           <div class="globe-shine"></div>
           <!-- JS injects .globe-city elements here; dots are painted into the canvas -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IN-HOUSE DISTRIBUTION — white theme, 2-column mirror of globe: left = device farm visual, right = copy -->
+<section class="ihouse" id="inhouse" data-screen-label="08 In-House">
+  <div class="wrap">
+    <div class="ih-grid">
+      <div class="globe-text fade-in">
+        <div class="globe-eyebrow">In-House Distribution</div>
+        <h2 class="globe-h2">We run the accounts. <em>You own them.</em></h2>
+        <p class="globe-lead">Every clipping account is run by our in-house team on dedicated devices — built for your brand, with full ownership on the table.</p>
+        <div class="globe-feats">
+          <div class="gf">
+            <div class="gf-num">01</div>
+            <div class="gf-body">
+              <h4>Run under one roof.</h4>
+              <p>Every account is operated in-house by our own team. No outsourcing, no third parties — full control over every post that goes out.</p>
+            </div>
+          </div>
+          <div class="gf">
+            <div class="gf-num">02</div>
+            <div class="gf-body">
+              <h4>Dedicated devices.</h4>
+              <p>Physical in-house devices provisioned specifically for your company, each one distributing your content around the clock.</p>
+            </div>
+          </div>
+          <div class="gf">
+            <div class="gf-num">03</div>
+            <div class="gf-body">
+              <h4>Full ownership, your option.</h4>
+              <p>Handles, followers, data — you have the option of taking full ownership of every account we build and grow for you.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ih-vis fade-in">
+        <div class="ih-stage" aria-hidden="true">
+          <div class="ih-phone ih-p1">
+            <div class="ih-screen">
+              <div class="ih-cam"></div>
+              <div class="ih-ui">
+                <div class="ih-row"><span class="ih-av"></span><span class="ih-ln w60"></span></div>
+                <div class="ih-clip"><span class="ih-play"></span></div>
+                <div class="ih-bar"><span style="--w:64%"></span></div>
+                <div class="ih-ln w90"></div>
+                <div class="ih-ln w50"></div>
+              </div>
+            </div>
+            <div class="ih-status"><span class="ih-dot"></span>Posting</div>
+          </div>
+          <div class="ih-phone ih-p2">
+            <div class="ih-screen">
+              <div class="ih-cam"></div>
+              <div class="ih-ui">
+                <div class="ih-row"><span class="ih-av"></span><span class="ih-ln w60"></span></div>
+                <div class="ih-clip"><span class="ih-play"></span></div>
+                <div class="ih-bar"><span style="--w:78%"></span></div>
+                <div class="ih-ln w90"></div>
+                <div class="ih-ln w50"></div>
+              </div>
+            </div>
+            <div class="ih-status"><span class="ih-dot"></span>Live</div>
+          </div>
+          <div class="ih-phone ih-p3">
+            <div class="ih-screen">
+              <div class="ih-cam"></div>
+              <div class="ih-ui">
+                <div class="ih-row"><span class="ih-av"></span><span class="ih-ln w60"></span></div>
+                <div class="ih-clip"><span class="ih-play"></span></div>
+                <div class="ih-bar"><span style="--w:42%"></span></div>
+                <div class="ih-ln w90"></div>
+                <div class="ih-ln w50"></div>
+              </div>
+            </div>
+            <div class="ih-status"><span class="ih-dot"></span>Scheduled</div>
+          </div>
+          <div class="ih-chip ih-chip-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>In-house devices · Dedicated to your brand</div>
+          <div class="ih-chip ih-chip-btm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8L20 3M16 7l3 3M13.5 9.5l2 2"/></svg>Full account ownership</div>
         </div>
       </div>
     </div>
