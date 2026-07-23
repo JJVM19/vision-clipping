@@ -364,7 +364,7 @@
     97%,100%{background-position:0% 0}
   }
   .res-parallax{max-width:none;width:100%;display:flex;flex-direction:column;gap:22px;padding:32px 0;position:relative}
-  .rp-row{display:flex;gap:22px;width:max-content;padding:0 40px}
+  .rp-row{display:flex;gap:22px;width:max-content;padding:0 40px;will-change:transform;backface-visibility:hidden}
   .rp-tile{flex-shrink:0;width:420px;aspect-ratio:16/10;border-radius:14px;border:1px solid var(--line);background:var(--paper);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(7,7,7,0.04)}
   .rp-tile .rp-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(7,7,7,0.3);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.035) 14px 15px);text-align:center;padding:0 24px;font-weight:500}
   .rp-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:inherit;user-select:none;-webkit-user-select:none;-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}
@@ -2811,7 +2811,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
   const setups = [
     { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600,
-      mobileBasePos: -80, mobileBaseNeg: 0, mobileMult: 600 }
+      mobileBasePos: -40, mobileBaseNeg: 0, mobileMult: 300 }
   ];
   setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult, mobileBasePos, mobileBaseNeg, mobileMult }) => {
     const rows = [...document.querySelectorAll(sel)];
@@ -2821,13 +2821,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       const speed = parseFloat(row.dataset.speed) || 0.4;
       return { el: row, speed };
     });
-    let ticking = false;
-    let visible = true;
-    const io = new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { rootMargin: '200px' });
-    io.observe(section);
     const run = () => {
-      ticking = false;
-      if(!visible || window.__navJumping) return;
+      if(window.__navJumping) return;
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (vh - r.top) / (vh + r.height);
@@ -2841,9 +2836,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
       }
     };
-    lenis.on('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(run); });
+    /* Continuous rAF while the section is on screen (not scroll-event-driven): touch scroll events arrive out of sync with frames on mobile, which made the rows stutter. */
+    let visible = false, rafId = 0;
+    const loop = () => {
+      if(!visible){ rafId = 0; return; }
+      run();
+      rafId = requestAnimationFrame(loop);
+    };
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      visible = e.isIntersecting;
+      if(visible && !rafId) rafId = requestAnimationFrame(loop);
+    }), { rootMargin: '200px' });
+    io.observe(section);
     window.addEventListener('__navJumpEnd', () => requestAnimationFrame(run));
-    /* Prime the rows with an initial transform so they don't render at x=0 before the first scroll event. */
+    /* Prime the rows with an initial transform so they don't render at x=0 before the loop starts. */
     requestAnimationFrame(run);
     /* Recompute on resize/orientation change so we cleanly switch between mobile/desktop bases & multipliers. */
     window.addEventListener('resize', () => requestAnimationFrame(run));
