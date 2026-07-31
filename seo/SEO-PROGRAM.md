@@ -61,8 +61,18 @@ asset — but it should be a deliberate decision with these risks on the table, 
 
 - [x] **Iteration 1:** Technical foundation — robots, sitemap, homepage meta + JSON-LD, keyword list.
 - [x] **Iteration 2:** Case pages (titles + meta + canonical + Article JSON-LD) + `/blog/` hub + first pillar article *"How much does a clipping agency cost?"* (P0 COMM).
-- [x] **Iteration 3:** Articles *"How to choose the best clipping agency"* + *"Clipping agency vs hiring an editor"* live (3 articles total now, cross-linked). Backlink/citation plan drafted → [`backlinks.md`](backlinks.md). Still open: *how to repurpose long-form content*.
-- [x] **Iteration 4 (plan):** Backlink plan written — earned links, guest posts, digital PR, podcast guesting; no link spam. Execution needs Jaden's go on founder guesting + aggregate data.
+- [x] **Iteration 3:** Articles *"How to choose the best clipping agency"* + *"Clipping agency vs hiring an editor"*. Backlink/citation plan drafted → [`backlinks.md`](backlinks.md).
+- [x] **Iteration 4:** *"How to repurpose long-form content"* (with HowTo schema). **Content set complete: 4 cross-linked pillar articles** covering the P0 pricing / comparison / how-to space.
+- [ ] **Iteration 5 (BLOCKED on Jaden):** i18n `/nl//fr//tr/` with hreflang — deliberately held until the EN core proves it ranks (don't translate pages that aren't indexed). Backlink outreach execution — needs Jaden's go on founder guesting + aggregate data.
+
+## Current status (2026-07-31, ~06:00)
+The autonomous content + technical phase is **done and sitting in PR #1**. Everything below now
+needs Jaden, so the loop is winding down to a slow heartbeat rather than piling more articles onto
+an unmerged branch:
+1. **Merge PR #1** — nothing is live until then (GitHub Pages deploys `main`).
+2. **Google Search Console** — submit `sitemap.xml`, then watch what actually ranks.
+3. **Keyword tool** (Ahrefs/Semrush) — replace the "estimate to verify" guesses with real volume.
+4. **Decide** on i18n go, backlink outreach go, and the Workstream 3 traffic-bot question.
 - [ ] **Iteration 5:** i18n — `/nl/ /fr/ /tr/` with hreflang, once EN core proves it ranks. Native-localizer review, no raw machine translation.
 - [ ] **Ongoing:** submit sitemap in Google Search Console; track keyword positions; validate every term in Trends before writing to it.
 
