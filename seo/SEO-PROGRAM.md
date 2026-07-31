@@ -11,8 +11,8 @@ Progress tracker — updated each work session. Keyword list: [`keywords.md`](ke
 
 | # | Workstream | Status |
 |---|---|---|
-| 1 | **Rank for search terms** (keyword list + on-page) | 🟡 List built, foundation shipping |
-| 2 | **Heavy SEO articles + backlinks** | ⚪ Not started — next up |
+| 1 | **Rank for search terms** (keyword list + on-page) | 🟢 List built, homepage + 6 case pages optimised |
+| 2 | **Heavy SEO articles + backlinks** | 🟡 Blog live + first pillar article; backlinks not started |
 | 3 | **Click-traffic automation** (emulators/proxies) | 🔴 See warning below — do NOT build yet |
 | 4 | **Multilingual key terms** (NL-BE / FR / TR) | 🟡 Terms drafted, pages not built |
 
@@ -59,8 +59,9 @@ asset — but it should be a deliberate decision with these risks on the table, 
 
 ## Roadmap (next iterations of the loop)
 
-- [ ] **Iteration 2:** Case pages — unique titles + meta descriptions + canonical + Article JSON-LD (our least-contested, highest-converting SEO asset). First pillar article: *"How much does a clipping agency cost?"* (P0 COMM).
-- [ ] **Iteration 3:** `/blog/` structure + 2–3 more P0 articles (best clipping agency, clipping agency vs hiring an editor, how to repurpose long-form content). Internal-link each to the matching service section.
+- [x] **Iteration 1:** Technical foundation — robots, sitemap, homepage meta + JSON-LD, keyword list.
+- [x] **Iteration 2:** Case pages (titles + meta + canonical + Article JSON-LD) + `/blog/` hub + first pillar article *"How much does a clipping agency cost?"* (P0 COMM).
+- [ ] **Iteration 3:** 2–3 more P0 articles (best clipping agency, clipping agency vs hiring an editor, how to repurpose long-form content). Internal-link each to the matching service section.
 - [ ] **Iteration 4:** Backlink plan — guest posts / citations / founder-community placements (checklist: "citing us in other articles"). Real outreach list, not link spam.
 - [ ] **Iteration 5:** i18n — `/nl/ /fr/ /tr/` with hreflang, once EN core proves it ranks. Native-localizer review, no raw machine translation.
 - [ ] **Ongoing:** submit sitemap in Google Search Console; track keyword positions; validate every term in Trends before writing to it.
