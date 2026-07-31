@@ -1,0 +1,25 @@
+name: Google Indexing API (manual)
+
+# OPTIONAL and manual-only. See the caveat in tools/google-index-submit.mjs:
+# Google officially supports the Indexing API only for JobPosting / BroadcastEvent
+# pages. For our marketing pages the sanctioned fast-index path is the sitemap in
+# Search Console + URL Inspection. This workflow exists if Jaden decides to use it.
+#
+# Setup: add the service-account JSON as the repo secret GOOGLE_INDEXING_SA
+# (Settings → Secrets → Actions), and add its client_email as an Owner of the
+# GSC property. Then run this workflow manually.
+on:
+  workflow_dispatch:
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Submit sitemap URLs to Google Indexing API
+        env:
+          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
+        run: node tools/google-index-submit.mjs
