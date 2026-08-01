@@ -1785,7 +1785,6 @@
       <a href="#process">Process</a>
       <a href="#founders">Founders</a>
       <a href="#pricing">Pricing</a>
-      <a href="#calc">Calculator</a>
     </div>
     <a class="nav-cta" href="/book/">Book a call</a>
     <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
@@ -1808,7 +1807,6 @@
       <a href="#who" data-close>Who it's for</a>
       <a href="#scale" data-close>How it works</a>
       <a href="#pricing" data-close>Pricing</a>
-      <a href="#calc" data-close>Calculator</a>
       <a href="#faq" data-close>FAQ</a>
     </nav>
     <a class="nav-drawer-cta" href="/book/" data-close>
@@ -2431,123 +2429,6 @@
 </section>
 
 <!-- CALCULATOR -->
-<section class="sec calc" id="calc" data-screen-label="07 Calculator">
-  <div class="wrap">
-    <div class="sec-head fade-in">
-      <h2>Plug in your <em>numbers.</em></h2>
-      <p>Campaign math: views, clicks and CPC, recalculated live as you type.</p>
-    </div>
-    <div class="calc-body">
-      <div class="calc-inputs">
-        <h3>Your budget</h3>
-
-        <div class="calc-section">
-          <div class="calc-section-label">Campaign</div>
-          <div class="field">
-            <label>Campaign budget<span class="help" data-tip="Total dollars allocated to this clipping campaign, covering editor pay, incentives and performance pool.">?</span></label>
-            <div class="input-wrap">
-              <span class="sym">$</span>
-              <input type="text" id="in-budget" value="8,000" inputmode="numeric">
-            </div>
-          </div>
-
-          <div class="field">
-            <label>CPM rate<span class="help" data-tip="Cost per 1,000 views. $1 CPM means every 1,000 views of your clips costs $1.">?</span></label>
-            <div class="input-wrap">
-              <span class="sym">$</span>
-              <input type="text" id="in-cpm" value="1.00" inputmode="decimal">
-              <span class="suf">/ 1K views</span>
-            </div>
-          </div>
-
-          <div class="twocol">
-            <div class="field" style="margin-bottom:0">
-              <label>Min per clip<span class="help" data-tip="The minimum payout a clipper earns per clip, regardless of views. Protects creators from wasted effort on low-performing content.">?</span></label>
-              <div class="input-wrap">
-                <span class="sym">$</span>
-                <input type="text" id="in-min" value="10" inputmode="numeric">
-              </div>
-            </div>
-            <div class="field" style="margin-bottom:0">
-              <label>Max per clip<span class="help" data-tip="The maximum a single clip can be paid out. Any views past this cap are effectively free to you, so winners compound without blowing the budget.">?</span></label>
-              <div class="input-wrap">
-                <span class="sym">$</span>
-                <input type="text" id="in-max" value="500" inputmode="numeric">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="calc-section sliders">
-          <div class="calc-section-label">Performance</div>
-          <div class="field">
-            <div class="rng-top">
-              <label style="margin:0">Overperformance multiplier<span class="help" data-tip="How much better than baseline CPM your campaigns actually deliver. 1× is baseline; top campaigns often hit 3-5× as winning clips compound.">?</span></label>
-              <div class="v" id="h-op">1.0×</div>
-            </div>
-            <div class="rng"><input type="range" id="in-op" min="1" max="10" step="0.5" value="1"></div>
-          </div>
-
-          <div class="field" style="margin-bottom:0">
-            <div class="rng-top">
-              <label style="margin:0">View → click rate<span class="help" data-tip="What % of viewers click through to your landing page or profile. 1% is solid organic; strong hooks and CTAs can push this past 3%.">?</span></label>
-              <div class="v" id="h-ctr">1.00%</div>
-            </div>
-            <div class="rng"><input type="range" id="in-ctr" min="0.1" max="10" step="0.1" value="1"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="calc-out">
-        <h3>What your budget buys</h3>
-
-        <div class="kpi-hero">
-          <div class="l">Expected views</div>
-          <div class="n"><span id="out-views">5,000,000</span></div>
-          <div class="s">Views = Budget ÷ CPM × 1,000 × Overperformance</div>
-        </div>
-
-        <div class="kpi" style="display:grid;grid-template-columns:1fr auto;align-items:baseline;column-gap:20px">
-          <div class="l" style="grid-column:1/2">Expected clicks</div>
-          <div class="l" style="grid-column:2/3;text-align:right;opacity:0.7">View → click rate</div>
-          <div class="n" id="out-clicks" style="grid-column:1/2">50,000</div>
-          <div class="n" id="out-ctr-mini" style="grid-column:2/3;text-align:right;font-size:22px;color:#fff">1.00%</div>
-          <div class="l" id="ctr-note" style="grid-column:2/3;text-align:right;font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px;letter-spacing:0.02em">(Average)</div>
-        </div>
-
-        <div class="cpc-card good" id="cpc-card">
-          <div class="head">
-            <div class="l">Cost per click</div>
-            <div class="badge" id="cpc-badge">Beats paid ads</div>
-          </div>
-          <div class="big">$<span id="out-cpc">0.10</span></div>
-          <div class="benches">
-            <div class="b you" id="bench-you"><span class="bn">You</span><div class="bt"><div class="bf" id="bar-you" style="width:2%"></div></div><span class="br" id="bar-you-val">$0.10</span></div>
-            <div class="b"><span class="bn">Google</span><div class="bt"><div class="bf" style="width:40%"></div></div><span class="br">$1-3</span></div>
-            <div class="b"><span class="bn">Meta</span><div class="bt"><div class="bf" style="width:30%"></div></div><span class="br">$0.50-3</span></div>
-            <div class="b"><span class="bn">TikTok</span><div class="bt"><div class="bf" style="width:35%"></div></div><span class="br">$1-3</span></div>
-            <div class="b"><span class="bn">YouTube</span><div class="bt"><div class="bf" style="width:60%"></div></div><span class="br">$3-5</span></div>
-          </div>
-        </div>
-
-        <div class="pool-card" style="flex-direction:column;align-items:center;text-align:center;gap:6px;padding:14px 16px">
-          <div class="big" style="letter-spacing:-0.025em;font-size:clamp(28px,3.6vw,40px);color:#fff;line-height:1;display:inline-flex;align-items:baseline;gap:0.28em;flex-wrap:nowrap;max-width:100%;white-space:nowrap"><span><span id="b-clips-min">10</span>–<span id="b-clips-max">500</span></span><span style="font-family:'Fraunces',serif;font-weight:340;font-style:italic;color:#e88890;font-size:0.82em;letter-spacing:-0.01em">Clips</span></div>
-          <div class="s" style="font-size:10.5px;color:rgba(255,255,255,0.5);letter-spacing:0.08em;text-transform:uppercase">Funded from campaign budget</div>
-        </div>
-
-        <div class="calc-book-cta" style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:flex-start;gap:10px">
-          <a href="/book/" class="calc-cta-white" style="padding:12px 22px">
-            <span class="calc-cta-ring"></span>
-            Book your strategy call
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
-          </a>
-          <div style="font-size:12px;color:rgba(255,255,255,0.55)">Want those views &amp; clicks for your brand?</div>
-        </div>
-      </div>
-    </div>
-    <div class="calc-disclaimer">Estimates based on your inputs. Actual performance depends on creative, audience fit and funnel quality.</div>
-  </div>
-</section>
 
 <!-- FOMO CTA -->
 <section class="fomo" data-screen-label="08 FOMO">
@@ -2653,7 +2534,7 @@
         <a href="/content-repurposing-agency.html">Content Repurposing</a><a href="/podcast-clipping-service.html">Podcast Clipping</a><a href="/blog/how-much-does-a-clipping-agency-cost.html">Pricing guide</a>
       </div>
       <div class="foot-col"><h4>Get started</h4>
-        <a href="#calc">Budget Calculator</a><a href="/book/">Book a call</a>
+        <a href="/book/">Book a call</a>
       </div>
     </div>
     <div class="foot-bot"><div>© 2026 Vision Clipping</div></div>
@@ -3405,88 +3286,6 @@ document.querySelectorAll('.faq-item').forEach(it => {
       setText();
     });
   });
-})();
-
-/* CALCULATOR */
-(() => {
-  const el = id => document.getElementById(id);
-  const parseNum = s => { const n = parseFloat(String(s).replace(/[^\d.\-]/g,'')); return isNaN(n) ? 0 : n; };
-  const fmt = (n, d=0) => n.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
-
-  const inputs = ['in-budget','in-cpm','in-min','in-max','in-op','in-ctr'].map(el);
-  const cpcCard = el('cpc-card');
-  const cpcBadge = el('cpc-badge');
-  const benchYou = el('bench-you');
-
-  const recalc = () => {
-    const budget = parseNum(el('in-budget').value);
-    const cpm = parseNum(el('in-cpm').value);
-    const min = parseNum(el('in-min').value);
-    const max = parseNum(el('in-max').value);
-    const op = parseFloat(el('in-op').value);
-    const ctr = parseFloat(el('in-ctr').value);
-
-    const views = cpm > 0 ? (budget / cpm) * 1000 * op : 0;
-    const clicks = views * (ctr / 100);
-    const cpc = clicks > 0 ? budget / clicks : 0;
-
-    el('out-views').textContent = fmt(views);
-    el('out-clicks').textContent = fmt(clicks);
-    const ctrMini = el('out-ctr-mini');
-    if(ctrMini){
-      ctrMini.textContent = ctr.toFixed(2) + '%';
-      ctrMini.style.color = '#fff';
-    }
-    const ctrNote = el('ctr-note');
-    if(ctrNote){
-      let note = '';
-      if(ctr < 1) note = '(Below Average)';
-      else if(ctr <= 3) note = '(Average)';
-      else note = '(Above Average)';
-      ctrNote.textContent = note;
-    }
-    el('out-cpc').textContent = cpc.toFixed(cpc < 1 ? 2 : 2);
-
-    const clipsMin = max > 0 ? Math.floor(budget / max) : 0;
-    const clipsMax = min > 0 ? Math.floor(budget / min) : 0;
-    el('b-clips-min').textContent = fmt(clipsMin);
-    el('b-clips-max').textContent = fmt(clipsMax);
-
-    el('h-op').textContent = op.toFixed(1) + '×';
-    el('h-ctr').textContent = ctr.toFixed(2) + '%';
-
-    const pct = Math.min(100, Math.max(2, (cpc / 5) * 100));
-    el('bar-you').style.width = pct + '%';
-    el('bar-you-val').textContent = '$' + cpc.toFixed(2);
-
-    // state: yellow <$1.50 = on par; green <$1 = beats; great <$0.15 = excellent
-    cpcCard.classList.remove('par','good','great');
-    benchYou.classList.remove('par','good','great');
-    if(cpc > 0 && cpc <= 0.15){
-      cpcCard.classList.add('great'); benchYou.classList.add('great');
-      cpcBadge.textContent = 'Excellent';
-    } else if(cpc > 0 && cpc < 1){
-      cpcCard.classList.add('good'); benchYou.classList.add('good');
-      cpcBadge.textContent = 'Beats paid ads';
-    } else if(cpc > 0 && cpc < 1.5){
-      cpcCard.classList.add('par'); benchYou.classList.add('par');
-      cpcBadge.textContent = 'On par with paid ads';
-    } else {
-      cpcBadge.textContent = 'vs. paid ads';
-    }
-  };
-
-  inputs.forEach(i => {
-    i.addEventListener('input', recalc);
-    i.addEventListener('blur', () => {
-      if(i.type === 'text' && i.id !== 'in-cpm'){
-        const n = parseNum(i.value);
-        if(n > 0) i.value = fmt(n);
-      }
-      recalc();
-    });
-  });
-  recalc();
 })();
 
 /* WHY US drag scroll */
