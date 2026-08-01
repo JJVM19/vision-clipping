@@ -1,0 +1,21 @@
+name: SEO audit
+
+# Read-only on-page SEO check. Fails the PR if any page is missing a title,
+# meta description, canonical, H1, or has broken JSON-LD. Warnings don't fail.
+on:
+  pull_request:
+    paths: ['**.html']
+  push:
+    branches: [main]
+    paths: ['**.html']
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: node tools/seo-audit.mjs

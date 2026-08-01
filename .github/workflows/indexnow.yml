@@ -1,0 +1,37 @@
+name: IndexNow ping
+
+# Tells Bing / Yandex (and other IndexNow engines) to recrawl on every deploy.
+# NOTE: Google does NOT use IndexNow — for Google, submit the sitemap in Search Console
+# and (optionally) wire up the GSC URL Inspection API with a service account.
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - 'sitemap.xml'
+  workflow_dispatch:
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Submit sitemap URLs to IndexNow
+        env:
+          KEY: 63f7c52c75d6167086ea5b3388810679
+          HOST: vision-clipping.com
+        run: |
+          # pull every <loc> from the sitemap
+          urls=$(grep -oE '<loc>[^<]+</loc>' sitemap.xml | sed -E 's#</?loc>##g')
+          count=$(echo "$urls" | grep -c . || true)
+          echo "Submitting $count URLs to IndexNow"
+          # build JSON payload
+          json=$(printf '%s\n' "$urls" | jq -R . | jq -s \
+            --arg host "$HOST" --arg key "$KEY" \
+            '{host:$host, key:$key, keyLocation:("https://"+$host+"/"+$key+".txt"), urlList:.}')
+          echo "$json" | jq '.urlList |= (.[0:3])'  # log a sample
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST 'https://api.indexnow.org/indexnow' \
+            -H 'Content-Type: application/json; charset=utf-8' --data "$json")
+          echo "IndexNow responded: HTTP $code"
+          # 200 or 202 = accepted; don't fail the build on transient non-2xx
+          case "$code" in 200|202) echo "ok";; *) echo "::warning::IndexNow returned $code";; esac
