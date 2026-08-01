@@ -50,4 +50,22 @@
       }
     }
   } catch (e) {}
+
+  /* Warm the image cache on idle so blog images load instantly. */
+  try {
+    var conn = navigator.connection;
+    if (!(conn && (conn.saveData || /(^|\b)(slow-)?2g$/.test(conn.effectiveType || '')))) {
+      var warm = function () {
+        var seen = {}, imgs = document.querySelectorAll('img');
+        for (var i = 0; i < imgs.length; i++) {
+          var s = imgs[i].getAttribute('src');
+          if (!s || seen[s] || imgs[i].complete) continue;
+          seen[s] = 1;
+          var pre = new Image(); pre.decoding = 'async'; pre.src = s;
+        }
+      };
+      if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 4000 });
+      else window.addEventListener('load', function () { setTimeout(warm, 1200); });
+    }
+  } catch (e) {}
 })();
