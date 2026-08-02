@@ -1526,7 +1526,9 @@
     /* Hero */
     .hero{padding:100px 0 20px}
     .hero h1{font-size:clamp(37px,9.2vw,53px);line-height:1.1;max-width:520px;padding:0 6px}
-    .hero h1 .glow{-webkit-text-stroke:0.8px currentColor;font-size:1.34em}
+    /* One line always: "Optimised For You" is ~7.2em wide (widest cycler state incl. tail), so cap the font so it fits the h1 content box (100vw - 40px wrap - 12px h1 padding) with margin for the italic overhang. nowrap = a metrics miss can never become a height-jumping second line. */
+    .hero h1 .u{white-space:nowrap}
+    .hero h1 .glow{-webkit-text-stroke:0.8px currentColor;font-size:min(1.34em,calc((100vw - 52px)/7.45))}
     .hero h1 .h1-soft{font-size:clamp(14px,3.7vw,18px);margin-top:20px;max-width:none;line-height:1.4;white-space:normal}
     /* Hero CTA row stacks on narrow phones */
     .hero-cta-row{flex-direction:column;gap:12px;margin-top:26px;max-width:340px;padding:0 16px}
@@ -1543,8 +1545,6 @@
     .hero-press-logos{gap:28px}
     .hero-press-logos img{height:20px;max-width:120px}
     .hero h1 .h1-mobile-break{display:block;height:0;font-size:0;line-height:0}
-    /* Keep "For You" on its own line: with it inline, short cycler words fit on one line and long ones wrap, so the h1 height jumped every 3.5s cycle and shoved the whole page. */
-    .hero h1 .cyc-tail{display:block;margin-left:0}
     /* Hero paragraph hidden on mobile, keep CTA/VSL closer to fold so logos peek through */
     .hero p{display:none}
 
@@ -2371,7 +2371,7 @@
         <div class="fnd-body fade-in">
           <div class="role">The Agency</div>
           <h3>Vision Clipping</h3>
-          <p>Vision Clipping came out of merging Emrah's years of distribution and clipping expertise with Jaden's existing company running the production systems behind 9-figure view counts. Two founders brought one team of operators and content specialists already built for scale, obsessed with turning distribution into the quiet advantage most brands still haven't figured out.</p>
+          <p>Vision Clipping came out of merging Emrah's years of distribution and clipping expertise with Jaden's existing company running the production systems behind 10-figure view counts. Two founders brought one team of operators and content specialists already built for scale, obsessed with turning distribution into the quiet advantage most brands still haven't figured out.</p>
           <button class="fnd-more fade-in" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
         </div>
       </div>
