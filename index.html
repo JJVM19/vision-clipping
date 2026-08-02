@@ -1461,7 +1461,9 @@
     .ih-status{font-size:9.5px;padding:3px 8px}
     .ih-chip{font-size:10.5px;padding:6px 11px}
     .ih-chip-top{left:50%;right:auto;transform:translateX(-50%);top:5%}
-    .ih-chip-btm{left:0}
+    /* Centered below the rack: at bottom:3% it landed on top of the phones' status badges. */
+    .ih-chip-btm{left:50%;right:auto;transform:translateX(-50%);bottom:-30px}
+    .ih-stage{margin-bottom:30px}
     .proc-step{font-size:34px}
     .proc-icon{width:46px;height:46px}
     .proc-icon svg{width:22px;height:22px}
@@ -1541,6 +1543,8 @@
     .hero-press-logos{gap:28px}
     .hero-press-logos img{height:20px;max-width:120px}
     .hero h1 .h1-mobile-break{display:block;height:0;font-size:0;line-height:0}
+    /* Keep "For You" on its own line: with it inline, short cycler words fit on one line and long ones wrap, so the h1 height jumped every 3.5s cycle and shoved the whole page. */
+    .hero h1 .cyc-tail{display:block;margin-left:0}
     /* Hero paragraph hidden on mobile, keep CTA/VSL closer to fold so logos peek through */
     .hero p{display:none}
 
@@ -3520,9 +3524,7 @@ document.querySelectorAll('.faq-item').forEach(it => {
 
   let rotation = -1.2;
   let lastT = 0;
-  let lastRender = 0;
-  const FRAME_MS = isMobileViewport ? 50 : 0;
-  const DPR = Math.min(window.devicePixelRatio || 1, isMobileViewport ? 1 : 1.5);
+  const DPR = Math.min(window.devicePixelRatio || 1, isMobileViewport ? 2 : 1.5);
 
   let cssSize = 0;
   let r = 0, cxd = 0;
@@ -3547,11 +3549,6 @@ document.querySelectorAll('.faq-item').forEach(it => {
     if(!lastT) lastT = t;
     const dt = Math.min(0.05, (t - lastT) / 1000);
     lastT = t;
-    if(FRAME_MS && (t - lastRender) < FRAME_MS){
-      rafId = requestAnimationFrame(frame);
-      return;
-    }
-    lastRender = t;
     rotation += dt * 0.38;
 
     ctx.clearRect(0, 0, cssSize, cssSize);
