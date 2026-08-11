@@ -3,6 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+/* Capture the tracking id, then clean the address bar instantly (before render) so a
+   tracked link reverts to a plain vision-clipping.com instead of a long ?vx_cid=&utm...
+   The id is kept in localStorage; assets/attribution.js reads it for the booking form. */
+(function(){try{
+  var s=window.location.search;
+  if(!/[?&](vx_cid=|utm_)/.test(s))return;
+  var v=new URLSearchParams(s).get("vx_cid");
+  if(v&&/^c_[0-9a-f]{8,32}$/i.test(v)){localStorage.setItem("vx_cid",v);localStorage.setItem("vx_cid_at",String(Date.now()));}
+  if(window.history&&history.replaceState){history.replaceState(null,"",window.location.pathname+window.location.hash);}
+}catch(e){}})();
+</script>
 <title>Vision Clipping, Clipping Agency & Distribution for Founders</title>
 <meta name="description" content="Vision Clipping builds and runs your in-house clipping team, done-for-you short-form content distribution on accounts you own. 3B+ views delivered. Book a strategy call.">
 <link rel="canonical" href="https://vision-clipping.com/">
