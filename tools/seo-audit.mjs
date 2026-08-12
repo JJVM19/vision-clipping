@@ -15,13 +15,16 @@ import { join, relative } from 'node:path';
 const ROOT = new URL('..', import.meta.url).pathname;
 const SITE = 'https://vision-clipping.com';
 const SKIP_DIRS = new Set(['assets', 'uploads', 'node_modules', '.git', '.github', 'tools']);
+// 404.html is served for URLs that do not exist, so it has no canonical URL of
+// its own and must never be indexed — the on-page rules below don't apply to it.
+const SKIP_FILES = new Set(['404.html']);
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) {
       if (!SKIP_DIRS.has(name)) walk(p, out);
-    } else if (name.endsWith('.html')) out.push(p);
+    } else if (name.endsWith('.html') && !SKIP_FILES.has(name)) out.push(p);
   }
   return out;
 }
