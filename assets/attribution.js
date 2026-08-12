@@ -8,6 +8,33 @@
  *
  * Does nothing at all for visitors who never arrived through a tracked link.
  */
+/* Full site-traffic beacon — fires on EVERY page load (direct or via a tracked link) so
+ * the site's total traffic shows in Attribution, not just tracked-link clicks. Sends a
+ * first-party visitor id + path/referrer to the redirector Worker (/__pv) via sendBeacon:
+ * fire-and-forget, never blocks, never breaks the page. */
+(function () {
+  try {
+    var VK = "vx_vid";
+    var vid = localStorage.getItem(VK);
+    if (!vid) {
+      vid = "v_" + ((window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID().replace(/-/g, "").slice(0, 20)
+        : Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+      localStorage.setItem(VK, vid);
+    }
+    var body = JSON.stringify({
+      vid: vid,
+      host: location.hostname,
+      path: location.pathname,
+      ref: document.referrer || null,
+      vx_cid: localStorage.getItem("vx_cid") || null,
+      utm: /utm_/.test(location.search) ? location.search : null,
+    });
+    if (navigator.sendBeacon) navigator.sendBeacon("https://visionclipping.com/__pv", body);
+    else fetch("https://visionclipping.com/__pv", { method: "POST", body: body, mode: "no-cors", keepalive: true });
+  } catch (e) { /* a lost pageview must never break the page */ }
+})();
+
 (function () {
   var KEY = "vx_cid";
   var TS = "vx_cid_at";
