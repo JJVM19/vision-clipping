@@ -22,12 +22,24 @@
         : Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
       localStorage.setItem(VK, vid);
     }
+    /* Read the click id off the URL first, not just localStorage. This block runs
+     * before the one below that persists it, so on a first-ever visit localStorage
+     * is still empty — reading only from it reported vx_cid:null for the LANDING
+     * pageview and the visit was attributed as direct instead of to the link that
+     * actually delivered it. index.html has an inline pre-capture in <head>, but
+     * the other 79 pages do not, so every tracked link pointing at a blog post,
+     * case study or landing page was undercounted. */
+    var urlCid = null;
+    try {
+      var q = new URLSearchParams(location.search).get("vx_cid");
+      if (q && /^c_[0-9a-f]{8,32}$/i.test(q)) urlCid = q;
+    } catch (e) { /* old browsers without URLSearchParams still get the fallback */ }
     var body = JSON.stringify({
       vid: vid,
       host: location.hostname,
       path: location.pathname,
       ref: document.referrer || null,
-      vx_cid: localStorage.getItem("vx_cid") || null,
+      vx_cid: urlCid || localStorage.getItem("vx_cid") || null,
       utm: /utm_/.test(location.search) ? location.search : null,
     });
     if (navigator.sendBeacon) navigator.sendBeacon("https://visionclipping.com/__pv", body);
