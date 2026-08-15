@@ -1565,10 +1565,16 @@
     .logos-head{margin-bottom:22px;font-size:clamp(12px,3.6vw,15px);white-space:nowrap;letter-spacing:-0.01em;padding:0 8px;overflow:hidden;text-overflow:ellipsis}
     /* VSL bottom padding tightened so CTA + logos pack closer to hero */
     .vsl-wrap .cta-block{margin-top:18px}
-    .logos-track{gap:22px;animation-duration:44s}
+    /* Gap lives on .logos-cycle (not the track): a track gap sits only between the two
+       cycles and breaks the -50% seamless-loop math. padding-right must equal the gap. */
+    .logos-track{animation-duration:44s}
+    .logos-cycle{gap:26px;padding-right:26px}
     .logos-track .lg{height:26px}
     .logos-track .lg img{max-width:110px;max-height:26px}
     .logos-track .lg.tall img{max-height:36px}
+    /* Scale tweaks overflow the shrunken 26px boxes on mobile; cap them near 1x. */
+    .logos-track .lg.sz-160 img{transform:scale(1.2)}
+    .logos-track .lg.sz-120 img,.logos-track .lg.sz-115 img,.logos-track .lg.sz-110 img{transform:scale(1.05)}
     .logos-track .lg.wide img{max-width:130px}
     .logos-track .lg.cap-narrow img{max-width:72px}
     .logos-track .lg.sz-320 img{transform:scale(2.2)}
@@ -1579,7 +1585,11 @@
     /* 3 Billion parallax, same exact layout as web, uniform 50% scale */
     .results{padding-bottom:60px}
     .res-parallax{gap:11px;padding:16px 0}
-    .rp-row{gap:11px;padding:0 20px}
+    /* Mobile: rows are native swipe carousels; the scroll-tied transform parallax is
+       disabled in JS below 760px (it stuttered and the off-screen tiles were unreachable). */
+    .rp-row{gap:11px;padding:0 20px;width:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
+    .rp-row::-webkit-scrollbar{display:none}
+    .rp-tile{scroll-snap-align:center}
     .rp-tile{width:210px;border-radius:11px}
     .rp-tile.r1,.rp-tile.r7,.rp-tile.r11{width:260px;aspect-ratio:16/9}
     .rp-tile.r3,.rp-tile.r10{width:150px;aspect-ratio:9/16}
@@ -1824,6 +1834,8 @@
       <a href="#scale" data-close>How it works</a>
       <a href="#pricing" data-close>Pricing</a>
       <a href="#faq" data-close>FAQ</a>
+      <a href="/breakdowns/">Breakdowns</a>
+      <a href="/blog/">Blog</a>
     </nav>
     <a class="nav-drawer-cta" href="/book/" data-close>
       Book your strategy call
@@ -2054,7 +2066,7 @@
         <div class="proc-text">
           <div class="proc-step-num">01</div>
           <h3>Strategy call.</h3>
-          <p>A 30 minute kickoff to understand your brand, align on goals, and map out your existing content library and audience. We leave the call knowing exactly how to build your campaign.</p>
+          <p>A 30 minute kickoff to understand everything that matters: your brand, your ideal customer, your goals and your content library. We leave the call with the strategy core set, knowing exactly what to build, who it needs to reach, and in which markets.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
@@ -2079,8 +2091,8 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">02</div>
-          <h3>Clippers get to work.</h3>
-          <p>We assemble a team of Clippers best fitted to your brand, backed by a dedicated operations manager who trains and optimises them around your content specifically.</p>
+          <h3>Setup and warm-up.</h3>
+          <p>We assemble the Clippers best fitted to your brand and warm up your accounts around your ideal viewer, so the algorithm learns exactly who to serve your content to before the first campaign clip goes live. A dedicated operations manager trains and runs the team.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
@@ -2407,7 +2419,7 @@
         <span class="pr-glow fade-in"></span>
         <div class="pr-ic fade-in">I</div>
         <h3>Internal partnership</h3>
-        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">Monthly Retainer</span> + Production Budget</span></div>
+        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">From $3,000</span> per 4 dedicated accounts</span></div>
         <div class="pr-divider fade-in"></div>
         <ul>
           <li>A dedicated internal team running daily distribution</li>
@@ -2418,7 +2430,7 @@
         </ul>
         <div class="pr-who fade-in">
           <div class="pr-who-eyebrow">Who we partner with</div>
-          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships start at a minimum $10k/month retainer, and we stay selective.</p>
+          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships run on dedicated accounts, from $3,000 per four accounts with a 16-account minimum, and we stay selective.</p>
         </div>
       </div>
 
@@ -2768,13 +2780,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     });
     const run = () => {
       if(window.__navJumping) return;
+      const mob = isMobile();
+      if(mob){
+        /* Mobile: rows are native swipe carousels (overflow-x in CSS); clear any transform. */
+        for(let i = 0; i < cfg.length; i++){ cfg[i].el.style.transform = 'none'; }
+        return;
+      }
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (vh - r.top) / (vh + r.height);
-      const mob = isMobile();
-      const m = mob ? mobileMult : mult;
-      const bP = mob ? mobileBasePos : basePos;
-      const bN = mob ? mobileBaseNeg : baseNeg;
+      const m = mult;
+      const bP = basePos;
+      const bN = baseNeg;
       for(let i = 0; i < cfg.length; i++){
         const c = cfg[i];
         const base = c.speed > 0 ? bP : bN;
