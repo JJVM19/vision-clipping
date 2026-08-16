@@ -27,12 +27,12 @@
         <a href="/#cases">Cases</a>
         <a href="/#process">Process</a>
         <a href="/#founders">Founders</a>
-        <a href="/#why">Why Us</a>
-        <a href="/#scale">How We Scale</a>
+        <a href="/#who">Who it's for</a>
+        <a href="/#scale">How it works</a>
         <a href="/#pricing">Pricing</a>
-        <a href="/#calc">Calculator</a>
-        <a href="/clip/">Become a clipper</a>
         <a href="/#faq">FAQ</a>
+        <a href="/breakdowns/">Breakdowns</a>
+        <a href="/blog/">Blog</a>
       </nav>
       <a class="nav-drawer-cta" href="/book/">
         Book your strategy call
