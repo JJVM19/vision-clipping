@@ -1971,7 +1971,7 @@
     </div>
   </div>
   <div class="res-parallax" id="res-parallax">
-    <div class="rp-row" data-speed="0.4">
+    <div class="rp-row" data-speed="0.4" data-mobile-anchor="2">
       <div class="rp-tile r6 dark"><img loading="lazy" decoding="async" src="uploads/results/r06-ring-7m.webp" alt="Views · 7M"></div>
       <div class="rp-tile r7 dark"><img loading="lazy" decoding="async" src="uploads/results/r07-chart-643m.webp" alt="Views chart · 643.8M views"></div>
       <div class="rp-tile r6"><img loading="lazy" decoding="async" src="uploads/results/r08-breakdown-116m.webp" alt="Views breakdown · 116M +94.4%"></div>
@@ -1979,7 +1979,7 @@
       <div class="rp-tile r4 dark"><img loading="lazy" decoding="async" src="uploads/results/r04-ring-42m.webp" alt="90-day Views · 42.2M"></div>
       <div class="rp-tile r5 dark"><img loading="lazy" decoding="async" src="uploads/results/r05-yt-3m.webp" alt="YouTube · 3M views"></div>
     </div>
-    <div class="rp-row" data-speed="-0.5">
+    <div class="rp-row" data-speed="-0.5" data-mobile-anchor="3">
       <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r01-yt-studio-379k.webp" alt="YouTube Studio · 379K subscribers"></div>
       <div class="rp-tile r11"><img loading="lazy" decoding="async" src="uploads/results/r11-breakdown-48m.webp" alt="Views breakdown · 48.9M views · +246.5%"></div>
       <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r11-ring-35m.webp" alt="Views · 35.9M"></div>
@@ -2812,16 +2812,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       const mob = isMobile();
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = (vh - r.top) / (vh + r.height);
+      /* Clamped: past either end the section is off screen, and an unclamped p would keep
+         pushing the mobile rows until an edge cleared the screen. */
+      const p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
       const m = mult;
       const bP = basePos;
       const bN = baseNeg;
       for(let i = 0; i < cfg.length; i++){
         const c = cfg[i];
         /* Same speed and multiplier at every width. Only the base changes on mobile: the desktop
-           bases assume a row that starts at x~0, which on a phone would swing a blank edge into
-           view, so the row is centred on its own overflow instead. */
-        const base = mob ? -(c.over || 0) / 2 : (c.speed > 0 ? bP : bN);
+           bases assume a row that starts at x~0, so on a phone the row would open on its first
+           tile with a blank edge swinging in. Instead each row names the tile it should open on
+           (data-mobile-anchor) and the base parks that tile against the left edge. */
+        const base = mob ? c.mobBase : (c.speed > 0 ? bP : bN);
         c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
       }
     };
@@ -2830,7 +2833,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       cfg.forEach(c => {
         const prev = c.el.style.transform;
         c.el.style.transform = 'none';
-        c.over = Math.max(0, c.el.scrollWidth - (c.el.parentElement || document.documentElement).clientWidth);
+        const view = (c.el.parentElement || document.documentElement).clientWidth;
+        c.over = Math.max(0, c.el.scrollWidth - view);
+        const idx = parseInt(c.el.dataset.mobileAnchor, 10);
+        const tile = c.el.children[idx >= 0 ? idx : 0];
+        const anchor = tile ? tile.getBoundingClientRect().left - c.el.getBoundingClientRect().left - 8 : c.over / 2;
+        /* Keep the whole drift inside the row so neither edge can expose the page behind it. */
+        const drift = Math.abs(c.speed) * mult / 2;
+        c.mobBase = Math.max(-(c.over - drift), Math.min(-drift, -anchor));
         c.el.style.transform = prev;
       });
     };
