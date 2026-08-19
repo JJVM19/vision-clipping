@@ -915,7 +915,8 @@
   .pr-who{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .pr-who .pr-who-eyebrow{font-size:10.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:7px}
   .pr-who p{font-size:12.5px;color:var(--muted);line-height:1.55}
-  .pr .pr-price .pr-line{display:block;line-height:1.5}
+  /* The price runs to two lines at most widths, balance keeps it from orphaning a word. */
+  .pr .pr-price .pr-line{display:block;line-height:1.5;text-wrap:balance}
   .pr .pr-price .pr-line + .pr-line{margin-top:2px;font-size:12px;color:var(--muted)}
   /* Pricing add-ons column, flexible deal structures layered on the core partnership */
   .pr-addon-list{list-style:none;display:flex;flex-direction:column;margin-top:4px}
@@ -1614,11 +1615,10 @@
     /* 3 Billion parallax, same exact layout as web, uniform 50% scale */
     .results{padding-bottom:60px}
     .res-parallax{gap:11px;padding:16px 0}
-    /* Mobile: rows are native swipe carousels; the scroll-tied transform parallax is
-       disabled in JS below 760px (it stuttered and the off-screen tiles were unreachable). */
-    .rp-row{gap:11px;padding:0 20px;width:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
-    .rp-row::-webkit-scrollbar{display:none}
-    .rp-tile{scroll-snap-align:center}
+    /* Mobile: same scroll-tied parallax as desktop. Finger-swiping the rows is
+       deliberately off (no overflow-x), the rows only move with page scroll. */
+    .res-parallax{overflow:hidden}
+    .rp-row{gap:11px;padding:0 20px;width:max-content;overflow:visible;touch-action:pan-y pinch-zoom}
     .rp-tile{width:210px;border-radius:11px}
     .rp-tile.r1,.rp-tile.r7,.rp-tile.r11{width:260px;aspect-ratio:16/9}
     .rp-tile.r3,.rp-tile.r10{width:150px;aspect-ratio:9/16}
@@ -1972,7 +1972,7 @@
     </div>
   </div>
   <div class="res-parallax" id="res-parallax">
-    <div class="rp-row" data-speed="0.4">
+    <div class="rp-row" data-speed="0.4" data-mobile-anchor="2">
       <div class="rp-tile r6 dark"><img loading="lazy" decoding="async" src="uploads/results/r06-ring-7m.webp" alt="Views · 7M"></div>
       <div class="rp-tile r7 dark"><img loading="lazy" decoding="async" src="uploads/results/r07-chart-643m.webp" alt="Views chart · 643.8M views"></div>
       <div class="rp-tile r6"><img loading="lazy" decoding="async" src="uploads/results/r08-breakdown-116m.webp" alt="Views breakdown · 116M +94.4%"></div>
@@ -1980,7 +1980,7 @@
       <div class="rp-tile r4 dark"><img loading="lazy" decoding="async" src="uploads/results/r04-ring-42m.webp" alt="90-day Views · 42.2M"></div>
       <div class="rp-tile r5 dark"><img loading="lazy" decoding="async" src="uploads/results/r05-yt-3m.webp" alt="YouTube · 3M views"></div>
     </div>
-    <div class="rp-row" data-speed="-0.5">
+    <div class="rp-row" data-speed="-0.5" data-mobile-anchor="3">
       <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r01-yt-studio-379k.webp" alt="YouTube Studio · 379K subscribers"></div>
       <div class="rp-tile r11"><img loading="lazy" decoding="async" src="uploads/results/r11-breakdown-48m.webp" alt="Views breakdown · 48.9M views · +246.5%"></div>
       <div class="rp-tile r1 dark"><img loading="lazy" decoding="async" src="uploads/results/r11-ring-35m.webp" alt="Views · 35.9M"></div>
@@ -2450,7 +2450,7 @@
         <span class="pr-glow fade-in"></span>
         <div class="pr-ic fade-in">I</div>
         <h3>Internal partnership</h3>
-        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">From $3,000</span> per 4 dedicated accounts</span></div>
+        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">From $12,000/month</span> for 16 dedicated accounts</span></div>
         <div class="pr-divider fade-in"></div>
         <ul>
           <li>A dedicated internal team running daily distribution</li>
@@ -2461,7 +2461,7 @@
         </ul>
         <div class="pr-who fade-in">
           <div class="pr-who-eyebrow">Who we partner with</div>
-          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships run on dedicated accounts, from $3,000 per four accounts with a 16-account minimum, and we stay selective.</p>
+          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships run on dedicated accounts, from $12,000 a month for sixteen dedicated accounts, and we stay selective.</p>
         </div>
       </div>
 
@@ -2798,10 +2798,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (() => {
   const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
   const setups = [
-    { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600,
-      mobileBasePos: -40, mobileBaseNeg: 0, mobileMult: 300 }
+    { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600 }
   ];
-  setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult, mobileBasePos, mobileBaseNeg, mobileMult }) => {
+  setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult }) => {
     const rows = [...document.querySelectorAll(sel)];
     const section = document.querySelector(secSel);
     if(!rows.length || !section) return;
@@ -2812,23 +2811,42 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const run = () => {
       if(window.__navJumping) return;
       const mob = isMobile();
-      if(mob){
-        /* Mobile: rows are native swipe carousels (overflow-x in CSS); clear any transform. */
-        for(let i = 0; i < cfg.length; i++){ cfg[i].el.style.transform = 'none'; }
-        return;
-      }
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = (vh - r.top) / (vh + r.height);
+      /* Clamped: past either end the section is off screen, and an unclamped p would keep
+         pushing the mobile rows until an edge cleared the screen. */
+      const p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
       const m = mult;
       const bP = basePos;
       const bN = baseNeg;
       for(let i = 0; i < cfg.length; i++){
         const c = cfg[i];
-        const base = c.speed > 0 ? bP : bN;
+        /* Same speed and multiplier at every width. Only the base changes on mobile: the desktop
+           bases assume a row that starts at x~0, so on a phone the row would open on its first
+           tile with a blank edge swinging in. Instead each row names the tile it should open on
+           (data-mobile-anchor) and the base parks that tile against the left edge. */
+        const base = mob ? c.mobBase : (c.speed > 0 ? bP : bN);
         c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
       }
     };
+    /* Overflow is measured with the transform cleared, otherwise scrollWidth reads the shifted box. */
+    const measure = () => {
+      cfg.forEach(c => {
+        const prev = c.el.style.transform;
+        c.el.style.transform = 'none';
+        const view = (c.el.parentElement || document.documentElement).clientWidth;
+        c.over = Math.max(0, c.el.scrollWidth - view);
+        const idx = parseInt(c.el.dataset.mobileAnchor, 10);
+        const tile = c.el.children[idx >= 0 ? idx : 0];
+        const anchor = tile ? tile.getBoundingClientRect().left - c.el.getBoundingClientRect().left - 8 : c.over / 2;
+        /* Keep the whole drift inside the row so neither edge can expose the page behind it. */
+        const drift = Math.abs(c.speed) * mult / 2;
+        c.mobBase = Math.max(-(c.over - drift), Math.min(-drift, -anchor));
+        c.el.style.transform = prev;
+      });
+    };
+    measure();
+    window.addEventListener('load', () => { measure(); requestAnimationFrame(run); });
     /* Continuous rAF while the section is on screen (not scroll-event-driven): touch scroll events arrive out of sync with frames on mobile, which made the rows stutter. */
     let visible = false, rafId = 0;
     const loop = () => {
@@ -2845,7 +2863,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     /* Prime the rows with an initial transform so they don't render at x=0 before the loop starts. */
     requestAnimationFrame(run);
     /* Recompute on resize/orientation change so we cleanly switch between mobile/desktop bases & multipliers. */
-    window.addEventListener('resize', () => requestAnimationFrame(run));
+    window.addEventListener('resize', () => { measure(); requestAnimationFrame(run); });
   });
 })();
 
