@@ -2813,27 +2813,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (vh - r.top) / (vh + r.height);
-      if(mob){
-        /* Mobile: the row is far wider than the screen and can't be swiped, so the sweep is
-           derived from the real overflow instead of a fixed multiplier. The row sits centred at
-           p=0.5 and drifts across at most 90% of its overflow, so an edge never shows blank. */
-        const t = Math.max(-0.5, Math.min(0.5, p - 0.5));
-        for(let i = 0; i < cfg.length; i++){
-          const c = cfg[i];
-          const over = c.over || 0;
-          if(over <= 0){ c.el.style.transform = 'none'; continue; }
-          const travel = over * Math.min(0.9, Math.abs(c.speed) / 0.5 * 0.9);
-          const dir = c.speed > 0 ? 1 : -1;
-          c.el.style.transform = `translate3d(${(-over / 2 + t * travel * dir).toFixed(1)}px,0,0)`;
-        }
-        return;
-      }
       const m = mult;
       const bP = basePos;
       const bN = baseNeg;
       for(let i = 0; i < cfg.length; i++){
         const c = cfg[i];
-        const base = c.speed > 0 ? bP : bN;
+        /* Same speed and multiplier at every width. Only the base changes on mobile: the desktop
+           bases assume a row that starts at x~0, which on a phone would swing a blank edge into
+           view, so the row is centred on its own overflow instead. */
+        const base = mob ? -(c.over || 0) / 2 : (c.speed > 0 ? bP : bN);
         c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
       }
     };
