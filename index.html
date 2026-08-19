@@ -915,7 +915,8 @@
   .pr-who{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .pr-who .pr-who-eyebrow{font-size:10.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:7px}
   .pr-who p{font-size:12.5px;color:var(--muted);line-height:1.55}
-  .pr .pr-price .pr-line{display:block;line-height:1.5}
+  /* The price runs to two lines at most widths, balance keeps it from orphaning a word. */
+  .pr .pr-price .pr-line{display:block;line-height:1.5;text-wrap:balance}
   .pr .pr-price .pr-line + .pr-line{margin-top:2px;font-size:12px;color:var(--muted)}
   /* Pricing add-ons column, flexible deal structures layered on the core partnership */
   .pr-addon-list{list-style:none;display:flex;flex-direction:column;margin-top:4px}
@@ -2449,7 +2450,7 @@
         <span class="pr-glow fade-in"></span>
         <div class="pr-ic fade-in">I</div>
         <h3>Internal partnership</h3>
-        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">From $3,000</span> per 4 dedicated accounts</span></div>
+        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">From $12,000/month</span> for 16 dedicated accounts</span></div>
         <div class="pr-divider fade-in"></div>
         <ul>
           <li>A dedicated internal team running daily distribution</li>
@@ -2460,7 +2461,7 @@
         </ul>
         <div class="pr-who fade-in">
           <div class="pr-who-eyebrow">Who we partner with</div>
-          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships run on dedicated accounts, from $3,000 per four accounts with a 16-account minimum, and we stay selective.</p>
+          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships run on dedicated accounts, from $12,000 a month for sixteen dedicated accounts, and we stay selective.</p>
         </div>
       </div>
 
