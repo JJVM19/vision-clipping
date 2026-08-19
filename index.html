@@ -1614,11 +1614,10 @@
     /* 3 Billion parallax, same exact layout as web, uniform 50% scale */
     .results{padding-bottom:60px}
     .res-parallax{gap:11px;padding:16px 0}
-    /* Mobile: rows are native swipe carousels; the scroll-tied transform parallax is
-       disabled in JS below 760px (it stuttered and the off-screen tiles were unreachable). */
-    .rp-row{gap:11px;padding:0 20px;width:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
-    .rp-row::-webkit-scrollbar{display:none}
-    .rp-tile{scroll-snap-align:center}
+    /* Mobile: same scroll-tied parallax as desktop. Finger-swiping the rows is
+       deliberately off (no overflow-x), the rows only move with page scroll. */
+    .res-parallax{overflow:hidden}
+    .rp-row{gap:11px;padding:0 20px;width:max-content;overflow:visible;touch-action:pan-y pinch-zoom}
     .rp-tile{width:210px;border-radius:11px}
     .rp-tile.r1,.rp-tile.r7,.rp-tile.r11{width:260px;aspect-ratio:16/9}
     .rp-tile.r3,.rp-tile.r10{width:150px;aspect-ratio:9/16}
@@ -2798,10 +2797,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (() => {
   const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
   const setups = [
-    { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600,
-      mobileBasePos: -40, mobileBaseNeg: 0, mobileMult: 300 }
+    { sel: '#res-parallax .rp-row', section: '.results', basePos: -80, baseNeg: 0, mult: 600 }
   ];
-  setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult, mobileBasePos, mobileBaseNeg, mobileMult }) => {
+  setups.forEach(({ sel, section: secSel, basePos, baseNeg, mult }) => {
     const rows = [...document.querySelectorAll(sel)];
     const section = document.querySelector(secSel);
     if(!rows.length || !section) return;
@@ -2812,14 +2810,24 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const run = () => {
       if(window.__navJumping) return;
       const mob = isMobile();
-      if(mob){
-        /* Mobile: rows are native swipe carousels (overflow-x in CSS); clear any transform. */
-        for(let i = 0; i < cfg.length; i++){ cfg[i].el.style.transform = 'none'; }
-        return;
-      }
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (vh - r.top) / (vh + r.height);
+      if(mob){
+        /* Mobile: the row is far wider than the screen and can't be swiped, so the sweep is
+           derived from the real overflow instead of a fixed multiplier. The row sits centred at
+           p=0.5 and drifts across at most 90% of its overflow, so an edge never shows blank. */
+        const t = Math.max(-0.5, Math.min(0.5, p - 0.5));
+        for(let i = 0; i < cfg.length; i++){
+          const c = cfg[i];
+          const over = c.over || 0;
+          if(over <= 0){ c.el.style.transform = 'none'; continue; }
+          const travel = over * Math.min(0.9, Math.abs(c.speed) / 0.5 * 0.9);
+          const dir = c.speed > 0 ? 1 : -1;
+          c.el.style.transform = `translate3d(${(-over / 2 + t * travel * dir).toFixed(1)}px,0,0)`;
+        }
+        return;
+      }
       const m = mult;
       const bP = basePos;
       const bN = baseNeg;
@@ -2829,6 +2837,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         c.el.style.transform = `translate3d(${base + (p - 0.5) * c.speed * m}px,0,0)`;
       }
     };
+    /* Overflow is measured with the transform cleared, otherwise scrollWidth reads the shifted box. */
+    const measure = () => {
+      cfg.forEach(c => {
+        const prev = c.el.style.transform;
+        c.el.style.transform = 'none';
+        c.over = Math.max(0, c.el.scrollWidth - (c.el.parentElement || document.documentElement).clientWidth);
+        c.el.style.transform = prev;
+      });
+    };
+    measure();
+    window.addEventListener('load', () => { measure(); requestAnimationFrame(run); });
     /* Continuous rAF while the section is on screen (not scroll-event-driven): touch scroll events arrive out of sync with frames on mobile, which made the rows stutter. */
     let visible = false, rafId = 0;
     const loop = () => {
@@ -2845,7 +2864,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     /* Prime the rows with an initial transform so they don't render at x=0 before the loop starts. */
     requestAnimationFrame(run);
     /* Recompute on resize/orientation change so we cleanly switch between mobile/desktop bases & multipliers. */
-    window.addEventListener('resize', () => requestAnimationFrame(run));
+    window.addEventListener('resize', () => { measure(); requestAnimationFrame(run); });
   });
 })();
 
