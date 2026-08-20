@@ -1,7 +1,4 @@
 User-agent: *
 Allow: /
 
-# Block internal/app subdomains from being treated as duplicate content
-Disallow: /*?utm_
-
 Sitemap: https://vision-clipping.com/sitemap.xml
