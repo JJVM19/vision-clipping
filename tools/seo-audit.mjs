@@ -18,13 +18,19 @@ const SKIP_DIRS = new Set(['assets', 'uploads', 'node_modules', '.git', '.github
 // 404.html is served for URLs that do not exist, so it has no canonical URL of
 // its own and must never be indexed — the on-page rules below don't apply to it.
 const SKIP_FILES = new Set(['404.html']);
+// Redirect bridges (tools/redirect-bridges.mjs) are not pages — they exist only to
+// hand the old .html URLs over to the directory URLs. They have no content to audit.
+const BRIDGE_MARKER = '<!-- redirect-bridge:';
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) {
       if (!SKIP_DIRS.has(name)) walk(p, out);
-    } else if (name.endsWith('.html') && !SKIP_FILES.has(name)) out.push(p);
+    } else if (name.endsWith('.html') && !SKIP_FILES.has(name)) {
+      if (readFileSync(p, 'utf8').includes(BRIDGE_MARKER)) continue;
+      out.push(p);
+    }
   }
   return out;
 }
