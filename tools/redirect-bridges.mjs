@@ -116,6 +116,22 @@ const LEGACY_HTML_PATHS = [
   'tr/blog/why-you-should-do-mass-clipping.html',
 ];
 
+/**
+ * Pages that were DELETED in the 20 Aug 2026 migration rather than moved, so the
+ * path-derived target (/cases/foo/) does not exist. Google still has them indexed
+ * and still sends traffic to them, so each one is bridged by hand to the closest
+ * live page instead of being left to 404.
+ *
+ * cases/andrew-tate.html was removed with the case study itself; over the 90 days
+ * to 23 Aug 2026 it was still the site's single highest-click URL in Search Console
+ * (5 clicks / 86 impressions) while returning a 404. It points at the Andrew Tate
+ * *breakdown* — the strategy teardown, which is live and indexed — not back at the
+ * retired case study.
+ */
+const RETIRED_PAGES = {
+  'cases/andrew-tate.html': '/breakdowns/andrew-tate-clipping/',
+};
+
 function bridge(url) {
   return `<!doctype html>
 <html lang="en">
@@ -135,10 +151,12 @@ ${MARKER}
 }
 
 let written = 0, removed = 0;
-for (const legacy of LEGACY_HTML_PATHS) {
+for (const legacy of [...LEGACY_HTML_PATHS, ...Object.keys(RETIRED_PAGES)]) {
   const dir = legacy.slice(0, -'.html'.length); // blog/foo
   const oldPath = join(ROOT, legacy);           // blog/foo.html
-  const url = `${SITE}/${dir}/`;
+  const url = RETIRED_PAGES[legacy]
+    ? `${SITE}${RETIRED_PAGES[legacy]}`
+    : `${SITE}/${dir}/`;
 
   if (CLEAN) {
     if (existsSync(oldPath) && readFileSync(oldPath, 'utf8').includes(MARKER)) {
