@@ -1,5 +1,5 @@
 /* Vision Clipping service worker — aggressive image cache + stale-while-revalidate for everything else */
-const VERSION = 'vc-v14';
+const VERSION = 'vc-v15';
 const STATIC_CACHE = `${VERSION}-static`;
 const IMAGE_CACHE = `${VERSION}-images`;
 
@@ -51,7 +51,7 @@ self.addEventListener('fetch', (event) => {
   /* HTML: network-first w/ cache fallback so users always get the latest copy when online but still load offline. */
   if (isHTML(request)) {
     event.respondWith(
-      fetch(request).then(resp => {
+      fetch(request, { cache: 'no-cache' }).then(resp => {
         const copy = resp.clone();
         caches.open(STATIC_CACHE).then(c => c.put(request, copy));
         return resp;
