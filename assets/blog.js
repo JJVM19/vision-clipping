@@ -102,7 +102,7 @@
         <a href="/#faq">FAQ</a>
       </nav>
       <a class="nav-drawer-cta" href="/book/">
-        Book your strategy call
+        Book your strategy session
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
       </a>
     </div>

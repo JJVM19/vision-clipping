@@ -12,7 +12,6 @@
     '/assets/icons/og-image.png',
     /* Case covers (used on homepage carousel + each case page) */
     '/uploads/cases/iman-gadzhi.webp',
-    '/uploads/cases/andrew-tate.webp',
     '/uploads/cases/luke-belmar.webp',
     '/uploads/cases/arab.webp',
     '/uploads/cases/nonstop.webp',
