@@ -117,6 +117,56 @@ const LEGACY_HTML_PATHS = [
 ];
 
 /**
+ * Bridges that have finished their job and were deleted on 2 Sep 2026.
+ *
+ * A bridge is only worth keeping while Google still serves its .html URL. Checked
+ * with the URL Inspection API + Search Console impressions (28 days to 31 Aug 2026),
+ * every path below was either unknown to Google or already consolidated into the
+ * directory URL, and earned ZERO impressions under .html.
+ *
+ * Keeping them was actively costing traffic. GitHub Pages serves `foo.html` at the
+ * extensionless URL `/foo` with a 200, so while the bridge file exists `/foo` is a
+ * third live URL for the page — a 744-byte redirect stub. Google had indexed that
+ * stub for several pages (`/breakdowns/andrew-tate-clipping` alone: 96 impressions
+ * in 28 days) instead of the real article. Deleting the bridge lets GitHub Pages
+ * answer `/foo` with its native 301 to `/foo/`, which is a real redirect and
+ * consolidates properly.
+ *
+ * The bridges NOT listed here stay: their .html URL still earns impressions, so
+ * 404ing it would drop live results. Those need the Cloudflare 301 rules
+ * (~/vision-seo/tools/cf-setup.mjs) — see the cutover runbook.
+ */
+const CONSOLIDATED = new Set([
+  "breakdowns/andrew-tate-clipping.html",
+  "breakdowns/polymarket-clipping.html",
+  "content-repurposing-agency.html",
+  "breakdowns/luke-belmar-clipping.html",
+  "blog/why-you-should-do-mass-clipping.html",
+  "fr/blog/is-clipping-expensive.html",
+  "breakdowns/stake-clipping.html",
+  "fr/blog/how-to-repurpose-long-form-content.html",
+  "breakdowns/iman-gadzhi-clipping.html",
+  "breakdowns/diary-of-a-ceo-clipping.html",
+  "breakdowns/joe-rogan-clips.html",
+  "breakdowns/music-clipping.html",
+  "blog/how-to-choose-the-best-clipping-agency.html",
+  "blog/thought-leadership-is-a-distribution-problem.html",
+  "nl/blog/how-much-does-a-clipping-campaign-cost.html",
+  "nl/blog/thought-leadership-is-a-distribution-problem.html",
+  "nl/blog/is-clipping-expensive.html",
+  "nl/blog/how-much-does-a-clipping-agency-cost.html",
+  "nl/blog/how-to-choose-the-best-clipping-agency.html",
+  "nl/blog/why-build-your-clipping-team-in-house.html",
+  "fr/blog/does-clipping-work.html",
+  "fr/blog/clipping-agency-vs-hiring-an-editor.html",
+  "fr/blog/how-to-choose-the-best-clipping-agency.html",
+  "fr/blog/why-build-your-clipping-team-in-house.html",
+  "tr/blog/clipping-agency-vs-hiring-an-editor.html",
+  "tr/blog/how-to-build-a-founder-brand.html",
+  "tr/blog/thought-leadership-is-a-distribution-problem.html",
+]);
+
+/**
  * Pages that were DELETED in the 20 Aug 2026 migration rather than moved, so the
  * path-derived target (/cases/foo/) does not exist. Google still has them indexed
  * and still sends traffic to them, so each one is bridged by hand to the closest
@@ -152,6 +202,7 @@ ${MARKER}
 
 let written = 0, removed = 0;
 for (const legacy of [...LEGACY_HTML_PATHS, ...Object.keys(RETIRED_PAGES)]) {
+  if (CONSOLIDATED.has(legacy)) continue;
   const dir = legacy.slice(0, -'.html'.length); // blog/foo
   const oldPath = join(ROOT, legacy);           // blog/foo.html
   const url = RETIRED_PAGES[legacy]
