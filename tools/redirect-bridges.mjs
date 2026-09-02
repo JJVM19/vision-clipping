@@ -11,9 +11,16 @@
  * redirect that exists: canonical + instant meta refresh + location.replace().
  * Google follows all three and consolidates the old URL into the new one.
  *
- * These files are TEMPORARY. Once Search Console shows the directory URLs indexed
- * and the .html ones gone (check with `node ~/vision-seo/tools/gsc.mjs coverage`),
- * delete them: `node tools/redirect-bridges.mjs --clean`.
+ * RETIRED 2026-09-02. vision-clipping.com now sits behind Cloudflare, which serves the
+ * real 301 at the edge before the request ever reaches GitHub Pages — see the Dynamic
+ * Redirect rules installed by ~/vision-seo/tools/cf-setup.mjs. Every bridge file has
+ * been deleted; do NOT regenerate them. A bridge file would be worse than useless now:
+ * GitHub Pages answers /foo with foo.html at 200, so each one also resurrects the
+ * extensionless URL as a third indexable stub, which is what was splitting the index.
+ *
+ * This script is kept only as the rollback: if Cloudflare is ever removed from in front
+ * of the site, run it without --clean to put the meta-refresh bridges back, or every
+ * old .html URL will 404.
  *
  *   node tools/redirect-bridges.mjs          # write/refresh the bridges
  *   node tools/redirect-bridges.mjs --clean  # remove them all
