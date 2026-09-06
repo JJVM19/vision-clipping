@@ -1640,12 +1640,13 @@
 
     /* 3 Billion parallax, same exact layout as web, uniform 50% scale */
     .results{padding-bottom:60px}
-    .res-parallax{--rp-h:145px;gap:11px;padding:16px 0}
-    /* Mobile: rows are native swipe carousels; the scroll-tied transform parallax is
-       disabled in JS below 760px (it stuttered and the off-screen tiles were unreachable). */
-    .rp-row{gap:11px;padding:0 20px;width:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
+    .res-parallax{--rp-h:145px;gap:11px;padding:16px 0;overflow-x:clip}
+    /* Mobile: the rows drift sideways as the page scrolls, the same effect as desktop,
+       rather than being something a finger drags. A swipe carousel here competed with the
+       page scroll and turned an ambient background into a thing to operate. touch-action
+       pan-y means a finger on these tiles scrolls the page, never the row. */
+    .rp-row{gap:11px;padding:0 20px;width:max-content;overflow:visible;touch-action:pan-y;will-change:transform}
     .rp-row::-webkit-scrollbar{display:none}
-    .rp-tile{scroll-snap-align:center}
     .rp-tile{border-radius:11px}
 
     /* Cases, native scroll-snap carousel (smooth like founders), dots below */
@@ -2119,13 +2120,13 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">01</div>
-          <h3>Market intelligence session</h3>
+          <h3>Strategy call</h3>
           <p>A 30 minute session to map your market, identify your ideal buyer, and build the exact attention strategy designed to position you above every competitor in your space.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
             <div class="pv-meet">
-              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Market intelligence</span></div>
+              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Strategy call</span></div>
               <div class="pv-meet-grid">
                 <div class="pv-tile"><div class="pv-avatar">J</div><div class="pv-name">Jaden</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
                 <div class="pv-tile"><div class="pv-avatar">E</div><div class="pv-name">Emrah</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
@@ -2850,17 +2851,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const run = () => {
       if(window.__navJumping) return;
       const mob = isMobile();
-      if(mob){
-        /* Mobile: rows are native swipe carousels (overflow-x in CSS); clear any transform. */
-        for(let i = 0; i < cfg.length; i++){ cfg[i].el.style.transform = 'none'; }
-        return;
-      }
       const r = section.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (vh - r.top) / (vh + r.height);
-      const m = mult;
-      const bP = basePos;
-      const bN = baseNeg;
+      /* The mobile numbers were configured here from the start and never read: the branch
+         above cleared the transform and returned. A gentler travel than desktop, because
+         the row is narrower and the same distance would run the tiles off the screen. */
+      const m = mob ? mobileMult : mult;
+      const bP = mob ? mobileBasePos : basePos;
+      const bN = mob ? mobileBaseNeg : baseNeg;
       for(let i = 0; i < cfg.length; i++){
         const c = cfg[i];
         const base = c.speed > 0 ? bP : bN;
