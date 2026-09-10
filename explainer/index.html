@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script>
+/* Capture the tracking id, then clean the address bar instantly (before render) so a
+   tracked link reverts to a plain vision-clipping.com/explainer/ instead of a long
+   ?vx_cid=&utm... The id is kept in localStorage; the booking embed below reads it. */
+(function(){try{
+  var s=window.location.search;
+  if(!/[?&](vx_cid=|utm_)/.test(s))return;
+  var v=new URLSearchParams(s).get("vx_cid");
+  if(v&&/^c_[0-9a-f]{8,32}$/i.test(v)){localStorage.setItem("vx_cid",v);localStorage.setItem("vx_cid_at",String(Date.now()));}
+  /* keep ?v= and ?title= (testing switches) if they were passed alongside */
+  var keep=new URLSearchParams();var q=new URLSearchParams(s);
+  ["v","title"].forEach(function(k){if(q.get(k)!==null)keep.set(k,q.get(k));});
+  var qs=keep.toString();
+  if(window.history&&history.replaceState){history.replaceState(null,"",window.location.pathname+(qs?"?"+qs:"")+window.location.hash);}
+}catch(e){}})();
+</script>
+<title>Vision Clipping · Watch this first</title>
+<meta name="description" content="A short video on what Vision Clipping does and how it would work for you, then book your strategy session in one step.">
+<link rel="canonical" href="https://vision-clipping.com/explainer/">
+<meta name="robots" content="noindex, nofollow">
+<!-- vc-icons:start -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vision Clipping">
+<meta property="og:url" content="https://vision-clipping.com/explainer/">
+<meta property="og:title" content="Vision Clipping · Watch this first">
+<meta property="og:description" content="A short video on what we do and how it would work for you. Book your strategy session straight after.">
+<meta property="og:image" content="https://vision-clipping.com/assets/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vision Clipping · Watch this first">
+<meta name="twitter:description" content="A short video on what we do and how it would work for you. Book your strategy session straight after.">
+<meta name="twitter:image" content="https://vision-clipping.com/assets/icons/og-image.png">
+<!-- vc-icons:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#070707;
+    --paper:#ffffff;
+    --ox:#4f0006;
+    --ox-bright:#7a0009;
+    --line:rgba(7,7,7,0.08);
+    --muted:rgba(7,7,7,0.56);
+    --gutter:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-size:16px;line-height:1.5;letter-spacing:-0.005em;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;padding-inline:var(--gutter)}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* soft maroon wash at the top, same as the book page hero */
+  body::before{content:"";position:fixed;top:0;left:50%;transform:translateX(-50%);width:140vw;height:60vh;background:radial-gradient(ellipse at 50% 0%,rgba(79,0,6,0.07),transparent 62%);pointer-events:none;z-index:0}
+
+  .stage{position:relative;z-index:1;width:100%;max-width:960px;margin:0 auto;flex:1;display:flex;flex-direction:column;align-items:center;padding-top:clamp(28px,6vh,64px)}
+
+  .brand{width:clamp(120px,14vw,156px);opacity:0.92}
+  .brand img{width:100%;height:auto}
+
+  /* optional intro. Removed with ?title=0 (or by deleting this block) to test the bare version. */
+  .intro{text-align:center;margin-top:clamp(26px,4.6vh,44px);max-width:620px}
+  .intro .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+  .intro .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 4px rgba(79,0,6,0.12)}
+  .intro h1{margin-top:14px;font-size:clamp(24px,3.4vw,36px);line-height:1.12;letter-spacing:-0.03em;font-weight:500;text-wrap:balance}
+  .intro h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  body.no-title .intro{display:none}
+
+  .player{position:relative;width:100%;margin-top:clamp(22px,4vh,40px);aspect-ratio:16/9;max-width:100%;border-radius:18px;overflow:hidden;background:#0a0a0a;box-shadow:0 30px 80px rgba(7,7,7,0.18),0 2px 0 rgba(255,255,255,0.6) inset}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .player .empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:rgba(255,255,255,0.72);font-size:14px;text-align:center;padding:24px}
+  .player .empty[hidden]{display:none}
+  .player .empty b{color:#fff;font-weight:600;font-size:16px}
+  .player .empty code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:rgba(255,255,255,0.6)}
+
+  .after{margin-top:clamp(22px,4vh,36px);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+  .glow-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:20px 40px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:15px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:hidden;isolation:isolate}
+  .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,var(--ox) 0%,transparent 65%);opacity:0.8;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
+  @keyframes glow{0%,100%{opacity:0.6;filter:blur(24px)}50%{opacity:1;filter:blur(40px)}}
+  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(79,0,6,0.45)}
+  .glow-cta svg{width:16px;height:16px;transition:transform 0.3s}
+  .glow-cta:hover svg{transform:translateX(4px)}
+  .after .hint{font-size:14px;color:var(--muted);max-width:420px}
+  body.form-open .after .glow-cta{display:none}
+  body.form-open .after .hint{display:none}
+
+  .booking{width:100%;margin-top:clamp(28px,5vh,56px);scroll-margin-top:24px}
+  .booking[hidden]{display:none}
+  .booking .lead{text-align:center;max-width:560px;margin:0 auto 22px}
+  .booking .lead h2{font-size:clamp(22px,3vw,30px);line-height:1.15;letter-spacing:-0.03em;font-weight:500;text-wrap:balance}
+  .booking .lead h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ox)}
+  .booking .lead p{margin-top:8px;font-size:14px;color:var(--muted)}
+  .booking iframe{width:100%;height:720px;border:0;border-radius:18px;background:#fff;box-shadow:0 18px 50px rgba(7,7,7,0.06);display:block}
+
+  .foot{position:relative;z-index:1;text-align:center;font-size:12px;color:var(--muted);padding:40px 0 calc(28px + env(safe-area-inset-bottom))}
+
+  @media (max-width:760px){
+    .stage{padding-top:22px}
+    .player{border-radius:14px;box-shadow:0 18px 48px rgba(7,7,7,0.16)}
+    .after{margin-top:20px}
+    .glow-cta{width:100%;padding:17px 24px;font-size:15px}
+    .booking iframe{height:560px;border-radius:14px}
+    .foot{padding:28px 0 calc(20px + env(safe-area-inset-bottom))}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .glow-cta::before{animation:none}
+  }
+</style>
+<script src="/assets/attribution.js" defer></script>
+</head>
+<body>
+
+<main class="stage">
+  <a class="brand" href="/" aria-label="Vision Clipping"><img src="/assets/wordmark-dark.png" alt="Vision Clipping" width="2345" height="639"></a>
+
+  <header class="intro">
+    <div class="kicker"><span class="dot"></span>Watch this first</div>
+    <h1>What Vision Clipping does, and how it would <em>work for you.</em></h1>
+  </header>
+
+  <!-- The VSL. Set data-video-id to the YouTube id. ?v=ID overrides it for testing. -->
+  <div class="player" id="player" data-video-id="">
+    <div class="empty" id="player-empty" hidden>
+      <b>Video coming soon</b>
+      <span>Set <code>data-video-id</code> on <code>#player</code>, or open this page with <code>?v=YOUTUBE_ID</code>.</span>
+    </div>
+  </div>
+
+  <div class="after">
+    <button class="glow-cta" id="cta" type="button">
+      Book your strategy call
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+    <p class="hint">Free, 30 minutes. A couple of quick questions, then pick a time.</p>
+  </div>
+
+  <section class="booking" id="booking" hidden aria-live="polite">
+    <div class="lead">
+      <h2 id="booking-title">Grab a <em>time.</em></h2>
+      <p>A couple of quick questions so we land the session prepared, then pick a slot that suits you.</p>
+    </div>
+    <iframe id="vc-form-booking" title="Vision Clipping | Booking" allow="camera; microphone; fullscreen" loading="lazy"></iframe>
+  </section>
+</main>
+
+<footer class="foot">&copy; 2026 Vision Clipping &nbsp;·&nbsp; <a href="/">vision-clipping.com</a></footer>
+
+<script>
+(function () {
+  var FORM_BASE = "https://forms.visionclipping.com/booking";
+  var q = new URLSearchParams(location.search);
+
+  /* ?title=0 hides the intro so the bare version can be compared side by side */
+  if (q.get("title") === "0") document.body.classList.add("no-title");
+
+  var playerEl = document.getElementById("player");
+  var videoId = q.get("v") || playerEl.getAttribute("data-video-id") || "";
+  var booking = document.getElementById("booking");
+  var frame = document.getElementById("vc-form-booking");
+  var cta = document.getElementById("cta");
+  var title = document.getElementById("booking-title");
+  var opened = false;
+
+  /* Same rule as assets/attribution.js: a click id survives 30 days, and rides on the
+     form embed so the booking is traced back to the exact DM or bio link. */
+  function clickId() {
+    try {
+      var at = Number(localStorage.getItem("vx_cid_at") || 0);
+      var cid = localStorage.getItem("vx_cid");
+      if (cid && at && Date.now() - at < 30 * 24 * 3600 * 1000) return cid;
+    } catch (e) {}
+    return null;
+  }
+
+  function openBooking(fromEnd) {
+    if (!opened) {
+      opened = true;
+      var cid = clickId();
+      frame.src = FORM_BASE + (cid ? "?vx_cid=" + encodeURIComponent(cid) : "");
+      booking.hidden = false;
+      document.body.classList.add("form-open");
+    }
+    if (fromEnd) title.innerHTML = "You&rsquo;ve seen how it works. Grab a <em>time.</em>";
+    /* let the iframe take its layout before scrolling to it */
+    setTimeout(function () { booking.scrollIntoView({ behavior: "smooth", block: "start" }); }, 60);
+  }
+  cta.addEventListener("click", function () { openBooking(false); });
+
+  /* The form posts its own height so the embed never scrolls inside a scroll. */
+  window.addEventListener("message", function (e) {
+    if (!e.data || e.origin !== "https://forms.visionclipping.com") return;
+    if (e.data.type === "vision-form-height" && typeof e.data.height === "number") {
+      frame.style.height = Math.max(400, e.data.height) + "px";
+    }
+  });
+
+  /* ---- the video ---- */
+  if (!videoId) {
+    document.getElementById("player-empty").hidden = false;
+    return;
+  }
+  var mount = document.createElement("div");
+  mount.id = "yt";
+  playerEl.appendChild(mount);
+
+  var apiReady = false;
+  window.onYouTubeIframeAPIReady = function () {
+    apiReady = true;
+    new YT.Player("yt", {
+      host: "https://www.youtube-nocookie.com",
+      videoId: videoId,
+      playerVars: { rel: 0, playsinline: 1, modestbranding: 1, color: "white", origin: location.origin },
+      events: {
+        onStateChange: function (ev) {
+          /* the moment the VSL ends, the booking form is already on screen */
+          if (ev.data === YT.PlayerState.ENDED) openBooking(true);
+        }
+      }
+    });
+  };
+  var s = document.createElement("script");
+  s.src = "https://www.youtube.com/iframe_api";
+  s.async = true;
+  document.head.appendChild(s);
+
+  /* If the API is blocked (some in-app browsers), fall back to a plain embed so the
+     video still plays; the button under it remains the path to the form. */
+  setTimeout(function () {
+    if (apiReady) return;
+    var f = document.createElement("iframe");
+    f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(videoId) + "?rel=0&playsinline=1&modestbranding=1&color=white";
+    f.title = "Vision Clipping";
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    f.setAttribute("allowfullscreen", "");
+    f.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+    mount.replaceWith(f);
+  }, 5000);
+})();
+</script>
+</body>
+</html>
