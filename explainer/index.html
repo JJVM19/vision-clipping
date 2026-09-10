@@ -108,7 +108,13 @@
   .foot{position:relative;z-index:1;text-align:center;font-size:12px;color:var(--muted);padding:40px 0 calc(28px + env(safe-area-inset-bottom))}
 
   @media (max-width:760px){
-    .stage{padding-top:22px}
+    /* phone: logo stays at the top, the video and button float in the middle of the space under it */
+    .stage{padding-top:22px;padding-bottom:16px}
+    .brand{width:112px}
+    .player{margin-top:auto}
+    .after{margin-bottom:auto}
+    body.form-open .player{margin-top:clamp(22px,4vh,40px)}
+    body.form-open .after{margin-bottom:0}
     .player{border-radius:14px;box-shadow:0 18px 48px rgba(7,7,7,0.16)}
     .after{margin-top:20px}
     .glow-cta{width:100%;padding:17px 24px;font-size:15px}
@@ -133,7 +139,7 @@
   </header>
 
   <!-- The VSL. Set data-video-id to the YouTube id. ?v=ID overrides it for testing. -->
-  <div class="player" id="player" data-video-id="">
+  <div class="player" id="player" data-video-id="9HF3oIzBkRs">
     <div class="empty" id="player-empty" hidden>
       <b>Video coming soon</b>
       <span>Set <code>data-video-id</code> on <code>#player</code>, or open this page with <code>?v=YOUTUBE_ID</code>.</span>
