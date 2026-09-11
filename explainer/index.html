@@ -196,7 +196,11 @@
     if (!opened) {
       opened = true;
       var cid = clickId();
-      frame.src = FORM_BASE + (cid ? "?vx_cid=" + encodeURIComponent(cid) : "");
+      /* src=explainer names this page as the way in: the form stores it on the response
+         and books the strategy-call event type instead of the site's default one, so calls
+         from the VSL can be counted on their own. */
+      var qs = "?src=explainer" + (cid ? "&vx_cid=" + encodeURIComponent(cid) : "");
+      frame.src = FORM_BASE + qs;
       booking.hidden = false;
       document.body.classList.add("form-open");
     }
