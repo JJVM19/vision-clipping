@@ -145,6 +145,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://img.youtube.com">
 <link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
 <link rel="preload" as="image" href="https://img.youtube.com/vi/KYeW_jCZDrE/maxresdefault.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
@@ -156,7 +157,7 @@
     --softer:#fafafa;
     --ox:#97000e;
     --ox-bright:#b40118;
-    --good:#0f9a4a;
+    --good:#0a7537;
     --line:rgba(7,7,7,0.08);
     --muted:rgba(7,7,7,0.56);
   }
@@ -1346,16 +1347,18 @@
   .finalcta .cta-block{margin-top:40px}
 
   /* FOOTER */
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:999;background:var(--ink);color:#fff;padding:12px 20px;border-radius:0 0 8px 0;font-size:14px;font-weight:500}
+  .skip-link:focus{left:0}
   .foot{background:var(--ink);color:var(--paper);padding:64px 0 28px}
   .foot-mail{display:inline-block;margin-top:16px;color:rgba(255,255,255,0.5);font-size:14px;transition:color .2s}
 .foot-mail:hover{color:#fff}
 .foot-top{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.1)}
   .foot-brand img{height:26px;filter:brightness(0) invert(1);opacity:0.95}
   .foot-brand p{margin-top:20px;color:rgba(255,255,255,0.5);font-size:14px;max-width:320px;line-height:1.55}
-  .foot-col h4{font-size:13px;font-weight:500;margin-bottom:16px}
+  .foot-col h2{font-size:13px;font-weight:500;margin-bottom:16px}
   .foot-col a{display:block;padding:6px 0;font-size:14px;color:rgba(255,255,255,0.55);transition:color 0.2s}
   .foot-col a:hover{color:var(--paper)}
-  .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px;color:rgba(255,255,255,0.4)}
+  .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px;color:rgba(255,255,255,0.55)}
 
   /* CASE STUDY MODAL */
   .modal{position:fixed;inset:0;z-index:100;display:none;background:rgba(7,7,7,0.6);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;overflow-y:auto}
@@ -1855,6 +1858,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#Home">Skip to content</a>
+
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
@@ -1898,6 +1903,7 @@
 </div>
 
 <!-- HERO -->
+<main>
 <section class="hero" id="Home" data-screen-label="01 Hero">
   <div class="hero-aurora" aria-hidden="true">
     <div class="hero-orb hero-orb-l"></div>
@@ -2293,7 +2299,7 @@
           <div class="gf">
             <div class="gf-num">01</div>
             <div class="gf-body">
-              <h4>In-market accounts.</h4>
+              <h3>In-market accounts.</h3>
               <p>Accounts created, grown, and managed inside your target region, so the algorithm treats them as native because they are.</p>
             </div>
           </div>
@@ -2336,7 +2342,7 @@
           <div class="gf">
             <div class="gf-num">01</div>
             <div class="gf-body">
-              <h4>Run under one roof.</h4>
+              <h3>Run under one roof.</h3>
               <p>Every account is operated by our own team, with full control over every post that goes out.</p>
             </div>
           </div>
@@ -2614,6 +2620,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer class="foot">
@@ -2624,16 +2631,16 @@
         <p>A clipping agency for founders, creators and brands who need distribution at scale.</p>
         <a class="foot-mail" href="mailto:contact@J-visionmedia.com">contact@J-visionmedia.com</a>
       </div>
-      <div class="foot-col"><h4>Navigate</h4>
+      <div class="foot-col"><h2>Navigate</h2>
         <a href="#cases">Case Studies</a><a href="#process">Process</a><a href="#who">Who it's for</a><a href="#faq">FAQ</a>
       </div>
-      <div class="foot-col"><h4>Blog</h4>
+      <div class="foot-col"><h2>Blog</h2>
         <a href="/blog/">All articles</a><a href="/blog/the-clipping-economy-explained/">The clipping economy</a><a href="/blog/is-clipping-a-scam/">Is clipping a scam?</a><a href="/blog/emrah-bayraktar-vision-clipping-press/">In the press</a>
       </div>
-      <div class="foot-col"><h4>Services</h4>
+      <div class="foot-col"><h2>Services</h2>
         <a href="/content-repurposing-agency/">Content Repurposing</a><a href="/podcast-clipping-service/">Podcast Clipping</a><a href="/blog/how-much-does-a-clipping-agency-cost/">Pricing guide</a>
       </div>
-      <div class="foot-col"><h4>Get started</h4>
+      <div class="foot-col"><h2>Get started</h2>
         <a href="/book/">Book a call</a><a href="/privacy-policy/">Privacy</a>
       </div>
     </div>
@@ -2738,6 +2745,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
   function boot(){
     player = new YT.Player('vsl-yt', {
+      // Measured 2026-09-16: on www.youtube.com the autoplaying VSL set __Secure-YNID
+      // before any click, which the privacy policy says we do not do. The nocookie host
+      // withholds that until the visitor actually plays something.
+      host: 'https://www.youtube-nocookie.com',
       videoId: 'KYeW_jCZDrE',
       playerVars: { autoplay:1, mute:1, controls:0, modestbranding:1, rel:0, showinfo:0, iv_load_policy:3, fs:0, playsinline:1, disablekb:1 },
       events: {
@@ -3341,6 +3352,12 @@ document.querySelectorAll('.faq-item').forEach(it => {
   document.querySelectorAll('.case').forEach(c => {
     const slug = slugs[c.dataset.case];
     if(!slug) return;
+    // The carousel is three copies of the same five cards; copies 2 and 3 ship
+    // aria-hidden="true" tabindex="-1" so they are invisible to assistive tech. Setting
+    // role/tabindex on every .case put them back in the tab order, which left a keyboard
+    // user landing on ten links a screen reader says are not there (WCAG 4.1.2).
+    // These are already real <a href> elements, so the copies need nothing from us.
+    if (c.getAttribute('aria-hidden') === 'true') return;
     c.setAttribute('role','link');
     c.setAttribute('tabindex','0');
     const go = () => { window.location.href = `cases/${slug}.html`; };

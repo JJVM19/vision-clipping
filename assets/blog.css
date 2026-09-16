@@ -7,7 +7,7 @@
   --ink:#0a0a0a; --paper:#ffffff; --soft:#f4f2f1; --softer:#faf9f8;
   --ox:#97000e; --ox-bright:#b40118;
   --line:rgba(10,10,10,0.10); --hair:rgba(10,10,10,0.06);
-  --muted:rgba(10,10,10,0.56); --ink-2:#26221f;
+  --muted:rgba(10,10,10,0.6); --ink-2:#26221f;
   --read:760px; --wide:1060px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
