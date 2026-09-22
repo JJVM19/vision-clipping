@@ -292,6 +292,12 @@
   .ns-phone .clip-frame.off{display:block;opacity:0;z-index:1}
   .ns-phone .clip-frame:hover video{transform:none}
   .ns-cap{margin-top:16px;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-align:center}
+  /* on the sticky phone the badge is the VSL's pill: bottom left, says what a tap does */
+  .ns-phone .clip-frame .snd{top:auto;left:16px;bottom:18px;width:auto;height:38px;margin:0;padding:0 16px 0 12px;border-radius:999px;border:0;background:rgba(7,7,7,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);gap:8px;font-size:13px;font-weight:600}
+  .ns-phone .clip-frame .snd svg{width:16px;height:16px}
+  .ns-phone .clip-frame .snd::after{content:"Tap to unmute"}
+  .ns-phone .clip-frame.sound .snd::after{content:"Sound on"}
+  .ns-phone .clip-frame.sound .snd{opacity:1;transform:none;background:var(--ox)}
   .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;background:rgba(7,7,7,0.06);color:var(--muted);white-space:nowrap}
   .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(7,7,7,0.3)}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(10,117,55,0.14)}50%{box-shadow:0 0 0 7px rgba(10,117,55,0.06)}}
@@ -300,7 +306,7 @@
   .problem{background:var(--softer)}
   .pp-grid{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
   .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:26px 30px 10px}
-  .pp.us{border-color:rgba(151,0,14,0.28);background:linear-gradient(180deg,rgba(151,0,14,0.045),#fff 32%);box-shadow:0 26px 60px rgba(7,7,7,0.08)}
+  .pp.us{border-color:rgba(151,0,14,0.42);background:linear-gradient(180deg,rgba(151,0,14,0.10),rgba(151,0,14,0.03) 45%,#fff 100%);box-shadow:0 26px 60px rgba(151,0,14,0.10)}
   .pp-h{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;color:var(--muted);padding-bottom:18px;border-bottom:1px solid var(--line)}
   .pp.us .pp-h{color:var(--ox)}
   .pp-row{padding:20px 0;border-bottom:1px solid var(--line)}
@@ -471,7 +477,8 @@
     .fnd-body{padding:22px}
     .fnd-body h3{font-size:24px}
     .ns{grid-template-columns:1fr;gap:0;max-width:560px}
-    .ns-stage{order:-1;position:sticky;top:76px;z-index:5;padding:6px 0 12px;background:var(--paper);box-shadow:0 14px 18px -14px rgba(7,7,7,0.14);width:calc(100% + 2 * var(--gutter));margin:0 calc(-1 * var(--gutter))}
+    #niches .sec-head{margin-bottom:0}
+    .ns-stage{order:-1;position:sticky;top:0;z-index:5;padding:80px 0 14px;background:var(--paper);box-shadow:0 18px 22px -18px rgba(7,7,7,0.18);width:calc(100% + 2 * var(--gutter));margin:0 calc(-1 * var(--gutter))}
     .ns-phone{width:min(42vw,196px);border-radius:20px}
     .ns-cap{margin-top:10px;font-size:13.5px}
     .ns-steps{padding:6px 0 26vh}
@@ -482,6 +489,9 @@
     .sec{padding:72px 0}
     .sec-head{margin-bottom:36px}
     .hero{padding:120px 0 8px}
+    .hero-orb{opacity:0.22;filter:blur(56px)}
+    .finalcta .hero-orb{opacity:0.22}
+    .glow-cta::before{inset:-6px;opacity:0.5;filter:blur(18px);animation:none}
     .hero h1{font-size:clamp(36px,10vw,50px);line-height:1.06}
     .hero-proof{font-size:13px;padding:6px 14px 6px 6px;margin-bottom:22px;gap:10px}
     .hero-avatars img{width:28px;height:28px}
@@ -520,11 +530,12 @@
     .disc{width:100px;height:100px}
     .wave{height:64px}
     .why-state{font-size:18px;margin-top:36px}
-    .ns-step{grid-template-columns:36px 1fr;gap:12px;padding:18px 0}
-    .ns-step .num{font-size:18px;padding-top:4px}
-    .ns-step b{font-size:22px}
-    .ns-step .ns-d{font-size:14px}
-    .ns-step.on{transform:none}
+    .ns-step{grid-template-columns:34px 1fr;gap:12px;padding:16px 0;opacity:0.42;transition:opacity 0.3s}
+    .ns-step .num{font-size:17px;padding-top:3px}
+    .ns-step b{font-size:21px}
+    .ns-step .ns-d{font-size:13.5px;max-height:none;opacity:1;margin-top:6px;transition:none}
+    .ns-step.on{transform:none;opacity:1}
+    .ns-step.on .ns-d{margin-top:6px}
     /* Who we are: same swipe row as the homepage founders */
     .team-grid{display:flex;flex-direction:row;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 16px 24px;margin:0 -16px;scrollbar-width:none}
     .team-grid::-webkit-scrollbar{display:none}
@@ -723,8 +734,8 @@
         <p class="clip-cap">Football edit</p>
       </div>
       <div class="clip">
-        <div class="clip-frame" data-src="nemzzz-gas" data-label="Rap post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
-        <p class="clip-cap">Rap post</p>
+        <div class="clip-frame" data-src="nemzzz-gas" data-label="News and culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">News and culture</p>
       </div>
       <div class="clip">
         <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
@@ -751,8 +762,8 @@
         <p class="clip-cap">Dance comp</p>
       </div>
       <div class="clip">
-        <div class="clip-frame" data-src="casper-tng" data-label="Rap post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
-        <p class="clip-cap">Rap post</p>
+        <div class="clip-frame" data-src="casper-tng" data-label="News and culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">News and culture</p>
       </div>
       <div class="clip">
         <div class="clip-frame" data-src="ring-my-bell-comp" data-label="Dance comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
@@ -817,7 +828,7 @@
       <div class="ns-stage">
         <div class="ns-phone" id="ns-phone" aria-live="polite">
           <div class="clip-frame" data-src="mbappe" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
-          <div class="clip-frame" data-src="casper-tng" data-label="News post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="casper-tng" data-label="News and culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="basketball" data-label="Basketball edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="military" data-label="Military edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
@@ -1206,6 +1217,16 @@
      frame to the "clip being cut" state. */
   var conn = navigator.connection || {};
   var lite = !!conn.saveData || /(^|-)2g$|^3g$/.test(conn.effectiveType || "");
+  /* The example reel loops: two clones of the tile set sit after the originals, the row starts on the middle
+     copy, and whenever a scroll settles past half a set either side it jumps one set back or forward. The three
+     copies are pixel-identical, so the jump is invisible. Clones are made before the video engine collects
+     frames, so every copy gets its own lazy video. */
+  var reelEl = document.getElementById("reel");
+  var REEL_N = reelEl ? reelEl.children.length : 0;
+  if (reelEl) {
+    var reelOriginals = Array.prototype.slice.call(reelEl.children);
+    for (var copy = 0; copy < 2; copy++) reelOriginals.forEach(function (el) { var k = el.cloneNode(true); k.setAttribute("aria-hidden", "true"); reelEl.appendChild(k); });
+  }
   var frames = Array.prototype.slice.call(document.querySelectorAll(".clip-frame[data-src]"));
   var sndIcon = '<span class="snd" aria-hidden="true">' +
     '<svg class="off" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>' +
@@ -1250,10 +1271,10 @@
     entries.forEach(function (e) {
       var frame = e.target;
       if (!frame.v || frame.classList.contains("empty")) return;
-      if (e.isIntersecting) { playIfAllowed(frame); }
-      else { frame.v.pause(); if (frame.classList.contains("sound")) setSound(frame, false); }
+      if (e.intersectionRatio >= 0.5) playIfAllowed(frame);
+      else if (e.intersectionRatio < 0.2) { frame.v.pause(); if (frame.classList.contains("sound")) setSound(frame, false); }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: [0.2, 0.5] });
   frames.forEach(function (frame) {
     var slug = frame.getAttribute("data-src").replace(/\.mp4$/i, "");
     frame.slug = slug;
@@ -1279,10 +1300,6 @@
       var want = !frame.classList.contains("sound");
       frames.forEach(function (f) { if (f !== frame && f.classList.contains("sound")) setSound(f, false); });
       setSound(frame, want);
-      if (want) {
-        var reel = frame.closest(".reel");
-        if (reel) { var r = frame.getBoundingClientRect(), rr = reel.getBoundingClientRect(); reel.scrollBy({ left: (r.left + r.width / 2) - (rr.left + rr.width / 2), behavior: "smooth" }); }
-      }
       if (frame.v.paused) playIfAllowed(frame);
     });
     nio.observe(frame);
@@ -1290,24 +1307,50 @@
   });
 
   /* ---- example edits: carousel arrows + drag to scroll (mouse) ---- */
-  var reel = document.getElementById("reel");
-  if (reel) {
+  var reel = reelEl;
+  if (reel && REEL_N) {
     var step = function () { var c = reel.querySelector(".clip"); return c ? c.getBoundingClientRect().width + 20 : 300; };
+    /* width of one full set = distance from the first tile to the first tile of the next copy */
+    var setWidth = function () { return reel.children[REEL_N].offsetLeft - reel.children[0].offsetLeft; };
     var fill = document.getElementById("reel-fill");
     var updateFill = function () {
       if (!fill) return;
-      var max = reel.scrollWidth - reel.clientWidth;
-      var share = Math.min(1, reel.clientWidth / reel.scrollWidth);
-      var p = max > 2 ? reel.scrollLeft / max : 1;
-      fill.style.width = (Math.max(share, p) * 100).toFixed(2) + "%";
+      var w = setWidth(); if (!w) return;
+      var pos = ((reel.scrollLeft % w) + w) % w;
+      var idx = Math.round(pos / w * REEL_N) % REEL_N;
+      fill.style.width = ((idx + 1) / REEL_N * 100).toFixed(2) + "%";
     };
-    reel.addEventListener("scroll", updateFill, { passive: true });
-    window.addEventListener("resize", updateFill);
-    updateFill();
+    /* wrap once a scroll has settled: scrollend where it exists, a quiet 160 ms elsewhere */
+    var wrapping = false;
+    var wrap = function () {
+      var w = setWidth(); if (!w || wrapping) return;
+      if (reel.querySelector(".clip-frame.sound")) return;
+      var x = reel.scrollLeft;
+      if (x < w * 0.5) { wrapping = true; reel.scrollLeft = x + w; }
+      else if (x > w * 1.5) { wrapping = true; reel.scrollLeft = x - w; }
+      setTimeout(function () { wrapping = false; }, 0);
+    };
+    var settleT = null;
+    reel.addEventListener("scroll", function () { updateFill(); clearTimeout(settleT); settleT = setTimeout(wrap, 160); }, { passive: true });
+    reel.addEventListener("scrollend", function () { clearTimeout(settleT); wrap(); });
+    window.addEventListener("resize", function () { updateFill(); wrap(); });
+    /* Start on the middle copy so there is always something either side. Once placed it is never
+       re-placed: the late `load` event used to re-centre the row after the clips had downloaded,
+       which yanked the tiles out from under a finger and stopped whatever was playing. */
+    var placed = false;
+    var startMiddle = function () { if (placed) return; var w = setWidth(); if (!w) return; reel.scrollLeft = w; placed = true; updateFill(); };
+    startMiddle();
+    window.addEventListener("load", startMiddle);
     document.querySelectorAll(".reel-btn").forEach(function (b) {
       b.addEventListener("click", function () {
+        var w = setWidth();
         var n = Math.max(1, Math.floor(reel.clientWidth / step()) - 1);
-        reel.scrollBy({ left: Number(b.getAttribute("data-dir")) * step() * n, behavior: "smooth" });
+        var delta = Number(b.getAttribute("data-dir")) * step() * n;
+        var target = reel.scrollLeft + delta;
+        /* jump a set first if the target would leave the safe middle, then glide */
+        if (target > w * 1.5) { reel.scrollLeft -= w; target -= w; }
+        else if (target < w * 0.5) { reel.scrollLeft += w; target += w; }
+        reel.scrollTo({ left: target, behavior: reduceMotion ? "auto" : "smooth" });
       });
     });
     var down = false, sx = 0, sl = 0, moved = 0;
@@ -1348,27 +1391,38 @@
       } else { f.classList.remove("on", "off"); }
     });
     if (nsCap) nsCap.textContent = nsFrames[i].getAttribute("data-label") || "";
+    /* the frame just became visible: attach its preview now and start it, no need to wait for the observers */
+    var live = nsFrames[i];
+    if (live.v && !live.classList.contains("empty")) {
+      if (!live.v.getAttribute("src")) { live.v.preload = lite ? "metadata" : "auto"; live.v.src = CLIPS_BASE + live.slug + ".mp4"; }
+      setTimeout(function () { playIfAllowed(live); }, 60);
+    }
   }
   if (nsSteps.length) {
     nsActivate(0);
     var nsTick = false;
+    var nsStage = document.querySelector(".ns-stage");
     function nsPick() {
       nsTick = false;
-      var line = window.innerHeight * (window.innerWidth <= 900 ? 0.72 : 0.5);
-      var best = 0, bd = Infinity;
-      nsSteps.forEach(function (st, k) {
-        var r = st.getBoundingClientRect();
-        var d = Math.abs((r.top + r.bottom) / 2 - line);
-        if (d < bd) { bd = d; best = k; }
-      });
-      nsActivate(best);
+      var mobile = window.innerWidth <= 900;
+      var line = mobile ? nsStage.getBoundingClientRect().bottom + 36 : window.innerHeight * 0.5;
+      var first = nsSteps[0].getBoundingClientRect(), last = nsSteps[nsSteps.length - 1].getBoundingClientRect();
+      var best = -1;
+      if (line <= first.top) best = 0;
+      else if (line >= last.bottom) best = nsSteps.length - 1;
+      else nsSteps.forEach(function (st, k) { var r = st.getBoundingClientRect(); if (best < 0 && line >= r.top && line < r.bottom) best = k; });
+      if (best >= 0) nsActivate(best);
     }
     function nsQueue() { if (!nsTick) { nsTick = true; requestAnimationFrame(nsPick); } }
     window.addEventListener("scroll", nsQueue, { passive: true });
     window.addEventListener("resize", nsQueue);
     nsQueue();
     nsSteps.forEach(function (st) {
-      st.addEventListener("click", function () { st.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: window.innerWidth <= 900 ? "end" : "center" }); });
+      st.addEventListener("click", function () {
+        var r = st.getBoundingClientRect();
+        var line = window.innerWidth <= 900 ? nsStage.getBoundingClientRect().bottom + 36 : window.innerHeight * 0.5;
+        window.scrollBy({ top: (r.top + 24) - line, behavior: reduceMotion ? "auto" : "smooth" });
+      });
     });
   }
 
