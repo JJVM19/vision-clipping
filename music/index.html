@@ -1,0 +1,1516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script>
+/* Same as /explainer/: keep a tracked click id, then clean the address bar before paint. */
+(function(){try{
+  var s=window.location.search;
+  if(!/[?&](vx_cid=|utm_)/.test(s))return;
+  var v=new URLSearchParams(s).get("vx_cid");
+  if(v&&/^c_[0-9a-f]{8,32}$/i.test(v)){localStorage.setItem("vx_cid",v);localStorage.setItem("vx_cid_at",String(Date.now()));}
+  var keep=new URLSearchParams();var q=new URLSearchParams(s);
+  ["v"].forEach(function(k){if(q.get(k)!==null)keep.set(k,q.get(k));});
+  var qs=keep.toString();
+  if(window.history&&history.replaceState){history.replaceState(null,"",window.location.pathname+(qs?"?"+qs:"")+window.location.hash);}
+}catch(e){}})();
+</script>
+<title>Music Content Distribution · Vision Clipping</title>
+<meta name="description" content="Daily short form content built around your music, posted across Instagram, TikTok and YouTube on pages we run and accounts you own. Packages from £1,000 a month. You send the song.">
+<link rel="canonical" href="https://vision-clipping.com/music/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<!-- vc-icons:start -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vision Clipping">
+<meta property="og:url" content="https://vision-clipping.com/music/">
+<meta property="og:title" content="Music Content Distribution | Vision Clipping">
+<meta property="og:description" content="Get your music heard by new people every single day. Hundreds of native posts a month across Instagram, TikTok and YouTube, built around your sound. From £1,000 a month.">
+<meta property="og:image" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta property="og:image:secure_url" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Music Content Distribution by Vision Clipping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta name="twitter:title" content="Music Content Distribution | Vision Clipping">
+<meta name="twitter:description" content="Get your music heard by new people every single day. Hundreds of native posts a month across Instagram, TikTok and YouTube, built around your sound. From £1,000 a month.">
+<!-- vc-icons:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
+<link rel="preconnect" href="https://img.youtube.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Music Content Distribution",
+  "provider": { "@type": "Organization", "name": "Vision Clipping", "url": "https://vision-clipping.com/" },
+  "serviceType": "Short form music content distribution",
+  "areaServed": "GB",
+  "audience": { "@type": "Audience", "audienceType": "Artists and record labels" },
+  "url": "https://vision-clipping.com/music/",
+  "offers": [
+    { "@type": "Offer", "name": "Minimum", "price": "1000", "priceCurrency": "GBP", "description": "90 posts a month, 1 song, 2 niches, 3 platforms. Rolling monthly." },
+    { "@type": "Offer", "name": "Standard", "price": "3000", "priceCurrency": "GBP", "description": "300 posts a month, 2 songs, 3 niches, 3 platforms. Rolling monthly." },
+    { "@type": "Offer", "name": "Premium", "price": "5000", "priceCurrency": "GBP", "description": "300 posts on our pages, 90 on yours, 3 accounts you own, 6 songs. Three month minimum." },
+    { "@type": "Offer", "name": "Elite", "price": "10000", "priceCurrency": "GBP", "description": "450 posts on our pages, 270 on yours, 9 accounts you own, 7 songs. Three month minimum." }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ink:#070707;
+    --paper:#ffffff;
+    --soft:#f4f4f4;
+    --softer:#fafafa;
+    --ox:#97000e;
+    --ox-deep:#7a000a;
+    --ox-bright:#b40118;
+    --ox-wash:rgba(151,0,14,0.06);
+    --good:#0a7537;
+    --line:rgba(7,7,7,0.08);
+    --line-strong:rgba(7,7,7,0.14);
+    --muted:rgba(7,7,7,0.56);
+    --muted-2:rgba(7,7,7,0.42);
+    --gutter:32px;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-optical-sizing:auto}
+  body{font-size:16px;line-height:1.5;overflow-x:hidden;letter-spacing:-0.005em}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 var(--gutter)}
+  .serif{font-family:'Fraunces',serif;font-weight:340;font-style:italic;letter-spacing:-0.02em;color:var(--ox);display:inline-block;line-height:1;vertical-align:baseline;font-size:1.06em;padding:0 0.02em;text-shadow:0 0 12px rgba(168,0,15,0.16),0 0 24px rgba(168,0,15,0.08)}
+  em{font-family:'Fraunces',serif;font-weight:340;font-style:italic;color:var(--ox);letter-spacing:-0.02em}
+  .skip-link{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:999}
+  .skip-link:focus{left:16px}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;top:20px;left:0;right:0;z-index:50;display:flex;justify-content:center;pointer-events:none;padding:0 12px}
+  .nav-inner{pointer-events:auto;display:flex;align-items:center;gap:32px;padding:10px 10px 10px 24px;background:rgba(255,255,255,0.88);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 20px rgba(7,7,7,0.04)}
+  .nav-logo img{height:32px;width:auto}
+  .nav-links{display:flex;gap:26px}
+  .nav-links a{font-size:14px;transition:opacity 0.2s}
+  .nav-links a:hover{opacity:0.6}
+  .nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;transition:background 0.3s,transform 0.3s}
+  .nav-cta:hover{background:var(--ox-bright);transform:translateY(-1px)}
+  .nav-burger{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,0.9);align-items:center;justify-content:center;flex-direction:column;gap:4px}
+  .nav-burger span{display:block;width:16px;height:1.6px;background:var(--ink);border-radius:2px;transition:transform 0.25s,opacity 0.25s}
+  .nav-drawer{position:fixed;inset:0;z-index:180;pointer-events:none;visibility:hidden}
+  .nav-drawer.open{pointer-events:auto;visibility:visible}
+  .nav-drawer-backdrop{position:absolute;inset:0;background:rgba(7,7,7,0.32);opacity:0;transition:opacity 0.25s}
+  .nav-drawer.open .nav-drawer-backdrop{opacity:1}
+  .nav-drawer-panel{position:absolute;top:10px;right:10px;left:10px;background:#fff;border-radius:24px;padding:22px 22px 26px;box-shadow:0 30px 80px rgba(7,7,7,0.18);transform:translateY(-12px);opacity:0;transition:transform 0.28s,opacity 0.28s}
+  .nav-drawer.open .nav-drawer-panel{transform:none;opacity:1}
+  .nav-drawer-panel .row{display:flex;align-items:center;justify-content:space-between}
+  .nav-drawer-panel .row img{height:30px;width:auto}
+  .nav-drawer-close{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  .nav-drawer-links{display:flex;flex-direction:column;margin-top:18px;border-top:1px solid var(--line)}
+  .nav-drawer-links a{padding:15px 0;border-bottom:1px solid var(--line);font-size:18px;font-weight:500}
+  .nav-drawer-cta{margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:999px;background:var(--ox);color:#fff;font-weight:600}
+
+  /* ---------- buttons ---------- */
+  .glow-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:22px 44px;background:#8e000c;color:var(--paper);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:visible;isolation:isolate}
+  .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,#a8000f 0%,transparent 65%);opacity:0.85;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
+  @keyframes glow{0%,100%{opacity:0.6;filter:blur(24px)}50%{opacity:1;filter:blur(40px)}}
+  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(151,0,14,0.4)}
+  .glow-cta svg{width:14px;height:14px;transition:transform 0.3s}
+  .glow-cta:hover svg{transform:translateX(4px)}
+  .cta-sub{margin-top:14px;font-size:13px;color:var(--muted)}
+  .glow-cta-lg{padding:26px 56px;font-size:18px;gap:14px}
+  .glow-cta-lg svg{width:16px;height:16px}
+  .hero-cta-row .ghost-cta{padding:22px 34px;font-size:15px}
+  .ghost-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:22px 38px;background:#fff;color:var(--ink);border:1px solid rgba(7,7,7,0.12);border-radius:999px;font-size:16px;font-weight:600;letter-spacing:-0.005em;transition:transform 0.3s ease,box-shadow 0.4s ease,border-color 0.3s ease;z-index:2;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 4px 10px rgba(7,7,7,0.05),0 12px 28px rgba(79,0,6,0.10),0 28px 60px rgba(79,0,6,0.06)}
+  .ghost-cta:hover{border-color:rgba(7,7,7,0.2);transform:translateY(-2px);box-shadow:0 1px 3px rgba(7,7,7,0.04),0 6px 14px rgba(7,7,7,0.06),0 16px 36px rgba(79,0,6,0.16),0 32px 72px rgba(79,0,6,0.10)}
+  .ghost-cta svg{width:16px;height:16px;transition:transform 0.3s}
+  .ghost-cta:hover svg{transform:translateY(2px)}
+  /* As featured in, same strip as the homepage hero */
+  .hero-press{margin:44px auto 0;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .hero-press-lbl{font-size:11.5px;color:rgba(7,7,7,0.46);letter-spacing:0.18em;text-transform:uppercase;font-weight:600}
+  .hero-press-logos{display:flex;align-items:center;justify-content:center;gap:54px;flex-wrap:wrap}
+  .hero-press-logos img{height:30px;width:auto;max-width:200px;object-fit:contain;filter:grayscale(1);opacity:0.55;transition:opacity 0.25s}
+  .hero-press-logos img:hover{opacity:0.92}
+  .hero-press-logos img[alt="The New York Times"]{height:24px}
+  .hero-press-logos img[alt="NPR"]{height:22px;max-width:140px}
+  .hero-press-logos img[alt="Forbes"]{height:24px;filter:grayscale(1) brightness(0);opacity:0.51}
+
+  /* ---------- section scaffolding ---------- */
+  .sec{padding:120px 0;border-top:1px solid var(--line)}
+  .sec-head{max-width:760px;margin:0 auto 64px;text-align:center}
+  .eyebrow{font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:18px;display:block}
+  .sec h2{font-size:clamp(34px,4.2vw,54px);line-height:1.06;letter-spacing:-0.03em;font-weight:500;text-wrap:balance}
+  .sec-lead{margin-top:18px;font-size:clamp(15px,1.3vw,17px);line-height:1.6;color:var(--muted);text-wrap:balance}
+  .note{margin-top:28px;padding:20px 24px;border:1px solid var(--line);border-radius:16px;background:var(--softer);font-size:14.5px;line-height:1.6;color:rgba(7,7,7,0.7)}
+  .note b{color:var(--ink);font-weight:600}
+  .fade-in{opacity:0;transform:translateY(16px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-in.in{opacity:1;transform:none}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:168px 0 24px;text-align:center;overflow:hidden}
+  .hero-aurora{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(7,7,7,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(7,7,7,0.045) 1px,transparent 1px);background-size:128px 128px;mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+  .hero-orb{position:absolute;border-radius:50%;filter:blur(40px)}
+  .hero-orb-l{width:42vw;height:60vh;max-width:520px;max-height:580px;left:-22vw;top:8vh;background:radial-gradient(circle at 50% 50%,rgba(151,0,14,0.24),rgba(151,0,14,0.11) 40%,transparent 72%);animation:driftL 14s ease-in-out infinite}
+  .hero-orb-r{width:42vw;height:60vh;max-width:520px;max-height:580px;right:-22vw;top:2vh;background:radial-gradient(circle at 50% 50%,rgba(151,0,14,0.2),rgba(151,0,14,0.09) 40%,transparent 72%);animation:driftR 17s ease-in-out infinite}
+  @keyframes driftL{0%,100%{transform:translate(0,0)}50%{transform:translate(6vw,-4vh)}}
+  @keyframes driftR{0%,100%{transform:translate(0,0)}50%{transform:translate(-6vw,5vh)}}
+  .hero .wrap{position:relative;z-index:1}
+  .hero-proof{display:inline-flex;align-items:center;gap:14px;padding:8px 22px 8px 8px;background:rgba(255,255,255,0.94);border:1px solid var(--line);border-radius:999px;font-size:17px;color:rgba(7,7,7,0.74);font-weight:500;margin-bottom:32px;box-shadow:0 5px 22px rgba(7,7,7,0.06)}
+  .hero-avatars{display:flex}
+  .hero-avatars img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-right:-10px;box-shadow:0 1px 4px rgba(7,7,7,0.15)}
+  .hero-avatars img:last-child{margin-right:0}
+  .hero-proof .serif{font-size:1.25em}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero h1{font-size:clamp(44px,5.6vw,82px);line-height:1.02;letter-spacing:-0.04em;font-weight:500;max-width:1040px;margin:0 auto;text-wrap:balance}
+  .hero h1 .serif{font-size:1.08em;padding-right:0.06em}
+  /* Hand drawn oxblood underline under the serif line */
+  .ul{position:relative;display:inline-block}
+  .ul svg{position:absolute;left:0.02em;right:0.08em;bottom:-0.14em;width:calc(100% - 0.1em);height:0.2em;overflow:visible;pointer-events:none}
+  .ul svg path{fill:none;stroke:var(--ox);stroke-width:4.5;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;opacity:0.92}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  /* underline inside a section heading: a touch bigger, and it draws when the heading reveals */
+  .sec h2 .ul-lg{font-size:1.16em;padding-right:0.06em}
+  .sec h2 .ul-lg svg path{animation:none;stroke-dashoffset:320}
+  .fade-in.in h2 .ul-lg svg path{animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.35s forwards}
+  .hero-lead{max-width:640px;margin:26px auto 0;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:rgba(7,7,7,0.62);text-wrap:balance}
+  .hero-cta-row{margin-top:36px;display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}
+
+  /* ---------- VSL ---------- */
+  .vsl-wrap{padding:40px 0 20px}
+  .vsl{max-width:1120px;margin:0 auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#0a0a0a;position:relative;box-shadow:0 30px 80px rgba(7,7,7,0.14)}
+  .vsl-inner{position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f 0%,#1a0a0b 60%,#2a1013 100%);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .vsl-inner.playing{background:none}
+  .vsl-inner iframe,.vsl-inner #vsl-yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vsl-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:opacity 0.4s}
+  .vsl-play{position:relative;width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.96);display:flex;align-items:center;justify-content:center;transition:all 0.3s;z-index:2;box-shadow:0 10px 40px rgba(0,0,0,0.35)}
+  .vsl-play svg{width:26px;height:26px;fill:var(--ink);margin-left:4px;transition:fill 0.3s}
+  .vsl-inner:hover .vsl-play{transform:scale(1.08);background:var(--ox)}
+  .vsl-inner:hover .vsl-play svg{fill:#fff}
+  .vsl-inner.started .vsl-thumb,.vsl-inner.started .vsl-play{opacity:0;pointer-events:none}
+  .vsl-overlay{position:absolute;inset:0;z-index:3;cursor:pointer}
+  .vsl-sound{position:absolute;left:16px;bottom:20px;z-index:5;display:inline-flex;align-items:center;gap:9px;padding:11px 20px;background:rgba(7,7,7,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;border-radius:999px;font-size:13.5px;font-weight:600;letter-spacing:-0.005em;pointer-events:none;opacity:1;transition:opacity 0.3s}
+  .vsl-sound svg{width:16px;height:16px;fill:#fff}
+  .vsl-sound.hidden{opacity:0}
+  .vsl-prog{position:absolute;bottom:0;left:0;right:0;height:4px;z-index:4;background:rgba(255,255,255,0.2);cursor:pointer;transition:height 0.15s}
+  .vsl-prog:hover{height:6px}
+  .vsl-prog-bar{height:100%;background:#fff;border-radius:0 1px 1px 0;width:0;pointer-events:none}
+
+  /* ---------- logos ---------- */
+  .logos{padding:80px 0 60px;overflow:hidden;position:relative}
+  .logos-head{text-align:center;font-size:22px;color:var(--ink);margin-bottom:40px;font-weight:500;letter-spacing:-0.015em;text-wrap:balance}
+  .logos-mask{position:relative;overflow:hidden;mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  .logos-track{display:flex;width:max-content;animation:slide 60s linear infinite;align-items:center;gap:64px;transform:translate3d(0,0,0)}
+  .logos-cycle{display:flex;align-items:center;gap:64px}
+  @keyframes slide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+  .lg{flex-shrink:0;display:flex;align-items:center;justify-content:center;height:44px}
+  .lg img{max-height:100%;width:auto;max-width:180px;object-fit:contain;filter:grayscale(1) brightness(0) invert(0.7);opacity:0.78;pointer-events:none;user-select:none}
+  .lg.wide img{max-width:220px}
+  .lg.sz-110 img{transform:scale(1.1)} .lg.sz-115 img{transform:scale(1.15)} .lg.sz-120 img{transform:scale(1.2)} .lg.sz-160 img{transform:scale(1.6)} .lg.sz-070 img{transform:scale(0.7)} .lg.sz-075 img{transform:scale(0.75)}
+
+  /* ---------- example edits (clean carousel: four in the wrap, centred controls, one sound badge) ---------- */
+  .clips{background:var(--softer)}
+  .clips .sec-head{margin-bottom:40px}
+  .reel-wrap{max-width:1200px;margin:0 auto;padding:0 var(--gutter)}
+  .reel{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px 0 48px;margin-bottom:-36px;cursor:grab;user-select:none;-webkit-user-select:none;overscroll-behavior-x:contain}
+  .reel::-webkit-scrollbar{display:none}
+  .reel.dragging{scroll-snap-type:none;cursor:grabbing}
+  .reel.dragging .clip-frame{pointer-events:none}
+  .clip{flex:0 0 calc(25% - 15px);min-width:250px;scroll-snap-align:start}
+  .clip-cap{margin-top:14px;text-align:center;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink)}
+  .clip-frame{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:#0b0b0b;cursor:pointer;box-shadow:0 18px 40px rgba(7,7,7,0.12);transition:box-shadow 0.4s}
+  .clip-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;background:#0b0b0b;transition:transform 0.65s cubic-bezier(0.22,1,0.36,1)}
+  .clip-frame:hover video{transform:scale(1.04)}
+  .clip-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,7,0.28),transparent 45%);pointer-events:none;z-index:1}
+  .clip-frame.sound{box-shadow:0 26px 60px rgba(7,7,7,0.2)}
+  .clip-frame .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,0.6);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;background:linear-gradient(160deg,#141414,#2a1013);z-index:2}
+  .clip-frame .ph .pl{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center}
+  .clip-frame .ph .pl svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+  .clip-frame .snd{position:absolute;top:50%;left:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.85);background:rgba(7,7,7,0.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),opacity 0.3s}
+  .clip-frame .snd svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .clip-frame .snd .on{display:none}
+  .clip-frame:hover .snd{transform:scale(1.08)}
+  .clip-frame.sound .snd{opacity:0;transform:scale(0.9)}
+  .clip-frame.sound:hover .snd{opacity:1;transform:none}
+  .clip-frame.sound .snd .on{display:block}
+  .clip-frame.sound .snd .off{display:none}
+  .clip-frame.empty video,.clip-frame.empty .snd,.clip-frame.empty::after{display:none}
+  .clip-frame.empty .ph{display:flex}
+  .clip-frame.empty{cursor:default}
+  .reel-nav{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:22px}
+  .reel-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;transition:background 0.2s,transform 0.2s}
+  .reel-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .reel-btn:hover{background:var(--ox);transform:translateY(-1px)}
+  .reel-progress{width:min(360px,40vw);height:4px;border-radius:99px;background:rgba(7,7,7,0.12);overflow:hidden}
+  .reel-progress i{display:block;height:100%;width:25%;border-radius:99px;background:var(--ink);transition:width 0.35s cubic-bezier(0.22,1,0.36,1)}
+
+  /* ---------- track record ---------- */
+  .record{background:var(--paper)}
+  .record-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .rec{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;background:#111;box-shadow:0 20px 50px rgba(7,7,7,0.1);margin:0}
+  .rec img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);transition:transform 0.9s ease}
+  .rec:hover img{transform:scale(1.04)}
+  .rec::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,7,0.94) 0%,rgba(7,7,7,0.7) 26%,rgba(7,7,7,0.15) 50%,transparent 66%);pointer-events:none}
+  .rec .cap{position:absolute;left:0;right:0;bottom:0;padding:0 26px 26px;z-index:1;color:#fff;display:flex;flex-direction:column;gap:8px}
+  .rec .cap b{font-size:20px;font-weight:600;letter-spacing:-0.015em;line-height:1.1}
+  .rec .cap .v{display:flex;align-items:baseline;gap:9px;font-size:44px;font-weight:600;letter-spacing:-0.035em;line-height:1;font-variant-numeric:tabular-nums}
+  .rec .cap .v small{font-size:11.5px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-weight:600}
+  .record-foot{margin-top:40px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+  .record-foot p{max-width:640px;font-size:15px;line-height:1.6;color:var(--muted)}
+  .record-foot p b{color:var(--ink);font-weight:600}
+  .record-total{display:flex;flex-direction:column;align-items:flex-end}
+  .record-total .n{font-size:56px;font-weight:600;line-height:1;color:var(--ox);letter-spacing:-0.035em}
+  .record-total .l{font-size:11.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:8px}
+
+  /* ---------- niches: scroll story (steps left, one sticky phone right) ---------- */
+  .ns{display:grid;grid-template-columns:1fr 340px;gap:88px;max-width:1040px;margin:0 auto}
+  .ns-steps{display:flex;flex-direction:column;padding:6vh 0 18vh}
+  .ns-step{display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:start;text-align:left;width:100%;padding:34px 0;border-top:1px solid var(--line);opacity:0.36;transition:opacity 0.45s,transform 0.55s cubic-bezier(0.22,1,0.36,1)}
+  .ns-step:last-child{border-bottom:1px solid var(--line)}
+  .ns-step .num{font-family:'Fraunces',serif;font-style:italic;font-weight:340;font-size:22px;color:var(--ox);letter-spacing:-0.02em;padding-top:7px;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1)}
+  .ns-step b{display:block;font-size:clamp(24px,2.6vw,34px);font-weight:500;letter-spacing:-0.025em;line-height:1.1;color:var(--ink);transition:color 0.3s}
+  .ns-step .ns-d{display:block;margin-top:0;font-size:15px;line-height:1.5;color:var(--muted);max-height:0;opacity:0;overflow:hidden;transition:max-height 0.5s cubic-bezier(0.22,1,0.36,1),opacity 0.4s,margin-top 0.4s}
+  .ns-step.on{opacity:1;transform:translateX(8px)}
+  .ns-step.on .num{transform:translateX(-4px)}
+  .ns-step.on b{color:var(--ox)}
+  .ns-step.on .ns-d{max-height:120px;opacity:1;margin-top:10px}
+  .ns-stage{position:sticky;top:max(104px,calc(50vh - 290px));align-self:start;display:flex;flex-direction:column;align-items:center}
+  .ns-phone{position:relative;width:340px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;background:#0b0b0b;box-shadow:0 40px 90px rgba(7,7,7,0.22)}
+  .ns-phone .clip-frame{position:absolute;inset:0;border-radius:0;box-shadow:none;display:none;opacity:0;transition:opacity 0.45s ease}
+  .ns-phone .clip-frame.on{display:block;opacity:1;z-index:2}
+  .ns-phone .clip-frame.off{display:block;opacity:0;z-index:1}
+  .ns-phone .clip-frame:hover video{transform:none}
+  .ns-cap{margin-top:16px;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-align:center}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;background:rgba(7,7,7,0.06);color:var(--muted);white-space:nowrap}
+  .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(7,7,7,0.3)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(10,117,55,0.14)}50%{box-shadow:0 0 0 7px rgba(10,117,55,0.06)}}
+
+  /* ---------- why this is needed (what stalls a record / what we do) ---------- */
+  .problem{background:var(--softer)}
+  .pp-grid{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:26px 30px 10px}
+  .pp.us{border-color:rgba(151,0,14,0.28);background:linear-gradient(180deg,rgba(151,0,14,0.045),#fff 32%);box-shadow:0 26px 60px rgba(7,7,7,0.08)}
+  .pp-h{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;color:var(--muted);padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .pp.us .pp-h{color:var(--ox)}
+  .pp-row{padding:20px 0;border-bottom:1px solid var(--line)}
+  .pp-row:last-child{border-bottom:0}
+  .pp-row b{display:block;font-size:22px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;color:var(--ink)}
+  .pp .pp-row b{color:rgba(7,7,7,0.72)}
+  .pp.us .pp-row b{color:var(--ink)}
+  .pp-row span{display:block;margin-top:7px;font-size:15px;line-height:1.5;color:var(--muted)}
+
+  /* ---------- packages ---------- */
+  .pk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .pk{display:flex;flex-direction:column;padding:30px 26px 28px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;position:relative;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 14px 36px rgba(7,7,7,0.08);transition:transform 0.3s,box-shadow 0.3s}
+  .pk:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(7,7,7,0.04),0 30px 70px rgba(7,7,7,0.12)}
+  .pk.owned{border-color:rgba(151,0,14,0.28);background:linear-gradient(180deg,rgba(151,0,14,0.035),#fff 40%)}
+  .pk .pk-no{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ox);font-weight:600}
+  .pk h3{margin-top:12px;font-size:26px;font-weight:500;letter-spacing:-0.02em;line-height:1.1}
+  .pk .price{margin-top:12px;display:flex;align-items:baseline;gap:6px}
+  .pk .price .n{font-size:34px;font-weight:600;letter-spacing:-0.03em;color:var(--ox)}
+  .pk .price .per{font-size:15px;color:var(--muted)}
+  .pk .terms{margin-top:6px;font-size:12.5px;color:var(--muted-2)}
+  .pk-list{list-style:none;margin-top:22px;border-top:1px solid var(--line)}
+  .pk-list li{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--muted);line-height:1.35}
+  .pk-list li b{font-size:19px;font-weight:600;color:var(--ink);letter-spacing:-0.02em;min-width:2.3em;font-variant-numeric:tabular-nums}
+  .pk-line{margin-top:20px;font-size:14px;line-height:1.55;color:var(--muted)}
+  .pk .pk-cta{margin-top:auto;padding-top:24px}
+  .pk .pk-cta a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:999px;border:1px solid var(--line-strong);font-size:14px;font-weight:500;transition:background 0.2s,color 0.2s,border-color 0.2s}
+  .pk .pk-cta a:hover,.pk.owned .pk-cta a{background:var(--ox);color:#fff;border-color:var(--ox)}
+  .pk.owned .pk-cta a:hover{background:var(--ox-bright)}
+  .pk-foot{margin-top:28px;text-align:center;font-size:14px;color:var(--muted)}
+
+  /* ---------- add-ons ---------- */
+  .addons{background:var(--softer)}
+  .addon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .addon{display:flex;flex-direction:column;padding:34px 32px 32px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;min-height:250px;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 14px 36px rgba(7,7,7,0.08);transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s}
+  .addon:hover{border-color:rgba(151,0,14,0.25);box-shadow:0 2px 4px rgba(7,7,7,0.04),0 30px 70px rgba(7,7,7,0.12);transform:translateY(-3px)}
+  .addon .top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px}
+  .addon h3{font-size:24px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;margin-top:14px}
+  .addon .top{flex-direction:column;align-items:flex-start;gap:0}
+  .addon .top .chip{min-height:26px}
+  .addon .top:not(:has(.chip))::before{content:"";display:block;height:26px}
+  .addon .price{margin-top:14px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .addon .price b{font-size:30px;font-weight:600;letter-spacing:-0.03em;color:var(--ox);line-height:1}
+  .addon .price span{color:var(--muted);font-size:14px}
+  .addon p{margin-top:auto;padding-top:22px;font-size:15.5px;line-height:1.55;color:var(--muted)}
+  .chip.hot{background:linear-gradient(135deg,var(--ox-bright),var(--ox-deep));color:#fff;box-shadow:0 6px 16px rgba(151,0,14,0.28),inset 0 1px 0 rgba(255,255,255,0.18);padding:7px 13px 7px 11px}
+  .chip.hot::before{content:"\2726";width:auto;height:auto;background:none;font-size:10px;line-height:1;color:#fff;border-radius:0}
+
+  /* ---------- what we need: three files, animated in ---------- */
+  .drop{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .file{position:relative;border-radius:24px;background:#0b0b0b;color:#fff;border:1px solid rgba(255,255,255,0.08);overflow:hidden;box-shadow:0 30px 80px rgba(7,7,7,0.18);opacity:0;transform:translateY(28px) scale(0.97);transition:opacity 0.7s ease,transform 0.8s cubic-bezier(0.22,1,0.36,1)}
+  .file.in{opacity:1;transform:none}
+  .file:nth-child(2){transition-delay:0.12s}
+  .file:nth-child(3){transition-delay:0.24s}
+  .file::before{content:"";position:absolute;right:-30%;bottom:-45%;width:85%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(151,0,14,0.5),transparent 65%);filter:blur(30px);pointer-events:none}
+  .file .art{position:relative;height:200px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg,rgba(255,255,255,0.035),transparent);overflow:hidden}
+  .file .ft{position:relative;padding:22px 24px 26px}
+  .file .ft b{display:block;font-size:20px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;padding-right:8px}
+  .file .ft span{display:block;margin-top:6px;font-size:14px;color:rgba(255,255,255,0.55)}
+  .file .fx{position:absolute;top:16px;right:16px;z-index:1;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .file .fx.hot{background:rgba(255,91,98,0.16);color:#ff5b62}
+  /* 1: waveform */
+  .wave{display:flex;align-items:center;gap:5px;height:84px}
+  .wave i{width:5px;border-radius:3px;background:linear-gradient(180deg,#ff5b62,var(--ox));height:18%;animation:wave 1.5s ease-in-out infinite;animation-delay:calc(var(--i) * 0.085s)}
+  @keyframes wave{0%,100%{height:16%}50%{height:100%}}
+  /* 2: spinning record */
+  .disc{width:124px;height:124px;border-radius:50%;position:relative;background:repeating-radial-gradient(circle at center,#1c1c1c 0 2px,#0d0d0d 2px 4px);animation:spin 5s linear infinite;box-shadow:0 0 0 1px rgba(255,255,255,0.08),0 24px 40px rgba(0,0,0,0.55)}
+  .disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 38%,rgba(255,255,255,0.09) 50%,transparent 62% 100%)}
+  .disc::after{content:"";position:absolute;inset:35%;border-radius:50%;background:var(--ox);box-shadow:inset 0 0 0 3px rgba(0,0,0,0.35),0 0 0 2px rgba(255,255,255,0.06)}
+  .disc-dot{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#0b0b0b;z-index:1}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* 3: film strip */
+  .film{position:absolute;inset:0;display:flex;align-items:center;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+  .film-track{display:flex;gap:10px;animation:film 16s linear infinite;width:max-content}
+  .film-track i{flex:0 0 74px;height:104px;border-radius:8px;background:linear-gradient(160deg,#2c1114,#151515);border:1px solid rgba(255,255,255,0.1);position:relative}
+  .film-track i::before,.film-track i::after{content:"";position:absolute;left:7px;right:7px;top:6px;height:4px;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.32) 0 6px,transparent 6px 12px);border-radius:1px}
+  .film-track i::after{top:auto;bottom:6px}
+  .film-track i b{position:absolute;left:12px;right:12px;top:38%;height:3px;border-radius:2px;background:rgba(255,255,255,0.12)}
+  .film-track i b+b{top:50%;width:55%;left:12px;right:auto}
+  @keyframes film{to{transform:translateX(-50%)}}
+
+  /* ---------- why this works (record covers) ---------- */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .why-card{position:relative;aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:#111;color:#fff;box-shadow:0 20px 50px rgba(7,7,7,0.1)}
+  .why-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.9s ease}
+  .why-card:hover img{transform:scale(1.05)}
+  .why-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,7,1) 0%,rgba(7,7,7,0.985) 24%,rgba(7,7,7,0.74) 40%,rgba(7,7,7,0.08) 64%,transparent 100%)}
+  .why-card .body{position:absolute;left:0;right:0;bottom:0;padding:26px 24px 26px;z-index:1}
+  .why-card .artist{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.72);font-weight:600}
+  .why-card h3{margin-top:6px;font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.05;display:inline-block;padding-bottom:8px;border-bottom:3px solid var(--ox)}
+  .why-card p{margin-top:12px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.78)}
+  .why-card .big{margin-top:16px;display:flex;align-items:baseline;gap:8px}
+  .why-card .big .n{font-family:'Fraunces',serif;font-style:italic;font-weight:340;font-size:40px;color:#fff;line-height:1;letter-spacing:-0.02em}
+  .why-card .big .l{font-size:12.5px;color:rgba(255,255,255,0.7)}
+  .why-state{max-width:820px;margin:52px auto 0;text-align:center;font-size:clamp(19px,2.1vw,26px);line-height:1.35;letter-spacing:-0.02em;font-weight:500;text-wrap:balance}
+  .why-state span{color:var(--muted)}
+
+  /* ---------- who we are (homepage founders card, Read more dropdown) ---------- */
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .fnd{background:var(--paper);box-shadow:0 1px 2px rgba(7,7,7,0.04),0 12px 32px rgba(7,7,7,0.06);border-radius:20px;overflow:hidden;transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease;position:relative}
+  .fnd:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(7,7,7,0.08)}
+  .fnd-img{aspect-ratio:4/5;position:relative;overflow:hidden;width:100%;background:var(--soft);-webkit-user-select:none;user-select:none}
+  .fnd-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;-webkit-touch-callout:none;pointer-events:none}
+  .fnd-body{padding:28px;position:relative}
+  .fnd-body .role{font-size:12px;color:var(--ox);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+  .fnd-body h3{font-size:28px;font-weight:500;letter-spacing:-0.02em;margin-top:8px;line-height:1.1}
+  .fnd-body p{font-size:14px;line-height:1.55;color:var(--muted);margin-top:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;max-height:calc(14px * 1.55 * 3);transition:max-height 0.45s cubic-bezier(0.22,1,0.36,1)}
+  .fnd-body.expanded p{-webkit-line-clamp:unset;max-height:1200px}
+  .fnd-more{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:0;color:var(--ox);font-size:13px;font-weight:600;letter-spacing:-0.005em;transition:color 0.2s}
+  .fnd-more:hover{color:var(--ox-bright)}
+  .fnd-more svg{width:11px;height:11px;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1)}
+  .fnd-body.expanded .fnd-more svg{transform:rotate(180deg)}
+  .fnd-body .socials{display:flex;gap:8px;margin-top:20px}
+  .fnd-body .socials a{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.2s}
+  .fnd-body .socials a svg{width:14px;height:14px;display:block}
+  .fnd-body .socials a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:820px;margin:0 auto;border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;cursor:pointer;width:100%;text-align:left}
+  .faq-q{font-size:19px;font-weight:500;letter-spacing:-0.01em}
+  .faq-ico{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;transition:transform 0.3s,background 0.3s;position:relative}
+  .faq-ico::before,.faq-ico::after{content:"";position:absolute;width:12px;height:1.6px;background:var(--ink);transition:transform 0.3s}
+  .faq-ico::after{transform:rotate(90deg)}
+  .faq-item.open .faq-ico{background:var(--ox);border-color:var(--ox)}
+  .faq-item.open .faq-ico::before,.faq-item.open .faq-ico::after{background:#fff}
+  .faq-item.open .faq-ico::after{transform:rotate(0)}
+  .faq-a-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.35s ease}
+  .faq-item.open .faq-a-wrap{grid-template-rows:1fr}
+  .faq-a{overflow:hidden;font-size:15px;color:var(--muted);line-height:1.65;max-width:720px}
+  .faq-a>div{padding:0 0 24px}
+
+  /* ---------- final / booking ---------- */
+  .finalcta{padding:150px 0 110px;text-align:center;border-top:1px solid var(--line);position:relative;overflow:hidden}
+  .finalcta .hero-aurora .hero-orb-l{top:auto;bottom:-10vh}
+  .finalcta .wrap{position:relative;z-index:1}
+  .finalcta-text{font-size:clamp(38px,5.4vw,80px);line-height:1.06;letter-spacing:-0.035em;font-weight:500;max-width:980px;margin:0 auto;text-wrap:balance}
+  .finalcta .hero-cta-row{margin-top:38px}
+
+  /* ---------- footer ---------- */
+  .foot{background:var(--ink);color:var(--paper);padding:64px 0 28px}
+  .foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .foot-brand img{height:30px;width:auto}
+  .foot-brand p{margin-top:20px;color:rgba(255,255,255,0.5);font-size:14px;max-width:320px;line-height:1.55}
+  .foot-mail{display:inline-block;margin-top:14px;font-size:14px;color:rgba(255,255,255,0.8)}
+  .foot-col h2{font-size:13px;font-weight:500;margin-bottom:16px}
+  .foot-col a{display:block;padding:6px 0;font-size:14px;color:rgba(255,255,255,0.55);transition:color 0.2s}
+  .foot-col a:hover{color:#fff}
+  .foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px;color:rgba(255,255,255,0.55)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1100px){
+    .pk-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:900px){
+    .nav-links{display:none}
+    .nav-burger{display:flex}
+    .nav-inner{gap:14px;padding:8px 8px 8px 18px}
+    .why-grid,.record-grid,.team-grid,.addon-grid{grid-template-columns:1fr 1fr}
+    .drop{gap:14px}
+    .file .art{height:170px}
+    .file .ft{padding:18px 20px 22px}
+    .file .ft b{font-size:18px}
+    .clip{min-width:230px}
+    .pp-grid{gap:14px}
+    .pp{padding:22px 22px 6px}
+    .pp-row b{font-size:19px}
+    .fnd-body{padding:22px}
+    .fnd-body h3{font-size:24px}
+    .ns{grid-template-columns:1fr;gap:0;max-width:560px}
+    .ns-stage{order:-1;position:sticky;top:76px;z-index:5;padding:6px 0 12px;background:var(--paper);box-shadow:0 14px 18px -14px rgba(7,7,7,0.14);width:calc(100% + 2 * var(--gutter));margin:0 calc(-1 * var(--gutter))}
+    .ns-phone{width:min(42vw,196px);border-radius:20px}
+    .ns-cap{margin-top:10px;font-size:13.5px}
+    .ns-steps{padding:6px 0 26vh}
+    .foot-top{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    :root{--gutter:16px;--radius:18px}
+    .sec{padding:72px 0}
+    .sec-head{margin-bottom:36px}
+    .hero{padding:120px 0 8px}
+    .hero h1{font-size:clamp(36px,10vw,50px);line-height:1.06}
+    .hero-proof{font-size:13px;padding:6px 14px 6px 6px;margin-bottom:22px;gap:10px}
+    .hero-avatars img{width:28px;height:28px}
+    .hero-lead{font-size:15.5px;margin-top:18px}
+    .glow-cta,.ghost-cta{padding:18px 30px;font-size:15px;width:100%;max-width:420px}
+    .glow-cta-lg{padding:21px 30px;font-size:16.5px}
+    .hero-cta-row{flex-direction:column-reverse}
+    .hero-cta-row{gap:10px}
+    .hero-press{margin-top:30px;gap:12px}
+    .hero-press-lbl{font-size:10px;letter-spacing:0.16em}
+    .hero-press-logos{gap:28px}
+    .hero-press-logos img{height:20px;max-width:120px}
+    .hero-press-logos img[alt="NPR"]{height:16px}
+    .hero-press-logos img[alt="Forbes"],.hero-press-logos img[alt="The New York Times"]{height:18px}
+    .vsl-wrap{padding:26px 0 10px}
+    .vsl-sound{left:12px;bottom:14px;padding:9px 14px;font-size:12.5px}
+    .vsl{border-radius:14px}
+    .vsl-play{width:64px;height:64px}
+    .vsl-play svg{width:22px;height:22px}
+    .logos{padding:44px 0 28px}
+    .logos-head{font-size:16px;margin-bottom:24px;padding:0 10px}
+    .logos-track,.logos-cycle{gap:32px;animation-duration:44s}
+    .lg{height:28px}.lg img{max-width:120px}
+    .why-grid,.addon-grid,.pp-grid{grid-template-columns:1fr}
+    .pp{padding:20px 20px 4px}
+    .pp-row{padding:16px 0}
+    .pp-row b{font-size:18px}
+    .record-grid{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 16px 20px;margin:0 -16px;scrollbar-width:none}
+    .record-grid::-webkit-scrollbar{display:none}
+    .rec{flex:0 0 78vw;scroll-snap-align:center}
+    .rec .cap{padding:0 20px 20px}
+    .rec .cap .v{font-size:38px}
+    .drop{grid-template-columns:1fr;gap:12px}
+    .file{border-radius:20px}
+    .file .art{height:150px}
+    .disc{width:100px;height:100px}
+    .wave{height:64px}
+    .why-state{font-size:18px;margin-top:36px}
+    .ns-step{grid-template-columns:36px 1fr;gap:12px;padding:18px 0}
+    .ns-step .num{font-size:18px;padding-top:4px}
+    .ns-step b{font-size:22px}
+    .ns-step .ns-d{font-size:14px}
+    .ns-step.on{transform:none}
+    /* Who we are: same swipe row as the homepage founders */
+    .team-grid{display:flex;flex-direction:row;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 16px 24px;margin:0 -16px;scrollbar-width:none}
+    .team-grid::-webkit-scrollbar{display:none}
+    .team-grid .fnd{flex:0 0 84%;scroll-snap-align:center;scroll-snap-stop:always}
+    .fnd-body{display:grid;grid-template-columns:1fr auto;grid-template-areas:"role role" "h3 socials" "p p" "more more";gap:0;column-gap:12px;align-items:center;padding:20px}
+    .fnd-body .role{grid-area:role}
+    .fnd-body h3{grid-area:h3;margin-top:4px;font-size:22px}
+    .fnd-body p{grid-area:p;margin-top:12px}
+    .fnd-body .fnd-more{grid-area:more;justify-self:flex-start;margin-top:8px}
+    .fnd-body .socials{grid-area:socials;margin-top:4px;gap:6px;align-self:center;justify-self:end}
+    .fnd-body .socials a{width:30px;height:30px}
+    .fnd-body .socials a svg{width:12px;height:12px}
+    .clips .sec-head{margin-bottom:26px}
+    .reel-wrap{padding:0}
+    .reel{gap:12px;padding:6px var(--gutter) 36px;margin-bottom:-24px;scroll-padding-inline:var(--gutter)}
+    .clip{flex:0 0 74vw;min-width:0;scroll-snap-align:center}
+    .clip-cap{margin-top:10px;font-size:14px}
+    .reel-nav{margin-top:12px;gap:16px}
+    .reel-btn{width:40px;height:40px}
+    .reel-progress{width:min(220px,46vw)}
+    .pk-grid{display:flex;flex-direction:row;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 16px 20px;margin:0 -16px;scrollbar-width:none}
+    .pk-grid::-webkit-scrollbar{display:none}
+    .pk{flex:0 0 84vw;scroll-snap-align:center}
+    .pk-foot{font-size:13px}
+    .addon{min-height:0;padding:24px 22px 22px}
+    .addon .top:not(:has(.chip))::before{display:none}
+    .addon h3{margin-top:10px}
+    .addon .top:not(:has(.chip)) h3{margin-top:0}
+    .addon h3{font-size:21px}
+    .addon .price b{font-size:28px}
+    .foot-col a{padding:9px 0}
+    .record .cap b{font-size:16px}
+    .record-total{align-items:flex-start}
+    .record-total .n{font-size:44px}
+    .faq-q{font-size:16px}
+    .faq-a{font-size:14px}
+    .finalcta{padding:80px 0 70px}
+    .finalcta-text{font-size:clamp(32px,8.6vw,44px)}
+    .foot{padding:48px 0 24px}
+    .foot-top{grid-template-columns:1fr;gap:28px}
+    .foot-bot{flex-direction:column;gap:10px;text-align:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .glow-cta::before,.hero-orb,.logos-track,.wave i,.disc,.film-track{animation:none}
+    .file{opacity:1;transform:none;transition:none}
+    .ns-step,.ns-step .num,.ns-step b,.ns-step .ns-d,.ns-phone .clip-frame{transition:none}
+    .ul svg path{animation:none;stroke-dashoffset:0}
+    .fade-in{opacity:1;transform:none;transition:none}
+  }
+</style>
+<script src="/assets/attribution.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#top">Skip to content</a>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top" aria-label="Vision Clipping"><img src="/assets/wordmark-dark.webp" alt="Vision Clipping" width="2345" height="639"></a>
+    <div class="nav-links">
+      <a href="#clips">Examples</a>
+      <a href="#niches">Niches</a>
+      <a href="#packages">Packages</a>
+      <a href="#why">Why it works</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="/music/start/">Get started</a>
+    <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-backdrop" data-close></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Menu">
+    <div class="row">
+      <img src="/assets/wordmark-dark.webp" alt="Vision Clipping">
+      <button class="nav-drawer-close" data-close aria-label="Close menu"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <nav class="nav-drawer-links">
+      <a href="#clips" data-close>Examples</a>
+      <a href="#record" data-close>Track record</a>
+      <a href="#niches" data-close>Niches</a>
+      <a href="#packages" data-close>Packages</a>
+      <a href="#addons" data-close>Add-ons</a>
+      <a href="#why" data-close>Why it works</a>
+      <a href="#team" data-close>Who we are</a>
+      <a href="#faq" data-close>FAQ</a>
+    </nav>
+    <a class="nav-drawer-cta" href="/music/start/" data-close>Get started <svg viewBox="0 0 14 14" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a>
+  </div>
+</div>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-aurora" aria-hidden="true">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-l"></div>
+    <div class="hero-orb hero-orb-r"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-proof">
+      <div class="hero-avatars" aria-hidden="true">
+        <img src="/assets/music/sexyy-red.webp" alt="" width="683" height="418" fetchpriority="high">
+        <img src="/assets/music/nle-choppa.webp" alt="" width="1200" height="735" fetchpriority="high">
+        <img src="/assets/music/jojo-siwa.webp" alt="" width="960" height="588" fetchpriority="high">
+      </div>
+      <span><span class="serif">3B+</span> views generated for clients</span>
+    </div>
+    <span class="eyebrow">For artists and labels</span>
+    <h1>Get your music heard by new people <span class="serif ul">every single day.<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 60 3, 150 2, 297 7"/></svg></span></h1>
+    <p class="hero-lead">Hundreds of native posts a month, built around your sound, on pages that already have the audience. That is how one snippet becomes a chain reaction.</p>
+    <div class="hero-cta-row">
+      <a href="/assets/music/Vision-Clipping-Music-Content-Distribution.pdf" class="ghost-cta" download="Vision Clipping - Music Content Distribution.pdf">Download the overview <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4.5 7.5L8 11l3.5-3.5M3 14h10"/></svg></a>
+      <a href="/music/start/" class="glow-cta glow-cta-lg">Get started <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a>
+    </div>
+    <div class="hero-press" aria-label="As featured in">
+      <span class="hero-press-lbl">As featured in</span>
+      <div class="hero-press-logos">
+        <img decoding="async" src="/uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy">
+        <img decoding="async" src="/uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy">
+        <img decoding="async" src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VSL. Same player as the homepage: autoplays muted, first tap unmutes, later taps play/pause.
+     data-video-id is the YouTube id ("Music Clipping Overview | Vision Clipping"). ?v=ID overrides it for testing. -->
+<section class="vsl-wrap">
+  <div class="wrap">
+    <div class="vsl" id="vsl" data-video-id="Rpt5F6w_Vpk">
+      <div class="vsl-inner" id="vsl-trigger">
+        <img class="vsl-thumb" id="vsl-thumb" src="https://img.youtube.com/vi/Rpt5F6w_Vpk/maxresdefault.jpg" alt="Music Clipping Overview" fetchpriority="high">
+        <button class="vsl-play" type="button" aria-label="Play video"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED BY. Reuses the homepage logo set. Swap in music-side logos in /assets/music/ when they exist. -->
+<section class="logos" id="trusted">
+  <div class="wrap"><div class="logos-head">Trusted by the people and brands who set the culture.</div></div>
+  <div class="logos-mask">
+    <div class="logos-track">
+      <div class="logos-cycle">
+        <div class="lg"><img src="/uploads/logos/logo-01.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img src="/uploads/logos/logo-02.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img src="/uploads/logos/logo-03.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-070"><img src="/uploads/logos/logo-04.webp" alt="" loading="lazy"></div>
+        <div class="lg wide"><img src="/uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img src="/uploads/logos/logo-06.webp" alt="" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-07.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-160"><img src="/uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img src="/uploads/logos/logo-09.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy"></div>
+        <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy"></div>
+        <div class="lg wide sz-075"><img src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy"></div>
+      </div>
+      <div class="logos-cycle" aria-hidden="true">
+        <div class="lg"><img src="/uploads/logos/logo-01.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img src="/uploads/logos/logo-02.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img src="/uploads/logos/logo-03.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-070"><img src="/uploads/logos/logo-04.webp" alt="" loading="lazy"></div>
+        <div class="lg wide"><img src="/uploads/logos/logo-05.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-115"><img src="/uploads/logos/logo-06.webp" alt="" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-07.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-160"><img src="/uploads/logos/logo-08.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-110"><img src="/uploads/logos/logo-09.webp" alt="" loading="lazy"></div>
+        <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="" loading="lazy"></div>
+        <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="" loading="lazy"></div>
+        <div class="lg wide sz-075"><img src="/uploads/logos/logo-npr.webp" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE EDITS. Carousel of real posts. Each frame plays /assets/music/clips/<slug>.mp4 (486x864, muted) while on
+     screen; a tap swaps in <slug>.hq.mp4 (720x1280 with audio) and unmutes. <slug>.webp is the poster. Sources live in
+     ~/Desktop/music web videos, encoded by scratchpad encode.sh. A slug with no files shows the "clip being cut" state. -->
+<section class="sec clips" id="clips">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">What we make</span>
+      <h2>Example <em>edits.</em></h2>
+      <p class="sec-lead">Real posts from our pages. Tap for sound.</p>
+    </div>
+  </div>
+  <div class="reel-wrap fade-in">
+    <div class="reel" id="reel" aria-label="Example edits">
+      <div class="clip">
+        <div class="clip-frame" data-src="mbappe" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Football edit</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="nemzzz-gas" data-label="Rap post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Rap post</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Meme comp</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="north-west" data-label="Pop culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Pop culture</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="military" data-label="Military edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Military edit</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="top-5-artists" data-label="Ranked format"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Ranked format</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="messi" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Football edit</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="nemzzz-dance-comp" data-label="Dance comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Dance comp</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="casper-tng" data-label="Rap post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Rap post</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="ring-my-bell-comp" data-label="Dance comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Dance comp</p>
+      </div>
+      <div class="clip">
+        <div class="clip-frame" data-src="knucks-home" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        <p class="clip-cap">Football edit</p>
+      </div>
+    </div>
+    <div class="reel-nav">
+      <button class="reel-btn" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="reel-progress" aria-hidden="true"><i id="reel-fill"></i></div>
+      <button class="reel-btn" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS IS NEEDED. What stalls your music, and what we do about it. -->
+<section class="sec problem" id="why-needed">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Why this is needed</span>
+      <h2>Great music dies quietly <span class="serif ul ul-lg">without distribution.<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 60 3, 150 2, 297 7"/></svg></span></h2>
+    </div>
+    <div class="pp-grid">
+      <div class="pp fade-in">
+        <div class="pp-h">What stalls your music</div>
+        <div class="pp-row"><b>Nobody new hears it.</b><span>Your own page reaches the people who already follow you.</span></div>
+        <div class="pp-row"><b>Ads stop when the spend stops.</b><span>Paid pushes are priced per post, and the results swing.</span></div>
+        <div class="pp-row"><b>Daily content is a full time job.</b><span>You are the artist, not the content team.</span></div>
+      </div>
+      <div class="pp us fade-in">
+        <div class="pp-h">What we do about it</div>
+        <div class="pp-row"><b>Exposure every day.</b><span>90 to 720 posts a month on pages that already have the audience.</span></div>
+        <div class="pp-row"><b>Platform native.</b><span>Edits that look like the page, not like an ad, so the platform pushes them.</span></div>
+        <div class="pp-row"><b>A chain reaction.</b><span>One sound across football, news, memes and more. The snippet spreads, the streams follow.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NICHES. Scroll story: the step nearest the middle of the screen is live, and the phone swaps to its clip.
+     Phone widths: the phone sticks under the nav and the steps scroll beneath it. Tap the phone for sound. -->
+<section class="sec" id="niches">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Where your music goes</span>
+      <h2>The seven niches <em>we run.</em></h2>
+      <p class="sec-lead">Which pages your music goes on is agreed with you before anything is made. Scroll through to see an example of each.</p>
+    </div>
+    <div class="ns" id="ns">
+      <div class="ns-steps" id="ns-steps">
+        <button class="ns-step" type="button" data-i="0" aria-label="Football edits"><span class="num">01</span><span><b>Football edits</b><span class="ns-d">Your sound over the goals, skills and moments the football pages post every day.</span></span></button>
+        <button class="ns-step" type="button" data-i="1" aria-label="News and culture"><span class="num">02</span><span><b>News and culture</b><span class="ns-d">Your sound behind the stories people are already talking about.</span></span></button>
+        <button class="ns-step" type="button" data-i="2" aria-label="Basketball edits"><span class="num">03</span><span><b>Basketball edits</b><span class="ns-d">Highlight edits cut to the hook of your song.</span></span></button>
+        <button class="ns-step" type="button" data-i="3" aria-label="Military and fight edits"><span class="num">04</span><span><b>Military and fight edits</b><span class="ns-d">High intensity edits where a hard song carries the whole clip.</span></span></button>
+        <button class="ns-step" type="button" data-i="4" aria-label="Meme and dancing comps"><span class="num">05</span><span><b>Meme and dancing comps</b><span class="ns-d">Trend led dance and meme compilations, cut to your hook.</span></span></button>
+        <button class="ns-step" type="button" data-i="5" aria-label="Ranked formats"><span class="num">06</span><span><b>Ranked formats</b><span class="ns-d">Tier lists and rankings that hold attention to the end, with your sound underneath.</span></span></button>
+        <button class="ns-step" type="button" data-i="6" aria-label="Pop culture edits"><span class="num">07</span><span><b>Pop culture edits</b><span class="ns-d">Celebrity, film and TV moments people rewatch, set to your music.</span></span></button>
+      </div>
+      <div class="ns-stage">
+        <div class="ns-phone" id="ns-phone" aria-live="polite">
+          <div class="clip-frame" data-src="mbappe" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="casper-tng" data-label="News post"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="basketball" data-label="Basketball edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="military" data-label="Military edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="top-5-artists" data-label="Ranked format"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="north-west" data-label="Pop culture edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+        </div>
+        <div class="ns-cap" id="ns-cap">Football edit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="sec" id="packages">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Packages and pricing</span>
+      <h2>Four packages. <em>From a test to a takeover.</em></h2>
+      <p class="sec-lead">Minimum and Standard run on our pages. Premium and Elite add accounts you own.</p>
+    </div>
+    <div class="pk-grid">
+      <article class="pk fade-in">
+        <div class="pk-no">Package one</div>
+        <h3>Minimum</h3>
+        <div class="price"><span class="n">£1,000</span><span class="per">/month</span></div>
+        <div class="terms">Rolling monthly</div>
+        <ul class="pk-list">
+          <li><b>90</b>posts a month</li>
+          <li><b>1</b>song</li>
+          <li><b>2</b>niches</li>
+          <li><b>3</b>platforms</li>
+        </ul>
+        <p class="pk-line">One song on our pages. The simplest way to test a song.</p>
+        <div class="pk-cta"><a href="/music/start/">Start with Minimum</a></div>
+      </article>
+      <article class="pk fade-in">
+        <div class="pk-no">Package two</div>
+        <h3>Standard</h3>
+        <div class="price"><span class="n">£3,000</span><span class="per">/month</span></div>
+        <div class="terms">Rolling monthly</div>
+        <ul class="pk-list">
+          <li><b>300</b>posts a month</li>
+          <li><b>2</b>songs</li>
+          <li><b>3</b>niches</li>
+          <li><b>3</b>platforms</li>
+        </ul>
+        <p class="pk-line">Three times the posts, across three niches. For a release you are pushing.</p>
+        <div class="pk-cta"><a href="/music/start/">Start with Standard</a></div>
+      </article>
+      <article class="pk owned fade-in">
+        <div class="pk-no">Package three</div>
+        <h3>Premium</h3>
+        <div class="price"><span class="n">£5,000</span><span class="per">/month</span></div>
+        <div class="terms">Three month minimum, paid monthly · dashboard included</div>
+        <ul class="pk-list">
+          <li><b>300</b>posts on our pages</li>
+          <li><b>90</b>posts on your accounts</li>
+          <li><b>3</b>accounts you own</li>
+          <li><b>6</b>songs</li>
+        </ul>
+        <p class="pk-line">Our pages plus three accounts you own, with full attribution.</p>
+        <div class="pk-cta"><a href="/music/start/">Talk about Premium</a></div>
+      </article>
+      <article class="pk owned fade-in">
+        <div class="pk-no">Package four</div>
+        <h3>Elite</h3>
+        <div class="price"><span class="n">£10,000</span><span class="per">/month</span></div>
+        <div class="terms">Three month minimum, paid monthly · dashboard included</div>
+        <ul class="pk-list">
+          <li><b>450</b>posts on our pages</li>
+          <li><b>270</b>posts on your accounts</li>
+          <li><b>9</b>accounts you own</li>
+          <li><b>7</b>songs</li>
+        </ul>
+        <p class="pk-line">Three page identities you own, tested in parallel, plus 450 posts on ours.</p>
+        <div class="pk-cta"><a href="/music/start/">Talk about Elite</a></div>
+      </article>
+    </div>
+    <p class="pk-foot fade-in">Your month starts on the day we begin posting, not the day you pay.</p>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="sec addons" id="addons">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Add-ons</span>
+      <h2>Optional <em>extras.</em></h2>
+    </div>
+    <div class="addon-grid">
+      <div class="addon fade-in">
+        <div class="top"><span class="chip hot">Recommended</span><h3>Live dashboard</h3></div>
+        <div class="price"><b>£400</b> <span>/month · Minimum and Standard</span></div>
+        <p>Every post next to your Spotify and Apple streams.</p>
+      </div>
+      <div class="addon fade-in">
+        <div class="top"><span class="chip hot">Recommended</span><h3>Prerelease hold</h3></div>
+        <div class="price"><b>£500</b> <span>/month · Premium and Elite</span></div>
+        <p>Content built up before launch, all out from release day.</p>
+      </div>
+      <div class="addon fade-in">
+        <div class="top"><h3>Featured lander slot</h3></div>
+        <div class="price"><b>£250</b> <span>/month · Any package</span></div>
+        <p>Your track on the page every account in our network links to.</p>
+      </div>
+      <div class="addon fade-in">
+        <div class="top"><h3>Extra song</h3></div>
+        <div class="price"><b>£200</b> <span>/month · Any package</span></div>
+        <p>Another track in your allocation.</p>
+      </div>
+      <div class="addon fade-in">
+        <div class="top"><h3>Additional geo</h3></div>
+        <div class="price"><b>£150</b> <span>/month · Premium and Elite</span></div>
+        <p>Targets a region outside the UK.</p>
+      </div>
+      <div class="addon fade-in">
+        <div class="top"><h3>Mid-month song change</h3></div>
+        <div class="price"><b>£150</b> <span>/change · Any package</span></div>
+        <p>Swap the running track before renewal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE NEED. Three files, animated in. -->
+<section class="sec needs" id="needs">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">What we need from you</span>
+      <h2>You send the song.<br><em>We do the rest.</em></h2>
+    </div>
+    <div class="drop" aria-label="What to send us">
+      <div class="file">
+        <span class="fx">.wav / .mp3</span>
+        <div class="art"><div class="wave" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i></div></div>
+        <div class="ft"><b>The music track</b><span>MP3 or WAV.</span></div>
+      </div>
+      <div class="file">
+        <span class="fx">Link</span>
+        <div class="art"><div class="disc" aria-hidden="true"><span class="disc-dot"></span></div></div>
+        <div class="ft"><b>The TikTok and Instagram sound</b><span>One link for each.</span></div>
+      </div>
+      <div class="file">
+        <span class="fx hot">Premium and Elite</span>
+        <div class="art"><div class="film" aria-hidden="true"><div class="film-track"><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i><i><b></b><b></b></i></div></div></div>
+        <div class="ft"><b>Footage</b><span>Up to 60 minutes.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS WORKS. Record covers with the outcome on each. -->
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Why this works</span>
+      <h2>This is how UK music <em>breaks now.</em></h2>
+      <p class="sec-lead">A sound, in front of the right audience, repeatedly. That is the whole system.</p>
+    </div>
+    <div class="why-grid">
+      <article class="why-card fade-in">
+        <img src="/assets/music/nemzzz-elevate.webp" alt="Nemzzz, Elevate cover" loading="lazy" width="800" height="800">
+        <div class="body">
+          <div class="artist">Nemzzz</div>
+          <h3>Elevate</h3>
+          <p>Went viral on TikTok in 2021.</p>
+          <div class="big"><span class="n">114M</span><span class="l">Spotify streams</span></div>
+        </div>
+      </article>
+      <article class="why-card fade-in">
+        <img src="/assets/music/central-cee-doja.webp" alt="Central Cee, Doja cover" loading="lazy" width="800" height="800">
+        <div class="body">
+          <div class="artist">Central Cee</div>
+          <h3>Doja</h3>
+          <p>Viral on TikTok the week it dropped.</p>
+          <div class="big"><span class="n">No. 2</span><span class="l">UK Singles Chart</span></div>
+        </div>
+      </article>
+      <article class="why-card fade-in">
+        <img src="/assets/music/central-cee-let-go.webp" alt="Central Cee, Let Go cover" loading="lazy" width="800" height="800">
+        <div class="body">
+          <div class="artist">Central Cee</div>
+          <h3>Let Go</h3>
+          <p>One snippet on TikTok before release.</p>
+          <div class="big"><span class="n">1 week</span><span class="l">from snippet to release</span></div>
+        </div>
+      </article>
+    </div>
+    <p class="why-state fade-in">None of that happened by accident. <span>It is a system, and it is the system we run for you.</span></p>
+  </div>
+</section>
+
+<!-- TRACK RECORD -->
+<section class="sec record" id="record">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Our track record</span>
+      <h2>Seven years in short form. Over <em>3 billion views</em> for clients.</h2>
+    </div>
+    <div class="record-grid">
+      <figure class="rec fade-in">
+        <img src="/assets/music/sexyy-red.webp" alt="Sexyy Red" loading="lazy" width="683" height="418">
+        <figcaption class="cap"><b>Sexyy Red</b><span class="v">7.3M<small>views</small></span></figcaption>
+      </figure>
+      <figure class="rec fade-in">
+        <img src="/assets/music/nle-choppa.webp" alt="NLE Choppa" loading="lazy" width="1200" height="735">
+        <figcaption class="cap"><b>NLE Choppa</b><span class="v">1.6M<small>views</small></span></figcaption>
+      </figure>
+      <figure class="rec fade-in">
+        <img src="/assets/music/jojo-siwa.webp" alt="JoJo Siwa" loading="lazy" width="960" height="588" style="--pos:64% 30%">
+        <figcaption class="cap"><b>JoJo Siwa</b><span class="v">1.4M<small>views</small></span></figcaption>
+      </figure>
+    </div>
+    <div class="record-foot fade-in">
+      <p>Three music campaigns. <b>10.3 million views.</b></p>
+      <div class="record-total"><span class="n">10.3M</span><span class="l">Views across three campaigns</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section class="sec" id="team">
+  <div class="wrap">
+    <div class="sec-head fade-in">
+      <span class="eyebrow">Who we are</span>
+      <h2>Built by people inside short form <em>and UK music.</em></h2>
+    </div>
+    <div class="team-grid">
+      <div class="fnd fade-in">
+        <div class="fnd-img"><img src="/uploads/jaden.webp" alt="Jaden Malcolm" loading="lazy" width="1040" height="1300"></div>
+        <div class="fnd-body">
+          <div class="role">Co-founder</div>
+          <h3>Jaden Malcolm</h3>
+          <p>Short form distribution. Started as an editor for some of YouTube's top channels, then moved into creative direction for the biggest creators and brands in the world. Generated over half a billion long form views, including scaling Nonstop past a million subscribers. Produced videos for Red Bull, FaZe, Lego and Shein. His focus is what actually holds an audience, the narrative instincts that turn a scroll into a watch. Every campaign on this page is built on that.</p>
+          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
+          <div class="socials">
+            <a href="https://www.instagram.com/jadenvfx_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://x.com/Jadenvfx_" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://uk.linkedin.com/in/jaden-malcolm" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="fnd fade-in">
+        <div class="fnd-img"><img src="/uploads/emrah.webp" alt="Emrah Bayraktar" loading="lazy" width="1040" height="1300"></div>
+        <div class="fnd-body">
+          <div class="role">Co-founder</div>
+          <h3>Emrah Bayraktar</h3>
+          <p>Creator partnerships. Pioneered content clipping as a distribution channel before the industry had a name for it. Generated over 400 million views across his own pages, then took that playbook to campaigns for Iman Gadzhi, Luke Belmar and Andrew Tate. Built Russell Brunson's clipping infrastructure at ClickFunnels. Quoted in Forbes. Emrah sets the strategy behind every campaign.</p>
+          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
+          <div class="socials">
+            <a href="https://www.instagram.com/mrahbayraktar/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://x.com/mrahbayraktar" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="https://www.youtube.com/@bayraktaremrah" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19a2.51 2.51 0 0 0-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42A2.51 2.51 0 0 0 2.42 7.19 26.23 26.23 0 0 0 2 12a26.23 26.23 0 0 0 .42 4.81 2.51 2.51 0 0 0 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42a2.51 2.51 0 0 0 1.77-1.77A26.23 26.23 0 0 0 22 12a26.23 26.23 0 0 0-.42-4.81zM10 15V9l5.2 3z"/></svg></a>
+            <a href="https://www.linkedin.com/in/mrahbayraktar/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="fnd fade-in">
+        <div class="fnd-img"><img src="/assets/music/deluxe.webp" alt="Deluxe" loading="lazy" width="900" height="1117"></div>
+        <div class="fnd-body">
+          <div class="role">Partner</div>
+          <h3>Deluxe (David)</h3>
+          <p>UK music influencer. Deluxe is the partner on the music side of Vision Clipping, inside the UK scene the pages post into every day.</p>
+          <button class="fnd-more" type="button" aria-expanded="false">Read more <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l4 4 4-4"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head fade-in"><span class="eyebrow">FAQ</span><h2>Frequently asked <em>questions.</em></h2></div>
+    <div class="faq-list fade-in">
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">Who owns the accounts?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>Our pages are ours. The accounts we build for you on Premium and Elite are yours from day one, handles, followers and all.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">Are the views real?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>Yes. Every post goes out from a real account on a real device to a real audience. No bought engagement, no fake traffic.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">What is the commitment?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>Minimum and Standard are rolling monthly. Premium and Elite are a three month minimum, paid monthly, because new accounts start slow and then compound.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">Will you take any track?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>No. We listen to the music before any deal goes ahead. If it does not fit these formats, we will tell you.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">What do I need to send?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>An MP3 or WAV of the track and the official sound on TikTok and Instagram. On Premium and Elite, footage as well, up to 60 minutes.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">Can you target outside the UK?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>Yes. UK by default. On Premium and Elite the additional geo add-on targets another region.</div></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-top" type="button" aria-expanded="false"><span class="faq-q">How fast does it start?</span><span class="faq-ico" aria-hidden="true"></span></button>
+        <div class="faq-a-wrap"><div class="faq-a"><div>Under three days from payment to first post. Your month starts on the day we begin posting.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA + BOOKING -->
+<section class="finalcta" id="book">
+  <div class="hero-aurora" aria-hidden="true"><div class="hero-orb hero-orb-l"></div><div class="hero-orb hero-orb-r"></div></div>
+  <div class="wrap">
+    <h2 class="finalcta-text">You do not need to build a production team. <span class="serif">We already have.</span></h2>
+    <div class="hero-cta-row">
+      <a href="/assets/music/Vision-Clipping-Music-Content-Distribution.pdf" class="ghost-cta" download="Vision Clipping - Music Content Distribution.pdf">Download the overview <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4.5 7.5L8 11l3.5-3.5M3 14h10"/></svg></a>
+      <a class="glow-cta glow-cta-lg" id="cta" href="/music/start/">Get started <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a>
+    </div>
+    <div class="cta-sub">Two minutes. We listen to the music before we reply.</div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="/assets/wordmark-light.webp" alt="Vision Clipping">
+        <p>Short form distribution for artists and labels. Daily content built around your music, across Instagram, TikTok and YouTube.</p>
+        <a class="foot-mail" href="mailto:contact@J-visionmedia.com">contact@J-visionmedia.com</a>
+      </div>
+      <div class="foot-col"><h2>This page</h2>
+        <a href="#clips">Examples</a><a href="#niches">Niches</a><a href="#packages">Packages</a><a href="#addons">Add-ons</a><a href="#faq">FAQ</a>
+      </div>
+      <div class="foot-col"><h2>Vision Clipping</h2>
+        <a href="https://vision-clipping.com/">For brands and founders</a><a href="https://vision-clipping.com/blog/">Blog</a><a href="https://vision-clipping.com/breakdowns/">Breakdowns</a>
+      </div>
+      <div class="foot-col"><h2>Get started</h2>
+        <a href="/music/start/">Get started</a><a href="https://vision-clipping.com/privacy-policy/">Privacy</a>
+      </div>
+    </div>
+    <div class="foot-bot"><div>© 2026 Vision Clipping</div><div>visionclipping.com/music</div></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var CLIPS_BASE = "/assets/music/clips/";
+  var q = new URLSearchParams(location.search);
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- nav drawer ---- */
+  var burger = document.getElementById("nav-burger");
+  var drawer = document.getElementById("nav-drawer");
+  function setDrawer(open) {
+    drawer.classList.toggle("open", open);
+    drawer.setAttribute("aria-hidden", open ? "false" : "true");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+  burger.addEventListener("click", function () { setDrawer(!drawer.classList.contains("open")); });
+  drawer.querySelectorAll("[data-close]").forEach(function (el) { el.addEventListener("click", function () { setDrawer(false); }); });
+
+  /* ---- hand drawn underlines: size the dash to the drawn width (non-scaling-stroke dashes are screen pixels) ---- */
+  function sizeUnderlines() {
+    document.querySelectorAll(".ul svg path").forEach(function (path) {
+      var w = path.closest("svg").getBoundingClientRect().width * 1.04 + 8;
+      path.style.strokeDasharray = w + "px";
+      var drawn = path.getAttribute("data-drawn") === "1";
+      path.style.strokeDashoffset = drawn ? "0" : w + "px";
+      path.addEventListener("animationend", function () { path.setAttribute("data-drawn", "1"); path.style.strokeDashoffset = "0"; }, { once: true });
+    });
+  }
+  sizeUnderlines();
+  window.addEventListener("resize", sizeUnderlines);
+
+  /* ---- reveal on scroll ---- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+  document.querySelectorAll(".fade-in, .file").forEach(function (el) { io.observe(el); });
+
+  /* ---- example edits: video engine ----
+     Every .clip-frame[data-src] is a real post. Files: <slug>.webp poster, <slug>.mp4 preview (muted, small),
+     <slug>.hq.mp4 (audio). Nothing loads until the frame is near the screen; the preview plays while at least
+     half of it is visible; a tap swaps in the HQ file at the same moment and unmutes (one with sound at a time).
+     Save-Data or a 2G/3G connection: no autoplay, the poster waits for a tap. A missing preview flips the
+     frame to the "clip being cut" state. */
+  var conn = navigator.connection || {};
+  var lite = !!conn.saveData || /(^|-)2g$|^3g$/.test(conn.effectiveType || "");
+  var frames = Array.prototype.slice.call(document.querySelectorAll(".clip-frame[data-src]"));
+  var sndIcon = '<span class="snd" aria-hidden="true">' +
+    '<svg class="off" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>' +
+    '<svg class="on" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>';
+  function setSound(frame, on) {
+    var v = frame.v;
+    if (!v) return;
+    if (on) {
+      if (!frame.hq) {
+        var t = v.currentTime || 0;
+        frame.hq = true;
+        v.src = CLIPS_BASE + frame.slug + ".hq.mp4";
+        v.addEventListener("loadedmetadata", function () { try { if (t > 0 && t < v.duration) v.currentTime = t; } catch (e) {} }, { once: true });
+      }
+      v.muted = false; v.removeAttribute("muted");
+      frame.classList.add("sound");
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    } else {
+      v.muted = true; v.setAttribute("muted", "");
+      frame.classList.remove("sound");
+    }
+  }
+  function playIfAllowed(frame) {
+    var v = frame.v;
+    if (!v || frame.classList.contains("empty") || reduceMotion) return;
+    if (lite && !frame.classList.contains("sound")) return;
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }
+  /* near the screen: attach the preview source */
+  var nio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var frame = e.target;
+      nio.unobserve(frame);
+      if (frame.classList.contains("empty") || frame.v.getAttribute("src")) return;
+      frame.v.preload = lite ? "metadata" : "auto";
+      frame.v.src = CLIPS_BASE + frame.slug + ".mp4";
+    });
+  }, { rootMargin: "360px 0px 360px 0px", threshold: 0 });
+  /* on the screen: play; off it: pause, and drop sound so it never comes back on by itself */
+  var vio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var frame = e.target;
+      if (!frame.v || frame.classList.contains("empty")) return;
+      if (e.isIntersecting) { playIfAllowed(frame); }
+      else { frame.v.pause(); if (frame.classList.contains("sound")) setSound(frame, false); }
+    });
+  }, { threshold: 0.5 });
+  frames.forEach(function (frame) {
+    var slug = frame.getAttribute("data-src").replace(/\.mp4$/i, "");
+    frame.slug = slug;
+    var v = document.createElement("video");
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute("playsinline", ""); v.setAttribute("muted", ""); v.setAttribute("loop", "");
+    v.preload = "none";
+    v.poster = CLIPS_BASE + slug + ".webp";
+    v.setAttribute("aria-label", frame.getAttribute("data-label") || "Example clip");
+    frame.v = v;
+    frame.insertBefore(v, frame.firstChild);
+    frame.insertAdjacentHTML("beforeend", sndIcon);
+    /* no poster = no clip yet: show the "being cut" state without touching the network again */
+    var probe = new Image();
+    probe.onerror = function () { frame.classList.add("empty"); nio.unobserve(frame); vio.unobserve(frame); };
+    probe.src = v.poster;
+    v.addEventListener("error", function () {
+      if (frame.hq) { frame.hq = false; v.src = CLIPS_BASE + slug + ".mp4"; setSound(frame, false); playIfAllowed(frame); return; }
+      frame.classList.add("empty"); nio.unobserve(frame); vio.unobserve(frame);
+    });
+    frame.addEventListener("click", function () {
+      if (frame.classList.contains("empty")) return;
+      var want = !frame.classList.contains("sound");
+      frames.forEach(function (f) { if (f !== frame && f.classList.contains("sound")) setSound(f, false); });
+      setSound(frame, want);
+      if (want) {
+        var reel = frame.closest(".reel");
+        if (reel) { var r = frame.getBoundingClientRect(), rr = reel.getBoundingClientRect(); reel.scrollBy({ left: (r.left + r.width / 2) - (rr.left + rr.width / 2), behavior: "smooth" }); }
+      }
+      if (frame.v.paused) playIfAllowed(frame);
+    });
+    nio.observe(frame);
+    vio.observe(frame);
+  });
+
+  /* ---- example edits: carousel arrows + drag to scroll (mouse) ---- */
+  var reel = document.getElementById("reel");
+  if (reel) {
+    var step = function () { var c = reel.querySelector(".clip"); return c ? c.getBoundingClientRect().width + 20 : 300; };
+    var fill = document.getElementById("reel-fill");
+    var updateFill = function () {
+      if (!fill) return;
+      var max = reel.scrollWidth - reel.clientWidth;
+      var share = Math.min(1, reel.clientWidth / reel.scrollWidth);
+      var p = max > 2 ? reel.scrollLeft / max : 1;
+      fill.style.width = (Math.max(share, p) * 100).toFixed(2) + "%";
+    };
+    reel.addEventListener("scroll", updateFill, { passive: true });
+    window.addEventListener("resize", updateFill);
+    updateFill();
+    document.querySelectorAll(".reel-btn").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var n = Math.max(1, Math.floor(reel.clientWidth / step()) - 1);
+        reel.scrollBy({ left: Number(b.getAttribute("data-dir")) * step() * n, behavior: "smooth" });
+      });
+    });
+    var down = false, sx = 0, sl = 0, moved = 0;
+    reel.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = 0; sx = e.clientX; sl = reel.scrollLeft;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 6 && !reel.classList.contains("dragging")) reel.classList.add("dragging");
+      if (reel.classList.contains("dragging")) { moved = 1; reel.scrollLeft = sl - dx; }
+    });
+    window.addEventListener("pointerup", function () {
+      if (!down) return;
+      down = false;
+      if (moved) setTimeout(function () { reel.classList.remove("dragging"); }, 0);
+      else reel.classList.remove("dragging");
+    });
+  }
+
+  /* ---- niches: scroll story. The step nearest a line across the screen is live; the sticky phone shows its clip.
+     Frames not on show are display:none, so the video engine leaves them alone (no download, no playback). ---- */
+  var nsSteps = Array.prototype.slice.call(document.querySelectorAll("#ns-steps .ns-step"));
+  var nsFrames = Array.prototype.slice.call(document.querySelectorAll("#ns-phone .clip-frame"));
+  var nsCap = document.getElementById("ns-cap");
+  var nsCur = -1;
+  function nsActivate(i) {
+    if (i === nsCur) return;
+    var prev = nsCur; nsCur = i;
+    nsSteps.forEach(function (st, k) { st.classList.toggle("on", k === i); });
+    nsFrames.forEach(function (f, k) {
+      if (k === i) { f.classList.remove("off"); f.classList.add("on"); }
+      else if (k === prev) {
+        f.classList.remove("on"); f.classList.add("off");
+        if (f.classList.contains("sound")) setSound(f, false);
+        setTimeout(function () { if (nsCur !== k) f.classList.remove("off"); }, 480);
+      } else { f.classList.remove("on", "off"); }
+    });
+    if (nsCap) nsCap.textContent = nsFrames[i].getAttribute("data-label") || "";
+  }
+  if (nsSteps.length) {
+    nsActivate(0);
+    var nsTick = false;
+    function nsPick() {
+      nsTick = false;
+      var line = window.innerHeight * (window.innerWidth <= 900 ? 0.72 : 0.5);
+      var best = 0, bd = Infinity;
+      nsSteps.forEach(function (st, k) {
+        var r = st.getBoundingClientRect();
+        var d = Math.abs((r.top + r.bottom) / 2 - line);
+        if (d < bd) { bd = d; best = k; }
+      });
+      nsActivate(best);
+    }
+    function nsQueue() { if (!nsTick) { nsTick = true; requestAnimationFrame(nsPick); } }
+    window.addEventListener("scroll", nsQueue, { passive: true });
+    window.addEventListener("resize", nsQueue);
+    nsQueue();
+    nsSteps.forEach(function (st) {
+      st.addEventListener("click", function () { st.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: window.innerWidth <= 900 ? "end" : "center" }); });
+    });
+  }
+
+  /* ---- who we are: Read more (same as the homepage founders) ---- */
+  document.querySelectorAll(".fnd-more").forEach(function (btn) {
+    var body = btn.closest(".fnd-body");
+    if (!body) return;
+    var p = body.querySelector("p");
+    function setText() {
+      var label = body.classList.contains("expanded") ? "Read less" : "Read more";
+      btn.childNodes.forEach(function (n) { if (n.nodeType === 3) n.textContent = label + " "; });
+    }
+    setText();
+    function checkOverflow() {
+      if (!p) return;
+      btn.style.display = (p.scrollHeight <= p.clientHeight + 2) ? "none" : "";
+    }
+    requestAnimationFrame(checkOverflow);
+    window.addEventListener("resize", function () { if (!body.classList.contains("expanded")) checkOverflow(); });
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      body.classList.toggle("expanded");
+      btn.setAttribute("aria-expanded", body.classList.contains("expanded") ? "true" : "false");
+      setText();
+    });
+  });
+
+  /* ---- FAQ ---- */
+  document.querySelectorAll(".faq-top").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var item = btn.parentElement;
+      var open = !item.classList.contains("open");
+      document.querySelectorAll(".faq-item.open").forEach(function (o) { o.classList.remove("open"); o.querySelector(".faq-top").setAttribute("aria-expanded", "false"); });
+      item.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+
+  /* ---- VSL, same as the homepage: autoplays muted on load, first click unmutes, later clicks play/pause.
+     YouTube IFrame API on the nocookie host, no YouTube UI except our own progress bar. ---- */
+  (function () {
+    var vsl = document.getElementById("vsl");
+    var trigger = document.getElementById("vsl-trigger");
+    var videoId = q.get("v") || vsl.getAttribute("data-video-id");
+    if (!videoId) return;
+    if (q.get("v")) document.getElementById("vsl-thumb").src = "https://img.youtube.com/vi/" + encodeURIComponent(videoId) + "/maxresdefault.jpg";
+
+    var yt = document.createElement("div");
+    yt.id = "vsl-yt";
+    trigger.insertBefore(yt, trigger.firstChild);
+
+    var overlay = document.createElement("div");
+    overlay.className = "vsl-overlay";
+    vsl.appendChild(overlay);
+
+    var badge = document.createElement("div");
+    badge.className = "vsl-sound hidden";
+    badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>Tap to unmute';
+    vsl.appendChild(badge);
+
+    var prog = document.createElement("div");
+    prog.className = "vsl-prog";
+    prog.innerHTML = '<div class="vsl-prog-bar"></div>';
+    vsl.appendChild(prog);
+
+    var player, started = false, bar = prog.querySelector(".vsl-prog-bar");
+
+    overlay.addEventListener("click", function () {
+      if (!player || !player.getPlayerState) return;
+      if (player.isMuted()) {
+        player.unMute();
+        badge.classList.add("hidden");
+        if (player.getPlayerState() !== YT.PlayerState.PLAYING) player.playVideo();
+        return;
+      }
+      if (player.getPlayerState() === YT.PlayerState.PLAYING) player.pauseVideo();
+      else player.playVideo();
+    });
+
+    prog.addEventListener("click", function (e) {
+      if (!player) return;
+      var r = this.getBoundingClientRect();
+      player.seekTo((e.clientX - r.left) / r.width * player.getDuration(), true);
+    });
+
+    function tick() {
+      if (player && player.getDuration) {
+        var d = player.getDuration(), c = player.getCurrentTime();
+        if (d > 0) bar.style.width = (c / d * 100) + "%";
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* Belt and braces for autoplay. Some browsers refuse the first muted play until the tab is visible or
+       the page has been scrolled, so we ask again on visibility and on scroll into view. If the API script
+       itself never arrives (blocked by an extension), a plain muted autoplaying embed takes its place. */
+    var apiReady = false;
+    function nudge() {
+      if (!player || !player.getPlayerState || started) return;
+      try { player.mute(); player.playVideo(); } catch (e) {}
+    }
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) nudge(); });
+    window.addEventListener("scroll", nudge, { passive: true });
+    var vsio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) nudge(); }); }, { threshold: 0.3 });
+    vsio.observe(vsl);
+    setTimeout(function () {
+      if (apiReady) { nudge(); return; }
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(videoId) + "?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1";
+      f.title = "Vision Clipping | Music Clipping Overview";
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      f.setAttribute("allowfullscreen", "");
+      overlay.remove(); badge.remove(); prog.remove();
+      trigger.classList.add("playing", "started");
+      trigger.replaceWith(f);
+    }, 6000);
+
+    function boot() {
+      apiReady = true;
+      player = new YT.Player("vsl-yt", {
+        host: "https://www.youtube-nocookie.com",
+        videoId: videoId,
+        playerVars: { autoplay: 1, mute: 1, controls: 0, modestbranding: 1, rel: 0, showinfo: 0, iv_load_policy: 3, fs: 0, playsinline: 1, disablekb: 1 },
+        events: {
+          onReady: function (e) { e.target.mute(); e.target.unloadModule("captions"); e.target.unloadModule("cc"); e.target.playVideo(); tick(); setTimeout(nudge, 1500); setTimeout(nudge, 4000); },
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.PLAYING && !started) {
+              started = true;
+              trigger.classList.add("playing", "started");
+              if (player.isMuted()) badge.classList.remove("hidden");
+              player.unloadModule("captions"); player.unloadModule("cc");
+            }
+          }
+        }
+      });
+    }
+    window.onYouTubeIframeAPIReady = boot;
+    var tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  })();
+})();
+</script>
+</body>
+</html>
