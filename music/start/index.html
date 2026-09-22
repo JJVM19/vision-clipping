@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script>
+/* Same as /explainer/: keep a tracked click id, then clean the address bar before paint. */
+(function(){try{
+  var s=window.location.search;
+  if(!/[?&](vx_cid=|utm_)/.test(s))return;
+  var v=new URLSearchParams(s).get("vx_cid");
+  if(v&&/^c_[0-9a-f]{8,32}$/i.test(v)){localStorage.setItem("vx_cid",v);localStorage.setItem("vx_cid_at",String(Date.now()));}
+  var keep=new URLSearchParams();var q=new URLSearchParams(s);
+  ["v"].forEach(function(k){if(q.get(k)!==null)keep.set(k,q.get(k));});
+  var qs=keep.toString();
+  if(window.history&&history.replaceState){history.replaceState(null,"",window.location.pathname+(qs?"?"+qs:"")+window.location.hash);}
+}catch(e){}})();
+</script>
+<title>Get started · Music Content Distribution · Vision Clipping</title>
+<meta name="description" content="Tell us about your music. Two minutes, and we listen to every track before we reply.">
+<link rel="canonical" href="https://vision-clipping.com/music/start/">
+<meta name="robots" content="noindex, follow">
+<!-- vc-icons:start -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96.png">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vision Clipping">
+<meta property="og:url" content="https://vision-clipping.com/music/start/">
+<meta property="og:title" content="Get started | Music Content Distribution | Vision Clipping">
+<meta property="og:description" content="Tell us about your music. Two minutes, and we listen to every track before we reply.">
+<meta property="og:image" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta property="og:image:secure_url" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Music Content Distribution by Vision Clipping">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vision-clipping.com/assets/music/og-music.jpg">
+<meta name="twitter:title" content="Get started | Music Content Distribution | Vision Clipping">
+<meta name="twitter:description" content="Tell us about your music. Two minutes, and we listen to every track before we reply.">
+<!-- vc-icons:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://forms.visionclipping.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,300..500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#070707;
+    --paper:#ffffff;
+    --soft:#f4f4f4;
+    --softer:#fafafa;
+    --ox:#97000e;
+    --ox-deep:#7a000a;
+    --ox-bright:#b40118;
+    --ox-wash:rgba(151,0,14,0.06);
+    --good:#0a7537;
+    --line:rgba(7,7,7,0.08);
+    --line-strong:rgba(7,7,7,0.14);
+    --muted:rgba(7,7,7,0.56);
+    --muted-2:rgba(7,7,7,0.42);
+    --gutter:32px;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-optical-sizing:auto}
+  body{font-size:16px;line-height:1.5;overflow-x:hidden;letter-spacing:-0.005em}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 var(--gutter)}
+  .serif{font-family:'Fraunces',serif;font-weight:340;font-style:italic;letter-spacing:-0.02em;color:var(--ox);display:inline-block;line-height:1;vertical-align:baseline;font-size:1.06em;padding:0 0.02em;text-shadow:0 0 12px rgba(168,0,15,0.16),0 0 24px rgba(168,0,15,0.08)}
+  em{font-family:'Fraunces',serif;font-weight:340;font-style:italic;color:var(--ox);letter-spacing:-0.02em}
+  .skip-link{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:999}
+  .skip-link:focus{left:16px}
+
+  /* ---------- nav ---------- */
+  .nav{position:fixed;top:20px;left:0;right:0;z-index:50;display:flex;justify-content:center;pointer-events:none;padding:0 12px}
+  .nav-inner{pointer-events:auto;display:flex;align-items:center;gap:32px;padding:10px 10px 10px 24px;background:rgba(255,255,255,0.88);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 20px rgba(7,7,7,0.04)}
+  .nav-logo img{height:32px;width:auto}
+  .nav-links{display:flex;gap:26px}
+  .nav-links a{font-size:14px;transition:opacity 0.2s}
+  .nav-links a:hover{opacity:0.6}
+  .nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;transition:background 0.3s,transform 0.3s}
+  .nav-cta:hover{background:var(--ox-bright);transform:translateY(-1px)}
+  .nav-burger{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,0.9);align-items:center;justify-content:center;flex-direction:column;gap:4px}
+  .nav-burger span{display:block;width:16px;height:1.6px;background:var(--ink);border-radius:2px;transition:transform 0.25s,opacity 0.25s}
+  .nav-drawer{position:fixed;inset:0;z-index:180;pointer-events:none;visibility:hidden}
+  .nav-drawer.open{pointer-events:auto;visibility:visible}
+  .nav-drawer-backdrop{position:absolute;inset:0;background:rgba(7,7,7,0.32);opacity:0;transition:opacity 0.25s}
+  .nav-drawer.open .nav-drawer-backdrop{opacity:1}
+  .nav-drawer-panel{position:absolute;top:10px;right:10px;left:10px;background:#fff;border-radius:24px;padding:22px 22px 26px;box-shadow:0 30px 80px rgba(7,7,7,0.18);transform:translateY(-12px);opacity:0;transition:transform 0.28s,opacity 0.28s}
+  .nav-drawer.open .nav-drawer-panel{transform:none;opacity:1}
+  .nav-drawer-panel .row{display:flex;align-items:center;justify-content:space-between}
+  .nav-drawer-panel .row img{height:30px;width:auto}
+  .nav-drawer-close{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  .nav-drawer-links{display:flex;flex-direction:column;margin-top:18px;border-top:1px solid var(--line)}
+  .nav-drawer-links a{padding:15px 0;border-bottom:1px solid var(--line);font-size:18px;font-weight:500}
+  .nav-drawer-cta{margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:999px;background:var(--ox);color:#fff;font-weight:600}
+
+
+  /* ---------- start page ---------- */
+  .start{padding:150px 0 90px;position:relative;overflow:hidden}
+  .start .hero-aurora{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .start .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(7,7,7,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(7,7,7,0.045) 1px,transparent 1px);background-size:128px 128px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 60%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 60%)}
+  .start .wrap{position:relative;z-index:1}
+  .start-head{max-width:720px;margin:0 auto 40px;text-align:center}
+  .eyebrow{font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:18px;display:block}
+  .start h1{font-size:clamp(38px,5vw,64px);line-height:1.04;letter-spacing:-0.035em;font-weight:500;text-wrap:balance}
+  .start h1 .serif{font-size:1.06em}
+  .start-lead{margin-top:18px;font-size:clamp(15px,1.3vw,17px);line-height:1.6;color:var(--muted);text-wrap:balance}
+  .start-form{max-width:960px;margin:0 auto}
+  .start-form iframe{width:100%;height:720px;border:0;border-radius:22px;background:#fff;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 30px 80px rgba(7,7,7,0.12);display:block}
+  .start-note{margin-top:22px;text-align:center;font-size:13.5px;color:var(--muted)}
+  .start-note a{color:var(--ink);font-weight:500;border-bottom:1px solid var(--line-strong)}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);transition:color 0.2s}
+  .back:hover{color:var(--ink)}
+  .back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .foot{background:var(--ink);color:var(--paper);padding:40px 0 24px}
+  .foot-bot{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,0.55);gap:16px;flex-wrap:wrap}
+  .foot-bot img{height:26px;width:auto}
+  @media (max-width:900px){
+    .nav-links{display:none}
+    .nav-inner{gap:14px;padding:8px 8px 8px 18px}
+  }
+  @media (max-width:640px){
+    :root{--gutter:16px}
+    .start{padding:112px 0 56px}
+    .start-head{margin-bottom:26px}
+    .start h1{font-size:clamp(32px,9vw,44px)}
+    .start-form iframe{height:600px;border-radius:16px}
+    .foot-bot{flex-direction:column;text-align:center}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script src="/assets/attribution.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#top">Skip to content</a>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/music/" aria-label="Vision Clipping"><img src="/assets/wordmark-dark.webp" alt="Vision Clipping" width="2345" height="639"></a>
+    <div class="nav-links">
+      <a class="back" href="/music/"><svg viewBox="0 0 14 14"><path d="M11 7H3M6 4L3 7l3 3"/></svg>Back to the offer</a>
+    </div>
+    <a class="nav-cta" href="/music/#packages">Packages</a>
+  </div>
+</nav>
+
+<main id="top">
+<section class="start">
+  <div class="hero-aurora" aria-hidden="true"><div class="hero-grid"></div></div>
+  <div class="wrap">
+    <div class="start-head">
+      <span class="eyebrow">Get started</span>
+      <h1>Tell us about <span class="serif">your music.</span></h1>
+      <p class="start-lead">Two minutes. Your details, where you are now, what you want from it, and a link so we can listen. We reply within one working day.</p>
+    </div>
+    <!-- The qualifying form lives on forms.visionclipping.com (slug "music"). src=music names this page as the way in,
+         so submissions from the music offer are counted on their own in Home. The tracked click id rides along when there is one. -->
+    <div class="start-form">
+      <iframe id="vc-form-music" title="Vision Clipping | Get started" allow="camera; microphone; fullscreen"></iframe>
+    </div>
+    <p class="start-note">Prefer to talk first? <a href="mailto:contact@J-visionmedia.com">contact@J-visionmedia.com</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-bot"><img src="/assets/wordmark-light.webp" alt="Vision Clipping"><div>© 2026 Vision Clipping · <a href="https://vision-clipping.com/privacy-policy/">Privacy</a></div></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var FORM = "https://forms.visionclipping.com/music";
+  function clickId() {
+    try {
+      var at = Number(localStorage.getItem("vx_cid_at") || 0);
+      var cid = localStorage.getItem("vx_cid");
+      if (cid && at && Date.now() - at < 30 * 24 * 3600 * 1000) return cid;
+    } catch (e) {}
+    return null;
+  }
+  var f = document.getElementById("vc-form-music");
+  var cid = clickId();
+  f.src = FORM + "?src=music" + (cid ? "&vx_cid=" + encodeURIComponent(cid) : "");
+  window.addEventListener("message", function (e) {
+    if (!e.data || e.origin !== "https://forms.visionclipping.com") return;
+    if (e.data.type === "vision-form-height" && typeof e.data.height === "number") {
+      f.style.height = Math.max(400, e.data.height) + "px";
+    }
+  });
+})();
+</script>
+</body>
+</html>
