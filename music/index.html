@@ -143,7 +143,7 @@
   .hero-press-logos img{height:30px;width:auto;max-width:200px;object-fit:contain;filter:grayscale(1);opacity:0.55;transition:opacity 0.25s}
   .hero-press-logos img:hover{opacity:0.92}
   .hero-press-logos img[alt="The New York Times"]{height:24px}
-  .hero-press-logos img[alt="NPR"]{height:22px;max-width:140px}
+  .hero-press-logos img[alt="NPR"]{height:26px;max-width:120px;filter:grayscale(1) brightness(0);opacity:0.5}
   .hero-press-logos img[alt="Forbes"]{height:24px;filter:grayscale(1) brightness(0);opacity:0.51}
 
   /* ---------- section scaffolding ---------- */
@@ -206,6 +206,12 @@
   .vsl-prog{position:absolute;bottom:0;left:0;right:0;height:4px;z-index:4;background:rgba(255,255,255,0.2);cursor:pointer;transition:height 0.15s}
   .vsl-prog:hover{height:6px}
   .vsl-prog-bar{height:100%;background:#fff;border-radius:0 1px 1px 0;width:0;pointer-events:none}
+  .vsl-fs{position:absolute;right:14px;bottom:16px;z-index:6;width:40px;height:40px;border-radius:50%;background:rgba(7,7,7,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;transition:background 0.2s,transform 0.2s}
+  .vsl-fs svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .vsl-fs .exit{display:none}
+  .vsl.is-fs .vsl-fs .exit{display:block}
+  .vsl.is-fs .vsl-fs .enter{display:none}
+  .vsl:fullscreen,.vsl:-webkit-full-screen{width:100vw;height:100vh;max-width:none;aspect-ratio:auto;border-radius:0;box-shadow:none;background:#000}
 
   /* ---------- logos ---------- */
   .logos{padding:80px 0 60px;overflow:hidden;position:relative}
@@ -231,7 +237,7 @@
   .clip-cap{margin-top:14px;text-align:center;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink)}
   .clip-frame{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:#0b0b0b;cursor:pointer;box-shadow:0 18px 40px rgba(7,7,7,0.12);transition:box-shadow 0.4s}
   .clip-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;background:#0b0b0b;transition:transform 0.65s cubic-bezier(0.22,1,0.36,1)}
-  .clip-frame:hover video{transform:scale(1.04)}
+
   .clip-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,7,0.28),transparent 45%);pointer-events:none;z-index:1}
   .clip-frame.sound{box-shadow:0 26px 60px rgba(7,7,7,0.2)}
   .clip-frame .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,0.6);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;background:linear-gradient(160deg,#141414,#2a1013);z-index:2}
@@ -240,8 +246,7 @@
   .clip-frame .snd{position:absolute;top:50%;left:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.85);background:rgba(7,7,7,0.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),opacity 0.3s}
   .clip-frame .snd svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .clip-frame .snd .on{display:none}
-  .clip-frame:hover .snd{transform:scale(1.08)}
-  .clip-frame.sound .snd{opacity:0;transform:scale(0.9)}
+
   .clip-frame.sound:hover .snd{opacity:1;transform:none}
   .clip-frame.sound .snd .on{display:block}
   .clip-frame.sound .snd .off{display:none}
@@ -251,7 +256,12 @@
   .reel-nav{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:22px}
   .reel-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;transition:background 0.2s,transform 0.2s}
   .reel-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .reel-btn:hover{background:var(--ox);transform:translateY(-1px)}
+  @media (hover:hover) and (pointer:fine){
+    .clip-frame:hover video{transform:scale(1.04)}
+    .clip-frame:hover .snd{transform:scale(1.04)}
+    .reel-btn:hover{background:var(--ox);transform:translateY(-1px)}
+    .vsl-fs:hover{background:var(--ox);transform:scale(1.06)}
+  }
   .reel-progress{width:min(360px,40vw);height:4px;border-radius:99px;background:rgba(7,7,7,0.12);overflow:hidden}
   .reel-progress i{display:block;height:100%;width:25%;border-radius:99px;background:var(--ink);transition:width 0.35s cubic-bezier(0.22,1,0.36,1)}
 
@@ -292,6 +302,16 @@
   .ns-phone .clip-frame.off{display:block;opacity:0;z-index:1}
   .ns-phone .clip-frame:hover video{transform:none}
   .ns-cap{margin-top:16px;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-align:center}
+  /* ---------- niches on phones: one card per niche, swipe through them ---------- */
+  .ns-m{display:none}
+  .ns-m-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;padding:6px var(--gutter) 14px;margin:0 calc(-1 * var(--gutter))}
+  .ns-m-track::-webkit-scrollbar{display:none}
+  .ns-m-card{flex:0 0 min(68vw,300px);scroll-snap-align:center;display:flex;flex-direction:column}
+  .ns-m-card .clip-frame{border-radius:18px}
+  .ns-m-body{padding:12px 2px 0}
+  .ns-m-body .num{font-family:'Fraunces',serif;font-style:italic;font-weight:340;font-size:15px;color:var(--ox);letter-spacing:-0.02em}
+  .ns-m-body b{display:block;margin-top:2px;font-size:19px;font-weight:600;letter-spacing:-0.02em;line-height:1.15;color:var(--ink)}
+  .ns-m-body span.d{display:block;margin-top:5px;font-size:13.5px;line-height:1.45;color:var(--muted)}
   /* on the sticky phone the badge is the VSL's pill: bottom left, says what a tap does */
   .ns-phone .clip-frame .snd{top:auto;left:16px;bottom:18px;width:auto;height:38px;margin:0;padding:0 16px 0 12px;border-radius:999px;border:0;background:rgba(7,7,7,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);gap:8px;font-size:13px;font-weight:600}
   .ns-phone .clip-frame .snd svg{width:16px;height:16px}
@@ -476,12 +496,8 @@
     .pp-row b{font-size:19px}
     .fnd-body{padding:22px}
     .fnd-body h3{font-size:24px}
-    .ns{grid-template-columns:1fr;gap:0;max-width:560px}
-    #niches .sec-head{margin-bottom:0}
-    .ns-stage{order:-1;position:sticky;top:0;z-index:5;padding:80px 0 14px;background:var(--paper);box-shadow:0 18px 22px -18px rgba(7,7,7,0.18);width:calc(100% + 2 * var(--gutter));margin:0 calc(-1 * var(--gutter))}
-    .ns-phone{width:min(42vw,196px);border-radius:20px}
-    .ns-cap{margin-top:10px;font-size:13.5px}
-    .ns-steps{padding:6px 0 26vh}
+    .ns{display:none}
+    .ns-m{display:block}
     .foot-top{grid-template-columns:1fr 1fr}
   }
   @media (max-width:640px){
@@ -493,6 +509,7 @@
     .finalcta .hero-orb{opacity:0.22}
     .glow-cta::before{inset:-6px;opacity:0.5;filter:blur(18px);animation:none}
     .hero h1{font-size:clamp(36px,10vw,50px);line-height:1.06}
+    .hero h1 .ul svg{bottom:-0.09em}
     .hero-proof{font-size:13px;padding:6px 14px 6px 6px;margin-bottom:22px;gap:10px}
     .hero-avatars img{width:28px;height:28px}
     .hero-lead{font-size:15.5px;margin-top:18px}
@@ -504,7 +521,7 @@
     .hero-press-lbl{font-size:10px;letter-spacing:0.16em}
     .hero-press-logos{gap:28px}
     .hero-press-logos img{height:20px;max-width:120px}
-    .hero-press-logos img[alt="NPR"]{height:16px}
+    .hero-press-logos img[alt="NPR"]{height:21px}
     .hero-press-logos img[alt="Forbes"],.hero-press-logos img[alt="The New York Times"]{height:18px}
     .vsl-wrap{padding:26px 0 10px}
     .vsl-sound{left:12px;bottom:14px;padding:9px 14px;font-size:12.5px}
@@ -530,12 +547,6 @@
     .disc{width:100px;height:100px}
     .wave{height:64px}
     .why-state{font-size:18px;margin-top:36px}
-    .ns-step{grid-template-columns:34px 1fr;gap:12px;padding:16px 0;opacity:0.42;transition:opacity 0.3s}
-    .ns-step .num{font-size:17px;padding-top:3px}
-    .ns-step b{font-size:21px}
-    .ns-step .ns-d{font-size:13.5px;max-height:none;opacity:1;margin-top:6px;transition:none}
-    .ns-step.on{transform:none;opacity:1}
-    .ns-step.on .ns-d{margin-top:6px}
     /* Who we are: same swipe row as the homepage founders */
     .team-grid{display:flex;flex-direction:row;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 16px 24px;margin:0 -16px;scrollbar-width:none}
     .team-grid::-webkit-scrollbar{display:none}
@@ -695,7 +706,7 @@
         <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy"></div>
         <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy"></div>
-        <div class="lg wide sz-075"><img src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy"></div>
       </div>
       <div class="logos-cycle" aria-hidden="true">
         <div class="lg"><img src="/uploads/logos/logo-01.webp" alt="" loading="lazy"></div>
@@ -710,7 +721,7 @@
         <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="" loading="lazy"></div>
         <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="" loading="lazy"></div>
-        <div class="lg wide sz-075"><img src="/uploads/logos/logo-npr.webp" alt="" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-npr.webp" alt="" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -813,7 +824,7 @@
     <div class="sec-head fade-in">
       <span class="eyebrow">Where your music goes</span>
       <h2>The seven niches <em>we run.</em></h2>
-      <p class="sec-lead">Which pages your music goes on is agreed with you before anything is made. Scroll through to see an example of each.</p>
+      <p class="sec-lead">Which pages your music goes on is agreed with you before anything is made. Here is an example of each.</p>
     </div>
     <div class="ns" id="ns">
       <div class="ns-steps" id="ns-steps">
@@ -836,6 +847,45 @@
           <div class="clip-frame" data-src="north-west" data-label="Pop culture edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
         </div>
         <div class="ns-cap" id="ns-cap">Football edit</div>
+      </div>
+    </div>
+    <!-- Phones get the same seven niches as a swipe carousel: the scroll story needs a second
+         column to work, and a sticky clip over a moving list reads badly on a small screen. -->
+    <div class="ns-m">
+      <div class="ns-m-track" id="ns-m-track">
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="mbappe" data-label="Football edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">01</span><b>Football edits</b><span class="d">Your sound over the goals, skills and moments the football pages post every day.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="casper-tng" data-label="News and culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">02</span><b>News and culture</b><span class="d">Your sound behind the stories people are already talking about.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="basketball" data-label="Basketball edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">03</span><b>Basketball edits</b><span class="d">Highlight edits cut to the hook of your song.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="military" data-label="Military edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">04</span><b>Military and fight edits</b><span class="d">High intensity edits where a hard song carries the whole clip.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">05</span><b>Meme and dancing comps</b><span class="d">Trend led dance and meme compilations, cut to your hook.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="top-5-artists" data-label="Ranked format"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">06</span><b>Ranked formats</b><span class="d">Tier lists and rankings that hold attention to the end, with your sound underneath.</span></div>
+        </article>
+        <article class="ns-m-card">
+          <div class="clip-frame" data-src="north-west" data-label="Pop culture edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="ns-m-body"><span class="num">07</span><b>Pop culture edits</b><span class="d">Celebrity, film and TV moments people rewatch, set to your music.</span></div>
+        </article>
+      </div>
+      <div class="reel-nav">
+        <button class="reel-btn" type="button" data-ns-dir="-1" aria-label="Previous niche"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div class="reel-progress" aria-hidden="true"><i id="ns-m-fill"></i></div>
+        <button class="reel-btn" type="button" data-ns-dir="1" aria-label="Next niche"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
       </div>
     </div>
   </div>
@@ -1306,6 +1356,30 @@
     vio.observe(frame);
   });
 
+  /* ---- niches on phones: swipe carousel, arrows move one card ---- */
+  (function () {
+    var track = document.getElementById("ns-m-track");
+    if (!track) return;
+    var cards = Array.prototype.slice.call(track.children);
+    var fill = document.getElementById("ns-m-fill");
+    function current() {
+      var r = track.getBoundingClientRect(), mid = r.left + r.width / 2, best = 0, bd = Infinity;
+      cards.forEach(function (c, i) { var q = c.getBoundingClientRect(); var d = Math.abs((q.left + q.right) / 2 - mid); if (d < bd) { bd = d; best = i; } });
+      return best;
+    }
+    function sync() { if (fill) fill.style.width = ((current() + 1) / cards.length * 100).toFixed(2) + "%"; }
+    function go(i) {
+      var c = cards[Math.max(0, Math.min(cards.length - 1, i))];
+      track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: reduceMotion ? "auto" : "smooth" });
+    }
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    document.querySelectorAll("[data-ns-dir]").forEach(function (b) {
+      b.addEventListener("click", function () { go(current() + Number(b.getAttribute("data-ns-dir"))); });
+    });
+    sync();
+  })();
+
   /* ---- example edits: carousel arrows + drag to scroll (mouse) ---- */
   var reel = reelEl;
   if (reel && REEL_N) {
@@ -1321,13 +1395,21 @@
       fill.style.width = ((idx + 1) / REEL_N * 100).toFixed(2) + "%";
     };
     /* wrap once a scroll has settled: scrollend where it exists, a quiet 160 ms elsewhere */
-    var wrapping = false;
+    var wrapping = false, snapT = null;
+    function withoutSnap(move) {
+      reel.style.scrollSnapType = "none";
+      void reel.offsetWidth;            /* flush the style change before touching scrollLeft */
+      move();
+      clearTimeout(snapT);
+      snapT = setTimeout(function () { reel.style.scrollSnapType = ""; }, 520);
+    }
     var wrap = function () {
       var w = setWidth(); if (!w || wrapping) return;
       if (reel.querySelector(".clip-frame.sound")) return;
-      var x = reel.scrollLeft;
-      if (x < w * 0.5) { wrapping = true; reel.scrollLeft = x + w; }
-      else if (x > w * 1.5) { wrapping = true; reel.scrollLeft = x - w; }
+      var x = reel.scrollLeft, dir = 0;
+      if (x < w * 0.5) dir = 1; else if (x > w * 1.5) dir = -1; else return;
+      wrapping = true;
+      withoutSnap(function () { reel.scrollLeft = x + dir * w; });
       setTimeout(function () { wrapping = false; }, 0);
     };
     var settleT = null;
@@ -1342,15 +1424,11 @@
     startMiddle();
     window.addEventListener("load", startMiddle);
     document.querySelectorAll(".reel-btn").forEach(function (b) {
+      /* Just scroll. The wrap runs once the row settles, so an arrow never has to jump a set
+         itself: doing both at once let the settle timer fire mid animation and cancel the glide. */
       b.addEventListener("click", function () {
-        var w = setWidth();
         var n = Math.max(1, Math.floor(reel.clientWidth / step()) - 1);
-        var delta = Number(b.getAttribute("data-dir")) * step() * n;
-        var target = reel.scrollLeft + delta;
-        /* jump a set first if the target would leave the safe middle, then glide */
-        if (target > w * 1.5) { reel.scrollLeft -= w; target -= w; }
-        else if (target < w * 0.5) { reel.scrollLeft += w; target += w; }
-        reel.scrollTo({ left: target, behavior: reduceMotion ? "auto" : "smooth" });
+        reel.scrollBy({ left: Number(b.getAttribute("data-dir")) * step() * n, behavior: reduceMotion ? "auto" : "smooth" });
       });
     });
     var down = false, sx = 0, sl = 0, moved = 0;
@@ -1401,11 +1479,11 @@
   if (nsSteps.length) {
     nsActivate(0);
     var nsTick = false;
-    var nsStage = document.querySelector(".ns-stage");
     function nsPick() {
       nsTick = false;
+      if (!nsSteps[0].offsetParent) return;   /* phones show the carousel instead */
       var mobile = window.innerWidth <= 900;
-      var line = mobile ? nsStage.getBoundingClientRect().bottom + 36 : window.innerHeight * 0.5;
+      var line = window.innerHeight * 0.5;
       var first = nsSteps[0].getBoundingClientRect(), last = nsSteps[nsSteps.length - 1].getBoundingClientRect();
       var best = -1;
       if (line <= first.top) best = 0;
@@ -1420,7 +1498,7 @@
     nsSteps.forEach(function (st) {
       st.addEventListener("click", function () {
         var r = st.getBoundingClientRect();
-        var line = window.innerWidth <= 900 ? nsStage.getBoundingClientRect().bottom + 36 : window.innerHeight * 0.5;
+        var line = window.innerHeight * 0.5;
         window.scrollBy({ top: (r.top + 24) - line, behavior: reduceMotion ? "auto" : "smooth" });
       });
     });
@@ -1487,6 +1565,31 @@
     prog.className = "vsl-prog";
     prog.innerHTML = '<div class="vsl-prog-bar"></div>';
     vsl.appendChild(prog);
+
+    /* Fullscreen. The whole player goes fullscreen, not just the YouTube frame, so the progress
+       bar and the sound badge come with it. iOS Safari will not fullscreen a div, so it falls back
+       to the frame and then to YouTube itself. */
+    var fsBtn = document.createElement("button");
+    fsBtn.type = "button";
+    fsBtn.className = "vsl-fs";
+    fsBtn.setAttribute("aria-label", "Full screen");
+    fsBtn.innerHTML = '<svg class="enter" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>' +
+      '<svg class="exit" viewBox="0 0 24 24"><path d="M3 8h5V3M21 8h-5V3M3 16h5v5M21 16h-5v5"/></svg>';
+    vsl.appendChild(fsBtn);
+    function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+    fsBtn.addEventListener("click", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (fsElement()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+      var req = vsl.requestFullscreen || vsl.webkitRequestFullscreen;
+      if (req) { var r = req.call(vsl); if (r && r.catch) r.catch(function () {}); return; }
+      var f = player && player.getIframe && player.getIframe();
+      var freq = f && (f.requestFullscreen || f.webkitRequestFullscreen || f.webkitEnterFullscreen);
+      if (freq) { freq.call(f); return; }
+      window.open("https://www.youtube.com/watch?v=" + encodeURIComponent(videoId), "_blank", "noopener");
+    });
+    ["fullscreenchange", "webkitfullscreenchange"].forEach(function (ev) {
+      document.addEventListener(ev, function () { vsl.classList.toggle("is-fs", fsElement() === vsl); });
+    });
 
     var player, started = false, bar = prog.querySelector(".vsl-prog-bar");
 
