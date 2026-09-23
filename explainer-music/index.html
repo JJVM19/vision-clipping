@@ -30,7 +30,7 @@
 <link rel="shortcut icon" href="/assets/icons/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#ffffff">
-<meta name="vc-build" content="20260923T134159Z">
+<meta name="vc-build" content="20260923T135018Z">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vision Clipping">
 <meta property="og:url" content="https://vision-clipping.com/explainer-music/">
@@ -56,8 +56,8 @@
   :root{
     --ink:#070707;
     --paper:#ffffff;
-    --ox:#4f0006;
-    --ox-bright:#7a0009;
+    --ox:#97000e;
+    --ox-bright:#b40118;
     --line:rgba(7,7,7,0.08);
     --muted:rgba(7,7,7,0.56);
     --gutter:16px;
@@ -94,11 +94,12 @@
   .player .empty b{color:#fff;font-weight:600;font-size:16px}
   .player .empty code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:rgba(255,255,255,0.6)}
 
-  .after{margin-top:clamp(22px,4vh,36px);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+  .after{margin-top:clamp(22px,4vh,36px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;text-align:center}
+  .after .hint{flex-basis:100%}
   .glow-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:20px 40px;background:var(--ox);color:var(--paper);border-radius:999px;font-size:15px;font-weight:600;letter-spacing:-0.005em;transition:all 0.3s;z-index:2;overflow:hidden;isolation:isolate}
   .glow-cta::before{content:"";position:absolute;inset:-12px;border-radius:999px;background:radial-gradient(ellipse at center,var(--ox) 0%,transparent 65%);opacity:0.8;filter:blur(28px);z-index:-2;animation:glow 2.6s ease-in-out infinite}
   @keyframes glow{0%,100%{opacity:0.6;filter:blur(24px)}50%{opacity:1;filter:blur(40px)}}
-  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(79,0,6,0.45)}
+  .glow-cta:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 18px 50px rgba(151,0,14,0.42)}
   .glow-cta svg{width:16px;height:16px;transition:transform 0.3s}
   .glow-cta:hover svg{transform:translateX(4px)}
   .deck{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 24px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:14.5px;font-weight:600;letter-spacing:-0.005em;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 10px 24px rgba(7,7,7,0.06);transition:transform 0.25s ease,box-shadow 0.3s ease,border-color 0.25s ease}
@@ -129,7 +130,10 @@
     body.form-open .after{margin-bottom:0}
     .player{border-radius:14px;box-shadow:0 18px 48px rgba(7,7,7,0.16)}
     .after{margin-top:20px}
-    .glow-cta{width:100%;padding:17px 24px;font-size:15px}
+    .after{flex-direction:column;gap:10px}
+    .glow-cta{width:100%;padding:17px 24px;font-size:15px;order:1}
+    .deck{width:100%;order:2}
+    .after .hint{order:3}
     .booking iframe{height:560px;border-radius:14px}
     .foot{padding:28px 0 calc(20px + env(safe-area-inset-bottom))}
   }
@@ -159,14 +163,14 @@
   </div>
 
   <div class="after">
-    <button class="glow-cta" id="cta" type="button">
-      Get started
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </button>
     <a class="deck" href="/assets/music/Vision-Clipping-Music-Content-Distribution-v2.pdf" target="_blank" rel="noopener">
       Download the overview
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v9M4.5 7.5L8 11l3.5-3.5M3 14h10"/></svg>
     </a>
+    <button class="glow-cta" id="cta" type="button">
+      Get started
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
     <p class="hint">Tell us about your music and pick a time to talk.</p>
   </div>
 
