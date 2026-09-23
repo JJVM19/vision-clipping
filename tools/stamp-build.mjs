@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
-const PAGES = ["index.html", "music/index.html", "music/start/index.html"];
+const PAGES = ["index.html", "music/index.html", "music/start/index.html", "explainer-music/index.html"];
 const id = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
 
 fs.writeFileSync(path.join(root, "build.txt"), id + "\n");
