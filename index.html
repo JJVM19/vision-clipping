@@ -140,7 +140,7 @@
 <link rel="preload" as="image" type="image/webp" href="uploads/avatars/iman-gadzhi.webp">
 <link rel="preload" as="image" type="image/webp" href="uploads/logos/logo-forbes.webp">
 <link rel="preload" as="image" type="image/webp" href="uploads/logos/logo-nyt.webp">
-<link rel="preload" as="image" type="image/webp" href="uploads/logos/logo-npr.webp">
+<link rel="preload" as="image" type="image/webp" href="uploads/logos/logo-npr-2026.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://img.youtube.com">
@@ -350,6 +350,13 @@
   .vsl-prog{position:absolute;bottom:0;left:0;right:0;height:4px;z-index:4;background:rgba(255,255,255,0.2);cursor:pointer;transition:height 0.15s}
   .vsl-prog:hover{height:6px}
   .vsl-prog-bar{height:100%;background:#fff;border-radius:0 1px 1px 0;width:0;pointer-events:none}
+  .vsl-fs{position:absolute;right:14px;bottom:16px;z-index:6;width:40px;height:40px;border-radius:50%;background:rgba(7,7,7,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;transition:background 0.2s,transform 0.2s}
+  .vsl-fs svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .vsl-fs .exit{display:none}
+  .vsl.is-fs .vsl-fs .exit{display:block}
+  .vsl.is-fs .vsl-fs .enter{display:none}
+  .vsl:fullscreen,.vsl:-webkit-full-screen{width:100vw;height:100vh;max-width:none;aspect-ratio:auto;border-radius:0;box-shadow:none;background:#000}
+  @media (hover:hover) and (pointer:fine){.vsl-fs:hover{background:var(--ox);transform:scale(1.06)}}
 
   /* GLOWING CTA BUTTON, oxblood + shimmer */
   .cta-block{display:flex;flex-direction:column;align-items:center;margin:48px 0 0;padding:0 32px}
@@ -1934,7 +1941,7 @@
       <div class="hero-press-logos">
         <img decoding="async" src="uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy">
         <img decoding="async" src="uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy">
-        <img decoding="async" src="uploads/logos/logo-npr.webp" alt="NPR" loading="lazy">
+        <img decoding="async" src="uploads/logos/logo-npr-2026.webp" alt="NPR" loading="lazy">
       </div>
     </div>
   </div>
@@ -1972,7 +1979,7 @@
         <div class="lg sz-120"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img decoding="async" src="uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy"></div>
         <div class="lg tall wide"><img decoding="async" src="uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy"></div>
-        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr.webp" alt="NPR" loading="lazy"></div>
+        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr-2026.webp" alt="NPR" loading="lazy"></div>
       </div>
       <!-- duplicate for seamless infinite loop -->
       <div class="logos-cycle" aria-hidden="true">
@@ -1988,7 +1995,7 @@
         <div class="lg sz-120"><img decoding="async" src="uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img decoding="async" src="uploads/logos/logo-forbes.webp" alt="" loading="lazy"></div>
         <div class="lg tall wide"><img decoding="async" src="uploads/logos/logo-nyt.webp" alt="" loading="lazy"></div>
-        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr.webp" alt="" loading="lazy"></div>
+        <div class="lg wide keep-tone"><img decoding="async" src="uploads/logos/logo-npr-2026.webp" alt="" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -2714,6 +2721,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   prog.className = 'vsl-prog';
   prog.innerHTML = '<div class="vsl-prog-bar"></div>';
   vsl.appendChild(prog);
+
+  /* Fullscreen. The whole player goes fullscreen so the progress bar and the sound badge come with
+     it. iOS Safari will not fullscreen a div, so it falls back to the frame and then to YouTube. */
+  var fsBtn = document.createElement('button');
+  fsBtn.type = 'button';
+  fsBtn.className = 'vsl-fs';
+  fsBtn.setAttribute('aria-label', 'Full screen');
+  fsBtn.innerHTML = '<svg class="enter" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>' +
+    '<svg class="exit" viewBox="0 0 24 24"><path d="M3 8h5V3M21 8h-5V3M3 16h5v5M21 16h-5v5"/></svg>';
+  vsl.appendChild(fsBtn);
+  function fsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  fsBtn.addEventListener('click', function(e){
+    e.preventDefault(); e.stopPropagation();
+    if(fsElement()){ (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+    var req = vsl.requestFullscreen || vsl.webkitRequestFullscreen;
+    if(req){ var r = req.call(vsl); if(r && r.catch) r.catch(function(){}); return; }
+    var f = player && player.getIframe && player.getIframe();
+    var freq = f && (f.requestFullscreen || f.webkitRequestFullscreen || f.webkitEnterFullscreen);
+    if(freq){ freq.call(f); return; }
+    window.open('https://www.youtube.com/watch?v=AwLxrRrYye8', '_blank', 'noopener');
+  });
+  ['fullscreenchange','webkitfullscreenchange'].forEach(function(ev){
+    document.addEventListener(ev, function(){ vsl.classList.toggle('is-fs', fsElement() === vsl); });
+  });
 
   var player, started = false, bar = prog.querySelector('.vsl-prog-bar');
 

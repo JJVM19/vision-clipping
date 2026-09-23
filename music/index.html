@@ -177,7 +177,7 @@
   .hero h1 .serif{font-size:1.08em;padding-right:0.06em}
   /* Hand drawn oxblood underline under the serif line */
   .ul{position:relative;display:inline-block}
-  .ul svg{position:absolute;left:0.02em;right:0.08em;bottom:-0.14em;width:calc(100% - 0.1em);height:0.2em;overflow:visible;pointer-events:none}
+  .ul svg{position:absolute;left:0.02em;right:0.08em;bottom:-0.08em;width:calc(100% - 0.1em);height:0.2em;overflow:visible;pointer-events:none}
   .ul svg path{fill:none;stroke:var(--ox);stroke-width:4.5;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;opacity:0.92}
   @keyframes draw{to{stroke-dashoffset:0}}
   /* underline inside a section heading: a touch bigger, and it draws when the heading reveals */
@@ -243,7 +243,8 @@
   .clip-frame .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,0.6);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;background:linear-gradient(160deg,#141414,#2a1013);z-index:2}
   .clip-frame .ph .pl{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center}
   .clip-frame .ph .pl svg{width:16px;height:16px;fill:#fff;margin-left:2px}
-  .clip-frame .snd{position:absolute;top:50%;left:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.85);background:rgba(7,7,7,0.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transition:transform 0.3s cubic-bezier(0.22,1,0.36,1),opacity 0.3s}
+  .clip-frame .snd{position:absolute;top:50%;left:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.85);background:rgba(7,7,7,0.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transition:opacity 0.5s ease,transform 0.5s cubic-bezier(0.22,1,0.36,1),background 0.3s}
+  .clip-frame.sound .snd{opacity:0;transform:scale(0.82)}
   .clip-frame .snd svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .clip-frame .snd .on{display:none}
 
@@ -259,6 +260,7 @@
   @media (hover:hover) and (pointer:fine){
     .clip-frame:hover video{transform:scale(1.04)}
     .clip-frame:hover .snd{transform:scale(1.04)}
+    .clip-frame.sound:hover .snd{opacity:1;transform:none}
     .reel-btn:hover{background:var(--ox);transform:translateY(-1px)}
     .vsl-fs:hover{background:var(--ox);transform:scale(1.06)}
   }
@@ -285,7 +287,7 @@
 
   /* ---------- niches: scroll story (steps left, one sticky phone right) ---------- */
   .ns{display:grid;grid-template-columns:1fr 340px;gap:88px;max-width:1040px;margin:0 auto}
-  .ns-steps{display:flex;flex-direction:column;padding:6vh 0 18vh}
+  .ns-steps{display:flex;flex-direction:column;padding:30vh 0 32vh}
   .ns-step{display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:start;text-align:left;width:100%;padding:34px 0;border-top:1px solid var(--line);opacity:0.36;transition:opacity 0.45s,transform 0.55s cubic-bezier(0.22,1,0.36,1)}
   .ns-step:last-child{border-bottom:1px solid var(--line)}
   .ns-step .num{font-family:'Fraunces',serif;font-style:italic;font-weight:340;font-size:22px;color:var(--ox);letter-spacing:-0.02em;padding-top:7px;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1)}
@@ -295,7 +297,7 @@
   .ns-step.on .num{transform:translateX(-4px)}
   .ns-step.on b{color:var(--ox)}
   .ns-step.on .ns-d{max-height:120px;opacity:1;margin-top:10px}
-  .ns-stage{position:sticky;top:max(104px,calc(50vh - 290px));align-self:start;display:flex;flex-direction:column;align-items:center}
+  .ns-stage{position:sticky;top:max(96px,calc(50vh - 300px));align-self:start;display:flex;flex-direction:column;align-items:center}
   .ns-phone{position:relative;width:340px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;background:#0b0b0b;box-shadow:0 40px 90px rgba(7,7,7,0.22)}
   .ns-phone .clip-frame{position:absolute;inset:0;border-radius:0;box-shadow:none;display:none;opacity:0;transition:opacity 0.45s ease}
   .ns-phone .clip-frame.on{display:block;opacity:1;z-index:2}
@@ -317,7 +319,7 @@
   .ns-phone .clip-frame .snd svg{width:16px;height:16px}
   .ns-phone .clip-frame .snd::after{content:"Tap to unmute"}
   .ns-phone .clip-frame.sound .snd::after{content:"Sound on"}
-  .ns-phone .clip-frame.sound .snd{opacity:1;transform:none;background:var(--ox)}
+  .ns-phone .clip-frame.sound .snd{background:var(--ox)}
   .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:600;background:rgba(7,7,7,0.06);color:var(--muted);white-space:nowrap}
   .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(7,7,7,0.3)}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(10,117,55,0.14)}50%{box-shadow:0 0 0 7px rgba(10,117,55,0.06)}}
@@ -669,7 +671,7 @@
       <div class="hero-press-logos">
         <img decoding="async" src="/uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy">
         <img decoding="async" src="/uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy">
-        <img decoding="async" src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy">
+        <img decoding="async" src="/uploads/logos/logo-npr-2026.webp" alt="NPR" loading="lazy">
       </div>
     </div>
   </div>
@@ -706,7 +708,7 @@
         <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="Forbes" loading="lazy"></div>
         <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="The New York Times" loading="lazy"></div>
-        <div class="lg"><img src="/uploads/logos/logo-npr.webp" alt="NPR" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-npr-2026.webp" alt="NPR" loading="lazy"></div>
       </div>
       <div class="logos-cycle" aria-hidden="true">
         <div class="lg"><img src="/uploads/logos/logo-01.webp" alt="" loading="lazy"></div>
@@ -721,7 +723,7 @@
         <div class="lg sz-120"><img src="/uploads/logos/logo-10.webp" alt="" loading="lazy"></div>
         <div class="lg wide sz-075"><img src="/uploads/logos/logo-forbes.webp" alt="" loading="lazy"></div>
         <div class="lg wide"><img src="/uploads/logos/logo-nyt.webp" alt="" loading="lazy"></div>
-        <div class="lg"><img src="/uploads/logos/logo-npr.webp" alt="" loading="lazy"></div>
+        <div class="lg"><img src="/uploads/logos/logo-npr-2026.webp" alt="" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -842,7 +844,7 @@
           <div class="clip-frame" data-src="casper-tng" data-label="News and culture"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="basketball" data-label="Basketball edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="military" data-label="Military edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
-          <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="nemzzz-dance-comp" data-label="Dance comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="top-5-artists" data-label="Ranked format"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="clip-frame" data-src="north-west" data-label="Pop culture edit"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
         </div>
@@ -870,7 +872,7 @@
           <div class="ns-m-body"><span class="num">04</span><b>Military and fight edits</b><span class="d">High intensity edits where a hard song carries the whole clip.</span></div>
         </article>
         <article class="ns-m-card">
-          <div class="clip-frame" data-src="meme-comp" data-label="Meme comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
+          <div class="clip-frame" data-src="nemzzz-dance-comp" data-label="Dance comp"><div class="ph"><span class="pl"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>Clip being cut</div></div>
           <div class="ns-m-body"><span class="num">05</span><b>Meme and dancing comps</b><span class="d">Trend led dance and meme compilations, cut to your hook.</span></div>
         </article>
         <article class="ns-m-card">
@@ -896,7 +898,7 @@
   <div class="wrap">
     <div class="sec-head fade-in">
       <span class="eyebrow">Packages and pricing</span>
-      <h2>Four packages. <em>From a test to a takeover.</em></h2>
+      <h2>Four packages.<br><em>From a test to a takeover.</em></h2>
       <p class="sec-lead">Minimum and Standard run on our pages. Premium and Elite add accounts you own.</p>
     </div>
     <div class="pk-grid">
@@ -1281,16 +1283,13 @@
   var sndIcon = '<span class="snd" aria-hidden="true">' +
     '<svg class="off" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>' +
     '<svg class="on" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>';
+  /* Each clip is ONE file that already carries its audio, so a tap only flips a property. The old
+     two rendition scheme swapped in a bigger file on tap, which meant a reload, a black flash and a
+     second of silence before the sound arrived. */
   function setSound(frame, on) {
     var v = frame.v;
     if (!v) return;
     if (on) {
-      if (!frame.hq) {
-        var t = v.currentTime || 0;
-        frame.hq = true;
-        v.src = CLIPS_BASE + frame.slug + ".hq.mp4";
-        v.addEventListener("loadedmetadata", function () { try { if (t > 0 && t < v.duration) v.currentTime = t; } catch (e) {} }, { once: true });
-      }
       v.muted = false; v.removeAttribute("muted");
       frame.classList.add("sound");
       var p = v.play(); if (p && p.catch) p.catch(function () {});
@@ -1312,10 +1311,10 @@
       var frame = e.target;
       nio.unobserve(frame);
       if (frame.classList.contains("empty") || frame.v.getAttribute("src")) return;
-      frame.v.preload = lite ? "metadata" : "auto";
+      frame.v.preload = "metadata";
       frame.v.src = CLIPS_BASE + frame.slug + ".mp4";
     });
-  }, { rootMargin: "360px 0px 360px 0px", threshold: 0 });
+  }, { rootMargin: "240px 0px 240px 0px", threshold: 0 });
   /* on the screen: play; off it: pause, and drop sound so it never comes back on by itself */
   var vio = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
@@ -1341,10 +1340,7 @@
     var probe = new Image();
     probe.onerror = function () { frame.classList.add("empty"); nio.unobserve(frame); vio.unobserve(frame); };
     probe.src = v.poster;
-    v.addEventListener("error", function () {
-      if (frame.hq) { frame.hq = false; v.src = CLIPS_BASE + slug + ".mp4"; setSound(frame, false); playIfAllowed(frame); return; }
-      frame.classList.add("empty"); nio.unobserve(frame); vio.unobserve(frame);
-    });
+    v.addEventListener("error", function () { frame.classList.add("empty"); nio.unobserve(frame); vio.unobserve(frame); });
     frame.addEventListener("click", function () {
       if (frame.classList.contains("empty")) return;
       var want = !frame.classList.contains("sound");
@@ -1472,7 +1468,7 @@
     /* the frame just became visible: attach its preview now and start it, no need to wait for the observers */
     var live = nsFrames[i];
     if (live.v && !live.classList.contains("empty")) {
-      if (!live.v.getAttribute("src")) { live.v.preload = lite ? "metadata" : "auto"; live.v.src = CLIPS_BASE + live.slug + ".mp4"; }
+      if (!live.v.getAttribute("src")) { live.v.preload = "metadata"; live.v.src = CLIPS_BASE + live.slug + ".mp4"; }
       setTimeout(function () { playIfAllowed(live); }, 60);
     }
   }
@@ -1483,7 +1479,7 @@
       nsTick = false;
       if (!nsSteps[0].offsetParent) return;   /* phones show the carousel instead */
       var mobile = window.innerWidth <= 900;
-      var line = window.innerHeight * 0.5;
+      var line = window.innerHeight * 0.42;
       var first = nsSteps[0].getBoundingClientRect(), last = nsSteps[nsSteps.length - 1].getBoundingClientRect();
       var best = -1;
       if (line <= first.top) best = 0;
@@ -1498,7 +1494,7 @@
     nsSteps.forEach(function (st) {
       st.addEventListener("click", function () {
         var r = st.getBoundingClientRect();
-        var line = window.innerHeight * 0.5;
+        var line = window.innerHeight * 0.42;
         window.scrollBy({ top: (r.top + 24) - line, behavior: reduceMotion ? "auto" : "smooth" });
       });
     });
