@@ -27,6 +27,7 @@
 <link rel="shortcut icon" href="/assets/icons/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#ffffff">
+<meta name="vc-build" content="20260923T120349Z">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vision Clipping">
 <meta property="og:url" content="https://vision-clipping.com/music/">
@@ -1666,6 +1667,28 @@
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
   })();
+})();
+</script>
+<script>
+/* A page can be served from a browser cache minutes after a deploy, pointing at files that deploy
+   removed. Ask the server which build is current and reload once if this copy is behind. */
+(function(){
+  var m=document.querySelector('meta[name="vc-build"]');
+  if(!m||!window.fetch)return;
+  var mine=(m.getAttribute('content')||'').trim();
+  function check(){
+    fetch('/build.txt?cb='+Date.now(),{cache:'no-store'})
+      .then(function(r){return r.ok?r.text():'';})
+      .then(function(t){
+        var live=(t||'').trim();
+        if(!live||!mine||live===mine)return;
+        try{if(sessionStorage.getItem('vc-build-reload')===live)return;sessionStorage.setItem('vc-build-reload',live);}catch(e){}
+        location.reload();
+      })
+      .catch(function(){});
+  }
+  check();
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)check();});
 })();
 </script>
 </body>
