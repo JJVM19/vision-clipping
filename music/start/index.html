@@ -27,7 +27,7 @@
 <link rel="shortcut icon" href="/assets/icons/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#ffffff">
-<meta name="vc-build" content="20260923T130549Z">
+<meta name="vc-build" content="20260923T131536Z">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vision Clipping">
 <meta property="og:url" content="https://vision-clipping.com/music/start/">
@@ -115,8 +115,6 @@
   .start h1 .serif{font-size:1.06em}
   .start-form{max-width:960px;margin:0 auto}
   .start-form iframe{width:100%;height:720px;border:0;border-radius:22px;background:#fff;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 30px 80px rgba(7,7,7,0.12);display:block}
-  .start-note{margin-top:22px;text-align:center;font-size:13.5px;color:var(--muted)}
-  .start-note a{color:var(--ink);font-weight:500;border-bottom:1px solid var(--line-strong)}
   .back{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);transition:color 0.2s}
   .back:hover{color:var(--ink)}
   .back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -165,8 +163,19 @@
          so submissions from the music offer are counted on their own in Home. The tracked click id rides along when there is one. -->
     <div class="start-form">
       <iframe id="vc-form-music" title="Vision Clipping | Get started" allow="camera; microphone; fullscreen"></iframe>
+      <script>
+      /* Start fetching the form the moment this element is parsed. Waiting for the script at the
+         end of the document cost a few hundred milliseconds before the first question appeared. */
+      (function(){
+        var cid=null;
+        try{
+          var at=Number(localStorage.getItem("vx_cid_at")||0),c=localStorage.getItem("vx_cid");
+          if(c&&at&&Date.now()-at<30*24*3600*1000)cid=c;
+        }catch(e){}
+        document.getElementById("vc-form-music").src="https://forms.visionclipping.com/music?src=music"+(cid?"&vx_cid="+encodeURIComponent(cid):"");
+      })();
+      </script>
     </div>
-    <p class="start-note">Prefer to talk first? <a href="mailto:contact@J-visionmedia.com">contact@J-visionmedia.com</a></p>
   </div>
 </section>
 </main>
@@ -179,7 +188,6 @@
 
 <script>
 (function () {
-  var FORM = "https://forms.visionclipping.com/music";
   function clickId() {
     try {
       var at = Number(localStorage.getItem("vx_cid_at") || 0);
@@ -189,8 +197,6 @@
     return null;
   }
   var f = document.getElementById("vc-form-music");
-  var cid = clickId();
-  f.src = FORM + "?src=music" + (cid ? "&vx_cid=" + encodeURIComponent(cid) : "");
   window.addEventListener("message", function (e) {
     if (!e.data || e.origin !== "https://forms.visionclipping.com") return;
     if (e.data.type === "vision-form-height" && typeof e.data.height === "number") {
