@@ -1690,5 +1690,27 @@
   document.addEventListener('visibilitychange',function(){if(!document.hidden)check();});
 })();
 </script>
+<script>
+/* In-page links scroll without writing #section into the address bar. */
+(function(){
+  function go(id,smooth){
+    var el=(id&&id!=="top")?document.getElementById(id):null;
+    if(!el&&id&&id!=="top")return false;
+    if(el)el.scrollIntoView({behavior:smooth?"smooth":"instant"});
+    else window.scrollTo({top:0,behavior:smooth?"smooth":"instant"});
+    return true;
+  }
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a||e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey)return;
+    if(go(decodeURIComponent(a.getAttribute("href").slice(1)),true))e.preventDefault();
+  });
+  if(location.hash&&window.history&&history.replaceState){
+    var id=decodeURIComponent(location.hash.slice(1));
+    history.replaceState(null,"",location.pathname+location.search);
+    window.addEventListener("load",function(){go(id,false);setTimeout(function(){go(id,false);},600);});
+  }
+})();
+</script>
 </body>
 </html>
