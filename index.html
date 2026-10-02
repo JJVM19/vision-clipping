@@ -556,7 +556,7 @@
   /* CASES, 3-up infinite loop carousel */
   .cases-wrap{position:relative;max-width:1280px;margin:0 auto;padding:0 72px}
   .cases-viewport{overflow-x:clip;overflow-y:visible;padding:8px 0 60px;margin:-8px 0 -60px}
-  .cases-track{display:flex;gap:24px;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1)}
+  .cases-track{display:flex;gap:16px;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1)}
   .case{flex:0 0 calc((100% - 48px)/3);display:flex;flex-direction:column;gap:18px;cursor:pointer;text-decoration:none;color:inherit}
   .case .case-img{transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s ease}
   .case:hover .case-img{transform:translateY(-4px);box-shadow:0 20px 50px rgba(7,7,7,0.12)}
@@ -594,6 +594,22 @@
   .cases-nav:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .cases-nav.prev{left:8px}
   .cases-nav.next{right:8px}
+
+  /* Desktop: smaller cards, more on screen (4-up from 961px, 6-up from 1200px) */
+  @media (min-width:961px){
+    .cases-wrap{max-width:1480px}
+    .case{flex:0 0 calc((100% - 48px)/4);gap:12px}
+    .case-img{border-radius:12px}
+    .case-img .views-block{bottom:12px;left:12px;right:12px;flex-direction:column;align-items:flex-start;gap:5px}
+    .case-img .vn,.case-img .vn.sm{font-size:30px}
+    .case-img .vl{font-size:9.5px;padding:0;text-align:left;letter-spacing:0.12em}
+    .case .case-title{flex-direction:column;align-items:flex-start;gap:2px}
+    .case .case-title h3{font-size:16px}
+    .case .case-title .tag{font-size:10.5px}
+  }
+  @media (min-width:1200px){
+    .case{flex:0 0 calc((100% - 80px)/6)}
+  }
   .cases-nav svg{width:18px;height:18px}
   .cases-nav[disabled]{opacity:0.3;cursor:not-allowed}
 
@@ -1507,7 +1523,7 @@
     #scale-scroll{height:420vh !important}
     .foot-top{grid-template-columns:1fr 1fr;gap:32px}
     .cases-wrap{padding:0 56px}
-    .case{flex:0 0 calc((100% - 24px)/2)}
+    .case{flex:0 0 calc((100% - 16px)/2)}
     .sec{padding:90px 0}
     .sec-head{margin-bottom:48px}
     .res-parallax{--rp-h:190px}
@@ -3311,7 +3327,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   if(!track) return;
   const cards = track.children;
   const ORIGINAL = cards.length / 3; // 3 sets of the same list
-  const GAP = 24;
+  const GAP = 16;
   const AUTOPLAY_MS = 1900;
   let index = ORIGINAL; // start at middle set
   let animating = false;
