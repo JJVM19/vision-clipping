@@ -1652,12 +1652,14 @@
     /* 3 Billion parallax, same exact layout as web, uniform 50% scale */
     .results{padding-bottom:60px}
     .res-parallax{--rp-h:145px;gap:11px;padding:16px 0}
-    /* Mobile: rows are native swipe carousels; the scroll-tied transform parallax is
-       disabled in JS below 760px (it stuttered and the off-screen tiles were unreachable). */
-    .rp-row{gap:11px;padding:0 20px;width:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity}
-    .rp-row::-webkit-scrollbar{display:none}
-    .rp-tile{scroll-snap-align:center}
-    .rp-tile{border-radius:11px}
+    /* Mobile: rows auto-scroll as an endless marquee, no swiping. JS clones each row's tiles
+       once so translating by -50% loops seamlessly; tiles use margin, not gap, so the two
+       halves are exactly equal. Scroll-tied parallax stays desktop-only. */
+    .res-parallax{overflow:hidden}
+    .rp-row{gap:0;padding:0;width:max-content;touch-action:pan-y;animation:rp-marquee 42s linear infinite}
+    .rp-row[data-speed^="-"]{animation-duration:48s;animation-direction:reverse}
+    .rp-tile{margin-right:11px;border-radius:11px}
+    @keyframes rp-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 
     /* Cases, native scroll-snap carousel (smooth like founders), dots below */
     .cases{padding:56px 0 36px;position:relative;z-index:1}
@@ -2917,8 +2919,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       if(window.__navJumping) return;
       const mob = isMobile();
       if(mob){
-        /* Mobile: rows are native swipe carousels (overflow-x in CSS); clear any transform. */
-        for(let i = 0; i < cfg.length; i++){ cfg[i].el.style.transform = 'none'; }
+        /* Mobile: rows are a CSS marquee; clear the inline transform and clone the tiles once for the loop. */
+        for(let i = 0; i < cfg.length; i++){
+          const el = cfg[i].el;
+          el.style.transform = '';
+          if(!el.dataset.looped){
+            el.dataset.looped = '1';
+            [...el.children].forEach(t => {
+              const c = t.cloneNode(true);
+              c.setAttribute('aria-hidden', 'true');
+              el.appendChild(c);
+            });
+            el.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+          }
+        }
         return;
       }
       const r = section.getBoundingClientRect();
