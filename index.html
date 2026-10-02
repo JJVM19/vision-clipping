@@ -565,13 +565,27 @@
   /* bottom gradient so overlaid view count is always readable */
   .case-img::after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.65));pointer-events:none;z-index:1}
   .case-img .views-block,.case-img .ph{z-index:2}
+  .case-img.conf{background:#0a0a0a}
+  .case-img.redact{background:linear-gradient(170deg,#f7f6f4,#e9e7e3)}
+  .case-img.redact .rd{position:absolute;left:0;right:0;top:30%;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .case-img.redact .rd-bar{display:block;width:62%;height:30px;border-radius:4px;background:#0b0b0b;transform:rotate(-1deg)}
+  .case-img.redact .rd-bar.short{width:40%;transform:rotate(.6deg)}
+  .case-img.redact .rd-lbl{margin-top:10px;display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--ox);padding:7px 14px;border:1.5px solid currentColor;border-radius:6px;transform:rotate(-3deg)}
+  .case-img.redact .rd-lbl svg{width:13px;height:13px}
+  .case-img.conf img{object-fit:contain;padding:26px 22px 96px}
+  .cases-more{display:flex;justify-content:center;margin-top:40px}
+  .cases-more a{display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;background:var(--ox);color:var(--paper);font-size:15px;font-weight:600;box-shadow:0 10px 30px rgba(79,0,6,.28);transition:all .3s}
+  .cases-more a svg{width:14px;height:14px;transition:transform .3s}
+  .cases-more a:hover{background:var(--ox-bright);transform:translateY(-2px);box-shadow:0 16px 40px rgba(79,0,6,.4)}
+  .cases-more a:hover svg{transform:translateX(3px)}
   .case-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(7,7,7,0.25);font-size:13px;font-weight:500;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.035) 14px 15px)}
   .case-img.dark .ph{background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,0.04) 14px 15px),linear-gradient(135deg,#1a0a0b,#2a1013);color:rgba(255,255,255,0.45)}
   .case-img.mid .ph{background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(7,7,7,0.04) 14px 15px),#e8e8e8}
   .case-img .views-block{position:absolute;bottom:16px;left:16px;right:16px;display:flex;align-items:flex-end;justify-content:space-between;z-index:2}
   .case-img .vn{font-size:52px;font-weight:600;letter-spacing:-0.03em;color:var(--paper);line-height:1;text-shadow:0 2px 20px rgba(0,0,0,0.4)}
   .case-img.light .vn{color:var(--ink);text-shadow:none}
-  .case-img .vl{font-size:12px;font-weight:500;color:var(--paper);text-transform:uppercase;letter-spacing:0.1em;padding-bottom:6px;opacity:0.8}
+  .case-img .vl{font-size:12px;font-weight:500;color:var(--paper);text-transform:uppercase;letter-spacing:0.1em;padding-bottom:6px;opacity:0.8;white-space:nowrap;text-align:right;padding-left:10px}
+  .case-img .vn.sm{font-size:42px}
   .case-img.light .vl{color:var(--ink)}
   .case .case-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
   .case .case-title h3{font-size:22px;font-weight:500;letter-spacing:-0.015em}
@@ -966,6 +980,71 @@
   .pr-flex-item h4{font-size:16.5px;font-weight:600;color:var(--ox);letter-spacing:-0.015em;margin-bottom:5px}
   .pr-flex-item p{font-size:13.5px;color:var(--muted);line-height:1.55}
   .pr-addon-foot{margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.55}
+
+  /* PRICING (channel model, mirrors the case-study deck) */
+  .pc-eyebrow{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:14px;padding:7px 14px;border:1px solid rgba(79,0,6,.2);background:rgba(79,0,6,.045);border-radius:999px}
+  .pc-how{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+  .pc-how-cell{padding:28px 28px 30px;border-right:1px solid var(--line)}
+  .pc-how-cell:last-child{border-right:0}
+  .pc-how-n{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--ox)}
+  .pc-how-cell h4{font-size:18px;font-weight:600;letter-spacing:-.015em;margin:10px 0 8px}
+  .pc-how-cell p{font-size:14px;line-height:1.6;color:var(--muted)}
+  .pc-plats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+  .pc-plat{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:9px 12px;border-radius:12px;background:var(--soft);color:var(--ink);white-space:nowrap}
+  .pc-plat svg{width:15px;height:15px;flex:none}
+  .pc-ded,.pc-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .pc-ded li,.pc-list li{display:flex;align-items:flex-start;gap:9px;font-size:14px;line-height:1.45;color:var(--ink)}
+  .pc-ded svg,.pc-list svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--ox)}
+  .pc-plans{max-width:1040px;margin:20px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pc-plan{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px 32px 30px;display:flex;flex-direction:column;gap:18px}
+  .pc-plan.rec{background:linear-gradient(160deg,#5a0009,#2a0004);border-color:transparent;color:#fff;box-shadow:0 30px 70px rgba(79,0,6,.32)}
+  .pc-badge{position:absolute;top:24px;right:24px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff}
+  .pc-tier{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+  .pc-plan.rec .pc-tier{color:rgba(255,255,255,.7)}
+  .pc-price{display:flex;align-items:baseline;gap:10px}
+  .pc-price .amt{font-size:clamp(44px,4.6vw,58px);font-weight:600;letter-spacing:-.035em;line-height:1}
+  .pc-price .per{font-size:16px;color:var(--muted)}
+  .pc-plan.rec .pc-price .per{color:rgba(255,255,255,.7)}
+  .pc-list li{font-size:15px}
+  .pc-plan.rec .pc-list li{color:#fff}
+  .pc-plan.rec .pc-list svg{color:#fff}
+  .pc-btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;background:#fff;color:var(--ox);font-size:14.5px;font-weight:600;transition:transform .3s,box-shadow .3s}
+  .pc-btn svg{width:14px;height:14px;transition:transform .3s}
+  .pc-btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.25)}
+  .pc-btn:hover svg{transform:translateX(3px)}
+  .pc-btn.ghost{background:var(--ox);color:#fff}
+  .pc-btn.ghost:hover{box-shadow:0 14px 34px rgba(79,0,6,.35)}
+  .pc-terms{max-width:1040px;margin:18px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+  .pc-term{font-size:13px;color:var(--muted);padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+  .pc-guarantee{max-width:1040px;margin:28px auto 0;display:flex;gap:18px;align-items:flex-start;padding:26px 28px;border-radius:20px;border:1px solid rgba(79,0,6,.16);background:linear-gradient(135deg,rgba(79,0,6,.05),rgba(79,0,6,.015))}
+  .pc-g-ic{width:44px;height:44px;flex:none;border-radius:12px;background:var(--ox);color:#fff;display:flex;align-items:center;justify-content:center}
+  .pc-g-ic svg{width:22px;height:22px}
+  .pc-guarantee h4{font-size:18px;font-weight:600;letter-spacing:-.015em;margin-bottom:6px}
+  .pc-guarantee p{font-size:14.5px;line-height:1.6;color:var(--muted);max-width:820px}
+  .pc-flex{max-width:1040px;margin:20px auto 0;display:grid;grid-template-columns:260px 1fr;gap:28px;padding:28px;border:1px solid var(--line);border-radius:20px;background:var(--paper)}
+  .pc-flex-head h4{font-size:18px;font-weight:600;letter-spacing:-.015em;margin-bottom:6px}
+  .pc-flex-head p{font-size:13.5px;line-height:1.6;color:var(--muted)}
+  .pc-flex-items{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .pc-flex-items h5{font-size:15px;font-weight:600;color:var(--ox);letter-spacing:-.01em;margin-bottom:5px}
+  .pc-flex-items p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .pc-who{max-width:1040px;margin:20px auto 0;text-align:center}
+  .pc-who-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ox);font-weight:600}
+  .pc-who p{margin:8px auto 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:620px}
+  @media (max-width:900px){
+    .pc-how{grid-template-columns:1fr}
+    .pc-how-cell{border-right:0;border-bottom:1px solid var(--line)}
+    .pc-how-cell:last-child{border-bottom:0}
+    .pc-plans{grid-template-columns:1fr}
+    .pc-flex{grid-template-columns:1fr;gap:16px}
+    .pc-flex-items{grid-template-columns:1fr;gap:14px}
+  }
+  @media (max-width:760px){
+    .pc-how-cell{padding:22px 20px}
+    .pc-plan{padding:26px 22px}
+    .pc-guarantee{padding:20px;gap:14px}
+    .pc-flex{padding:22px 20px}
+    .pc-btn{align-self:stretch;justify-content:center}
+  }
   .pr-selective{max-width:940px;margin:24px auto 0;padding:22px 26px;border:1px solid var(--line);border-left:3px solid var(--ox);border-radius:16px;background:linear-gradient(180deg,rgba(79,0,6,0.035),transparent)}
   .pr-selective .ps-eyebrow{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ox);font-weight:600;margin-bottom:10px}
   .pr-selective p{font-size:15px;line-height:1.65;color:var(--ink);max-width:860px}
@@ -1673,6 +1752,7 @@
     .case-body{padding:16px 20px}
     .case-body h3{font-size:19px}
     .case-img .vn{font-size:38px}
+    .case-img .vn.sm{font-size:32px}
     .cases-dots{display:flex;justify-content:center;gap:8px;margin-top:24px;padding-bottom:8px;position:relative;z-index:2}
     .cases-dots .cs-dot{width:8px;height:8px;border-radius:50%;background:rgba(7,7,7,0.18);border:0;padding:0;cursor:pointer;transition:all 0.3s}
     .cases-dots .cs-dot.active{width:22px;border-radius:6px;background:var(--ox)}
@@ -2044,73 +2124,165 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 6l-6 6 6 6"/></svg>
     </button>
     <div class="cases-viewport">
-      <div class="cases-track" id="cases-track">
-        <a class="case fade-in" data-case="magnus" href="/cases/iman-gadzhi/" aria-label="Iman Gadzhi case study">
-          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+      <div class="cases-track" id="cases-track"><!-- cases:start (generated by tools/build-cases.mjs) -->
+        <a class="case fade-in" href="/cases/iman-gadzhi/" aria-label="Iman Gadzhi case study">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp?v=1788082753" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="lith" href="/cases/luke-belmar/" aria-label="Luke Belmar case study">
-          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/luke-belmar/" aria-label="Luke Belmar case study">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp?v=1788082753" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$102K</div><div class="vl">Tracked revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Founder</div></div>
         </a>
-        <a class="case fade-in" data-case="aero" href="/cases/arab/" aria-label="Arab case study">
-          <div class="case-img fade-in"><img src="uploads/cases/arab.webp" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+        <a class="case fade-in" href="/cases/arab/" aria-label="Arab case study">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.webp?v=1788082753" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">600M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="verdant" href="/cases/nonstop/" aria-label="Nonstop case study">
-          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+        <a class="case fade-in" href="/cases/nonstop/" aria-label="Nonstop case study">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp?v=1788082753" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">700M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="solvex" href="/cases/russell-brunson/" aria-label="Russell Brunson case study">
-          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/russell-brunson/" aria-label="Russell Brunson case study">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp?v=1788082753" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$106K</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Founder</div></div>
         </a>
-
-        <!-- duplicate set for seamless infinite loop -->
-        <a class="case fade-in" data-case="magnus" href="/cases/iman-gadzhi/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+        <a class="case fade-in" href="/cases/sexyy-red/" aria-label="Sexyy Red case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-sexyy-red.webp?v=1790956690" alt="Sexyy Red" loading="lazy" decoding="async"><div class="views-block"><div class="vn">4.9M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Sexyy Red</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/nle-choppa/" aria-label="NLE Choppa case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-nle-choppa.webp?v=1790956690" alt="NLE Choppa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">859K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>NLE Choppa</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/prediction-markets/" aria-label="Prediction Market case study">
+          <div class="case-img fade-in dark redact"><div class="rd"><span class="rd-bar"></span><span class="rd-bar short"></span><span class="rd-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Confidential</span></div><div class="views-block"><div class="vn sm">13.7M</div><div class="vl">Views in 3 weeks</div></div></div>
+          <div class="case-title fade-in"><h3>Prediction Market</h3><div class="tag">Confidential</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/dr-insanity/" aria-label="Dr Insanity case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-dr-insanity.webp?v=1790956690" alt="Dr Insanity" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">18M</div><div class="vl">Views on one video</div></div></div>
+          <div class="case-title fade-in"><h3>Dr Insanity</h3><div class="tag">Creator</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/daniel-bitton/" aria-label="Daniel Bitton case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-daniel-bitton.webp?v=1790956690" alt="Daniel Bitton" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$100K+</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Daniel Bitton</h3><div class="tag">Founder</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/evelyn-effrim-botchey/" aria-label="Evelyn Effrim-Botchey case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-evelyn-effrim-botchey.webp?v=1790956689" alt="Evelyn Effrim-Botchey" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">100K</div><div class="vl">Views on top video</div></div></div>
+          <div class="case-title fade-in"><h3>Evelyn Effrim-Botchey</h3><div class="tag">Personal brand</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jynxzi-sketch/" aria-label="Jynxzi &amp; Sketch case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jynxzi-sketch.webp?v=1790956690" alt="Jynxzi &amp; Sketch" loading="lazy" decoding="async"><div class="views-block"><div class="vn">1.5M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Jynxzi &amp; Sketch</h3><div class="tag">Creators</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jojo-siwa/" aria-label="JoJo Siwa case study">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jojo-siwa.webp?v=1790962332" alt="JoJo Siwa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">577K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>JoJo Siwa</h3><div class="tag">Creator</div></div>
+        </a>
+        <!-- duplicate sets for seamless infinite loop -->
+        <a class="case fade-in" href="/cases/iman-gadzhi/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp?v=1788082753" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="lith" href="/cases/luke-belmar/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/luke-belmar/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp?v=1788082753" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$102K</div><div class="vl">Tracked revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Founder</div></div>
         </a>
-        <a class="case fade-in" data-case="aero" href="/cases/arab/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/arab.webp" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+        <a class="case fade-in" href="/cases/arab/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.webp?v=1788082753" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">600M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="verdant" href="/cases/nonstop/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+        <a class="case fade-in" href="/cases/nonstop/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp?v=1788082753" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">700M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="solvex" href="/cases/russell-brunson/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/russell-brunson/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp?v=1788082753" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$106K</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Founder</div></div>
         </a>
-
-        <!-- third set for seamless infinite wrap -->
-        <a class="case fade-in" data-case="magnus" href="/cases/iman-gadzhi/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M+</div><div class="vl">Views</div></div></div>
+        <a class="case fade-in" href="/cases/sexyy-red/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-sexyy-red.webp?v=1790956690" alt="Sexyy Red" loading="lazy" decoding="async"><div class="views-block"><div class="vn">4.9M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Sexyy Red</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/nle-choppa/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-nle-choppa.webp?v=1790956690" alt="NLE Choppa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">859K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>NLE Choppa</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/prediction-markets/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in dark redact"><div class="rd"><span class="rd-bar"></span><span class="rd-bar short"></span><span class="rd-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Confidential</span></div><div class="views-block"><div class="vn sm">13.7M</div><div class="vl">Views in 3 weeks</div></div></div>
+          <div class="case-title fade-in"><h3>Prediction Market</h3><div class="tag">Confidential</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/dr-insanity/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-dr-insanity.webp?v=1790956690" alt="Dr Insanity" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">18M</div><div class="vl">Views on one video</div></div></div>
+          <div class="case-title fade-in"><h3>Dr Insanity</h3><div class="tag">Creator</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/daniel-bitton/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-daniel-bitton.webp?v=1790956690" alt="Daniel Bitton" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$100K+</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Daniel Bitton</h3><div class="tag">Founder</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/evelyn-effrim-botchey/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-evelyn-effrim-botchey.webp?v=1790956689" alt="Evelyn Effrim-Botchey" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">100K</div><div class="vl">Views on top video</div></div></div>
+          <div class="case-title fade-in"><h3>Evelyn Effrim-Botchey</h3><div class="tag">Personal brand</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jynxzi-sketch/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jynxzi-sketch.webp?v=1790956690" alt="Jynxzi &amp; Sketch" loading="lazy" decoding="async"><div class="views-block"><div class="vn">1.5M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Jynxzi &amp; Sketch</h3><div class="tag">Creators</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jojo-siwa/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jojo-siwa.webp?v=1790962332" alt="JoJo Siwa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">577K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>JoJo Siwa</h3><div class="tag">Creator</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/iman-gadzhi/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/iman-gadzhi.webp?v=1788082753" alt="Iman Gadzhi" loading="lazy" decoding="async"><div class="views-block"><div class="vn">300M</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Iman Gadzhi</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="lith" href="/cases/luke-belmar/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">200M+</div><div class="vl">Views</div></div></div>
-          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/luke-belmar/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/luke-belmar.webp?v=1788082753" alt="Luke Belmar" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$102K</div><div class="vl">Tracked revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Luke Belmar</h3><div class="tag">Founder</div></div>
         </a>
-        <a class="case fade-in" data-case="aero" href="/cases/arab/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/arab.webp" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">100M+</div><div class="vl">Views / month</div></div></div>
+        <a class="case fade-in" href="/cases/arab/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/arab.webp?v=1788082753" alt="Arab" loading="lazy" decoding="async"><div class="views-block"><div class="vn">600M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Arab</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="verdant" href="/cases/nonstop/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">250M+</div><div class="vl">Views</div></div></div>
+        <a class="case fade-in" href="/cases/nonstop/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/nonstop.webp?v=1788082753" alt="Nonstop" loading="lazy" decoding="async"><div class="views-block"><div class="vn">700M+</div><div class="vl">Total views</div></div></div>
           <div class="case-title fade-in"><h3>Nonstop</h3><div class="tag">Creator</div></div>
         </a>
-        <a class="case fade-in" data-case="solvex" href="/cases/russell-brunson/" aria-hidden="true" tabindex="-1">
-          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn">$100K+</div><div class="vl">In sales</div></div></div>
-          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Creator</div></div>
+        <a class="case fade-in" href="/cases/russell-brunson/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/russell-brunson.webp?v=1788082753" alt="Russell Brunson" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$106K</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Russell Brunson</h3><div class="tag">Founder</div></div>
         </a>
-
-      </div>
+        <a class="case fade-in" href="/cases/sexyy-red/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-sexyy-red.webp?v=1790956690" alt="Sexyy Red" loading="lazy" decoding="async"><div class="views-block"><div class="vn">4.9M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Sexyy Red</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/nle-choppa/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-nle-choppa.webp?v=1790956690" alt="NLE Choppa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">859K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>NLE Choppa</h3><div class="tag">Artist</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/prediction-markets/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in dark redact"><div class="rd"><span class="rd-bar"></span><span class="rd-bar short"></span><span class="rd-lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Confidential</span></div><div class="views-block"><div class="vn sm">13.7M</div><div class="vl">Views in 3 weeks</div></div></div>
+          <div class="case-title fade-in"><h3>Prediction Market</h3><div class="tag">Confidential</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/dr-insanity/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-dr-insanity.webp?v=1790956690" alt="Dr Insanity" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">18M</div><div class="vl">Views on one video</div></div></div>
+          <div class="case-title fade-in"><h3>Dr Insanity</h3><div class="tag">Creator</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/daniel-bitton/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-daniel-bitton.webp?v=1790956690" alt="Daniel Bitton" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">$100K+</div><div class="vl">Attributed revenue</div></div></div>
+          <div class="case-title fade-in"><h3>Daniel Bitton</h3><div class="tag">Founder</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/evelyn-effrim-botchey/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-evelyn-effrim-botchey.webp?v=1790956689" alt="Evelyn Effrim-Botchey" loading="lazy" decoding="async"><div class="views-block"><div class="vn sm">100K</div><div class="vl">Views on top video</div></div></div>
+          <div class="case-title fade-in"><h3>Evelyn Effrim-Botchey</h3><div class="tag">Personal brand</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jynxzi-sketch/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jynxzi-sketch.webp?v=1790956690" alt="Jynxzi &amp; Sketch" loading="lazy" decoding="async"><div class="views-block"><div class="vn">1.5M</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>Jynxzi &amp; Sketch</h3><div class="tag">Creators</div></div>
+        </a>
+        <a class="case fade-in" href="/cases/jojo-siwa/" aria-hidden="true" tabindex="-1">
+          <div class="case-img fade-in"><img src="uploads/cases/v2/card-jojo-siwa.webp?v=1790962332" alt="JoJo Siwa" loading="lazy" decoding="async"><div class="views-block"><div class="vn">577K</div><div class="vl">Trailer views</div></div></div>
+          <div class="case-title fade-in"><h3>JoJo Siwa</h3><div class="tag">Creator</div></div>
+        </a>
+      <!-- cases:end --></div>
     </div>
     <button class="cases-nav next" id="cases-next" aria-label="Next">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
@@ -2121,7 +2293,16 @@
       <button class="cs-dot" data-i="2" aria-label="Arab"></button>
       <button class="cs-dot" data-i="3" aria-label="Nonstop"></button>
       <button class="cs-dot" data-i="4" aria-label="Russell Brunson"></button>
+      <button class="cs-dot" data-i="5" aria-label="Sexyy Red"></button>
+      <button class="cs-dot" data-i="6" aria-label="NLE Choppa"></button>
+      <button class="cs-dot" data-i="7" aria-label="Prediction Market"></button>
+      <button class="cs-dot" data-i="8" aria-label="Dr Insanity"></button>
+      <button class="cs-dot" data-i="9" aria-label="Daniel Bitton"></button>
+      <button class="cs-dot" data-i="10" aria-label="Evelyn Effrim-Botchey"></button>
+      <button class="cs-dot" data-i="11" aria-label="Jynxzi &amp; Sketch"></button>
+      <button class="cs-dot" data-i="12" aria-label="JoJo Siwa"></button>
     </div>
+    <div class="cases-more"><a href="/cases/">See case studies <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a></div>
   </div>
 </section>
 
@@ -2135,13 +2316,13 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">01</div>
-          <h3>Market intelligence session</h3>
+          <h3>Strategy session</h3>
           <p>A 30 minute session to map your market, identify your ideal buyer, and build the exact attention strategy designed to position you above every competitor in your space.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
             <div class="pv-meet">
-              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Market intelligence</span></div>
+              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Strategy session</span></div>
               <div class="pv-meet-grid">
                 <div class="pv-tile"><div class="pv-avatar">J</div><div class="pv-name">Jaden</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
                 <div class="pv-tile"><div class="pv-avatar">E</div><div class="pv-name">Emrah</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
@@ -2484,62 +2665,83 @@
   <div class="wrap">
     <div class="sec-head fade-in">
       <h2>Pricing<em>.</em></h2>
-      <p>One core partnership, priced from the starting rate below and scaled to the volume your market needs.</p>
+      <p>Priced by channel. Choose how many channels your market needs and we run every one of them end to end.</p>
     </div>
-    <div class="pricing-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:940px">
-      <div class="pr fade-in">
-        <span class="pr-glow fade-in"></span>
-        <div class="pr-ic fade-in">I</div>
-        <h3>Internal partnership</h3>
-        <div class="pr-price fade-in"><span class="pr-line fade-in"><span class="amt">$12,000</span> per month</span><span class="pr-line fade-in">16 dedicated accounts &middot; 480 posts a month</span></div>
-        <div class="pr-start fade-in">Starting rate. Volume, account count and posting frequency are all built around your market.</div>
-        <div class="pr-guarantee fade-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.4-3 8.3-7 9.5-4-1.2-7-5.1-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>90-day guarantee</div>
-        <div class="pr-divider fade-in"></div>
-        <ul>
-          <li>A dedicated internal team running daily distribution</li>
-          <li>Posting to accounts you own and keep</li>
-          <li>Trained on your brand, geo-targeted to any market you want</li>
-          <li>Full analytics, link attribution and audience journeys</li>
-          <li>A dedicated operations manager on your account</li>
-        </ul>
-        <div class="pr-who fade-in" id="who">
-          <div class="pr-who-eyebrow">Who we partner with</div>
-          <p>A small number of serious founders and established brands ready to invest in long-term distribution. Partnerships start at 16 dedicated accounts and scale from there, and we stay selective.</p>
-        </div>
-      </div>
 
-      <div class="pr fade-in">
-        <span class="pr-glow fade-in"></span>
-        <div class="pr-ic fade-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></div>
-        <h3>Flexible on top</h3>
-        <div class="pr-divider fade-in"></div>
-        <div class="pr-flex-list">
-          <div class="pr-flex-item">
-            <h4>Cost per acquisition</h4>
-            <p>Tie spend directly to results, priced per acquisition for performance-led goals.</p>
-          </div>
-          <div class="pr-flex-item">
-            <h4>Revenue share</h4>
-            <p>We take skin in the game on the revenue distribution drives, so we win when you win.</p>
-          </div>
-          <div class="pr-flex-item">
-            <h4>Affiliate &amp; partnership deals</h4>
-            <p>Custom affiliate and partnership structures for the right long-term fits.</p>
-          </div>
-        </div>
-        <div class="pr-addon-foot">Mix and match on top of your partnership. We'll build the structure in your strategy session.</div>
+    <div class="pc-how fade-in">
+      <div class="pc-how-cell">
+        <div class="pc-how-n">01</div>
+        <h4>What a channel is</h4>
+        <p>A set of four accounts, run end to end by our team.</p>
+        <div class="pc-plats"><span class="pc-plat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</span><span class="pc-plat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg>TikTok</span><span class="pc-plat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3z"/></svg>Facebook</span><span class="pc-plat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg>YouTube</span></div>
+      </div>
+      <div class="pc-how-cell">
+        <div class="pc-how-n">02</div>
+        <h4>What each channel posts</h4>
+        <p>120 posts a month across its four accounts, every one checked by a manager against a written standard before it goes out.</p>
+      </div>
+      <div class="pc-how-cell">
+        <div class="pc-how-n">03</div>
+        <h4>What is dedicated to you</h4>
+        <ul class="pc-ded">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Accounts created and owned by you</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Devices set up in your target region</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Editors briefed and trained on your brand</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>An operations manager on your account</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>A dashboard and full click attribution</li>
+        </ul>
       </div>
     </div>
-    <div class="pricing-foot fade-in">
-      <h3>Need more <em>volume</em>?</h3>
-      <p>More accounts, more posts a month, more markets. Tell us the market you want to win and we will scope the numbers on the session.</p>
-      <div class="hero-cta-row">
-        <a href="/book/" class="glow-cta">
-          <span class="glow-cta-rings"></span>
-          Book your strategy session
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
-        </a>
+
+    <div class="pc-plans">
+      <div class="pc-plan fade-in">
+        <div class="pc-tier">Minimum &middot; One channel</div>
+        <div class="pc-price"><span class="amt">$3,000</span><span class="per">/ month</span></div>
+        <ul class="pc-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>4 accounts</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>120 posts a month</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>$400 one-time setup</li>
+        </ul>
+        <a href="/book/" class="pc-btn ghost">Book your strategy session <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a>
       </div>
+      <div class="pc-plan rec fade-in">
+        <div class="pc-badge">Recommended</div>
+        <div class="pc-tier">Four channels</div>
+        <div class="pc-price"><span class="amt">$12,000</span><span class="per">/ month</span></div>
+        <ul class="pc-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>16 accounts</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>480 posts a month</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>$1,600 one-time setup</li>
+        </ul>
+        <a href="/book/" class="pc-btn">Book your strategy session <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg></a>
+      </div>
+    </div>
+
+    <div class="pc-terms fade-in">
+      <span class="pc-term">Three-month minimum term</span>
+      <span class="pc-term">Need more volume? Add channels, four accounts at a time</span>
+    </div>
+
+    <div class="pc-guarantee fade-in">
+      <div class="pc-g-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.4-3 8.3-7 9.5-4-1.2-7-5.1-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div>
+        <h4>The guarantee</h4>
+        <p>If we have not hit your agreed goal within the first month, we keep working for free until the next billing cycle. Your goal is set on our strategy call, whether that is web traffic, leads, sales or bookings.</p>
+      </div>
+    </div>
+
+    <div class="pc-flex fade-in">
+      <div class="pc-flex-head"><h4>Flexible on top</h4><p>Mix and match on top of your partnership. We build the structure in your strategy session.</p></div>
+      <div class="pc-flex-items">
+        <div><h5>Cost per acquisition</h5><p>Tie spend directly to results, priced per acquisition for performance-led goals.</p></div>
+        <div><h5>Revenue share</h5><p>We take skin in the game on the revenue distribution drives, so we win when you win.</p></div>
+        <div><h5>Affiliate &amp; partnership deals</h5><p>Custom affiliate and partnership structures for the right long-term fits.</p></div>
+      </div>
+    </div>
+
+    <div class="pc-who fade-in" id="who">
+      <span class="pc-who-eyebrow">Who we partner with</span>
+      <p>A small number of serious founders and established brands ready to invest in long-term distribution. We stay selective, so not every application is taken on.</p>
     </div>
   </div>
 </section>
@@ -3110,13 +3312,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   const cards = track.children;
   const ORIGINAL = cards.length / 3; // 3 sets of the same list
   const GAP = 24;
-  const AUTOPLAY_MS = 3000;
+  const AUTOPLAY_MS = 1900;
   let index = ORIGINAL; // start at middle set
   let animating = false;
   let autoplayTimer = null;
   const step = () => cards.length ? cards[0].getBoundingClientRect().width + GAP : 0;
   const apply = (animate) => {
-    track.style.transition = animate ? 'transform 0.7s cubic-bezier(0.22,1,0.36,1)' : 'none';
+    track.style.transition = animate ? 'transform 0.55s cubic-bezier(0.22,1,0.36,1)' : 'none';
     track.style.transform = `translate3d(${-index * step()}px,0,0)`;
     if(!animate){ void track.offsetWidth; }
   };
