@@ -74,6 +74,8 @@
 (() => {
   const navInner = document.querySelector('.nav-inner');
   if(!navInner || document.getElementById('nav-burger')) return;
+  // Music guides (/music/guides/) carry data-section="music" and get the artist menu.
+  const music = document.body.dataset.section === 'music';
   const burger = document.createElement('button');
   burger.className = 'nav-burger';
   burger.id = 'nav-burger';
@@ -92,17 +94,22 @@
       <button class="nav-drawer-close" data-close aria-label="Close menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
-      <a class="nav-drawer-logo" href="/"><img src="/assets/wordmark-dark.webp" alt="Vision Clipping"></a>
-      <nav class="nav-drawer-links">
+      <a class="nav-drawer-logo" href="${music ? '/music/' : '/'}"><img src="/assets/wordmark-dark.webp" alt="Vision Clipping"></a>
+      <nav class="nav-drawer-links">${music ? `
+        <a href="/music/">Music distribution</a>
+        <a href="/music/#clips">Examples</a>
+        <a href="/music/#packages">Packages</a>
+        <a href="/music/guides/">Guides for artists</a>
+        <a href="/music/#faq">FAQ</a>` : `
         <a href="/#cases">Cases</a>
         <a href="/#process">Process</a>
         <a href="/#pricing">Pricing</a>
         <a href="/breakdowns/">Breakdowns</a>
         <a href="/blog/">Blog</a>
-        <a href="/#faq">FAQ</a>
+        <a href="/#faq">FAQ</a>`}
       </nav>
-      <a class="nav-drawer-cta" href="/book/">
-        Book your strategy session
+      <a class="nav-drawer-cta" href="${music ? '/music/start/' : '/book/'}">
+        ${music ? 'Get started' : 'Book your strategy session'}
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
       </a>
     </div>
