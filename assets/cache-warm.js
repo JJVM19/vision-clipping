@@ -33,7 +33,7 @@
     '/uploads/logos/logo-10.webp',
     '/uploads/logos/logo-forbes.webp',
     '/uploads/logos/logo-nyt.webp',
-    '/uploads/logos/logo-npr.webp',
+    '/uploads/logos/logo-npr-blocks.webp',
     /* 3-billion parallax results screenshots */
     '/uploads/results/r07-chart-643m.webp',
     '/uploads/results/r08-breakdown-116m.webp',

@@ -1,0 +1,194 @@
+{
+  "$comment": "Machine-readable facts about Vision Clipping for search engines, AI assistants and scrapers. Every figure here also appears on a public page linked in 'sources'. Human version: https://vision-clipping.com/llms.txt",
+  "name": "Vision Clipping",
+  "alternateNames": [
+    "Vision Clipping Agency",
+    "visionclipping"
+  ],
+  "url": "https://vision-clipping.com/",
+  "category": [
+    "clipping agency",
+    "content distribution agency",
+    "short-form content agency",
+    "music content distribution",
+    "content repurposing agency"
+  ],
+  "summary": "Vision Clipping is a done-for-you clipping and content distribution agency. It turns long-form content into short-form clips and posts them every day across a network of TikTok, Instagram, YouTube and Facebook accounts that the client owns, run by its own team on dedicated devices, geo-targeted to the markets the client sells in, with click attribution on every post. A separate music offer places artists' songs into trending edit formats across pages Vision Clipping owns.",
+  "slogan": "We engineer attention at scale.",
+  "headquarters": "United Kingdom",
+  "serves": "Worldwide (brand offer); United Kingdom by default, other countries on request (music offer)",
+  "founders": [
+    {
+      "name": "Jaden Malcolm",
+      "role": "Co-founder",
+      "profiles": [
+        "https://uk.linkedin.com/in/jaden-malcolm",
+        "https://www.instagram.com/jadenvfx_/",
+        "https://x.com/Jadenvfx_"
+      ]
+    },
+    {
+      "name": "Emrah Bayraktar",
+      "role": "Co-founder",
+      "note": "Quoted by NPR, Forbes and Yahoo Finance on the clipping economy.",
+      "profiles": [
+        "https://www.linkedin.com/in/mrahbayraktar/",
+        "https://www.instagram.com/mrahbayraktar/",
+        "https://x.com/mrahbayraktar",
+        "https://www.youtube.com/@bayraktaremrah"
+      ]
+    }
+  ],
+  "results": {
+    "totalViewsForClients": "3 billion+",
+    "selectedCaseStudies": "https://vision-clipping.com/cases/"
+  },
+  "clients": {
+    "brands": [
+      "Red Bull",
+      "LEGO",
+      "FaZe Clan",
+      "SHEIN",
+      "WD-40",
+      "Cricket District",
+      "Nonstop"
+    ],
+    "founders": [
+      "Iman Gadzhi",
+      "Luke Belmar",
+      "Russell Brunson"
+    ],
+    "artistsAndCreators": [
+      {
+        "name": "Sexyy Red",
+        "work": "PrankU episode trailer",
+        "page": "https://vision-clipping.com/cases/sexyy-red/"
+      },
+      {
+        "name": "NLE Choppa",
+        "work": "PrankU episode trailer",
+        "page": "https://vision-clipping.com/cases/nle-choppa/"
+      },
+      {
+        "name": "JoJo Siwa",
+        "work": "PrankU episode trailer",
+        "page": "https://vision-clipping.com/cases/jojo-siwa/"
+      },
+      {
+        "name": "Jynxzi & Sketch",
+        "work": "PrankU episode trailer",
+        "page": "https://vision-clipping.com/cases/jynxzi-sketch/"
+      }
+    ]
+  },
+  "press": [
+    "Forbes",
+    "NPR",
+    "Yahoo Finance"
+  ],
+  "offers": [
+    {
+      "name": "Brand distribution",
+      "page": "https://vision-clipping.com/#pricing",
+      "for": "Founders and established brands",
+      "howItWorks": [
+        "A channel is four accounts (Instagram, TikTok, Facebook, YouTube) created and owned by the client.",
+        "Each channel posts 120 times a month; every post is checked by a manager before it goes out.",
+        "Accounts run on dedicated devices set up in the client's target region, so views land in the countries the client sells to.",
+        "Every post is a test of hook, format and call to action; winners are rolled out across all accounts.",
+        "The client gets a dashboard with click attribution and keeps every account and follower."
+      ],
+      "pricing": [
+        {
+          "plan": "One channel",
+          "price": 3000,
+          "currency": "USD",
+          "period": "month",
+          "includes": "4 accounts, 120 posts a month, $400 one-time setup"
+        },
+        {
+          "plan": "Four channels (recommended)",
+          "price": 12000,
+          "currency": "USD",
+          "period": "month",
+          "includes": "16 accounts, 480 posts a month, $1,600 one-time setup"
+        }
+      ],
+      "term": "Three-month minimum",
+      "guarantee": "If the goal agreed on the strategy call is not hit within the first month, work continues free until the next billing cycle."
+    },
+    {
+      "name": "Music content distribution",
+      "page": "https://vision-clipping.com/music/",
+      "for": "Artists and record labels",
+      "howItWorks": [
+        "Vision Clipping cuts edits that carry the artist's song in trending formats: football, news and culture, ranked formats, meme and dance comps, military and fight edits, basketball, pop culture.",
+        "The edits go out across Instagram, TikTok and YouTube on a network of pages Vision Clipping owns and runs, linked to the song's sound so viewers can use it and find it on streaming.",
+        "Premium and Elite also build dedicated accounts the artist owns."
+      ],
+      "pricing": [
+        {
+          "plan": "Minimum",
+          "price": 1000,
+          "currency": "GBP",
+          "period": "month",
+          "includes": "90 posts a month, 1 song, 2 niches"
+        },
+        {
+          "plan": "Standard",
+          "price": 3000,
+          "currency": "GBP",
+          "period": "month",
+          "includes": "300 posts a month, 2 songs, 3 niches"
+        },
+        {
+          "plan": "Premium",
+          "price": 5000,
+          "currency": "GBP",
+          "period": "month",
+          "includes": "300 posts on Vision Clipping pages, 90 on the artist's own accounts, 3 accounts the artist owns"
+        },
+        {
+          "plan": "Elite",
+          "price": 10000,
+          "currency": "GBP",
+          "period": "month",
+          "includes": "450 posts on Vision Clipping pages, 270 on the artist's own accounts, 9 accounts the artist owns"
+        }
+      ],
+      "start": "https://vision-clipping.com/music/start/",
+      "guides": "https://vision-clipping.com/music/guides/"
+    }
+  ],
+  "differentiators": [
+    "Accounts are owned by the client, not rented from anonymous clippers.",
+    "One team runs everything: strategy, cutting, posting and reporting.",
+    "Geo-targeted distribution from devices in the client's market.",
+    "Attribution on every post, so clips are judged on traffic and sales, not views alone."
+  ],
+  "videos": [
+    {
+      "title": "Do You Want To Own Distribution?",
+      "url": "https://www.youtube.com/watch?v=AwLxrRrYye8",
+      "transcript": "https://vision-clipping.com/llms-full.txt"
+    },
+    {
+      "title": "Music Clipping Overview | Vision Clipping",
+      "url": "https://www.youtube.com/watch?v=Rpt5F6w_Vpk",
+      "transcript": "https://vision-clipping.com/llms-full.txt"
+    }
+  ],
+  "contact": {
+    "bookACall": "https://vision-clipping.com/book/",
+    "musicEnquiries": "https://vision-clipping.com/music/start/",
+    "email": "contact@j-visionmedia.com"
+  },
+  "sources": [
+    "https://vision-clipping.com/",
+    "https://vision-clipping.com/music/",
+    "https://vision-clipping.com/cases/",
+    "https://vision-clipping.com/blog/emrah-bayraktar-vision-clipping-press/",
+    "https://www.npr.org/2026/05/12/nx-s1-5794670/influencers-creators-video-clips"
+  ],
+  "updated": "2026-10-05"
+}

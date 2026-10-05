@@ -1,4 +1,26 @@
 User-agent: *
 Allow: /
 
+# Search and AI assistants are welcome to read and cite everything here.
+# Plain-text summary for language models: https://vision-clipping.com/llms.txt
+# Structured company facts: https://vision-clipping.com/facts.json
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: DuckAssistBot
+User-agent: meta-externalagent
+User-agent: MistralAI-User
+Allow: /
+
 Sitemap: https://vision-clipping.com/sitemap.xml
