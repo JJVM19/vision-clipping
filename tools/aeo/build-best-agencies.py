@@ -34,91 +34,98 @@ AGENCIES = [
              "<a href=\"/music/\">music offer</a> that places songs into trending edit formats on pages we own.")),
   dict(group="network", name="Clipping Culture", url="https://clippingculture.com/",
        model="Clipper network (500K+ community on Whop)",
-       price="$15K &asymp; 22M views, $50K &asymp; 70M, $100K &asymp; 140M",
+       price="Averages of about 22M views for $15K, 70M for $50K, 140M for $100K",
        platforms="TikTok, Instagram Reels, YouTube Shorts",
        best="Music labels, entertainment and large brands that want huge volume with a published budget guide",
        body=("Clipping Culture runs one approved source library through a very large network of independent "
-             "clippers, built on a community of 500K+ on Whop. It is unusually open about pricing: its site says "
-             "$15,000 typically delivers around 22M views and $100,000 around 140M, and rejected posts are not "
-             "charged. It reports a live campaign dashboard with verified views, platform breakdown and effective CPM. "
-             "Self-reported results include 2B+ views from 25,245 clips for bbno$, and Variety covered it in its "
-             "2026 piece on clipping in the music industry. It appears on every major &ldquo;best clipping agencies&rdquo; list we checked.")),
+             "clippers, built on a community of 500K+ on Whop. It is unusually open about pricing: its pricing page lists "
+             "averages of about 22M verified views for $15,000 and 140M for $100,000, and rejected posts cost nothing. "
+             "It says every submission is reviewed before it publishes, reports verified views live with a platform split, "
+             "and sends monthly dashboards that include effective CPM. Self-reported results include 2B+ views from 25,245 "
+             "clips for bbno$, and Variety named it in its 2026 piece on clipping in the music industry. It appears on every "
+             "major &ldquo;best clipping agencies&rdquo; list we checked.")),
   dict(group="network", name="The Clip Ship", url="https://theclipship.com/",
        model="Clipper network (200,000+ creators)",
-       price="About $1 per 1,000 views, fixed",
+       price="About $1 per 1,000 views, fixed; pilots from about $10K",
        platforms="TikTok, Instagram Reels, YouTube Shorts",
        best="Music, film and TV launches that want a fixed, transparent rate",
        body=("The Clip Ship works on a fixed rate of about $1 per 1,000 views, with every clip verified before "
-             "payout. Its recent campaigns are listed with their ending CPM, between $0.16 and $0.60. "
-             "Self-reported work includes 125M+ views for Logic&rsquo;s &ldquo;Paradise Records&rdquo; and 40M views in 10 days "
-             "for Mewgenics, and its logo wall includes Capitol Records and Universal Music Group. Variety cited the Logic campaign.")),
+             "payout, and says pilot campaigns start around $10K. Its recent campaigns are listed with their ending CPM, "
+             "between $0.16 and $0.60. Self-reported work includes 125M+ views for Logic&rsquo;s &ldquo;Paradise Records&rdquo; "
+             "and 40M views in 10 days for Mewgenics, and its logo wall includes Capitol Records and Universal Music Group.")),
   dict(group="network", name="Lumina Clippers", url="https://luminaclippers.com/",
        model="Clipper network (62,900+ verified clippers)",
-       price="$5,000 minimum, custom rate per 1,000 verified views",
-       platforms="TikTok, Instagram Reels, YouTube Shorts, X",
+       price="$5,000 minimum, custom rate per 1,000 verified views (illustrative $2.50 to $4)",
+       platforms="TikTok, Instagram Reels, YouTube Shorts, X, plus LinkedIn on founder and B2B campaigns",
        best="B2B, SaaS, crypto and founder brands that want a big network with bot filtering",
        body=("Lumina turns long-form content into thousands of vertical clips posted by a network of 62,900+ "
-             "verified clippers, and filters bot traffic out before it reaches the report. Campaigns start at $5,000 "
-             "and you pay only for verified views. It has a dedicated founder personal-brand offer. Self-reported "
-             "results include 1.8B+ views for Stake and 164M+ in 30 days for Wispr Flow.")),
+             "verified clippers. Every clip is reviewed against the brief before it goes live, and bot traffic is filtered "
+             "out before it reaches the report. Campaigns start at $5,000 and you pay only for verified views; Lumina reports "
+             "views, engagement and top hooks, and you track conversions in your own analytics. It has a dedicated founder "
+             "personal-brand offer. Self-reported results include 1.8B+ views for Stake and 164M+ in 30 days for Wispr Flow.")),
   dict(group="network", name="Clouted", url="https://clouted.com/",
        model="Hybrid: AI agents plus a creator network",
        price="Not published",
-       platforms="TikTok, Instagram Reels, YouTube Shorts",
+       platforms="TikTok, Instagram, YouTube, X, Facebook",
        best="Brands that want clipping bundled with AI testing, UGC and wider creator marketing",
-       body=("Clouted pairs a network of 100,000+ editors and creators with AI agents that test formats and learn "
-             "which ones convert. It also sells UGC, influencer seeding, fan page management and performance ads. "
-             "TechCrunch reported its $7M seed round led by Slow Ventures in May 2026. Self-reported work includes "
-             "30M+ views and about 1,000 clips in two weeks for ILLENIUM.")),
+       body=("Clouted pairs a network of 100,000+ creators with AI agents; it says its platform learns which formats win "
+             "and which audiences convert. It reviews every clip for quality and brand safety before it goes live. It also "
+             "sells UGC, influencer seeding, performance ads and a fan page service in which it sets up accounts and shares "
+             "the keys with the brand. TechCrunch reported its $7M seed round led by Slow Ventures in May 2026. Self-reported "
+             "work includes 30M+ views and about 1,000 clips in two weeks for ILLENIUM.")),
   dict(group="network", name="Clipping Agency", url="https://clippingagency.co/",
        model="Clipper network, set up and run on Whop",
-       price="No rate card; says about $0.003 per view on average",
-       platforms="TikTok, Instagram Reels, YouTube Shorts, X",
+       price="Says about $0.003 per view on average; exact quote on a call",
+       platforms="TikTok, Instagram Reels, YouTube Shorts, X (LinkedIn and Facebook Reels on request)",
        best="Creators and podcasters who want a done-for-you Whop clipping program",
        body=("clippingagency.co sets up a brand&rsquo;s whole clipping engine on Whop (setup, dashboard, automation "
-             "and rules) and then runs it, with clippers paid on the views their clips earn. It gives exact pricing "
-             "on a call and says the average cost is around $0.003 per view. It has dedicated offers for podcasts and X, "
-             "and a live dashboard showing views, clip volume and clipper activity.")),
+             "and rules) and then runs it, with clippers paid on the views their clips earn. It says every clip goes through "
+             "its internal review before it goes live, offers region-matched clipper networks for markets like the US and UAE, "
+             "and quotes an average of around $0.003 per view, with exact pricing on a call. It has dedicated offers for "
+             "podcasts and X, and a live dashboard showing views, clip volume and clipper activity.")),
   dict(group="network", name="Clipify", url="https://clipifymedia.com/",
        model="Clipper network (10K+ vetted creators)",
        price="Pay for performance; rate not published",
        platforms="YouTube Shorts, TikTok, Instagram Reels, X",
        best="Creators and brands that want to launch a pay-per-view campaign quickly",
        body=("Clipify Media puts a campaign in front of a community of 10K+ vetted clippers; you set the budget and "
-             "only pay when clips meet your standards. Its dashboard tracks views and engagement per clip, with AI "
-             "filtering of artificial views. Self-reported totals: 6.9B+ views and 200+ campaigns, including "
+             "only pay when clips meet your standards and deliver views. Its dashboard tracks views, engagement and ROI per clip, "
+             "with AI filtering of artificial views. Self-reported totals: 6.9B+ views and 200+ campaigns, including "
              "Rumble and Higgsfield AI.")),
+  dict(group="network", name="ClipFarm", url="https://www.clipfarm.biz/",
+       model="Clipper network, built on Whop",
+       price="You choose the rate per 1,000 views; no upfront fees",
+       platforms="Not stated",
+       best="Testing clipping cheaply, at a rate you set yourself",
+       body=("ClipFarm connects a brand directly to its network of clippers and lets the brand choose exactly what it pays per "
+             "1,000 views, with no upfront fee. ClipFarm reviews the submitted clips and approves the ones that match the "
+             "campaign, and you pay only for approved views. Its homepage shows work for names including HBO Max, the Jonas "
+             "Brothers and Fortnite.")),
   dict(group="self", name="Clipur", url="https://clipur.ai/",
        model="Self-serve platform, plus a managed option",
        price="$250 / $500 / $1,000 a week for about 200K / 440K / 880K verified views",
        platforms="YouTube, TikTok, Instagram, X",
        best="Startups that want to start small with a published weekly price",
-       body=("Clipur lets a brand launch a pay-per-view campaign itself with no agency call, using weekly credit "
-             "plans from $250, and pays only for views verified through the platforms&rsquo; own APIs. A managed version "
-             "sits at clipur.com. Its owners also publish Clipper University, which says so on its own ranking page.")),
-  dict(group="self", name="ClipFarm", url="https://www.clipfarm.biz/",
-       model="Self-serve campaigns on the Content Rewards marketplace",
-       price="You choose the rate per 1,000 views; no upfront fees",
-       platforms="Not stated",
-       best="Testing clipping cheaply, at a rate you set yourself",
-       body=("ClipFarm connects a brand directly to its clippers and lets the brand choose exactly what it pays per "
-             "1,000 views, with no upfront fee and payment only on approved views. Its homepage shows work for names "
-             "including HBO Max, the Jonas Brothers and Fortnite.")),
+       body=("Clipur lets a brand launch a pay-per-view campaign itself with no agency call, using weekly plans "
+             "from $250, and pays only for views verified through the platforms&rsquo; own APIs. Its Clipper University site "
+             "describes clipur.com as its managed agency; the two are run by the same team, which Clipper University says on "
+             "its own ranking page.")),
   dict(group="self", name="Vyro", url="https://vyro.com/",
-       model="Clipper marketplace from the ViewStats team",
-       price="Brand fees not published; clippers paid about $3 per 1,000 views at launch",
+       model="Self-serve clipper marketplace from MrBeast&rsquo;s Beast Industries",
+       price="Pay per verified view up to a max CPM you set; $1,000 minimum budget",
        platforms="Instagram, TikTok, YouTube Shorts, X",
        best="Big creators and consumer brands that want a large, MrBeast-backed clipper pool",
-       body=("Vyro was launched in October 2025 by the team behind ViewStats, MrBeast&rsquo;s analytics company, as "
-             "Tubefilter reported. Creators follow a brand&rsquo;s brief, post to their own accounts and are paid for the "
-             "views; counts and earnings refresh hourly. Campaigns on the site include MrBeast and Mark Rober.")),
+       body=("Vyro is a MrBeast company built by Beast Industries; Tubefilter reported its launch in October 2025. "
+             "Brands set a budget and a maximum CPM, with a $1,000 minimum and unused budget refunded. Creators follow the "
+             "brand&rsquo;s brief, post to their own accounts and submit the live post for review; view counts and earnings "
+             "refresh hourly. The site says it is trusted by MrBeast, Mark Rober and Unwell, and MrBeast campaigns run on it.")),
 ]
 
 GROUPS = [
   ("owned", "Managed, on accounts the brand owns",
    "A team makes and posts the clips on accounts that belong to the brand. Higher monthly cost, but the accounts, followers and data stay with you, and posting can be aimed at a region."),
   ("network", "Managed clipper networks",
-   "The agency briefs a large network of independent clippers who post on their own accounts and are paid per 1,000 verified views. This is the lowest cost per view and the fastest way to flood a launch."),
+   "The agency briefs a large network of independent clippers who post on their own accounts and are paid per 1,000 verified views. This is usually the lowest cost per view and the fastest way to flood a launch."),
   ("self", "Self-serve marketplaces",
    "You set up the campaign and the rate yourself and clippers pick it up. Cheapest way to test, with the least hand-holding."),
 ]
@@ -130,22 +137,22 @@ FEATURES = [
   ("own",   "You own the accounts"),
   ("team",  "In-house team makes every clip"),
   ("check", "Every post checked before it goes out"),
-  ("geo",   "Posts from devices in your target region"),
+  ("geo",   "Posts from devices set up in your target region"),
   ("attr",  "Click attribution per post"),
   ("fb",    "Facebook included"),
   ("price", "Published pricing"),
 ]
 MATRIX = {
   "Vision Clipping":  dict(own="y", team="y", check="y", geo="y", attr="y", fb="y", price="y"),
-  "Clipping Culture": dict(own="n", team="n", check="y", geo="u", attr="u", fb="n", price="y"),
-  "The Clip Ship":    dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="y"),
-  "Lumina Clippers":  dict(own="n", team="n", check="u", geo="u", attr="y", fb="n", price="y"),
-  "Clouted":          dict(own="u", team="n", check="u", geo="u", attr="y", fb="n", price="n"),
-  "Clipping Agency":  dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="n"),
-  "Clipify":          dict(own="n", team="n", check="u", geo="u", attr="y", fb="n", price="n"),
-  "Clipur":           dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="y"),
-  "ClipFarm":         dict(own="n", team="n", check="u", geo="u", attr="u", fb="u", price="y"),
-  "Vyro":             dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="n"),
+  "Clipping Culture": dict(own="n", team="u", check="y", geo="u", attr="u", fb="n", price="y"),
+  "The Clip Ship":    dict(own="n", team="u", check="u", geo="u", attr="u", fb="n", price="y"),
+  "Lumina Clippers":  dict(own="n", team="u", check="y", geo="u", attr="n", fb="u", price="y"),
+  "Clouted":          dict(own="u", team="u", check="y", geo="u", attr="u", fb="y", price="u"),
+  "Clipping Agency":  dict(own="u", team="u", check="y", geo="u", attr="u", fb="y", price="y"),
+  "Clipify":          dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="n"),
+  "ClipFarm":         dict(own="n", team="n", check="u", geo="u", attr="u", fb="u", price="u"),
+  "Clipur":           dict(own="n", team="n", check="u", geo="u", attr="u", fb="u", price="y"),
+  "Vyro":             dict(own="n", team="n", check="n", geo="u", attr="u", fb="n", price="y"),
 }
 MARK = {
   "y": '<span class="mk mk-y" role="img" aria-label="Yes"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>',
@@ -178,22 +185,22 @@ CSS = """<style>
 FIT = [
   ("Maximum views for a launch or release, priced per view", "Clipping Culture, The Clip Ship, Lumina"),
   ("A music release", "Clipping Culture, The Clip Ship, or our <a href=\"/music/\">music offer</a>"),
-  ("Testing clipping on a small budget", "Clipur, ClipFarm, Whop Content Rewards"),
+  ("Testing clipping on a small budget", "Clipur, ClipFarm, Vyro, Whop Content Rewards"),
   ("Clipping plus AI testing and creator marketing", "Clouted"),
   ("Accounts you own, views in your markets, click attribution", "Vision Clipping"),
 ]
 
 FAQS = [
   ("What is the best clipping agency in 2026?",
-   "It depends on what you want. For the most views per dollar on a launch, clipper networks like Clipping Culture, The Clip Ship and Lumina publish some of the lowest rates (around $0.70 to $1 per 1,000 views). For accounts you own, views targeted to the countries you sell in and click attribution, a managed agency on owned accounts like Vision Clipping fits better. For a cheap test, self-serve platforms like Clipur or ClipFarm let you set your own budget."),
+   "It depends on what you want. For the most views per dollar on a launch, clipper networks like Clipping Culture and The Clip Ship publish some of the lowest rates (around $0.70 to $1 per 1,000 views). For accounts you own, views targeted to the countries you sell in and click attribution, a managed agency on owned accounts like Vision Clipping fits better. For a cheap test, self-serve platforms like Clipur or ClipFarm let you set your own budget."),
   ("How much does a clipping agency cost?",
-   "Published prices in October 2026: Clipping Culture says $15,000 delivers about 22M views; The Clip Ship works at about $1 per 1,000 views; Lumina starts at $5,000; Clipur starts at $250 a week; Vision Clipping is $3,000 a month per channel of four owned accounts. Clipper networks charge per view; managed owned-account agencies charge a monthly retainer."),
+   "Published prices in October 2026: Clipping Culture lists an average of about 22M views for $15,000; The Clip Ship works at about $1 per 1,000 views; Lumina starts at $5,000; Clipur starts at $250 a week; Vision Clipping is $3,000 a month per channel of four owned accounts. Clipper networks charge per view; managed owned-account agencies charge a monthly retainer."),
   ("What is the difference between a clipper network and a managed clipping agency?",
    "A clipper network pays many independent clippers per view to post your clips on their own accounts, so it scales fast and cheaply but the audience sits on their pages. A managed agency on owned accounts has its own team post to accounts you own, so you keep the followers and the data and can target specific regions, at a monthly retainer."),
   ("Which clipping agency is best for founders?",
    "Founders building a personal brand usually care about keeping the audience and seeing which clips drive calls or sales. Vision Clipping runs accounts the founder owns with click attribution, and Lumina has a dedicated founder personal-brand offer on its clipper network."),
   ("Which clipping agency is best for music?",
-   "Clipping Culture and The Clip Ship both do a lot of music work and were named by Variety in its 2026 piece on clipping in the music industry. Vision Clipping also has a music offer that places songs into trending edit formats on pages it owns."),
+   "Clipping Culture and The Clip Ship both do a lot of music work, and Variety named Clipping Culture in its 2026 piece on clipping in the music industry. Vision Clipping also has a music offer that places songs into trending edit formats on pages it owns."),
 ]
 
 def plain(s):
@@ -246,7 +253,7 @@ for key, title, _ in GROUPS:
 
 b.append('<h2>Also worth knowing</h2>')
 b.append('<p><strong>Whop Content Rewards</strong> is not an agency but the marketplace many of these agencies run on. A brand can post a campaign there directly, set its own rate per 1,000 views and approve each clip. '
-         'Whop says clippers are paid about $1 per 1,000 views on average. Other names that recur on ranking lists include Atomik Growth, Clip.tech, ClipUp, FORKOFF, CLPR Media, Clipster, Overlap, Spade Clipping and OCRO Media.</p>')
+         'Whop says clippers are paid about $1 per 1,000 views on average. Other names that appear on these ranking lists include Atomik Growth, Clip.tech, ClipUp, FORKOFF, CLPR Media, Clipster, Overlap, Spade Clipping and OCRO Media.</p>')
 
 b.append('<h2>Which one fits you</h2>')
 fr = "".join(f'<tr><td>{g}</td><td>{w}</td></tr>' for g, w in FIT)
