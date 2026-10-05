@@ -613,6 +613,33 @@
   .cases-nav svg{width:18px;height:18px}
   .cases-nav[disabled]{opacity:0.3;cursor:not-allowed}
 
+  /* PROCESS, four-step row. Rail of numbered nodes on desktop, 2x2 on tablet, a vertical list on phones. */
+  section.process{padding-bottom:120px}
+  section.process .sec-head{position:static;top:auto;margin-bottom:48px}
+  .pflow{list-style:none;margin:0 auto;padding:0 32px;max-width:1240px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;counter-reset:pf}
+  .pf-step{position:relative;display:flex;flex-direction:column;padding:26px 24px 24px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 1px 2px rgba(7,7,7,0.04),0 12px 32px -18px rgba(7,7,7,0.14)}
+  .pf-step:not(:last-child)::after{content:"";position:absolute;top:47px;right:-17px;width:18px;height:2px;background:rgba(151,0,14,0.22);z-index:1}
+  .pf-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .pf-ic{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(151,0,14,0.07);color:var(--ox)}
+  .pf-ic svg{width:22px;height:22px}
+  .pf-num{font-family:'Fraunces',serif;font-weight:340;font-style:italic;font-size:30px;line-height:1;color:rgba(151,0,14,0.32);letter-spacing:-0.02em}
+  .pf-step h3{font-size:20px;font-weight:600;letter-spacing:-0.02em;line-height:1.2;margin:0 0 8px;color:var(--ink)}
+  .pf-step p{font-size:14.5px;line-height:1.5;color:var(--muted);margin:0 0 20px}
+  .pf-chip{margin-top:auto;align-self:flex-start;justify-self:start;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ox);background:rgba(151,0,14,0.06);height:26px;display:inline-flex;align-items:center;padding:0 11px;border-radius:999px}
+  @media (max-width:1000px){
+    .pflow{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pf-step::after{display:none}
+  }
+  @media (max-width:600px){
+    section.process{padding-bottom:80px}
+    section.process .sec-head{margin-bottom:28px}
+    .pflow{grid-template-columns:1fr;padding:0 16px;gap:10px}
+    .pf-step{display:grid;grid-template-columns:44px 1fr;column-gap:16px;padding:20px 18px}
+    .pf-top{grid-row:1 / span 3;flex-direction:column;justify-content:flex-start;gap:10px;margin:0}
+    .pf-num{font-size:22px}
+    .pf-step h3{font-size:18px;margin-bottom:6px}
+    .pf-step p{font-size:14px;margin-bottom:12px}
+  }
   /* PROCESS, sticky-stacking cards. The title pins at the top of the viewport while the user scrolls through the cards, and unsticks naturally when .proc-cards scrolls out (i.e. after step 04 has stacked). Cards pin near the vertical centre of the viewport, original card shape and natural spacing preserved. */
   .process{position:relative;padding:120px 0 160px;background:#fafafa;border-top:1px solid var(--line)}
   .process .sec-head{position:sticky;top:96px;z-index:10;max-width:none;margin:0 auto 56px;padding:14px 24px 22px;background:#fafafa;text-align:center}
@@ -2417,120 +2444,38 @@
   </div>
 </section>
 
-<!-- PROCESS, vertically stacked cards, alternating sides, large + spacious -->
+<!-- PROCESS, four steps in one row: icon, number, title, one line -->
 <section id="process" class="process" data-screen-label="04 Process">
   <div class="wrap">
-    <div class="proc-cards">
-      <div class="sec-head fade-in">
-        <h2>Our <em>process</em>, in four steps.</h2>
-      </div>
-      <article class="proc-card fade-in">
-        <div class="proc-text">
-          <div class="proc-step-num">01</div>
-          <h3>Strategy session</h3>
-          <p>A 30 minute session to map your market, identify your ideal buyer, and build the exact attention strategy designed to position you above every competitor in your space.</p>
-        </div>
-        <div class="proc-visual">
-          <div class="proc-vis active">
-            <div class="pv-meet">
-              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Strategy session</span></div>
-              <div class="pv-meet-grid">
-                <div class="pv-tile"><div class="pv-avatar">J</div><div class="pv-name">Jaden</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
-                <div class="pv-tile"><div class="pv-avatar">E</div><div class="pv-name">Emrah</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
-                <div class="pv-tile focus span-2"><div class="pv-avatar">YOU</div><div class="pv-name">You</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
-              </div>
-              <div class="pv-meet-bar">
-                <button class="pvb" aria-label="Mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></button>
-                <button class="pvb" aria-label="Video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M21 8l-4 2v4l4 2V8z"/></svg></button>
-                <button class="pvb" aria-label="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H7l-3 3V5z"/></svg></button>
-                <button class="pvb end" aria-label="End"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l1.5-2.5c4.5-3 10-3 14.5 0L21.5 12l-2 2-3-2V9a13 13 0 00-9 0v3l-3 2-2-2z"/></svg></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="proc-card fade-in">
-        <div class="proc-text">
-          <div class="proc-step-num">02</div>
-          <h3>System assembly and algorithm conditioning</h3>
-          <p>We hand-pick your team, matched to your brand, your audience and your market. Then we condition the algorithm before a single piece of content goes live, so when we launch, we launch into momentum. A dedicated operations manager trains and runs the team.</p>
-        </div>
-        <div class="proc-visual">
-          <div class="proc-vis active">
-            <div class="pv-match">
-              <div class="pv-match-head"><span>Matching live</span><span class="tag">Hand-selected</span></div>
-              <div class="pv-match-list">
-                <div class="pv-match-card"><div class="pv-av">JR</div><div class="pv-info"><div class="nm">Jordan Reyes</div><div class="niche">Fitness · 92K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">SK</div><div class="pv-info"><div class="nm">Sienna Kim</div><div class="niche">Lifestyle · 138K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">AM</div><div class="pv-info"><div class="nm">Alex Moretti</div><div class="niche">Finance · 76K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">DV</div><div class="pv-info"><div class="nm">Devon Vargas</div><div class="niche">Gaming · 211K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">MT</div><div class="pv-info"><div class="nm">Maya Tanaka</div><div class="niche">Beauty · 184K avg</div></div><div class="pv-badge">Matched</div></div>
-              </div>
-              <div class="pv-match-foot"><span class="num">24</span><span class="sub">hand-selected for your brand</span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="proc-card fade-in">
-        <div class="proc-text">
-          <div class="proc-step-num">03</div>
-          <h3>Daily deployment and optimisation</h3>
-          <p>Your content goes live daily across every platform. We test, read the data, and double down on what is winning. The system gets sharper every single day, and you can approve, tweak or send feedback on any clip at any time.</p>
-        </div>
-        <div class="proc-visual">
-          <div class="proc-vis active">
-            <div class="pv-feed">
-              <div class="pv-feed-head"><span>Daily clips</span><span class="live">Live</span></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0482.mp4</div><div class="v">2.4<span class="s">M</span></div></div>
-              <div class="it"><div class="t g"></div><div class="n">clip_0481.mp4</div><div class="v">891<span class="s">K</span></div></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0480.mp4</div><div class="v">1.1<span class="s">M</span></div></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0479.mp4</div><div class="v">3.9<span class="s">M</span></div></div>
-              <div class="it"><div class="t g"></div><div class="n">clip_0478.mp4</div><div class="v">412<span class="s">K</span></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="proc-card fade-in">
-        <div class="proc-text">
-          <div class="proc-step-num">04</div>
-          <h3>Market dominance, compounding</h3>
-          <p>Views compound. Presence compounds. The gap between you and your competitors widens daily, and you see every number, every account and every clip driving it.</p>
-        </div>
-        <div class="proc-visual">
-          <div class="proc-vis active">
-            <div class="pv-chart" id="pv-chart">
-              <div class="top">
-                <div>
-                  <div class="lab">30-day views</div>
-                  <div class="num" id="pv-chart-num" data-target="28400000">28.40M</div>
-                  <div class="num-sub">Compounding daily</div>
-                </div>
-                <div class="delta">+214% WoW</div>
-              </div>
-              <div class="pv-chart-ratio"><span>Distributed across</span><span class="arrow">·</span><strong>52 accounts</strong><span class="arrow">·</span><strong>every platform</strong></div>
-              <div class="pv-chart-svg">
-                <svg viewBox="0 0 300 100" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="pv-fill-grad" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stop-color="#4f0006" stop-opacity="0.35"/>
-                      <stop offset="100%" stop-color="#4f0006" stop-opacity="0"/>
-                    </linearGradient>
-                  </defs>
-                  <path class="fill" d="M0,88 L20,82 L40,85 L60,76 L80,80 L100,68 L120,72 L140,60 L160,56 L180,62 L200,45 L220,38 L240,30 L260,16 L300,5 L300,100 L0,100 Z"/>
-                  <path class="line" d="M0,88 L20,82 L40,85 L60,76 L80,80 L100,68 L120,72 L140,60 L160,56 L180,62 L200,45 L220,38 L240,30 L260,16 L300,5"/>
-                  <circle class="click-dot d1" cx="140" cy="60" r="4"/>
-                  <circle class="click-dot d2" cx="220" cy="38" r="4"/>
-                  <circle class="click-dot d3" cx="290" cy="8" r="4"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
+    <div class="sec-head fade-in">
+      <h2>Our <em>process</em>, in four steps.</h2>
     </div>
+    <ol class="pflow">
+      <li class="pf-step fade-in">
+        <div class="pf-top"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.5-2.5v9L15 14"/><rect x="3" y="6" width="12" height="12" rx="2.5"/></svg></span><span class="pf-num">01</span></div>
+        <h3>Strategy call</h3>
+        <p>We map your market, your buyer and the angle that puts you above everyone else.</p>
+        <span class="pf-chip">30 minutes</span>
+      </li>
+      <li class="pf-step fade-in">
+        <div class="pf-top"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14c2.3.2 4 1.7 4.5 4.5"/></svg></span><span class="pf-num">02</span></div>
+        <h3>We build your team</h3>
+        <p>Hand-picked clippers, accounts you own, and the algorithm warmed up before anything goes live.</p>
+        <span class="pf-chip">Before launch</span>
+      </li>
+      <li class="pf-step fade-in">
+        <div class="pf-top"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor" stroke="none"/></svg></span><span class="pf-num">03</span></div>
+        <h3>Clips go out daily</h3>
+        <p>Every platform, every day. We test, read the data and double down on what wins.</p>
+        <span class="pf-chip">Every day</span>
+      </li>
+      <li class="pf-step fade-in">
+        <div class="pf-top"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><span class="pf-num">04</span></div>
+        <h3>Growth compounds</h3>
+        <p>Views and reach stack up, and you see every number, account and clip behind it.</p>
+        <span class="pf-chip">Full visibility</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -3399,75 +3344,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   }).observe(ps);
 })();
 
-/* Process step 04, fire the chart animation + the count-up exactly once, when the chart first scrolls into view. CSS animations are paused until `.played` is added; the count-up rAF runs in lockstep. */
-(() => {
-  const chart = document.getElementById('pv-chart');
-  const numEl = document.getElementById('pv-chart-num');
-  if(!chart || !numEl) return;
-  const target = parseInt(numEl.dataset.target || '0', 10);
-  const fmt = n => {
-    if(n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
-    if(n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
-    return String(n);
-  };
-  numEl.textContent = '0';
-  const animateCount = () => {
-    const start = performance.now();
-    const dur = 2200;
-    const step = now => {
-      const t = Math.min(1, (now - start) / dur);
-      const eased = 1 - Math.pow(1 - t, 3);
-      numEl.textContent = fmt(Math.round(target * eased));
-      if(t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const play = () => {
-    chart.classList.add('played');
-    animateCount();
-  };
-  if(!('IntersectionObserver' in window)){ play(); return; }
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if(e.isIntersecting){
-        io.disconnect();
-        play();
-      }
-    });
-  }, { threshold: 0.4 });
-  io.observe(chart);
-})();
 
-/* PROCESS, release the pinned title in lockstep with card 04. The container has scroll slack past card 04's stick point, so without this the title hangs over later content while card 04 is moving up. The cards themselves use the native sticky-stack: each one climbs from below and z-index keeps the next card on top of the previous, so the deck-of-cards slide stays intact. */
-(() => {
-  const title = document.querySelector('.process .sec-head');
-  const cards = document.querySelectorAll('.proc-card');
-  if(!title || !cards.length) return;
-  const last = cards[cards.length - 1];
-  const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
-  const titleTop = () => isMobile() ? 126 : 96;
-  const stickyTopForCards = () => isMobile()
-    ? Math.max(210, Math.round(window.innerHeight * 0.5 - 240))
-    : Math.max(200, Math.round(window.innerHeight * 0.5 - 230));
-  let raf = 0;
-  /* Clear any leftover opacity from the previous hide-card-while-climbing approach. */
-  for(let i = 0; i < cards.length; i++) cards[i].style.opacity = '';
-  const update = () => {
-    raf = 0;
-    const sTop = stickyTopForCards();
-    const lastR = last.getBoundingClientRect();
-    if(lastR.top < sTop){
-      title.style.top = (titleTop() - (sTop - lastR.top)) + 'px';
-    } else {
-      title.style.top = '';
-    }
-  };
-  const schedule = () => { if(!raf) raf = requestAnimationFrame(update); };
-  if(window.lenis) lenis.on('scroll', schedule);
-  document.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  update();
-})();
 
 /* CASES CAROUSEL, 3-up infinite arrow navigation + 7s autoplay (desktop only; mobile uses native scroll-snap) */
 (() => {
