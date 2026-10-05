@@ -69,6 +69,9 @@ figure svg{width:100%;height:auto;display:block}
   .close-stat b{font-size:46px}
   figure .figbox{padding:16px 12px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
   figure .figbox svg.dg{min-width:620px}
+  .tbl{font-size:13.5px}
+  .tbl th,.tbl td{padding:11px 12px}
+  .tbl tr:first-child th,.tbl thead th{font-size:10.5px;letter-spacing:.03em}
 }
 </style>`;
 
