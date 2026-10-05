@@ -60,7 +60,7 @@ const short = `# Vision Clipping
 > ${facts.summary}
 
 Key facts:
-- Co-founders: ${facts.founders.map((f) => f.name).join(' and ')}. Co-founder Emrah Bayraktar has been featured in ${facts.press.slice(0,-1).join(', ')} and ${facts.press.at(-1)} reporting on the clipping industry.
+- Co-founders: ${facts.founders.map((f) => f.name).join(' and ')}. Co-founder Emrah Bayraktar has been quoted by ${facts.press.slice(0,-1).join(', ')} and ${facts.press.at(-1)} on the clipping economy.
 - Results: ${facts.results.totalViewsForClients} views generated for clients.
 - Clients include ${facts.clients.brands.slice(0, 5).join(', ')}, ${facts.clients.founders.join(', ')}; content cut for ${facts.clients.artistsAndCreators.slice(0, 3).map((a) => a.name).join(', ')}.
 - Brand offer: ${priceLine(brand)}. ${brand.term}.
