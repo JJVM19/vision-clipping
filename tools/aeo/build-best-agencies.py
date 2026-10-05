@@ -123,6 +123,58 @@ GROUPS = [
    "You set up the campaign and the rate yourself and clippers pick it up. Cheapest way to test, with the least hand-holding."),
 ]
 
+
+# Tick table. y = stated on their own site; n = ruled out by how their own site says they work
+# (e.g. clips post on clippers' accounts); u = not stated, so no cross. Re-check before editing.
+FEATURES = [
+  ("own",   "You own the accounts"),
+  ("team",  "In-house team makes every clip"),
+  ("check", "Every post checked before it goes out"),
+  ("geo",   "Posts from devices in your target region"),
+  ("attr",  "Click attribution per post"),
+  ("fb",    "Facebook included"),
+  ("price", "Published pricing"),
+]
+MATRIX = {
+  "Vision Clipping":  dict(own="y", team="y", check="y", geo="y", attr="y", fb="y", price="y"),
+  "Clipping Culture": dict(own="n", team="n", check="y", geo="u", attr="u", fb="n", price="y"),
+  "The Clip Ship":    dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="y"),
+  "Lumina Clippers":  dict(own="n", team="n", check="u", geo="u", attr="y", fb="n", price="y"),
+  "Clouted":          dict(own="u", team="n", check="u", geo="u", attr="y", fb="n", price="n"),
+  "Clipping Agency":  dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="n"),
+  "Clipify":          dict(own="n", team="n", check="u", geo="u", attr="y", fb="n", price="n"),
+  "Clipur":           dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="y"),
+  "ClipFarm":         dict(own="n", team="n", check="u", geo="u", attr="u", fb="u", price="y"),
+  "Vyro":             dict(own="n", team="n", check="u", geo="u", attr="u", fb="n", price="n"),
+}
+MARK = {
+  "y": '<span class="mk mk-y" role="img" aria-label="Yes"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg></span>',
+  "n": '<span class="mk mk-n" role="img" aria-label="No"><svg viewBox="0 0 16 16"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg></span>',
+  "u": '<span class="mk mk-u" role="img" aria-label="Not stated"></span>',
+}
+CSS = """<style>
+.ck-wrap{width:min(94vw,var(--wide));margin-left:50%;transform:translateX(-50%);overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:28px;margin-bottom:12px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.ck{border-collapse:separate;border-spacing:0;width:100%;min-width:760px;font-size:14px}
+.ck th,.ck td{padding:12px 10px;text-align:center;vertical-align:middle;border-bottom:1px solid var(--hair)}
+.ck thead th{font-size:11.5px;font-weight:650;line-height:1.3;color:var(--muted);background:var(--soft);border-bottom:1px solid var(--line)}
+.ck th:first-child,.ck td:first-child{text-align:left;position:sticky;left:0;z-index:1;background:#fff;font-weight:650;color:var(--ink);padding-left:16px;min-width:128px;box-shadow:1px 0 0 var(--hair)}
+.ck thead th:first-child{background:var(--soft)}
+.ck tbody tr:last-child td{border-bottom:0}
+.ck tr.us td{background:#fbf3f3}
+.ck tr.us td:first-child{color:var(--ox);background:#fbf3f3}
+.ck .score{font-weight:700;color:var(--ink)}
+.ck tr.us .score{color:var(--ox)}
+.mk{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;vertical-align:middle}
+.mk svg{width:13px;height:13px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.mk-y{background:var(--ox)}.mk-y svg{stroke:#fff}
+.mk-n{background:rgba(10,10,10,.06)}.mk-n svg{stroke:rgba(10,10,10,.38)}
+.mk-u{width:12px;height:12px;border:1.5px solid rgba(10,10,10,.22)}
+.ck-key{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin:0 0 28px;width:min(94vw,var(--wide));margin-left:50%;transform:translateX(-50%)}
+@media(max-width:760px){.ck-wrap,.ck-key{width:auto;margin-left:0;transform:none}}
+.ck-key span{display:inline-flex;align-items:center;gap:7px}
+.ck-key .mk{width:18px;height:18px}.ck-key .mk svg{width:11px;height:11px}.ck-key .mk-u{width:10px;height:10px}
+</style>"""
+
 FIT = [
   ("Maximum views for a launch or release, priced per view", "Clipping Culture, The Clip Ship, Lumina"),
   ("A music release", "Clipping Culture, The Clip Ship, or our <a href=\"/music/\">music offer</a>"),
@@ -164,11 +216,17 @@ b.append('<p>Search &ldquo;best clipping agencies&rdquo; and almost every list y
 
 b.append('<div class="callout"><p><strong>Disclosure:</strong> we are Vision Clipping, one of the agencies here. Facts about the others come from their own sites and the press listed at the end, checked 5 October 2026; results are their own figures. Something out of date? <a href="mailto:contact@J-visionmedia.com">Tell us</a>.</p></div>')
 b.append('<h2>The 10 agencies at a glance</h2>')
-rows = "".join(
-    f'<tr><td>{a["name"]}</td><td>{a["model"]}</td><td>{a["price"]}</td><td>{a["best"]}</td></tr>' for a in AGENCIES)
-b.append('<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Agency</th><th>How it works</th><th>Published pricing</th><th>Best for</th></tr></thead>'
-         f'<tbody>{rows}</tbody></table></div>')
-
+hdr = "".join(f"<th>{t}</th>" for _, t in FEATURES)
+trs = ""
+for a in AGENCIES:
+    m = MATRIX[a["name"]]
+    score = sum(v == "y" for v in m.values())
+    cls = ' class="us"' if a.get("internal") else ""
+    cells = "".join(f"<td>{MARK[m[k]]}</td>" for k, _ in FEATURES)
+    trs += f'<tr{cls}><td>{a["name"]}</td>{cells}<td class="score">{score}/{len(FEATURES)}</td></tr>'
+b.append(f'<div class="ck-wrap"><table class="ck"><thead><tr><th>Agency</th>{hdr}<th>Score</th></tr></thead><tbody>{trs}</tbody></table></div>')
+b.append('<div class="ck-key"><span>' + MARK["y"] + 'Yes, stated on their site</span><span>' + MARK["n"] + 'No, by how their site says they work</span><span>'
+         + MARK["u"] + 'Not stated on their site</span></div>')
 b.append('<h2>Three ways clipping agencies work</h2>')
 for key, title, text in GROUPS:
     b.append(f'<p><strong>{title}.</strong> {text}</p>')
@@ -184,7 +242,7 @@ for key, title, _ in GROUPS:
         link = f'<a href="{a["url"]}">{a["name"]}</a>' if a.get("internal") else ext(a["url"], a["name"])
         b.append(f'<h3>{n}. {a["name"]}</h3>')
         b.append(f'<p>{a["body"]}</p>')
-        b.append(f'<p><strong>Best for:</strong> {a["best"]}. <strong>Platforms:</strong> {a["platforms"]}. <strong>Site:</strong> {link}</p>')
+        b.append(f'<p><strong>Pricing:</strong> {a["price"]}. <strong>Best for:</strong> {a["best"]}. <strong>Platforms:</strong> {a["platforms"]}. <strong>Site:</strong> {link}</p>')
 
 b.append('<h2>Also worth knowing</h2>')
 b.append('<p><strong>Whop Content Rewards</strong> is not an agency but the marketplace many of these agencies run on. A brand can post a campaign there directly, set its own rate per 1,000 views and approve each clip. '
@@ -268,7 +326,7 @@ head = f'''<!doctype html>
 {ld}
 </script>
 '''
-rest = shell[head_end:shell.index('<!-- vc-i18n:start -->')] + shell[shell.index('<script src="/assets/attribution.js"'):shell.index('<article>')]
+rest = CSS + '\n' + shell[head_end:shell.index('<!-- vc-i18n:start -->')] + shell[shell.index('<script src="/assets/attribution.js"'):shell.index('<article>')]
 rest = re.sub(r'<div class="crumbs">.*?</div>',
               f'<div class="crumbs"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; {CRUMB}</div>', rest, flags=re.S)
 out = head + rest + '<article>\n    ' + body + '\n  ' + shell[tail_start:]
