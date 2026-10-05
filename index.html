@@ -26,7 +26,7 @@
 <link rel="shortcut icon" href="assets/icons/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#4f0006">
-<meta name="vc-build" content="20260923T135018Z">
+<meta name="vc-build" content="20261005T041624Z">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vision Clipping">
 <meta property="og:url" content="https://vision-clipping.com/">
@@ -1263,6 +1263,94 @@
   .st-stat-num{font-size:clamp(44px,5.6vw,72px);font-weight:600;letter-spacing:-0.04em;line-height:1;color:var(--ox);background:linear-gradient(110deg,#7a000a 0%,var(--ox) 35%,#c8121f 55%,var(--ox) 75%,#7a000a 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .st-stat-lbl{font-size:11px;color:var(--ox);letter-spacing:0.16em;text-transform:uppercase;font-weight:600;margin-top:2px}
   .st-stat-desc{font-size:13.5px;color:var(--muted);line-height:1.5;max-width:300px;margin-top:4px}
+  /* ---------- partnership scroll story (#ps) ---------- */
+  .ps{--ease:cubic-bezier(0.22,1,0.36,1);position:relative;display:grid;grid-template-columns:1fr 1fr;column-gap:120px;max-width:1120px;margin:56px auto 0;padding:0 24px}
+  .ps-line{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:rgba(151,0,14,0.10);border-radius:2px;overflow:hidden}
+  .ps-fill{position:absolute;left:0;top:0;width:100%;height:0;background:linear-gradient(180deg,rgba(151,0,14,0.35),var(--ox) 70%,#c8121f);border-radius:2px;box-shadow:0 0 12px rgba(200,18,31,0.45)}
+  .ps-step{position:relative;min-height:74vh;display:flex;align-items:center;padding:40px 0}
+  .ps-step:first-child{min-height:62vh}
+  .ps-step:last-child{min-height:62vh}
+  .ps-node{position:absolute;right:-60px;top:50%;transform:translate(50%,-50%) scale(.86);width:52px;height:52px;border-radius:15px;background:#fff;border:1.5px solid rgba(151,0,14,0.22);color:rgba(151,0,14,0.45);font-family:'Fraunces',serif;font-weight:340;font-style:italic;font-size:22px;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .6s var(--ease),border-color .4s,color .4s,box-shadow .6s var(--ease),background .4s}
+  .ps-step.on .ps-node,.ps-step.done .ps-node{border-color:var(--ox);color:var(--ox);transform:translate(50%,-50%) scale(1)}
+  .ps-step.on .ps-node{background:var(--ox);color:#fff;box-shadow:0 12px 30px rgba(151,0,14,0.32),0 0 0 8px rgba(151,0,14,0.07)}
+  .ps-copy{max-width:420px;opacity:.32;transform:translateY(10px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .ps-step.on .ps-copy{opacity:1;transform:none}
+  .ps-tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(151,0,14,0.06);margin-bottom:16px}
+  .ps-copy h3{font-size:clamp(28px,3.2vw,40px);font-weight:500;letter-spacing:-0.025em;line-height:1.08;margin-bottom:14px}
+  .ps-copy p{font-size:15.5px;line-height:1.6;color:var(--muted);margin-bottom:26px}
+  .ps-stat{display:flex;align-items:baseline;gap:14px;padding-top:20px;border-top:1px solid var(--line)}
+  .ps-stat b{font-size:44px;font-weight:600;letter-spacing:-0.04em;line-height:1;color:var(--ox)}
+  .ps-stat b i{font-style:normal}
+  .ps-stat b:has(.ps-count){min-width:2.55ch;font-variant-numeric:tabular-nums}
+  .ps-stat > span{font-size:11px;color:var(--ox);letter-spacing:0.16em;text-transform:uppercase;font-weight:600}
+  .ps-plus{opacity:0;transition:opacity .3s}
+  .ps-plus.show{opacity:1}
+  .ps-stage-col{position:relative}
+  .ps-stage{position:sticky;top:calc(50vh - 230px);height:460px;border-radius:28px;overflow:hidden;isolation:isolate;box-shadow:0 40px 90px -30px rgba(79,0,6,0.45),0 12px 30px -12px rgba(7,7,7,0.18)}
+  .ps-bg{position:absolute;inset:-20%;z-index:-1;background:
+      radial-gradient(42% 38% at 22% 28%,rgba(220,40,52,0.85),transparent 70%),
+      radial-gradient(46% 42% at 78% 72%,rgba(120,0,12,0.95),transparent 70%),
+      radial-gradient(38% 34% at 70% 22%,rgba(255,120,110,0.35),transparent 70%),
+      linear-gradient(150deg,#6d0710 0%,#3d0207 60%,#22030a 100%);
+    animation:psDrift 18s ease-in-out infinite alternate}
+  @keyframes psDrift{0%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(4%,-3%,0) rotate(6deg)}100%{transform:translate3d(-3%,4%,0) rotate(-4deg)}}
+  .ps-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:36px;opacity:0;transform:translateY(18px) scale(.97);transition:opacity .55s var(--ease),transform .7s var(--ease);pointer-events:none}
+  .ps-panel.on{opacity:1;transform:none}
+  .ps-ui{width:100%;max-width:400px;background:rgba(255,255,255,0.93);border:1px solid rgba(255,255,255,0.7);border-radius:20px;padding:22px 22px 18px;box-shadow:0 24px 60px -20px rgba(20,0,3,0.6)}
+  .ps-ui-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:14px;font-weight:600;letter-spacing:-0.01em}
+  .ps-ui-head em{font-style:normal;font-size:12px;font-weight:600;color:var(--ox);background:rgba(151,0,14,0.07);padding:4px 10px;border-radius:999px}
+  .ps-ui-head em i{font-style:normal}
+  .ps-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .ps-row b{font-weight:600;flex:1}
+  .ps-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:#fff}
+  .ps-ic.tt{background:#111}.ps-ic.ig{background:linear-gradient(135deg,#f58529,#dd2a7b 55%,#8134af)}.ps-ic.yt{background:#e00}.ps-ic.fb{background:#1877f2}
+  .ps-own{white-space:nowrap;font-size:11.5px;font-weight:600;color:var(--good);background:rgba(10,117,55,0.08);padding:4px 9px;border-radius:999px}
+  .ps-geo{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .ps-geo span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+  .ps-geo span i{width:7px;height:7px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 0 rgba(151,0,14,.45);animation:psPing 2.2s infinite}
+  .ps-geo span:nth-child(2) i{animation-delay:.4s}.ps-geo span:nth-child(3) i{animation-delay:.8s}.ps-geo span:nth-child(4) i{animation-delay:1.2s}.ps-geo span:nth-child(5) i{animation-delay:1.6s}
+  .ps-geo span.add{color:var(--muted);border-style:dashed;background:transparent}
+  @keyframes psPing{0%{box-shadow:0 0 0 0 rgba(151,0,14,.45)}70%{box-shadow:0 0 0 8px rgba(151,0,14,0)}100%{box-shadow:0 0 0 0 rgba(151,0,14,0)}}
+  .ps-dev,.ps-dbl{display:flex;flex-direction:column;gap:3px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px}
+  .ps-dev b,.ps-dbl b{font-size:13.5px}
+  .ps-dev span,.ps-dbl span{color:var(--muted)}
+  .ps-fun{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+  .ps-fun div{display:grid;grid-template-columns:70px 1fr;align-items:center;gap:12px;font-size:12.5px;font-weight:600}
+  .ps-fun i{display:block;height:12px;border-radius:6px;background:linear-gradient(90deg,var(--ox),#d4202e);width:0;transition:width 1s var(--ease)}
+  .ps-panel.on .ps-fun i{width:var(--w)}
+  .ps-panel.on .ps-fun div:nth-child(2) i{transition-delay:.12s}.ps-panel.on .ps-fun div:nth-child(3) i{transition-delay:.24s}.ps-panel.on .ps-fun div:nth-child(4) i{transition-delay:.36s}
+  .ps-panel .ps-row,.ps-panel .ps-geo span{opacity:0;transform:translateY(6px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .ps-panel.on .ps-row,.ps-panel.on .ps-geo span{opacity:1;transform:none}
+  .ps-panel.on .ps-row:nth-of-type(2),.ps-panel.on .ps-geo span:nth-child(2){transition-delay:.08s}
+  .ps-panel.on .ps-row:nth-of-type(3),.ps-panel.on .ps-geo span:nth-child(3){transition-delay:.16s}
+  .ps-panel.on .ps-row:nth-of-type(4),.ps-panel.on .ps-geo span:nth-child(4){transition-delay:.24s}
+  .ps-panel.on .ps-row:nth-of-type(5),.ps-panel.on .ps-geo span:nth-child(5){transition-delay:.32s}
+  .ps-panel.on .ps-geo span:nth-child(6){transition-delay:.4s}
+  .ps-mini{display:none}
+  @media (max-width:900px){
+    .ps{grid-template-columns:1fr;padding:0 20px 0 64px;margin-top:36px}
+    .ps-line{left:41px;transform:none}
+    .ps-stage-col{display:none}
+    .ps-step,.ps-step:first-child,.ps-step:last-child{min-height:0;display:block;padding:26px 0}
+    .ps-node{right:auto;left:-23px;top:26px;transform:translate(-50%,0) scale(.86);width:40px;height:40px;border-radius:12px;font-size:18px}
+    .ps-step.on .ps-node,.ps-step.done .ps-node{transform:translate(-50%,0) scale(1)}
+    .ps-copy{max-width:none;opacity:1;transform:none}
+    .ps-copy h3{font-size:26px}
+    .ps-copy p{font-size:14.5px;margin-bottom:18px}
+    .ps-stat b{font-size:36px}
+    .ps-mini{display:block;position:relative;margin-top:20px;border-radius:22px;overflow:hidden;isolation:isolate;box-shadow:0 26px 60px -26px rgba(79,0,6,0.5)}
+    .ps-mini .ps-panel{position:relative;inset:auto;padding:18px}
+    .ps-mini .ps-ui{padding:16px 16px 12px}
+    .ps-mini .ps-row{gap:10px;font-size:13px;padding:8px 0}
+    .ps-mini .ps-ic{width:26px;height:26px;border-radius:8px}
+    .ps-mini .ps-own{font-size:10.5px;padding:3px 8px}
+    .ps-mini .ps-geo span{font-size:12px;padding:7px 10px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ps-bg{animation:none}
+    .ps-copy,.ps-panel,.ps-node,.ps-fun i,.ps-panel .ps-row,.ps-panel .ps-geo span{transition:none}
+    .ps-geo span i{animation:none}
+  }
 
   /* CALCULATOR */
   .calc{background:var(--soft)}
@@ -2446,47 +2534,73 @@
       <h2 id="how-we-scale-h2">How the <em>partnership</em> works.</h2>
       <p>This is a market positioning system, where you own every account and keep every follower. We build the engine and you inherit the asset.</p>
     </div>
-    <div class="scale-timeline">
-      <div class="st-item st-card-right fade-in">
-        <div class="st-stat">
-          <div class="st-stat-num"><span id="scale-acct-num">3</span><span id="scale-acct-plus" style="opacity:0;transition:opacity 0.3s">+</span></div>
-          <div class="st-stat-lbl">Accounts you own</div>
-          <div class="st-stat-desc">Daily clips on accounts you own and keep, building the audience, data, and playbook your whole system runs on.</div>
+    <!-- Partnership scroll story: steps on the left, one sticky stage on the right, and a centre line that fills as you scroll.
+         Each .ps-panel is cloned under its step on phones (see the ps script). -->
+    <div class="ps" id="ps">
+      <div class="ps-line" aria-hidden="true"><div class="ps-fill" id="ps-fill"></div></div>
+      <div class="ps-steps">
+        <div class="ps-step on" data-i="0">
+          <div class="ps-node" aria-hidden="true">01</div>
+          <div class="ps-copy">
+            <span class="ps-tag">Ownership</span>
+            <h3>Accounts you own.</h3>
+            <p>A handpicked dedicated team running daily clips on accounts you own and keep. Every follower and every data point stays yours.</p>
+            <div class="ps-stat"><b><span class="ps-count">3</span><i class="ps-plus">+</i></b><span>Accounts you own</span></div>
+          </div>
         </div>
-        <div class="st-node">01</div>
-        <div class="st-card">
-          <div class="st-tag">Ownership</div>
-          <h3>Accounts you own.</h3>
-          <p>A handpicked dedicated team running daily clips on accounts you own and keep. Every follower and every data point stays yours.</p>
-          <div class="st-meta"><strong>Accounts you own</strong><span>Data you keep</span></div>
+        <div class="ps-step" data-i="1">
+          <div class="ps-node" aria-hidden="true">02</div>
+          <div class="ps-copy">
+            <span class="ps-tag">Distribution</span>
+            <h3>Targeted distribution.</h3>
+            <p>In-market accounts on our own dedicated devices push your content into any region you want, with native reach and no outside creators required.</p>
+            <div class="ps-stat"><b>100%</b><span>Run internally</span></div>
+          </div>
+        </div>
+        <div class="ps-step" data-i="2">
+          <div class="ps-node" aria-hidden="true">03</div>
+          <div class="ps-copy">
+            <span class="ps-tag">Intelligence</span>
+            <h3>Data that compounds.</h3>
+            <p>Analytics, link attribution, and audience journeys on every account. We double down on what is converting and scale it across your whole system.</p>
+            <div class="ps-stat"><b>Full</b><span>Attribution &amp; data</span></div>
+          </div>
         </div>
       </div>
-      <div class="st-item st-card-left fade-in">
-        <div class="st-card">
-          <div class="st-tag">Distribution</div>
-          <h3>Targeted distribution.</h3>
-          <p>In-market accounts on our own dedicated devices push your content into any region you want, with native reach and no outside creators required.</p>
-          <div class="st-meta"><strong>Any region</strong><span>Native reach</span></div>
-        </div>
-        <div class="st-node">02</div>
-        <div class="st-stat">
-          <div class="st-stat-num">100%</div>
-          <div class="st-stat-lbl">Run internally</div>
-          <div class="st-stat-desc">Because every account is run by our own team, we can target any market you want with real efficiency, no reliance on anyone else's audience.</div>
-        </div>
-      </div>
-      <div class="st-item st-card-right fade-in">
-        <div class="st-stat">
-          <div class="st-stat-num">Full</div>
-          <div class="st-stat-lbl">Attribution &amp; data</div>
-          <div class="st-stat-desc">Link-click attribution, audience journeys, and per-account analytics show exactly what is working.</div>
-        </div>
-        <div class="st-node">03</div>
-        <div class="st-card">
-          <div class="st-tag">Intelligence</div>
-          <h3>Data that compounds.</h3>
-          <p>Analytics, link attribution, and audience journeys on every account. We double down on what is converting and scale it across your whole system.</p>
-          <div class="st-meta"><strong>Attribution</strong><span>Journeys &amp; analytics</span></div>
+      <div class="ps-stage-col">
+        <div class="ps-stage" aria-hidden="true">
+          <div class="ps-bg"></div>
+          <div class="ps-panel on" data-i="0">
+            <div class="ps-ui">
+              <div class="ps-ui-head"><span>Your accounts</span><em><span class="ps-count">3</span><i class="ps-plus">+</i></em></div>
+              <div class="ps-row"><i class="ps-ic tt">T</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic ig">I</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic yt">Y</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic fb">F</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+            </div>
+          </div>
+          <div class="ps-panel" data-i="1">
+            <div class="ps-ui">
+              <div class="ps-ui-head"><span>Posting from</span><em>Live</em></div>
+              <div class="ps-geo">
+                <span><i></i>United States</span><span><i></i>United Kingdom</span><span><i></i>UAE</span>
+                <span><i></i>Germany</span><span><i></i>Australia</span><span class="add">+ any region</span>
+              </div>
+              <div class="ps-dev"><b>Dedicated devices</b><span>In-market accounts, run by our team</span></div>
+            </div>
+          </div>
+          <div class="ps-panel" data-i="2">
+            <div class="ps-ui">
+              <div class="ps-ui-head"><span>Attribution</span><em>Every post</em></div>
+              <div class="ps-fun">
+                <div><span>Views</span><i style="--w:100%"></i></div>
+                <div><span>Clicks</span><i style="--w:72%"></i></div>
+                <div><span>Sign-ups</span><i style="--w:48%"></i></div>
+                <div><span>Sales</span><i style="--w:30%"></i></div>
+              </div>
+              <div class="ps-dbl"><b>Winner found</b><span>Scaled across every account</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -3201,51 +3315,77 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   run(); setInterval(run, 2200);
 })();
 
-/* Scale phase 01, looping count-up tally "3 → 30+ internally run accounts". Runs while the stat is on screen, pauses when scrolled away to save cycles. The "+" only shows during the held high-end pause. */
+/* Partnership scroll story (#ps). The step containing the reading line goes live, its stage panel crossfades in,
+   and the centre line fills to the reading line. Phones get each panel cloned under its own step. The 3 → 30+
+   tally loops only while the section is on screen. */
 (() => {
-  const num = document.getElementById('scale-acct-num');
-  const plus = document.getElementById('scale-acct-plus');
-  if(!num) return;
-  const FROM = 3, TO = 30;
-  const COUNT_DUR = 1800;     /* climb from 3 → 30 */
-  const HOLD_DUR = 1400;      /* hold at 30+ before resetting */
-  let visible = false;
-  let rafId = 0;
-  let cycleStart = 0;
-  const tick = (now) => {
-    const t = (now - cycleStart) / (COUNT_DUR + HOLD_DUR);
-    if(t >= 1){
-      cycleStart = now;
-      rafId = requestAnimationFrame(tick);
-      return;
-    }
-    if(t < COUNT_DUR / (COUNT_DUR + HOLD_DUR)){
-      const p = (now - cycleStart) / COUNT_DUR;
-      const eased = 1 - Math.pow(1 - p, 3);
-      num.textContent = String(Math.round(FROM + (TO - FROM) * eased));
-      if(plus) plus.style.opacity = '0';
-    } else {
-      num.textContent = String(TO);
-      if(plus) plus.style.opacity = '1';
-    }
-    rafId = requestAnimationFrame(tick);
-  };
-  const start = () => {
-    if(rafId) return;
-    cycleStart = performance.now();
-    rafId = requestAnimationFrame(tick);
-  };
-  const stop = () => {
-    if(rafId){ cancelAnimationFrame(rafId); rafId = 0; }
-  };
-  if(!('IntersectionObserver' in window)){ start(); return; }
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => {
-      visible = e.isIntersecting;
-      if(visible) start(); else stop();
+  const ps = document.getElementById('ps');
+  if(!ps) return;
+  const steps = [...ps.querySelectorAll('.ps-step')];
+  const panels = [...ps.querySelectorAll('.ps-stage .ps-panel')];
+  const fill = document.getElementById('ps-fill');
+  const mq = matchMedia('(max-width:900px)');
+
+  steps.forEach((st, i) => {
+    const mini = document.createElement('div');
+    mini.className = 'ps-mini';
+    mini.setAttribute('aria-hidden', 'true');
+    mini.innerHTML = '<div class="ps-bg"></div>';
+    const p = panels[i].cloneNode(true);
+    p.classList.remove('on');
+    mini.appendChild(p);
+    st.querySelector('.ps-copy').appendChild(mini);
+  });
+
+  let cur = -1;
+  const setActive = (i) => {
+    if(i === cur) return;
+    cur = i;
+    steps.forEach((st, k) => {
+      st.classList.toggle('on', k === i);
+      st.classList.toggle('done', k < i);
+      st.querySelector('.ps-mini .ps-panel').classList.toggle('on', k <= i);
     });
-  }, { threshold: 0.4 });
-  io.observe(num);
+    panels.forEach((p, k) => p.classList.toggle('on', k === i));
+  };
+
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const line = innerHeight * (mq.matches ? 0.66 : 0.6);
+    const box = ps.getBoundingClientRect();
+    const h = Math.max(0, Math.min(box.height, line - box.top));
+    fill.style.height = h + 'px';
+    let i = 0;
+    steps.forEach((st, k) => { if(st.getBoundingClientRect().top <= line) i = k; });
+    setActive(i);
+  };
+  const onScroll = () => { if(!queued){ queued = true; requestAnimationFrame(update); } };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  update();
+
+  const counts = [...ps.querySelectorAll('.ps-count')];
+  const pluses = [...ps.querySelectorAll('.ps-plus')];
+  const FROM = 3, TO = 30, COUNT_DUR = 1800, HOLD_DUR = 1400;
+  let raf = 0, t0 = 0;
+  const tick = (now) => {
+    let t = now - t0;
+    if(t >= COUNT_DUR + HOLD_DUR){ t0 = now; t = 0; }
+    const counting = t < COUNT_DUR;
+    const v = counting ? Math.round(FROM + (TO - FROM) * (1 - Math.pow(1 - t / COUNT_DUR, 3))) : TO;
+    counts.forEach(c => { c.textContent = v; });
+    pluses.forEach(p => p.classList.toggle('show', !counting));
+    raf = requestAnimationFrame(tick);
+  };
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    counts.forEach(c => { c.textContent = TO; }); pluses.forEach(p => p.classList.add('show'));
+    return;
+  }
+  new IntersectionObserver(([e]) => {
+    if(e.isIntersecting && !raf){ t0 = performance.now(); raf = requestAnimationFrame(tick); }
+    else if(!e.isIntersecting && raf){ cancelAnimationFrame(raf); raf = 0; }
+  }).observe(ps);
 })();
 
 /* Process step 04, fire the chart animation + the count-up exactly once, when the chart first scrolls into view. CSS animations are paused until `.played` is added; the count-up rAF runs in lockstep. */
