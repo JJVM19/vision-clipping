@@ -1275,7 +1275,7 @@
   .ps-step.on .ps-node{background:var(--ox);color:#fff;box-shadow:0 12px 30px rgba(151,0,14,0.32),0 0 0 8px rgba(151,0,14,0.07)}
   .ps-copy{max-width:420px;opacity:.32;transform:translateY(10px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
   .ps-step.on .ps-copy{opacity:1;transform:none}
-  .ps-tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(151,0,14,0.06);margin-bottom:16px}
+  .ps-tag{display:inline-flex;align-items:center;height:28px;font-size:11px;line-height:1;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0 12px;border-radius:999px;background:rgba(151,0,14,0.06);margin-bottom:16px}
   .ps-copy h3{font-size:clamp(28px,3.2vw,40px);font-weight:500;letter-spacing:-0.025em;line-height:1.08;margin-bottom:14px}
   .ps-copy p{font-size:15.5px;line-height:1.6;color:var(--muted);margin-bottom:26px}
   .ps-stat{display:flex;align-items:baseline;gap:14px;padding-top:20px;border-top:1px solid var(--line)}
@@ -1302,14 +1302,17 @@
   .ps-ui-head em i{font-style:normal}
   .ps-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
   .ps-row b{font-weight:600;flex:1}
-  .ps-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:#fff}
-  .ps-ic.tt{background:#111}.ps-ic.ig{background:linear-gradient(135deg,#f58529,#dd2a7b 55%,#8134af)}.ps-ic.yt{background:#e00}.ps-ic.fb{background:#1877f2}
+  .ps-ic{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff}
+  .ps-ic svg{width:17px;height:17px;display:block}
+  .ps-ic.tt{background:#111}.ps-ic.tt svg{filter:drop-shadow(-1px -1px 0 #25f4ee) drop-shadow(1px 1px 0 #fe2c55)}
+  .ps-ic.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
+  .ps-ic.yt{background:#fff;color:#f00;box-shadow:inset 0 0 0 1px var(--line)}.ps-ic.yt svg{width:21px;height:21px}
+  .ps-ic.fb{background:#1877f2}.ps-ic.fb svg{width:19px;height:19px}
   .ps-own{white-space:nowrap;font-size:11.5px;font-weight:600;color:var(--good);background:rgba(10,117,55,0.08);padding:4px 9px;border-radius:999px}
-  .ps-geo{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-  .ps-geo span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-  .ps-geo span i{width:7px;height:7px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 0 rgba(151,0,14,.45);animation:psPing 2.2s infinite}
-  .ps-geo span:nth-child(2) i{animation-delay:.4s}.ps-geo span:nth-child(3) i{animation-delay:.8s}.ps-geo span:nth-child(4) i{animation-delay:1.2s}.ps-geo span:nth-child(5) i{animation-delay:1.6s}
-  .ps-geo span.add{color:var(--muted);border-style:dashed;background:transparent}
+  .ps-geo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:16px}
+  .ps-geo span{display:flex;align-items:center;gap:9px;height:40px;padding:0 12px;font-size:13px;font-weight:600;letter-spacing:-0.005em;white-space:nowrap;border-radius:12px;background:#fff;border:1px solid var(--line)}
+  .ps-geo img{flex:none;width:18px;height:18px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(7,7,7,0.08)}
+  .ps-geo span.add{justify-content:center;color:var(--muted);font-weight:500;border-style:dashed;background:transparent}
   @keyframes psPing{0%{box-shadow:0 0 0 0 rgba(151,0,14,.45)}70%{box-shadow:0 0 0 8px rgba(151,0,14,0)}100%{box-shadow:0 0 0 0 rgba(151,0,14,0)}}
   .ps-dev,.ps-dbl{display:flex;flex-direction:column;gap:3px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px}
   .ps-dev b,.ps-dbl b{font-size:13.5px}
@@ -1328,11 +1331,11 @@
   .ps-panel.on .ps-geo span:nth-child(6){transition-delay:.4s}
   .ps-mini{display:none}
   @media (max-width:900px){
-    .ps{grid-template-columns:1fr;padding:0 20px 0 64px;margin-top:36px}
-    .ps-line{left:41px;transform:none}
+    .ps{grid-template-columns:1fr;padding:0 20px 0 72px;margin-top:36px}
+    .ps-line{left:35px;transform:none}
     .ps-stage-col{display:none}
     .ps-step,.ps-step:first-child,.ps-step:last-child{min-height:0;display:block;padding:26px 0}
-    .ps-node{right:auto;left:-23px;top:26px;transform:translate(-50%,0) scale(.86);width:40px;height:40px;border-radius:12px;font-size:18px}
+    .ps-node{right:auto;left:-36px;top:20px;transform:translate(-50%,0) scale(.86);width:40px;height:40px;border-radius:12px;font-size:18px}
     .ps-step.on .ps-node,.ps-step.done .ps-node{transform:translate(-50%,0) scale(1)}
     .ps-copy{max-width:none;opacity:1;transform:none}
     .ps-copy h3{font-size:26px}
@@ -1344,7 +1347,11 @@
     .ps-mini .ps-row{gap:10px;font-size:13px;padding:8px 0}
     .ps-mini .ps-ic{width:26px;height:26px;border-radius:8px}
     .ps-mini .ps-own{font-size:10.5px;padding:3px 8px}
-    .ps-mini .ps-geo span{font-size:12px;padding:7px 10px}
+    .ps-mini .ps-geo{display:flex;flex-wrap:wrap;gap:6px}
+    .ps-mini .ps-geo span{font-size:12px;height:34px;padding:0 11px 0 8px;gap:7px;border-radius:999px}
+    .ps-mini .ps-geo span.add{padding:0 12px}
+    .ps-mini .ps-geo img{width:16px;height:16px}
+    .ps-mini .ps-ic svg{width:15px;height:15px}
   }
   @media (prefers-reduced-motion: reduce){
     .ps-bg{animation:none}
@@ -2573,18 +2580,22 @@
           <div class="ps-panel on" data-i="0">
             <div class="ps-ui">
               <div class="ps-ui-head"><span>Your accounts</span><em><span class="ps-count">3</span><i class="ps-plus">+</i></em></div>
-              <div class="ps-row"><i class="ps-ic tt">T</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic ig">I</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic yt">Y</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic fb">F</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic tt" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic ig" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic yt" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic fb" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
             </div>
           </div>
           <div class="ps-panel" data-i="1">
             <div class="ps-ui">
               <div class="ps-ui-head"><span>Posting from</span><em>Live</em></div>
               <div class="ps-geo">
-                <span><i></i>United States</span><span><i></i>United Kingdom</span><span><i></i>UAE</span>
-                <span><i></i>Germany</span><span><i></i>Australia</span><span class="add">+ any region</span>
+                <span><img src="assets/flags/us.svg" alt="" width="18" height="18" loading="lazy">United States</span>
+                <span><img src="assets/flags/gb.svg" alt="" width="18" height="18" loading="lazy">United Kingdom</span>
+                <span><img src="assets/flags/ae.svg" alt="" width="18" height="18" loading="lazy">UAE</span>
+                <span><img src="assets/flags/de.svg" alt="" width="18" height="18" loading="lazy">Germany</span>
+                <span><img src="assets/flags/au.svg" alt="" width="18" height="18" loading="lazy">Australia</span>
+                <span class="add">+ Any region</span>
               </div>
               <div class="ps-dev"><b>Dedicated devices</b><span>In-market accounts, run by our team</span></div>
             </div>
