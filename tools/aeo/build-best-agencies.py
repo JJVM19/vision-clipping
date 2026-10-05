@@ -5,8 +5,8 @@ import json, re, html, pathlib
 SITE = pathlib.Path.home() / "vision-clipping-site"
 SLUG = "best-clipping-agencies"
 URL = f"https://vision-clipping.com/blog/{SLUG}/"
-TITLE = "Best Clipping Agencies in 2026: 11 Compared"
-HEADLINE = "Best Clipping Agencies in 2026: 11 Compared by Model, Price and Fit"
+TITLE = "Best Clipping Agencies in 2026: 10 Compared"
+HEADLINE = "Best Clipping Agencies in 2026: 10 Compared by Model, Price and Fit"
 DESC = ("The best clipping agencies in 2026 side by side: how each works, published pricing, platforms "
         "and who each one is best for. Sourced, checked October 2026.")
 CRUMB = "Best clipping agencies 2026"
@@ -32,15 +32,6 @@ AGENCIES = [
              "Clients include Iman Gadzhi, Luke Belmar and Russell Brunson, with 3B+ views generated for clients "
              "across <a href=\"/cases/\">our case studies</a>. For artists there is a separate "
              "<a href=\"/music/\">music offer</a> that places songs into trending edit formats on pages we own.")),
-  dict(group="owned", name="Clip Central", url="https://www.clipcentral.co/",
-       model="Hybrid: booked pages, clipper network, brand-owned clip accounts",
-       price="Not published",
-       platforms="TikTok, Instagram, YouTube, X",
-       best="Brands that want placement on established faceless and meme pages, or a dedicated page built for them",
-       body=("Clip Central does three things under one roof: it books established faceless and meme pages for a "
-             "brand, runs traditional clipping through a network of clipping accounts, and builds and manages "
-             "dedicated clip accounts for brands. That last part makes it one of the few agencies on any list that "
-             "also runs brand-owned pages. Pricing is not on its site.")),
   dict(group="network", name="Clipping Culture", url="https://clippingculture.com/",
        model="Clipper network (500K+ community on Whop)",
        price="$15K &asymp; 22M views, $50K &asymp; 70M, $100K &asymp; 140M",
@@ -125,7 +116,7 @@ AGENCIES = [
 
 GROUPS = [
   ("owned", "Managed, on accounts the brand owns",
-   "A team makes and posts the clips on accounts that belong to the brand (or pages the agency books). Higher monthly cost, but the accounts, followers and data stay with you, and posting can be aimed at a region."),
+   "A team makes and posts the clips on accounts that belong to the brand. Higher monthly cost, but the accounts, followers and data stay with you, and posting can be aimed at a region."),
   ("network", "Managed clipper networks",
    "The agency briefs a large network of independent clippers who post on their own accounts and are paid per 1,000 verified views. This is the lowest cost per view and the fastest way to flood a launch."),
   ("self", "Self-serve marketplaces",
@@ -137,7 +128,6 @@ FIT = [
   ("A music release", "Clipping Culture, The Clip Ship, or our <a href=\"/music/\">music offer</a>"),
   ("Testing clipping on a small budget", "Clipur, ClipFarm, Whop Content Rewards"),
   ("Clipping plus AI testing and creator marketing", "Clouted"),
-  ("Placement on big faceless and meme pages", "Clip Central"),
   ("Accounts you own, views in your markets, click attribution", "Vision Clipping"),
 ]
 
@@ -173,7 +163,7 @@ b.append('<p>Search &ldquo;best clipping agencies&rdquo; and almost every list y
          'across the lists that rank for this search.</p>')
 
 b.append('<div class="callout"><p><strong>Disclosure:</strong> we are Vision Clipping, one of the agencies here. Facts about the others come from their own sites and the press listed at the end, checked 5 October 2026; results are their own figures. Something out of date? <a href="mailto:contact@J-visionmedia.com">Tell us</a>.</p></div>')
-b.append('<h2>The 11 agencies at a glance</h2>')
+b.append('<h2>The 10 agencies at a glance</h2>')
 rows = "".join(
     f'<tr><td>{a["name"]}</td><td>{a["model"]}</td><td>{a["price"]}</td><td>{a["best"]}</td></tr>' for a in AGENCIES)
 b.append('<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Agency</th><th>How it works</th><th>Published pricing</th><th>Best for</th></tr></thead>'
