@@ -26,7 +26,7 @@
 <link rel="shortcut icon" href="assets/icons/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#4f0006">
-<meta name="vc-build" content="20261005T041624Z">
+<meta name="vc-build" content="20261005T112329Z">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vision Clipping">
 <meta property="og:url" content="https://vision-clipping.com/">
@@ -292,7 +292,7 @@
      Done on .u rather than by shrinking .glow's line-height: the underline SVG is positioned from .u's bottom,
      so a shorter line box drags the stroke up through the glyphs. This keeps the internal geometry intact. */
   .hero h1 .u{position:relative;display:inline-block;z-index:1;margin-top:-0.16em;--ox:#7a000a}
-  .hero h1 .u svg{position:absolute;left:-4%;right:-4%;bottom:0.14em;width:108%;height:0.32em;overflow:visible;pointer-events:none;filter:drop-shadow(0 0 10px rgba(79,0,6,0.45)) drop-shadow(0 0 22px rgba(79,0,6,0.22));z-index:0}
+  .hero h1 .u svg{position:absolute;left:-4%;right:-4%;bottom:-0.02em;width:108%;height:0.32em;overflow:visible;pointer-events:none;filter:drop-shadow(0 0 10px rgba(79,0,6,0.45)) drop-shadow(0 0 22px rgba(79,0,6,0.22));z-index:0}
   .hero h1 .u svg path{stroke:var(--ox);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;animation:drawU 1.2s 1.1s cubic-bezier(0.55,0.05,0.25,1) forwards}
   @keyframes drawU{to{stroke-dashoffset:0}}
   /* WORD CYCLER, swaps "Built" / "Managed" / "Optimised" with blur fade; cycler width animates so " For You" shifts and the underline grows/shrinks. */
@@ -757,6 +757,65 @@
   .pv-chart.played .pv-chart-svg .fill,
   .pv-chart.played .pv-chart-svg .line,
   .pv-chart.played .pv-chart-svg .click-dot{animation-play-state:running}
+  /* PROCESS visuals v2: sized off the card (cqw), so one design scales from desktop to the phone card */
+  .proc-visual{container-type:inline-size}
+  .pv2{position:absolute;inset:0;display:flex;flex-direction:column;font-size:clamp(8.5px,2.35cqw,14.5px);padding:1.6em;gap:.9em;color:var(--ink)}
+  .pv2 .pv2-txt{display:flex;flex-direction:column;gap:.2em;min-width:0;flex:1}
+  .pv2 .pv2-txt b{font-size:1.05em;font-weight:600;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pv2 .pv2-txt span{font-size:.85em;color:var(--muted);display:flex;align-items:center;gap:.45em;white-space:nowrap}
+  .pv2-head{display:flex;align-items:center;gap:.6em;font-size:1em}
+  .pv2-head b{font-weight:600;letter-spacing:-0.01em}
+  .pv2-head > :last-child{margin-left:auto}
+  .pv2-call{background:radial-gradient(120% 90% at 20% 0%,#2a0a0e,#121212 60%);color:#fff}
+  .pv2-call .rec{width:.6em;height:.6em;border-radius:50%;background:#ff3b30;box-shadow:0 0 0 .3em rgba(255,59,48,.18);animation:pv-dot-pulse 1.4s ease-in-out infinite}
+  .pv2-time{font-size:.8em;font-weight:600;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);padding:.35em .8em;border-radius:999px}
+  .pv2-tiles{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6em}
+  .pv2-tile{position:relative;border-radius:.9em;overflow:hidden;background:#222;border:1px solid rgba(255,255,255,.07)}
+  .pv2-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+  .pv2-tile span{position:absolute;left:.55em;bottom:.55em;font-size:.78em;font-weight:500;padding:.3em .65em;border-radius:.5em;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .pv2-tile.spk{box-shadow:0 0 0 2px #34c759,0 0 1.4em rgba(52,199,89,.35)}
+  .pv2-tile.you{display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#2b2b2b,#1a1a1a)}
+  .pv2-tile.you i{width:3.4em;height:3.4em;border-radius:50%;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:#3a3a3a;color:#5c5c5c}
+  .pv2-tile.you i svg{width:80%;height:80%}
+  .pv2-agenda{display:flex;gap:.5em}
+  .pv2-agenda span{flex:1;display:flex;align-items:center;justify-content:center;gap:.4em;font-size:.8em;font-weight:500;padding:.65em .4em;border-radius:.7em;background:rgba(255,255,255,.06);color:rgba(255,255,255,.85);white-space:nowrap}
+  .pv2-agenda svg{width:1.1em;height:1.1em;color:#34c759;flex:none}
+  .pv2-pill{font-size:.75em;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ox);background:rgba(151,0,14,.07);padding:.4em .85em;border-radius:999px}
+  .pv2-row{flex:1;min-height:0;display:flex;align-items:center;gap:.9em;padding:.7em 1em;background:var(--paper);border:1px solid var(--line);border-radius:.9em}
+  .pv2-row.col{flex-direction:column;align-items:stretch;justify-content:center;gap:.7em}
+  .pv2-row.col .pv2-txt{flex:none}
+  .pv2-ava{display:flex;flex:none}
+  .pv2-ava i{width:2.6em;height:2.6em;border-radius:50%;margin-left:-.6em;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.66em;letter-spacing:-0.02em;font-weight:600;color:#fff;background:linear-gradient(135deg,#97000e,#4f0006)}
+  .pv2-ava i:first-child{margin-left:0}
+  .pv2-ava i:nth-child(2){background:linear-gradient(135deg,#c96068,#8a3a42)}
+  .pv2-ava i:nth-child(3){background:linear-gradient(135deg,#5a3a42,#2a1013)}
+  .pv2-ava i:nth-child(4){background:#f1eded;color:var(--ox)}
+  .pv2-logos{display:flex;gap:.3em;flex:none}
+  .pv2-logos i,.pv2 .pl{width:1.75em;height:1.75em;border-radius:.45em;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+  .pv2 .pl{width:1.35em;height:1.35em;border-radius:.35em}
+  .pv2-logos svg,.pv2 .pl svg{width:62%;height:62%}
+  .pv2 .tt{background:#111}.pv2 .ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}.pv2 .yt{background:#fff;color:#f00;box-shadow:inset 0 0 0 1px var(--line)}.pv2 .fb{background:#1877f2}
+  .pv2 .yt svg{width:80%;height:80%}
+  .pv2 em.ok{width:1.7em;height:1.7em;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(10,117,55,.1);color:var(--good);flex:none}
+  .pv2 em.ok svg{width:58%;height:58%}
+  .pv2-bar{height:.55em;border-radius:999px;background:#f0eaea;overflow:hidden}
+  .pv2-bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--ox),#d4202e);animation:pv2Fill 3.2s cubic-bezier(.22,1,.36,1) .4s forwards}
+  @keyframes pv2Fill{to{width:100%}}
+  @keyframes pv2In{to{opacity:1}}
+  .pv2-live{display:flex;align-items:center;gap:.45em;font-size:.75em;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--good)}
+  .pv2-live::before{content:"";width:.55em;height:.55em;border-radius:50%;background:var(--good);animation:pv-live-dot 1.6s ease-in-out infinite}
+  .pv2-clip{flex:1;min-height:0;display:flex;align-items:center;gap:.9em;padding:.55em 1em .55em .55em;background:var(--paper);border:1px solid var(--line);border-radius:.9em}
+  .pv2-clip img{height:100%;max-height:4.6em;aspect-ratio:3/4;width:auto;object-fit:cover;border-radius:.55em;flex:none}
+  .pv2-clip strong{display:flex;flex-direction:column;align-items:flex-end;font-size:1.35em;font-weight:600;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;line-height:1}
+  .pv2-clip strong small{font-size:.5em;font-weight:500;letter-spacing:0;color:var(--muted);margin-top:.3em}
+  .pv-chart .grid{fill:none;stroke:rgba(7,7,7,0.07);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+  .pv-chart .pv-chart-svg .line{stroke-width:2.6;vector-effect:non-scaling-stroke;stroke-dasharray:none;stroke-dashoffset:0;clip-path:inset(0 100% 0 0);animation:pvLineIn 1.8s cubic-bezier(.22,1,.36,1) .2s forwards;animation-play-state:paused}
+  .pv-chart .pv-chart-svg .fill{clip-path:inset(0 100% 0 0);animation:pvLineIn 1.8s cubic-bezier(.22,1,.36,1) .2s forwards,chartFillIn 1.6s .6s ease-out forwards;animation-play-state:paused}
+  .pv-chart.played .pv-chart-svg .fill,.pv-chart.played .pv-chart-svg .line,.pv-chart.played .pv-end{animation-play-state:running}
+  @keyframes pvLineIn{to{clip-path:inset(0 0 0 0)}}
+  .pv-end{position:absolute;right:0;top:6%;width:10px;height:10px;margin:-5px -5px 0 0;border-radius:50%;background:var(--ox);border:2px solid #fff;box-shadow:0 0 0 0 rgba(151,0,14,.4);opacity:0;animation:pvEnd .4s ease 1.9s forwards,psPing 2.2s 2.3s infinite;animation-play-state:paused}
+  @keyframes pvEnd{to{opacity:1}}
+  .pv-x{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:10px}
   @keyframes drawLine{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
   @keyframes chartFillIn{from{opacity:0}to{opacity:1}}
   @keyframes dotPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
@@ -1275,7 +1334,7 @@
   .ps-step.on .ps-node{background:var(--ox);color:#fff;box-shadow:0 12px 30px rgba(151,0,14,0.32),0 0 0 8px rgba(151,0,14,0.07)}
   .ps-copy{max-width:420px;opacity:.32;transform:translateY(10px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
   .ps-step.on .ps-copy{opacity:1;transform:none}
-  .ps-tag{display:inline-block;font-size:11px;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(151,0,14,0.06);margin-bottom:16px}
+  .ps-tag{display:inline-flex;align-items:center;height:28px;font-size:11px;line-height:1;color:var(--ox);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0 12px;border-radius:999px;background:rgba(151,0,14,0.06);margin-bottom:16px}
   .ps-copy h3{font-size:clamp(28px,3.2vw,40px);font-weight:500;letter-spacing:-0.025em;line-height:1.08;margin-bottom:14px}
   .ps-copy p{font-size:15.5px;line-height:1.6;color:var(--muted);margin-bottom:26px}
   .ps-stat{display:flex;align-items:baseline;gap:14px;padding-top:20px;border-top:1px solid var(--line)}
@@ -1302,14 +1361,17 @@
   .ps-ui-head em i{font-style:normal}
   .ps-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
   .ps-row b{font-weight:600;flex:1}
-  .ps-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:#fff}
-  .ps-ic.tt{background:#111}.ps-ic.ig{background:linear-gradient(135deg,#f58529,#dd2a7b 55%,#8134af)}.ps-ic.yt{background:#e00}.ps-ic.fb{background:#1877f2}
+  .ps-ic{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff}
+  .ps-ic svg{width:17px;height:17px;display:block}
+  .ps-ic.tt{background:#111}.ps-ic.tt svg{filter:drop-shadow(-1px -1px 0 #25f4ee) drop-shadow(1px 1px 0 #fe2c55)}
+  .ps-ic.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
+  .ps-ic.yt{background:#fff;color:#f00;box-shadow:inset 0 0 0 1px var(--line)}.ps-ic.yt svg{width:21px;height:21px}
+  .ps-ic.fb{background:#1877f2}.ps-ic.fb svg{width:19px;height:19px}
   .ps-own{white-space:nowrap;font-size:11.5px;font-weight:600;color:var(--good);background:rgba(10,117,55,0.08);padding:4px 9px;border-radius:999px}
-  .ps-geo{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-  .ps-geo span{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-  .ps-geo span i{width:7px;height:7px;border-radius:50%;background:var(--ox);box-shadow:0 0 0 0 rgba(151,0,14,.45);animation:psPing 2.2s infinite}
-  .ps-geo span:nth-child(2) i{animation-delay:.4s}.ps-geo span:nth-child(3) i{animation-delay:.8s}.ps-geo span:nth-child(4) i{animation-delay:1.2s}.ps-geo span:nth-child(5) i{animation-delay:1.6s}
-  .ps-geo span.add{color:var(--muted);border-style:dashed;background:transparent}
+  .ps-geo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:16px}
+  .ps-geo span{display:flex;align-items:center;gap:9px;height:40px;padding:0 12px;font-size:13px;font-weight:600;letter-spacing:-0.005em;white-space:nowrap;border-radius:12px;background:#fff;border:1px solid var(--line)}
+  .ps-geo img{flex:none;width:18px;height:18px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(7,7,7,0.08)}
+  .ps-geo span.add{justify-content:center;color:var(--muted);font-weight:500;border-style:dashed;background:transparent}
   @keyframes psPing{0%{box-shadow:0 0 0 0 rgba(151,0,14,.45)}70%{box-shadow:0 0 0 8px rgba(151,0,14,0)}100%{box-shadow:0 0 0 0 rgba(151,0,14,0)}}
   .ps-dev,.ps-dbl{display:flex;flex-direction:column;gap:3px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px}
   .ps-dev b,.ps-dbl b{font-size:13.5px}
@@ -1328,11 +1390,11 @@
   .ps-panel.on .ps-geo span:nth-child(6){transition-delay:.4s}
   .ps-mini{display:none}
   @media (max-width:900px){
-    .ps{grid-template-columns:1fr;padding:0 20px 0 64px;margin-top:36px}
-    .ps-line{left:41px;transform:none}
+    .ps{grid-template-columns:1fr;padding:0 20px 0 72px;margin-top:36px}
+    .ps-line{left:35px;transform:none}
     .ps-stage-col{display:none}
     .ps-step,.ps-step:first-child,.ps-step:last-child{min-height:0;display:block;padding:26px 0}
-    .ps-node{right:auto;left:-23px;top:26px;transform:translate(-50%,0) scale(.86);width:40px;height:40px;border-radius:12px;font-size:18px}
+    .ps-node{right:auto;left:-36px;top:20px;transform:translate(-50%,0) scale(.86);width:40px;height:40px;border-radius:12px;font-size:18px}
     .ps-step.on .ps-node,.ps-step.done .ps-node{transform:translate(-50%,0) scale(1)}
     .ps-copy{max-width:none;opacity:1;transform:none}
     .ps-copy h3{font-size:26px}
@@ -1344,7 +1406,11 @@
     .ps-mini .ps-row{gap:10px;font-size:13px;padding:8px 0}
     .ps-mini .ps-ic{width:26px;height:26px;border-radius:8px}
     .ps-mini .ps-own{font-size:10.5px;padding:3px 8px}
-    .ps-mini .ps-geo span{font-size:12px;padding:7px 10px}
+    .ps-mini .ps-geo{display:flex;flex-wrap:wrap;gap:6px}
+    .ps-mini .ps-geo span{font-size:12px;height:34px;padding:0 11px 0 8px;gap:7px;border-radius:999px}
+    .ps-mini .ps-geo span.add{padding:0 12px}
+    .ps-mini .ps-geo img{width:16px;height:16px}
+    .ps-mini .ps-ic svg{width:15px;height:15px}
   }
   @media (prefers-reduced-motion: reduce){
     .ps-bg{animation:none}
@@ -2481,23 +2547,20 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">01</div>
-          <h3>Strategy session</h3>
-          <p>A 30 minute session to map your market, identify your ideal buyer, and build the exact attention strategy designed to position you above every competitor in your space.</p>
+          <h3>Strategy call</h3>
+          <p>30 minutes to map your market, your buyer and the angle that puts you above everyone in your space.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
-            <div class="pv-meet">
-              <div class="pv-meet-head"><span class="pv-dot"></span><span class="pv-title">Strategy session</span></div>
-              <div class="pv-meet-grid">
-                <div class="pv-tile"><div class="pv-avatar">J</div><div class="pv-name">Jaden</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
-                <div class="pv-tile"><div class="pv-avatar">E</div><div class="pv-name">Emrah</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
-                <div class="pv-tile focus span-2"><div class="pv-avatar">YOU</div><div class="pv-name">You</div><div class="pv-mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></div></div>
+            <div class="pv2 pv2-call">
+              <div class="pv2-head"><span class="rec"></span><b>Strategy call</b><span class="pv2-time">30 min</span></div>
+              <div class="pv2-tiles">
+                <div class="pv2-tile spk"><img src="uploads/jaden.webp" alt="" loading="lazy"><span>Jaden</span></div>
+                <div class="pv2-tile"><img src="uploads/emrah.webp" alt="" loading="lazy"><span>Emrah</span></div>
+                <div class="pv2-tile you"><i><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4 21c.8-4.4 4-7 8-7s7.2 2.6 8 7z"/></svg></i><span>You</span></div>
               </div>
-              <div class="pv-meet-bar">
-                <button class="pvb" aria-label="Mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M8 7v4M16 7v4M5 11a7 7 0 0014 0M12 19v2"/></svg></button>
-                <button class="pvb" aria-label="Video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M21 8l-4 2v4l4 2V8z"/></svg></button>
-                <button class="pvb" aria-label="Chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H7l-3 3V5z"/></svg></button>
-                <button class="pvb end" aria-label="End"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l1.5-2.5c4.5-3 10-3 14.5 0L21.5 12l-2 2-3-2V9a13 13 0 00-9 0v3l-3 2-2-2z"/></svg></button>
+              <div class="pv2-agenda">
+                <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg>Your market</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg>Your buyer</span><span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg>Your angle</span>
               </div>
             </div>
           </div>
@@ -2507,21 +2570,27 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">02</div>
-          <h3>System assembly and algorithm conditioning</h3>
-          <p>We hand-pick your team, matched to your brand, your audience and your market. Then we condition the algorithm before a single piece of content goes live, so when we launch, we launch into momentum. A dedicated operations manager trains and runs the team.</p>
+          <h3>We build your system</h3>
+          <p>A hand-picked team, accounts you own, and the algorithm warmed up before a single clip goes live.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
-            <div class="pv-match">
-              <div class="pv-match-head"><span>Matching live</span><span class="tag">Hand-selected</span></div>
-              <div class="pv-match-list">
-                <div class="pv-match-card"><div class="pv-av">JR</div><div class="pv-info"><div class="nm">Jordan Reyes</div><div class="niche">Fitness · 92K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">SK</div><div class="pv-info"><div class="nm">Sienna Kim</div><div class="niche">Lifestyle · 138K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">AM</div><div class="pv-info"><div class="nm">Alex Moretti</div><div class="niche">Finance · 76K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">DV</div><div class="pv-info"><div class="nm">Devon Vargas</div><div class="niche">Gaming · 211K avg</div></div><div class="pv-badge">Matched</div></div>
-                <div class="pv-match-card"><div class="pv-av">MT</div><div class="pv-info"><div class="nm">Maya Tanaka</div><div class="niche">Beauty · 184K avg</div></div><div class="pv-badge">Matched</div></div>
+            <div class="pv2 pv2-sys">
+              <div class="pv2-head light"><b>Your system</b><span class="pv2-pill">Pre-launch</span></div>
+              <div class="pv2-row">
+                <div class="pv2-ava"><i></i><i></i><i></i><i>+3</i></div>
+                <div class="pv2-txt"><b>Team hand-picked</b><span>Matched to your niche</span></div>
+                <em class="ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg></em>
               </div>
-              <div class="pv-match-foot"><span class="num">24</span><span class="sub">hand-selected for your brand</span></div>
+              <div class="pv2-row">
+                <div class="pv2-logos"><i class="tt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg></i><i class="ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></i><i class="yt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></i><i class="fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3z"/></svg></i></div>
+                <div class="pv2-txt"><b>Accounts created</b><span>Owned by you</span></div>
+                <em class="ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg></em>
+              </div>
+              <div class="pv2-row col">
+                <div class="pv2-txt"><b>Algorithm conditioning</b><span>Warming every account before day one</span></div>
+                <div class="pv2-bar"><i></i></div>
+              </div>
             </div>
           </div>
         </div>
@@ -2530,18 +2599,17 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">03</div>
-          <h3>Daily deployment and optimisation</h3>
-          <p>Your content goes live daily across every platform. We test, read the data, and double down on what is winning. The system gets sharper every single day, and you can approve, tweak or send feedback on any clip at any time.</p>
+          <h3>Clips go out daily</h3>
+          <p>Every platform, every day. We double down on what wins, and you can approve or tweak any clip.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
-            <div class="pv-feed">
-              <div class="pv-feed-head"><span>Daily clips</span><span class="live">Live</span></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0482.mp4</div><div class="v">2.4<span class="s">M</span></div></div>
-              <div class="it"><div class="t g"></div><div class="n">clip_0481.mp4</div><div class="v">891<span class="s">K</span></div></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0480.mp4</div><div class="v">1.1<span class="s">M</span></div></div>
-              <div class="it"><div class="t"></div><div class="n">clip_0479.mp4</div><div class="v">3.9<span class="s">M</span></div></div>
-              <div class="it"><div class="t g"></div><div class="n">clip_0478.mp4</div><div class="v">412<span class="s">K</span></div></div>
+            <div class="pv2 pv2-feed">
+              <div class="pv2-head light"><b>Today's clips</b><span class="pv2-live">Live</span></div>
+              <div class="pv2-clip"><img src="uploads/cases/nonstop.webp" alt="" loading="lazy"><div class="pv2-txt"><b>Clip 482</b><span><i class="pl tt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg></i>Posted 2h ago</span></div><strong>2.4M<small>views</small></strong></div>
+              <div class="pv2-clip"><img src="uploads/cases/iman-gadzhi.webp" alt="" loading="lazy"><div class="pv2-txt"><b>Clip 481</b><span><i class="pl ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></i>Posted 3h ago</span></div><strong>891K<small>views</small></strong></div>
+              <div class="pv2-clip"><img src="uploads/cases/luke-belmar.webp" alt="" loading="lazy"><div class="pv2-txt"><b>Clip 480</b><span><i class="pl yt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></i>Posted 5h ago</span></div><strong>1.1M<small>views</small></strong></div>
+              <div class="pv2-clip"><img src="uploads/cases/russell-brunson.webp" alt="" loading="lazy"><div class="pv2-txt"><b>Clip 479</b><span><i class="pl tt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg></i>Posted 7h ago</span></div><strong>3.9M<small>views</small></strong></div>
             </div>
           </div>
         </div>
@@ -2550,36 +2618,34 @@
       <article class="proc-card fade-in">
         <div class="proc-text">
           <div class="proc-step-num">04</div>
-          <h3>Market dominance, compounding</h3>
-          <p>Views compound. Presence compounds. The gap between you and your competitors widens daily, and you see every number, every account and every clip driving it.</p>
+          <h3>Growth compounds</h3>
+          <p>Views and reach stack up week after week, and you see every number behind it.</p>
         </div>
         <div class="proc-visual">
           <div class="proc-vis active">
             <div class="pv-chart" id="pv-chart">
               <div class="top">
                 <div>
-                  <div class="lab">30-day views</div>
+                  <div class="lab">Last 30 days</div>
                   <div class="num" id="pv-chart-num" data-target="28400000">28.40M</div>
-                  <div class="num-sub">Compounding daily</div>
                 </div>
                 <div class="delta">+214% WoW</div>
               </div>
-              <div class="pv-chart-ratio"><span>Distributed across</span><span class="arrow">·</span><strong>52 accounts</strong><span class="arrow">·</span><strong>every platform</strong></div>
               <div class="pv-chart-svg">
                 <svg viewBox="0 0 300 100" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="pv-fill-grad" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stop-color="#4f0006" stop-opacity="0.35"/>
-                      <stop offset="100%" stop-color="#4f0006" stop-opacity="0"/>
+                      <stop offset="0%" stop-color="#97000e" stop-opacity="0.22"/>
+                      <stop offset="100%" stop-color="#97000e" stop-opacity="0"/>
                     </linearGradient>
                   </defs>
-                  <path class="fill" d="M0,88 L20,82 L40,85 L60,76 L80,80 L100,68 L120,72 L140,60 L160,56 L180,62 L200,45 L220,38 L240,30 L260,16 L300,5 L300,100 L0,100 Z"/>
-                  <path class="line" d="M0,88 L20,82 L40,85 L60,76 L80,80 L100,68 L120,72 L140,60 L160,56 L180,62 L200,45 L220,38 L240,30 L260,16 L300,5"/>
-                  <circle class="click-dot d1" cx="140" cy="60" r="4"/>
-                  <circle class="click-dot d2" cx="220" cy="38" r="4"/>
-                  <circle class="click-dot d3" cx="290" cy="8" r="4"/>
+                  <path class="grid" d="M0,25H300M0,50H300M0,75H300"/>
+                  <path class="fill" d="M0,90 C40,88 70,84 100,78 C130,72 150,66 180,56 C210,46 240,32 270,18 C282,12 292,8 300,6 L300,100 L0,100 Z"/>
+                  <path class="line" d="M0,90 C40,88 70,84 100,78 C130,72 150,66 180,56 C210,46 240,32 270,18 C282,12 292,8 300,6"/>
                 </svg>
+                <span class="pv-end"></span>
               </div>
+              <div class="pv-x"><span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span></div>
             </div>
           </div>
         </div>
@@ -2634,18 +2700,22 @@
           <div class="ps-panel on" data-i="0">
             <div class="ps-ui">
               <div class="ps-ui-head"><span>Your accounts</span><em><span class="ps-count">3</span><i class="ps-plus">+</i></em></div>
-              <div class="ps-row"><i class="ps-ic tt">T</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic ig">I</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic yt">Y</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
-              <div class="ps-row"><i class="ps-ic fb">F</i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic tt" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1.1v6.1c0 3.5-2.6 5.9-5.9 5.9-3.4 0-5.8-2.7-5.6-6 .2-3.2 3.1-5.6 6.4-5.1v3.2c-1.5-.4-3.2.6-3.3 2.1-.1 1.5 1 2.6 2.5 2.6 1.4 0 2.5-1 2.5-2.7V3h3.4z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic ig" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic yt" title="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
+              <div class="ps-row"><i class="ps-ic fb" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3z"/></svg></i><b>@yourbrand</b><span class="ps-own">Owned by you</span></div>
             </div>
           </div>
           <div class="ps-panel" data-i="1">
             <div class="ps-ui">
               <div class="ps-ui-head"><span>Posting from</span><em>Live</em></div>
               <div class="ps-geo">
-                <span><i></i>United States</span><span><i></i>United Kingdom</span><span><i></i>UAE</span>
-                <span><i></i>Germany</span><span><i></i>Australia</span><span class="add">+ any region</span>
+                <span><img src="assets/flags/us.svg" alt="" width="18" height="18" loading="lazy">United States</span>
+                <span><img src="assets/flags/gb.svg" alt="" width="18" height="18" loading="lazy">United Kingdom</span>
+                <span><img src="assets/flags/ae.svg" alt="" width="18" height="18" loading="lazy">UAE</span>
+                <span><img src="assets/flags/de.svg" alt="" width="18" height="18" loading="lazy">Germany</span>
+                <span><img src="assets/flags/au.svg" alt="" width="18" height="18" loading="lazy">Australia</span>
+                <span class="add">+ Any region</span>
               </div>
               <div class="ps-dev"><b>Dedicated devices</b><span>In-market accounts, run by our team</span></div>
             </div>
