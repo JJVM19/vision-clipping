@@ -595,20 +595,20 @@
   .cases-nav.prev{left:8px}
   .cases-nav.next{right:8px}
 
-  /* Desktop: smaller cards, more on screen (4-up from 961px, 6-up from 1200px) */
+  /* Desktop: bigger cards (Jaden 5 Oct: 6-up looked small). 3-up from 961px, 4-up from 1200px */
   @media (min-width:961px){
     .cases-wrap{max-width:1480px}
-    .case{flex:0 0 calc((100% - 48px)/4);gap:12px}
-    .case-img{border-radius:12px}
-    .case-img .views-block{bottom:12px;left:12px;right:12px;flex-direction:column;align-items:flex-start;gap:5px}
-    .case-img .vn,.case-img .vn.sm{font-size:30px}
-    .case-img .vl{font-size:9.5px;padding:0;text-align:left;letter-spacing:0.12em}
-    .case .case-title{flex-direction:column;align-items:flex-start;gap:2px}
-    .case .case-title h3{font-size:16px}
-    .case .case-title .tag{font-size:10.5px}
+    .case{flex:0 0 calc((100% - 32px)/3);gap:14px}
+    .case-img{border-radius:14px}
+    .case-img .views-block{bottom:16px;left:16px;right:16px;flex-direction:column;align-items:flex-start;gap:6px}
+    .case-img .vn,.case-img .vn.sm{font-size:42px}
+    .case-img .vl{font-size:11.5px;padding:0;text-align:left;letter-spacing:0.12em}
+    .case .case-title{flex-direction:column;align-items:flex-start;gap:3px}
+    .case .case-title h3{font-size:20px}
+    .case .case-title .tag{font-size:11.5px}
   }
   @media (min-width:1200px){
-    .case{flex:0 0 calc((100% - 80px)/6)}
+    .case{flex:0 0 calc((100% - 48px)/4)}
   }
   .cases-nav svg{width:18px;height:18px}
   .cases-nav[disabled]{opacity:0.3;cursor:not-allowed}
