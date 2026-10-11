@@ -179,13 +179,15 @@
   /* Hand drawn oxblood underline under the serif line */
   .ul{position:relative;display:inline-block}
   .ul svg{position:absolute;left:0.02em;right:0.08em;bottom:-0.08em;width:calc(100% - 0.1em);height:0.2em;overflow:visible;pointer-events:none}
-  .ul svg path{fill:none;stroke:var(--ox);stroke-width:4.5;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;opacity:0.92}
+  .ul svg path{fill:none;stroke:var(--ox);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:320;stroke-dashoffset:320;animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;opacity:0.92}
   @keyframes draw{to{stroke-dashoffset:0}}
+  /* the hero line has descenders (y, g, y): sit the stroke under their tails, not through them */
+  .hero h1 .ul svg{bottom:-0.27em;height:0.16em}
   /* underline inside a section heading: a touch bigger, and it draws when the heading reveals */
   .sec h2 .ul-lg{font-size:1.16em;padding-right:0.06em}
   .sec h2 .ul-lg svg path{animation:none;stroke-dashoffset:320}
   .fade-in.in h2 .ul-lg svg path{animation:draw 1s cubic-bezier(0.4,0,0.2,1) 0.35s forwards}
-  .hero-lead{max-width:640px;margin:26px auto 0;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:rgba(7,7,7,0.62);text-wrap:balance}
+  .hero-lead{max-width:640px;margin:38px auto 0;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:rgba(7,7,7,0.62);text-wrap:balance}
   .hero-cta-row{margin-top:36px;display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}
 
   /* ---------- VSL ---------- */
@@ -513,10 +515,11 @@
     .finalcta .hero-orb{opacity:0.22}
     .glow-cta::before{inset:-6px;opacity:0.5;filter:blur(18px);animation:none}
     .hero h1{font-size:clamp(36px,10vw,50px);line-height:1.06}
-    .hero h1 .ul svg{bottom:-0.09em}
+    .hero h1 .ul svg{bottom:-0.33em}
+    .ul svg path{stroke-width:2.5}
     .hero-proof{font-size:13px;padding:6px 14px 6px 6px;margin-bottom:22px;gap:10px}
     .hero-avatars img{width:28px;height:28px}
-    .hero-lead{font-size:15.5px;margin-top:18px}
+    .hero-lead{font-size:15.5px;margin-top:30px}
     .glow-cta,.ghost-cta{padding:18px 30px;font-size:15px;width:100%;max-width:420px}
     .glow-cta-lg{padding:21px 30px;font-size:16.5px}
     .hero-cta-row{flex-direction:column-reverse}
